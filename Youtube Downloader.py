@@ -1,6 +1,7 @@
 # Descargador de videos de youtube en mp4
 
 import logging as log
+import os
 import threading as thr
 import time
 import tkinter
@@ -15,7 +16,8 @@ import pytube
 
 # Bloque de colores
 Cian = "#00FFEF"
-Verde_Claro = "#00FF66"
+verdeOscuro = "#003300"
+verdeClaro = "#00FF00"
 Negro = "#000000"
 
 # ------------------------------------------------
@@ -77,6 +79,8 @@ text = StringVar()
 
 # Barra de progresion
 class BarraDeProgresion:
+    """La clase BarraDeProgresion se encarga de controlar la barra de progresion y de aumentar el progreso de esta"""
+
     barraProgresionDescarga = Progressbar(Ventana, orient=HORIZONTAL, length=800)
 
     def AumentarProgreso(self):
@@ -93,6 +97,9 @@ class BarraDeProgresion:
 
 
 class AumentarDeProgresionEnParalelo:
+    """La clase AumentarDeProgresionEnParalelo se encarga de ejecutar en una hilo distinto el aumeto de progreso de
+    la barra de progreso"""
+
     def FuncionAumentarDeProgresionEnParalelo(self):
         # Creamos una instancia de la barra de progresion
         self.barraDeProgresion = BarraDeProgresion()
@@ -106,13 +113,17 @@ class AumentarDeProgresionEnParalelo:
         )
 
 
-class CrearElementosDeLaInterfaz:
-    def FuncionCrearElementosDeLaInterfaz(self):
-        # Creamos una instancia de: BarraDeProgresion, Buscar, Descargar y AumentarDeProgresionEnParalelo
+class Main:
+    """La calase Main se encarga de poner en pantalla los botones, etiquetas, etc."""
+
+    def FuncionMain(self):
+        # Creamos una instancia de: BarraDeProgresion, Buscar, Descargar, AumentarDeProgresionEnParalelo y CambiarColor
         self.barraDeProgresion = BarraDeProgresion()
         self.buscar = Buscar()
-        self.descargar = Descargar()
+        self.descargarVideo = DescargarVideo()
+        self.descargarAudio = DescargarAudio()
         self.aumentarBarraDeProgreso = AumentarDeProgresionEnParalelo()
+        self.cambiarColor = CambiarColor()
 
         # Texto + Caja + Boton de descargar video
         self.Etiqueta_URL = tkinter.Label(
@@ -150,23 +161,42 @@ class CrearElementosDeLaInterfaz:
             text="Seleccionar ubicación",
             command=lambda: [self.buscar.FuncionBuscar()],
             font="Helvetica 15",
-            bg=Verde_Claro,
+            bg=verdeOscuro,
         )
 
         self.Boton_Buscar.pack(pady=20)
 
-        self.Boton_Descargar = tkinter.Button(
+        self.cambiarColor.FuncionCambiarColor(self.Boton_Buscar, verdeClaro, verdeOscuro)
+
+        self.Boton_Descargar_Video = tkinter.Button(
             Ventana,
-            text="Descargar",
+            text="Descargar Video",
             command=lambda: [
                 self.aumentarBarraDeProgreso.FuncionAumentarDeProgresionEnParalelo(),
-                self.descargar.FuncionDescargar()
+                self.descargarVideo.FuncionDescargarVideo()
             ],
             font="Helvetica 15",
-            bg=Verde_Claro,
+            bg=verdeOscuro,
         )
 
-        self.Boton_Descargar.pack(pady=20)
+        self.Boton_Descargar_Video.place(x=220, y=340)
+
+        self.cambiarColor.FuncionCambiarColor(self.Boton_Descargar_Video, verdeClaro, verdeOscuro)
+
+        self.Boton_Descargar_Audio = tkinter.Button(
+            Ventana,
+            text="Descargar Audio",
+            command=lambda: [
+                self.aumentarBarraDeProgreso.FuncionAumentarDeProgresionEnParalelo(),
+                self.descargarAudio.FuncionDescargarAudio()
+            ],
+            font="Helvetica 15",
+            bg=verdeOscuro,
+        )
+
+        self.Boton_Descargar_Audio.place(x=420, y=340)
+
+        self.cambiarColor.FuncionCambiarColor(self.Boton_Descargar_Audio, verdeClaro, verdeOscuro)
 
         # Crear la etiqueta de la barra de progresion
         self.Etiqueta_Barra_Progress = tkinter.Label(
@@ -174,15 +204,18 @@ class CrearElementosDeLaInterfaz:
         )
 
         # Poner etiqueta en pantalla
-        self.Etiqueta_Barra_Progress.pack(pady=20)
+        self.Etiqueta_Barra_Progress.pack(pady=77)
 
         # Ubicamos la barra de progresion
-        self.barraDeProgresion.barraProgresionDescarga.pack(pady=5)
+        self.barraDeProgresion.barraProgresionDescarga.place(x=13, y=470)
 
         # ---------------------------------------------------------------------------
 
 
 class Buscar:
+    """La clase buscar se encarga de preguntar y almacenar en una variable la ruta en la cual el usuario desea guardar
+    el video una vez que se haya descargado"""
+
     def FuncionBuscar(self):
         log.info(
             "Se ha hecho click en el boton de seleccionar la direccion de la carpeta donde se quiere "
@@ -193,8 +226,11 @@ class Buscar:
         Ubicacion_Video_PC.set(self.Directorio_Descarga)
 
 
-class Descargar:
-    def FuncionDescargar(self):
+class DescargarVideo:
+    """La clase DescargarVideo se encarga de obtener el video que le hemos pasado por la URL, descargarlo y guardarlo
+    en la carpeta seleccionada por el usuario"""
+
+    def FuncionDescargarVideo(self):
         # Crear instancia de la barra de progresion
         self.barra = BarraDeProgresion()
 
@@ -250,16 +286,94 @@ class Descargar:
             log.info("La variale que guarda el porcentaje de la descarga de se "
                      "ha restablecido correctamente")
 
-            log.info("La descarga se ha completado correctamente")
+            log.info("La descarga del video se ha completado correctamente")
+
+
+class DescargarAudio:
+    """La clase DescargarAudio se encarga de obtener el audio del video que le hemos pasado por la URL y una vez
+    descargado le cambia la extension a mp3 y lo guarda en la carpeta seleccionada por el usuario"""
+
+    def FuncionDescargarAudio(self):
+        # Crear instancia de la barra de progresion
+        self.barra = BarraDeProgresion()
+
+        log.info("Se ha hecho click en el boton de descargar")
+
+        try:
+
+            self.URL = Link_Video.get()
+
+            log.info("Se ha obtenido la URL del video a descargar")
+
+            self.Carpeta_Guardar_Video = Ubicacion_Video_PC.get()
+
+            log.info(
+                "Se ha obtenido la direccion de la carpeta donde se quiere guardar el video descargado"
+            )
+
+            self.Obtener_Video = pytube.YouTube(self.URL)
+
+            log.info("Se ha obtenido el ID del video a descargar")
+
+            self.Descargar_Video = self.Obtener_Video.streams.get_audio_only()
+
+            log.info("Se ha obtenido el audio del video a descargar")
+
+            self.base, self.ext = os.path.splitext(self.Descargar_Video.download(self.Carpeta_Guardar_Video))
+
+            self.cambiarFormato = self.base + '.mp3'
+
+            os.rename(self.Descargar_Video.download(self.Carpeta_Guardar_Video), self.cambiarFormato)
+
+        except:
+
+            messagebox.showerror(
+                "Error de descarga", "No se ha conseguido descargar el audio"
+            )
+
+            self.barra.barraProgresionDescarga['value'] = 0
+
+            percent.set("")
+
+            log.info("La variale que guarda el porcentaje de la descarga de se "
+                     "ha restablecido correctamente")
+
+            log.info("El audio no se ha podido descargar, algo ha salido mal")
+
+        else:
+
+            messagebox.showinfo(
+                "Completado", "Puedes encontar el audio del video en:\n" + self.Carpeta_Guardar_Video
+            )
+
+            self.barra.barraProgresionDescarga['value'] = 0
+
+            percent.set("")
+
+            log.info("La variale que guarda el porcentaje de la descarga de se "
+                     "ha restablecido correctamente")
+
+            log.info("La descarga del audio del video se ha completado correctamente")
+
+
+class CambiarColor:
+    """La clase CambiarColor controla que los botones cambien de color al pasar el ratón por encima de ellos"""
+
+    def FuncionCambiarColor(self, button, colorRatonDentro, colorRatonFuera):
+        button.bind(
+            "<Enter>", func=lambda e: button.config(background=colorRatonDentro)
+        )
+
+        button.bind("<Leave>", func=lambda e: button.config(background=colorRatonFuera))
 
 
 # -----------------------------------------
 
 # Crear instancia de la clase que inicia el programa
-interfaz = CrearElementosDeLaInterfaz()
+interfaz = Main()
 
 # Llamar a la funcion que inicia el programa
-interfaz.FuncionCrearElementosDeLaInterfaz()
+interfaz.FuncionMain()
 
 # Actualizar ventana
 Ventana.mainloop()
