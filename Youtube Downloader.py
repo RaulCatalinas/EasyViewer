@@ -97,7 +97,7 @@ class BarraDeProgresion:
 
 
 class AumentarDeProgresionEnParalelo:
-    """La clase AumentarDeProgresionEnParalelo se encarga de ejecutar en una hilo distinto el aumeto de progreso de
+    """La clase AumentarDeProgresionEnParalelo se encarga de ejecutar en una hilo distinto el aumento de progreso de
     la barra de progreso"""
 
     def FuncionAumentarDeProgresionEnParalelo(self):
