@@ -170,7 +170,7 @@ class Main:
 
         self.Boton_Descargar_Video = tkinter.Button(
             Ventana,
-            text="Descargar Video",
+            text="Descargar video",
             command=lambda: [
                 self.aumentarBarraDeProgreso.FuncionAumentarDeProgresionEnParalelo(),
                 self.descargarVideo.FuncionDescargarVideo()
@@ -185,7 +185,7 @@ class Main:
 
         self.Boton_Descargar_Audio = tkinter.Button(
             Ventana,
-            text="Descargar Audio",
+            text="Descargar audio",
             command=lambda: [
                 self.aumentarBarraDeProgreso.FuncionAumentarDeProgresionEnParalelo(),
                 self.descargarAudio.FuncionDescargarAudio()
