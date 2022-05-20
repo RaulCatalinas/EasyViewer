@@ -13,8 +13,8 @@ descargado lo guardara en la carpeta seleccionada por el usuario
 este descargado le cambiara el formato a .mp3 y por último se guardara en la carpeta 
 seleccionada por el usuario
 
-Mientras se está descargando el video y/o el audio aumentara una barra de progresión, cuando esta se complete, significa que el video 
-ya está descargado y se guardara en la ubicacion anteriormente seleccionada.
+Mientras se está descargando el video y/o el audio aumentara una barra de progresión, cuando esta se complete, significa 
+que el video y/o el audio ya está descargado y se habrá o habrán guardado en la ubicacion anteriormente seleccionada.
 
 # Redes sociales
 Instagram: @raulf1foreverYT_Oficial
