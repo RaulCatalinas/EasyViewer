@@ -19,6 +19,8 @@ Cian = "#00FFEF"
 verdeOscuro = "#003300"
 verdeClaro = "#00FF00"
 Negro = "#000000"
+amarilloOscuro = "#333300"
+amarilloClaro = "#FFFF00"
 
 # ------------------------------------------------
 
@@ -177,13 +179,13 @@ class Main:
                 self.descargarVideo.FuncionDescargarVideo()
             ],
             font="Helvetica 15",
-            bg=verdeOscuro,
+            bg=amarilloOscuro,
             cursor="hand2"
         )
 
         self.Boton_Descargar_Video.place(x=220, y=340)
 
-        self.cambiarColor.FuncionCambiarColor(self.Boton_Descargar_Video, verdeClaro, verdeOscuro)
+        self.cambiarColor.FuncionCambiarColor(self.Boton_Descargar_Video, amarilloClaro, amarilloOscuro)
 
         self.Boton_Descargar_Audio = tkinter.Button(
             Ventana,
@@ -193,13 +195,13 @@ class Main:
                 self.descargarAudio.FuncionDescargarAudio()
             ],
             font="Helvetica 15",
-            bg=verdeOscuro,
+            bg=amarilloOscuro,
             cursor="hand2"
         )
 
         self.Boton_Descargar_Audio.place(x=420, y=340)
 
-        self.cambiarColor.FuncionCambiarColor(self.Boton_Descargar_Audio, verdeClaro, verdeOscuro)
+        self.cambiarColor.FuncionCambiarColor(self.Boton_Descargar_Audio, amarilloClaro, amarilloOscuro)
 
         # Crear la etiqueta de la barra de progresion
         self.Etiqueta_Barra_Progress = tkinter.Label(
@@ -211,12 +213,6 @@ class Main:
 
         # Ubicamos la barra de progresion
         self.barraDeProgresion.barraProgresionDescarga.place(x=13, y=470)
-
-        percentLabel = tkinter.Label(Ventana, textvariable=percent)
-        percentLabel.pack(pady=20)
-
-        taskLabel = tkinter.Label(Ventana, textvariable=text)
-        taskLabel.pack(pady=10)
 
         # ---------------------------------------------------------------------------
 
