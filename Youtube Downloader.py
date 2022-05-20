@@ -15,7 +15,7 @@ import pytube
 # -----------------------------------------------
 
 # Bloque de colores
-Cian = "#00FFEF"
+azulEtiquetas = "#00FFEF"
 verdeOscuro = "#003300"
 verdeClaro = "#00FF00"
 Negro = "#000000"
@@ -132,7 +132,7 @@ class Main:
             Ventana,
             text="Introduce la URL del video a descargar",
             font="Helvetica 15",
-            bg=Cian,
+            bg=azulEtiquetas,
         )
 
         self.Etiqueta_URL.pack(pady=10)
@@ -147,7 +147,7 @@ class Main:
 
         # Texto + Caja + Boton de ubicacion para guardar el video
         self.Ubicacion = tkinter.Label(
-            Ventana, text="Donde quieres guardar el video", font="Helvetica 15", bg=Cian
+            Ventana, text="Donde quieres guardar el video", font="Helvetica 15", bg=azulEtiquetas
         )
 
         self.Ubicacion.pack(pady=35)
@@ -205,7 +205,7 @@ class Main:
 
         # Crear la etiqueta de la barra de progresion
         self.Etiqueta_Barra_Progress = tkinter.Label(
-            Ventana, text="Progreso de la descarga", font="Helvetica 15", bg=Cian
+            Ventana, text="Progreso de la descarga", font="Helvetica 15", bg=azulEtiquetas
         )
 
         # Poner etiqueta en pantalla
