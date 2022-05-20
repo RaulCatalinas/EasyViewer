@@ -1,7 +1,8 @@
 # Youtube Downloader
 App para descargar videos de YouTube.
 
-El usuario introduce la URL del video que quiere descargar y selecciona la ubicacion donde quiere guardar el video.
+El usuario introduce la URL del video que quiere descargar y selecciona la ubicacion donde quiere guardar el video y/o 
+el audio.
 El usuario tiene 2 dos botones para escoger:
 
 1 Descargar video: Este botón descargará el video obtenido de la URL proporcionada por el usuario, una vez que este 
