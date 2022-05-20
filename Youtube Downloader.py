@@ -162,6 +162,7 @@ class Main:
             command=lambda: [self.buscar.FuncionBuscar()],
             font="Helvetica 15",
             bg=verdeOscuro,
+            cursor="hand2"
         )
 
         self.Boton_Buscar.pack(pady=20)
@@ -177,6 +178,7 @@ class Main:
             ],
             font="Helvetica 15",
             bg=verdeOscuro,
+            cursor="hand2"
         )
 
         self.Boton_Descargar_Video.place(x=220, y=340)
@@ -192,6 +194,7 @@ class Main:
             ],
             font="Helvetica 15",
             bg=verdeOscuro,
+            cursor="hand2"
         )
 
         self.Boton_Descargar_Audio.place(x=420, y=340)
@@ -208,6 +211,12 @@ class Main:
 
         # Ubicamos la barra de progresion
         self.barraDeProgresion.barraProgresionDescarga.place(x=13, y=470)
+
+        percentLabel = tkinter.Label(Ventana, textvariable=percent)
+        percentLabel.pack(pady=20)
+
+        taskLabel = tkinter.Label(Ventana, textvariable=text)
+        taskLabel.pack(pady=10)
 
         # ---------------------------------------------------------------------------
 
