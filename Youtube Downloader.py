@@ -31,11 +31,9 @@ log.basicConfig(filename="YoutubeDownloader.log", filemode="w", level=log.DEBUG)
 fecha = datetime.today()
 formato = fecha.strftime("%A, %d %B, %Y %H:%M")
 
-log.info(
-    f"El programa Descargador de videos de YouTube se ha ejecutado el {formato}"
-)
+log.info(f"El programa Descargador de videos de YouTube se ha ejecutado el {formato}")
 
-# Bloque de crear la interfaz grafica + cambiar icono + poner el titulo + centrar ventana + Redimensionar ventana
+# Bloque de crear la interfaz gráfica + cambiar icono + poner el titulo + centrar ventana + Redimensionar ventana
 
 # Ventana
 Ventana = tkinter.Tk()
@@ -56,7 +54,7 @@ Ventana.config(bg=Negro)
 Ancho = 830
 Alto = 520
 
-# Calculos para el centrado de la ventana
+# Cálculos para el centrado de la ventana
 Ancho_Ventana = Ventana.winfo_screenwidth()
 Alto_Ventana = Ventana.winfo_screenheight()
 
@@ -79,7 +77,7 @@ percent = StringVar()
 text = StringVar()
 
 
-# Barra de progresion
+# Barra de progresión
 class BarraDeProgresion:
     """La clase BarraDeProgresion se encarga de controlar la barra de progresion y de aumentar el progreso de esta"""
 
@@ -91,23 +89,25 @@ class BarraDeProgresion:
         self.speed = 1
         while self.download < self.GB:
             time.sleep(0.09)
-            self.barraProgresionDescarga['value'] += (self.speed / self.GB) * 100
+            self.barraProgresionDescarga["value"] += (self.speed / self.GB) * 100
             self.download += self.speed
             percent.set(str(int((self.download / self.GB) * 100)) + "%")
             text.set(str(self.download) + "/" + str(self.GB) + " files completed")
             Ventana.update_idletasks()
 
 
-class AumentarDeProgresionEnParalelo:
-    """La clase AumentarDeProgresionEnParalelo se encarga de ejecutar en una hilo distinto el aumento de progreso de
+class AumentarBarraDeProgresionEnParalelo:
+    """La clase AumentarBarraDeProgresionEnParalelo se encarga de ejecutar en una hilo distinto el aumento de progreso de
     la barra de progreso"""
 
-    def FuncionAumentarDeProgresionEnParalelo(self):
+    def FuncionAumentarBarraDeProgresionEnParalelo(self):
         # Creamos una instancia de la barra de progresion
         self.barraDeProgresion = BarraDeProgresion()
 
         # Aumentamos el progreso de la barra en un hilo distinto
-        self.aumentarProgresoEnParalelo = thr.Thread(target=self.barraDeProgresion.AumentarProgreso())
+        self.aumentarProgresoEnParalelo = thr.Thread(
+            target=self.barraDeProgresion.AumentarProgreso()
+        )
         self.aumentarProgresoEnParalelo.start()
         log.info(
             "El aumento del progreso de la barra de progresion esta aumentando en un hilo "
@@ -119,15 +119,15 @@ class Main:
     """La calase Main se encarga de poner en pantalla los botones, etiquetas, etc."""
 
     def FuncionMain(self):
-        # Creamos una instancia de: BarraDeProgresion, Buscar, Descargar, AumentarDeProgresionEnParalelo y CambiarColor
+        # Creamos una instancia de: BarraDeProgresion, Buscar, Descargar, AumentarBarraDeProgresionEnParalelo y CambiarColor
         self.barraDeProgresion = BarraDeProgresion()
         self.buscar = Buscar()
         self.descargarVideo = DescargarVideo()
         self.descargarAudio = DescargarAudio()
-        self.aumentarBarraDeProgreso = AumentarDeProgresionEnParalelo()
+        self.aumentarBarraDeProgreso = AumentarBarraDeProgresionEnParalelo()
         self.cambiarColor = CambiarColor()
 
-        # Texto + Caja + Boton de descargar video
+        # Texto + Caja + Botón de descargar video
         self.Etiqueta_URL = tkinter.Label(
             Ventana,
             text="Introduce la URL del video a descargar",
@@ -145,9 +145,12 @@ class Main:
 
         # ---------------------------------------------------------------------------
 
-        # Texto + Caja + Boton de ubicacion para guardar el video
+        # Texto + Caja + Botón de ubicacion para guardar el video
         self.Ubicacion = tkinter.Label(
-            Ventana, text="Donde quieres guardar el video", font="Helvetica 15", bg=azulEtiquetas
+            Ventana,
+            text="Donde quieres guardar el video",
+            font="Helvetica 15",
+            bg=azulEtiquetas,
         )
 
         self.Ubicacion.pack(pady=35)
@@ -164,48 +167,57 @@ class Main:
             command=lambda: [self.buscar.FuncionBuscar()],
             font="Helvetica 15",
             bg=verdeOscuro,
-            cursor="hand2"
+            cursor="hand2",
         )
 
         self.Boton_Buscar.pack(pady=20)
 
-        self.cambiarColor.FuncionCambiarColor(self.Boton_Buscar, verdeClaro, verdeOscuro)
+        self.cambiarColor.FuncionCambiarColor(
+            self.Boton_Buscar, verdeClaro, verdeOscuro
+        )
 
         self.Boton_Descargar_Video = tkinter.Button(
             Ventana,
             text="Descargar video",
             command=lambda: [
-                self.aumentarBarraDeProgreso.FuncionAumentarDeProgresionEnParalelo(),
-                self.descargarVideo.FuncionDescargarVideo()
+                self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo(),
+                self.descargarVideo.FuncionDescargarVideo(),
             ],
             font="Helvetica 15",
             bg=amarilloOscuro,
-            cursor="hand2"
+            cursor="hand2",
         )
 
         self.Boton_Descargar_Video.place(x=220, y=340)
 
-        self.cambiarColor.FuncionCambiarColor(self.Boton_Descargar_Video, amarilloClaro, amarilloOscuro)
+        self.cambiarColor.FuncionCambiarColor(
+            self.Boton_Descargar_Video, amarilloClaro, amarilloOscuro
+        )
 
         self.Boton_Descargar_Audio = tkinter.Button(
             Ventana,
             text="Descargar audio",
             command=lambda: [
-                self.aumentarBarraDeProgreso.FuncionAumentarDeProgresionEnParalelo(),
-                self.descargarAudio.FuncionDescargarAudio()
+                self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo(),
+                self.descargarAudio.FuncionDescargarAudio(),
             ],
             font="Helvetica 15",
             bg=amarilloOscuro,
-            cursor="hand2"
+            cursor="hand2",
         )
 
         self.Boton_Descargar_Audio.place(x=420, y=340)
 
-        self.cambiarColor.FuncionCambiarColor(self.Boton_Descargar_Audio, amarilloClaro, amarilloOscuro)
+        self.cambiarColor.FuncionCambiarColor(
+            self.Boton_Descargar_Audio, amarilloClaro, amarilloOscuro
+        )
 
         # Crear la etiqueta de la barra de progresion
         self.Etiqueta_Barra_Progress = tkinter.Label(
-            Ventana, text="Progreso de la descarga", font="Helvetica 15", bg=azulEtiquetas
+            Ventana,
+            text="Progreso de la descarga",
+            font="Helvetica 15",
+            bg=azulEtiquetas,
         )
 
         # Poner etiqueta en pantalla
@@ -223,11 +235,13 @@ class Buscar:
 
     def FuncionBuscar(self):
         log.info(
-            "Se ha hecho click en el boton de seleccionar la direccion de la carpeta donde se quiere "
+            "Se ha hecho click en el botón de seleccionar la dirección de la carpeta donde se quiere "
             "guardar el video descargado"
         )
 
-        self.Directorio_Descarga = filedialog.askdirectory(initialdir="Directorio seleccionado")
+        self.Directorio_Descarga = filedialog.askdirectory(
+            initialdir="Directorio seleccionado"
+        )
         Ubicacion_Video_PC.set(self.Directorio_Descarga)
 
 
@@ -239,7 +253,7 @@ class DescargarVideo:
         # Crear instancia de la barra de progresion
         self.barra = BarraDeProgresion()
 
-        log.info("Se ha hecho click en el boton de descargar")
+        log.info("Se ha hecho click en el botón de descargar")
 
         try:
 
@@ -250,7 +264,7 @@ class DescargarVideo:
             self.Carpeta_Guardar_Video = Ubicacion_Video_PC.get()
 
             log.info(
-                "Se ha obtenido la direccion de la carpeta donde se quiere guardar el video descargado"
+                "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
             )
 
             self.Obtener_Video = pytube.YouTube(self.URL)
@@ -259,7 +273,7 @@ class DescargarVideo:
 
             self.Descargar_Video = self.Obtener_Video.streams.get_highest_resolution()
 
-            log.info("Se ha obtenido la resolucion mas alta del video a descargar")
+            log.info("Se ha obtenido la resolución mas alta del video a descargar")
 
             self.Descargar_Video.download(self.Carpeta_Guardar_Video)
 
@@ -269,27 +283,32 @@ class DescargarVideo:
                 "Error de descarga", "No se ha conseguido descargar el video"
             )
 
-            self.barra.barraProgresionDescarga['value'] = 0
+            self.barra.barraProgresionDescarga["value"] = 0
 
             percent.set("")
 
-            log.info("La variale que guarda el porcentaje de la descarga de se "
-                     "ha restablecido correctamente")
+            log.info(
+                "La variable que guarda el porcentaje de la descarga de se "
+                "ha restablecido correctamente"
+            )
 
             log.info("El video no se ha podido descargar, algo ha salido mal")
 
         else:
 
             messagebox.showinfo(
-                "Completado", "Puedes encontar tu video en:\n" + self.Carpeta_Guardar_Video
+                "Completado",
+                "Puedes encontrar tu video en:\n" + self.Carpeta_Guardar_Video,
             )
 
-            self.barra.barraProgresionDescarga['value'] = 0
+            self.barra.barraProgresionDescarga["value"] = 0
 
             percent.set("")
 
-            log.info("La variale que guarda el porcentaje de la descarga de se "
-                     "ha restablecido correctamente")
+            log.info(
+                "La variable que guarda el porcentaje de la descarga de se "
+                "ha restablecido correctamente"
+            )
 
             log.info("La descarga del video se ha completado correctamente")
 
@@ -302,7 +321,7 @@ class DescargarAudio:
         # Crear instancia de la barra de progresion
         self.barra = BarraDeProgresion()
 
-        log.info("Se ha hecho click en el boton de descargar")
+        log.info("Se ha hecho click en el botón de descargar")
 
         try:
 
@@ -313,7 +332,7 @@ class DescargarAudio:
             self.Carpeta_Guardar_Video = Ubicacion_Video_PC.get()
 
             log.info(
-                "Se ha obtenido la direccion de la carpeta donde se quiere guardar el video descargado"
+                "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
             )
 
             self.Obtener_Video = pytube.YouTube(self.URL)
@@ -324,11 +343,16 @@ class DescargarAudio:
 
             log.info("Se ha obtenido el audio del video a descargar")
 
-            self.base, self.ext = os.path.splitext(self.Descargar_Video.download(self.Carpeta_Guardar_Video))
+            self.base, self.ext = os.path.splitext(
+                self.Descargar_Video.download(self.Carpeta_Guardar_Video)
+            )
 
-            self.cambiarFormato = self.base + '.mp3'
+            self.cambiarFormato = self.base + ".mp3"
 
-            os.rename(self.Descargar_Video.download(self.Carpeta_Guardar_Video), self.cambiarFormato)
+            os.rename(
+                self.Descargar_Video.download(self.Carpeta_Guardar_Video),
+                self.cambiarFormato,
+            )
 
         except:
 
@@ -336,27 +360,33 @@ class DescargarAudio:
                 "Error de descarga", "No se ha conseguido descargar el audio"
             )
 
-            self.barra.barraProgresionDescarga['value'] = 0
+            self.barra.barraProgresionDescarga["value"] = 0
 
             percent.set("")
 
-            log.info("La variale que guarda el porcentaje de la descarga de se "
-                     "ha restablecido correctamente")
+            log.info(
+                "La variable que guarda el porcentaje de la descarga de se "
+                "ha restablecido correctamente"
+            )
 
             log.info("El audio no se ha podido descargar, algo ha salido mal")
 
         else:
 
             messagebox.showinfo(
-                "Completado", "Puedes encontar el audio del video en:\n" + self.Carpeta_Guardar_Video
+                "Completado",
+                "Puedes encontrar el audio del video en:\n"
+                + self.Carpeta_Guardar_Video,
             )
 
-            self.barra.barraProgresionDescarga['value'] = 0
+            self.barra.barraProgresionDescarga["value"] = 0
 
             percent.set("")
 
-            log.info("La variale que guarda el porcentaje de la descarga de se "
-                     "ha restablecido correctamente")
+            log.info(
+                "La variable que guarda el porcentaje de la descarga de se "
+                "ha restablecido correctamente"
+            )
 
             log.info("La descarga del audio del video se ha completado correctamente")
 
@@ -377,7 +407,7 @@ class CambiarColor:
 # Crear instancia de la clase que inicia el programa
 interfaz = Main()
 
-# Llamar a la funcion que inicia el programa
+# Llamar a la función que inicia el programa
 interfaz.FuncionMain()
 
 # Actualizar ventana
