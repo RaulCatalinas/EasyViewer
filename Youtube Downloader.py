@@ -79,11 +79,13 @@ text = StringVar()
 
 # Barra de progresión
 class BarraDeProgresion:
-    """La clase BarraDeProgresion se encarga de controlar la barra de progresion y de aumentar el progreso de esta"""
-
+    # Crear barra de progresion
     barraProgresionDescarga = Progressbar(Ventana, orient=HORIZONTAL, length=800)
 
     def AumentarProgreso(self):
+        """
+        Es una función que aumenta el valor de una barra de progreso en un 1% cada 0,09 segundos hasta llegar al 100%
+        """
         self.GB = 100
         self.download = 0
         self.speed = 1
@@ -97,10 +99,11 @@ class BarraDeProgresion:
 
 
 class AumentarBarraDeProgresionEnParalelo:
-    """La clase AumentarBarraDeProgresionEnParalelo se encarga de ejecutar en una hilo distinto el aumento de progreso de
-    la barra de progreso"""
-
     def FuncionAumentarBarraDeProgresionEnParalelo(self):
+        """
+        Creamos una instancia de la barra de progreso, luego creamos un hilo que llama a la función que aumenta la barra
+        de progreso
+        """
         # Creamos una instancia de la barra de progresion
         self.barraDeProgresion = BarraDeProgresion()
 
@@ -116,9 +119,10 @@ class AumentarBarraDeProgresionEnParalelo:
 
 
 class Main:
-    """La calase Main se encarga de poner en pantalla los botones, etiquetas, etc."""
-
     def FuncionMain(self):
+        """
+        Crea la GUI para el programa.
+        """
         # Creamos una instancia de: BarraDeProgresion, Buscar, Descargar, AumentarBarraDeProgresionEnParalelo y CambiarColor
         self.barraDeProgresion = BarraDeProgresion()
         self.buscar = Buscar()
@@ -230,10 +234,11 @@ class Main:
 
 
 class Buscar:
-    """La clase buscar se encarga de preguntar y almacenar en una variable la ruta en la cual el usuario desea guardar
-    el video una vez que se haya descargado"""
-
     def FuncionBuscar(self):
+        """
+        Abre un cuadro de diálogo de archivo y establece el valor de la variable "Ubicacion_Video_PC" al directorio
+        seleccionado por el usuario
+        """
         log.info(
             "Se ha hecho click en el botón de seleccionar la dirección de la carpeta donde se quiere "
             "guardar el video descargado"
@@ -246,10 +251,10 @@ class Buscar:
 
 
 class DescargarVideo:
-    """La clase DescargarVideo se encarga de obtener el video que le hemos pasado por la URL, descargarlo y guardarlo
-    en la carpeta seleccionada por el usuario"""
-
     def FuncionDescargarVideo(self):
+        """
+        Descarga un video de YouTube y lo guarda en una carpeta que el usuario elija
+        """
         # Crear instancia de la barra de progresion
         self.barra = BarraDeProgresion()
 
@@ -314,10 +319,10 @@ class DescargarVideo:
 
 
 class DescargarAudio:
-    """La clase DescargarAudio se encarga de obtener el audio del video que le hemos pasado por la URL y una vez
-    descargado le cambia la extension a mp3 y lo guarda en la carpeta seleccionada por el usuario"""
-
     def FuncionDescargarAudio(self):
+        """
+        Descarga el audio de un vídeo de YouTube y lo guarda en la carpeta que el usuario haya elegido
+        """
         # Crear instancia de la barra de progresion
         self.barra = BarraDeProgresion()
 
@@ -392,9 +397,14 @@ class DescargarAudio:
 
 
 class CambiarColor:
-    """La clase CambiarColor controla que los botones cambien de color al pasar el ratón por encima de ellos"""
-
     def FuncionCambiarColor(self, button, colorRatonDentro, colorRatonFuera):
+        """
+        Toma un botón y dos colores, y vincula el botón para cambiar de color cuando el mouse ingresa y deja el botón
+
+        :param button: El botón al que desea cambiar el color
+        :param colorRatonDentro: El color del botón cuando el mouse está sobre él
+        :param colorRatonFuera: El color del botón cuando el mouse no está sobre él
+        """
         button.bind(
             "<Enter>", func=lambda e: button.config(background=colorRatonDentro)
         )
