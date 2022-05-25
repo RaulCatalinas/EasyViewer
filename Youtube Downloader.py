@@ -101,8 +101,8 @@ class BarraDeProgresion:
 class AumentarBarraDeProgresionEnParalelo:
     def FuncionAumentarBarraDeProgresionEnParalelo(self):
         """
-        Creamos una instancia de la barra de progreso, luego creamos un hilo que llama a la función que aumenta la barra
-        de progreso
+        Creamos una instancia de la barra de progreso, luego creamos un hilo que llama a la función que aumenta la barra de
+        progreso
         """
         # Creamos una instancia de la barra de progresion
         self.barraDeProgresion = BarraDeProgresion()
@@ -400,10 +400,9 @@ class CambiarColor:
     def FuncionCambiarColor(self, button, colorRatonDentro, colorRatonFuera):
         """
         Toma un botón y dos colores, y vincula el botón para cambiar de color cuando el mouse ingresa y deja el botón
-
-        :param button: El botón al que desea cambiar el color
-        :param colorRatonDentro: El color del botón cuando el mouse está sobre él
-        :param colorRatonFuera: El color del botón cuando el mouse no está sobre él
+        @param button - El botón al que desea cambiar el color.
+        @param colorRatonDentro - El color del botón cuando el mouse está sobre él.
+        @param colorRatonFuera - El color del botón cuando el mouse no está sobre él.
         """
         button.bind(
             "<Enter>", func=lambda e: button.config(background=colorRatonDentro)
