@@ -1,13 +1,10 @@
-# Descargador de videos de youtube en mp4
-
 import logging as log
 import os
 import threading as thr
 import time
-import tkinter
 from datetime import datetime
 from tkinter import *
-from tkinter import filedialog, messagebox
+from tkinter import filedialog, messagebox, Tk, Entry, Button, Label
 from tkinter.ttk import Progressbar
 
 import pytube
@@ -36,7 +33,7 @@ log.info(f"El programa Descargador de videos de YouTube se ha ejecutado el {form
 # Bloque de crear la interfaz gráfica + cambiar icono + poner el titulo + centrar ventana + Redimensionar ventana
 
 # Ventana
-Ventana = tkinter.Tk()
+Ventana = Tk()
 
 # Fijar tamaño
 Ventana.resizable(False, False)
@@ -68,7 +65,7 @@ Ventana.geometry("{}x{}+{}+{}".format(Ancho, Alto, Coordenada_X, Coordenada_Y))
 
 # Bloque de crear el programa que descargara el video
 
-# Almacenar URL del video + almacenar al ubicacion donde se va a guardar el video
+# Almacenar URL del video + almacenar la ubicación donde se va a guardar el video
 Link_Video = StringVar()
 Ubicacion_Video_PC = StringVar()
 
@@ -77,10 +74,220 @@ percent = StringVar()
 text = StringVar()
 
 
+# Clase que se encarga de crear los Entrys
+class CrearEntrys:
+    def __init__(self, ventana, textvariable, fuente, tamañoDeFuente, ancho, y):
+        """
+        Esta función crea un widget de Entrada y lo posiciona en la ventana.
+        @param ventana - La ventana donde se colocará la Entrada.
+        @param textvariable - Esta es la variable que se utilizará para almacenar el texto que ingresa el usuario.
+        @param fuente - La fuente que desea utilizar.
+        @param tamañoDeFuente - El tamaño de fuente del texto en la Entrada.
+        @param ancho - ancho de la entrada
+        @param y - La posición del eje Y de la entrada.
+        """
+        self.ventana = ventana
+        self.textvariable = textvariable
+        self.fuente = fuente
+        self.tamañoDeFuente = tamañoDeFuente
+        self.ancho = ancho
+        self.y = y
+
+        # Crear el Entry
+        self.crearEntry = Entry(
+            self.ventana,
+            textvariable=self.textvariable,
+            font=(self.fuente, self.tamañoDeFuente),
+            width=self.ancho,
+        )
+
+        # Posicionar el Entry
+        self.crearEntry.pack(pady=self.y)
+
+
+# Clase que cambia el color de los botones al pasar el ratón por encima
+class CambiarColor:
+    @staticmethod
+    def FuncionCambiarColor(button, colorRatonDentro, colorRatonFuera):
+        """
+        Toma un botón y dos colores, y vincula el botón para cambiar de color cuando el mouse ingresa y deja el botón
+        @param button - El botón al que desea cambiar el color.
+        @param colorRatonDentro - El color del botón cuando el mouse está sobre él.
+        @param colorRatonFuera - El color del botón cuando el mouse no está sobre él.
+        """
+        button.bind(
+            "<Enter>", func=lambda e: button.config(background=colorRatonDentro)
+        )
+
+        button.bind("<Leave>", func=lambda e: button.config(background=colorRatonFuera))
+
+
+# Clase que crea los botones, los coloca en pantalla y los cambia de color al pasar el ratón por encima de ellos
+class Botones:
+    """
+    Clase que crea los botones, los coloca en la ventana y los cambia de color al pasar el ratón por encima de ellos.
+    """
+
+    class BotonPosicionAbsoluta:
+        def __init__(
+            self,
+            texto,
+            y,
+            ancho,
+            colorFondo,
+            funcion,
+            fuente,
+            tamañoFuente,
+            ventana,
+            colorRatonDentro,
+            colorRatonFuera,
+        ):
+            """
+            Crea un botón con los parámetros dados y luego llama a la función “CambiarColor” para cambiar el color del 4
+            botón
+            cuando el mouse está sobre él.
+            @param texto - El texto que se mostrará en el botón.
+            @param y - La distancia entre el botón y el widget anterior.
+            @param ancho - ancho del botón
+            @param colorFondo - color de fondo
+            @param funcion - La función que se ejecutará cuando se presione el botón.
+            @param fuente - La fuente del texto.
+            @param tamañoFuente - El tamaño de la fuente.
+            @param ventana - La ventana en la que estará el botón.
+            @param colorRatonDentro - El color del botón cuando el mouse está sobre él.
+            @param colorRatonFuera - El color del botón cuando el mouse no está sobre él.
+            """
+            self.cambiarColor = CambiarColor()
+            # Crea el botón con los parámetros dados
+            self.texto = texto
+            self.y = y
+            self.ancho = ancho
+            self.colorFondo = colorFondo
+            self.fuente = fuente
+            self.tamañoFuente = tamañoFuente
+            self.ventana = ventana
+            self.colorRatonDentro = colorRatonDentro
+            self.colorRatonFuera = colorRatonFuera
+            self.funcion = funcion
+
+            self.boton = Button(
+                self.ventana,
+                text=self.texto,
+                bg=self.colorFondo,
+                font=(self.fuente, self.tamañoFuente),
+                command=self.funcion,
+                width=self.ancho,
+            )
+
+            self.boton.pack(pady=self.y)
+
+            self.cambiarColor.FuncionCambiarColor(
+                self.boton, self.colorRatonDentro, self.colorRatonFuera
+            )
+
+    class BotonPosicionRelativa:
+        def __init__(
+            self,
+            texto,
+            x,
+            y,
+            ancho,
+            colorFondo,
+            funcion,
+            fuente,
+            tamañoFuente,
+            ventana,
+            colorRatonDentro,
+            colorRatonFuera,
+        ):
+            """
+            Crea un botón con los parámetros dados y luego llama a la función “CambiarColor” para cambiar el color del
+            botón
+            cuando el mouse está sobre él.
+            @param texto - El texto que se mostrará en el botón.
+            @param x - La distancia entre el botón y el widget anterior.
+            @param y - La distancia entre el botón y el widget anterior.
+            @param ancho - ancho del botón
+            @param colorFondo - color de fondo
+            @param funcion - La función que se ejecutará cuando se presione el botón.
+            @param fuente - La fuente del texto.
+            @param tamañoFuente - El tamaño de la fuente.
+            @param ventana - La ventana en la que estará el botón.
+            @param colorRatonDentro - El color del botón cuando el mouse está sobre él.
+            @param colorRatonFuera - El color del botón cuando el mouse no está sobre él.
+            """
+            self.cambiarColor = CambiarColor()
+
+            # Crea el botón con los parámetros dados
+            self.texto = texto
+            self.y = y
+            self.ancho = ancho
+            self.colorFondo = colorFondo
+            self.fuente = fuente
+            self.tamañoFuente = tamañoFuente
+            self.ventana = ventana
+            self.colorRatonDentro = colorRatonDentro
+            self.colorRatonFuera = colorRatonFuera
+            self.funcion = funcion
+
+            self.boton = Button(
+                self.ventana,
+                text=self.texto,
+                bg=self.colorFondo,
+                font=(self.fuente, self.tamañoFuente),
+                command=self.funcion,
+                width=self.ancho,
+            )
+
+            self.boton.place(x=x, y=y)
+
+            self.cambiarColor.FuncionCambiarColor(
+                self.boton, self.colorRatonDentro, self.colorRatonFuera
+            )
+
+
+# Clase que crea los labels y los coloca en pantalla
+class Etiqueta:
+    def __init__(self, texto, y, ancho, colorFondo, fuente, tamañoFuente, ventana):
+        """
+        Crea una etiqueta con los parámetros dados y luego la coloca en la ventana.
+        @param texto - El texto que se mostrará en la etiqueta.
+        @param y - La posición del eje y de la etiqueta.
+        @param ancho - El ancho de la etiqueta.
+        @param colorFondo - El color de fondo de la etiqueta.
+        @param fuente - La fuente a utilizar.
+        @param tamañoFuente - Tamaño de la fuente.
+        """
+        # Crea una etiqueta con los parámetros dados
+        self.texto = texto
+        self.y = y
+        self.ancho = ancho
+        self.colorFondo = colorFondo
+        self.fuente = fuente
+        self.tamañoFuente = tamañoFuente
+        self.ventana = ventana
+
+        # Crear la etiqueta
+        self.etiqueta = Label(
+            self.ventana,
+            text=self.texto,
+            font=(self.fuente, self.tamañoFuente),
+            width=self.ancho,
+            bg=self.colorFondo,
+        )
+        # Colocar la etiqueta en la ventana
+        self.etiqueta.pack(pady=self.y)
+
+
 # Barra de progresión
 class BarraDeProgresion:
     # Crear barra de progresion
     barraProgresionDescarga = Progressbar(Ventana, orient=HORIZONTAL, length=800)
+
+    def __init__(self):
+        self.speed = None
+        self.download = None
+        self.GB = None
 
     def AumentarProgreso(self):
         """
@@ -98,7 +305,12 @@ class BarraDeProgresion:
             Ventana.update_idletasks()
 
 
+# Clase que aumenta la barra de progreso en paralelo con la descarga
 class AumentarBarraDeProgresionEnParalelo:
+    def __init__(self):
+        self.aumentarProgresoEnParalelo = None
+        self.barraDeProgresion = None
+
     def FuncionAumentarBarraDeProgresionEnParalelo(self):
         """
         Creamos una instancia de la barra de progreso, luego creamos un hilo que llama a la función que aumenta la barra de
@@ -118,7 +330,26 @@ class AumentarBarraDeProgresionEnParalelo:
         )
 
 
+# Clase principal del programa
 class Main:
+    def __init__(self):
+        self.Etiqueta_Barra_Progress = None
+        self.Boton_Descargar_Audio = None
+        self.Boton_Descargar_Video = None
+        self.Boton_Buscar = None
+        self.Ubicacion_Video = None
+        self.Ubicacion = None
+        self.URL_Video = None
+        self.Etiqueta_URL = None
+        self.cambiarColor = None
+        self.aumentarBarraDeProgreso = None
+        self.descargarAudio = None
+        self.descargarVideo = None
+        self.buscar = None
+        self.barraDeProgresion = None
+        self.boton = Botones()
+
+    # noinspection PyArgumentList
     def FuncionMain(self):
         """
         Crea la GUI para el programa.
@@ -129,103 +360,94 @@ class Main:
         self.descargarVideo = DescargarVideo()
         self.descargarAudio = DescargarAudio()
         self.aumentarBarraDeProgreso = AumentarBarraDeProgresionEnParalelo()
-        self.cambiarColor = CambiarColor()
 
         # Texto + Caja + Botón de descargar video
-        self.Etiqueta_URL = tkinter.Label(
+        self.Etiqueta_URL = Etiqueta(
+            "Introduce la URL del video a descargar",
+            10,
+            30,
+            azulEtiquetas,
+            "Helvetica",
+            18,
             Ventana,
-            text="Introduce la URL del video a descargar",
-            font="Helvetica 15",
-            bg=azulEtiquetas,
         )
 
-        self.Etiqueta_URL.pack(pady=10)
-
-        self.URL_Video = tkinter.Entry(
-            Ventana, textvariable=Link_Video, font="Helvetica 15", width=70
-        )
-
-        self.URL_Video.pack(pady=20)
+        self.URL_Video = CrearEntrys(Ventana, Link_Video, "Helvetica", 15, 70, 20)
 
         # ---------------------------------------------------------------------------
 
-        # Texto + Caja + Botón de ubicacion para guardar el video
-        self.Ubicacion = tkinter.Label(
+        # Texto + Caja + Botón de ubicación para guardar el video
+        self.Ubicacion = Etiqueta(
+            "¿Donde quieres guardar el video?",
+            35,
+            27,
+            azulEtiquetas,
+            "Helvetica",
+            18,
             Ventana,
-            text="Donde quieres guardar el video",
-            font="Helvetica 15",
-            bg=azulEtiquetas,
         )
 
-        self.Ubicacion.pack(pady=35)
-
-        self.Ubicacion_Video = tkinter.Entry(
-            Ventana, width=70, textvariable=Ubicacion_Video_PC, font="Helvetica 15"
+        self.Ubicacion_Video = CrearEntrys(
+            Ventana, Ubicacion_Video_PC, "Helvetica", 15, 70, 20
         )
 
-        self.Ubicacion_Video.pack(pady=5)
-
-        self.Boton_Buscar = tkinter.Button(
+        self.Boton_Buscar = self.boton.BotonPosicionAbsoluta(
+            "Seleccionar ubicación",
+            0.0012,
+            20,
+            verdeOscuro,
+            lambda: [self.buscar.FuncionBuscar()],
+            "Helvetica",
+            15,
             Ventana,
-            text="Seleccionar ubicación",
-            command=lambda: [self.buscar.FuncionBuscar()],
-            font="Helvetica 15",
-            bg=verdeOscuro,
-            cursor="hand2",
+            verdeClaro,
+            verdeOscuro,
         )
 
-        self.Boton_Buscar.pack(pady=20)
-
-        self.cambiarColor.FuncionCambiarColor(
-            self.Boton_Buscar, verdeClaro, verdeOscuro
-        )
-
-        self.Boton_Descargar_Video = tkinter.Button(
-            Ventana,
-            text="Descargar video",
-            command=lambda: [
+        self.Boton_Descargar_Video = self.boton.BotonPosicionRelativa(
+            "Descargar video",
+            220,
+            348,
+            15,
+            amarilloOscuro,
+            lambda: [
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo(),
                 self.descargarVideo.FuncionDescargarVideo(),
             ],
-            font="Helvetica 15",
-            bg=amarilloOscuro,
-            cursor="hand2",
-        )
-
-        self.Boton_Descargar_Video.place(x=220, y=340)
-
-        self.cambiarColor.FuncionCambiarColor(
-            self.Boton_Descargar_Video, amarilloClaro, amarilloOscuro
-        )
-
-        self.Boton_Descargar_Audio = tkinter.Button(
+            "Helvetica",
+            15,
             Ventana,
-            text="Descargar audio",
-            command=lambda: [
+            amarilloClaro,
+            amarilloOscuro,
+        )
+
+        self.Boton_Descargar_Audio = self.boton.BotonPosicionRelativa(
+            "Descargar audio",
+            420,
+            348,
+            15,
+            amarilloOscuro,
+            lambda: [
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo(),
                 self.descargarAudio.FuncionDescargarAudio(),
             ],
-            font="Helvetica 15",
-            bg=amarilloOscuro,
-            cursor="hand2",
-        )
-
-        self.Boton_Descargar_Audio.place(x=420, y=340)
-
-        self.cambiarColor.FuncionCambiarColor(
-            self.Boton_Descargar_Audio, amarilloClaro, amarilloOscuro
+            "Helvetica",
+            15,
+            Ventana,
+            amarilloClaro,
+            amarilloOscuro,
         )
 
         # Crear la etiqueta de la barra de progresion
-        self.Etiqueta_Barra_Progress = tkinter.Label(
+        self.Etiqueta_Barra_Progress = Etiqueta(
+            "Progreso de la descarga:",
+            77,
+            20,
+            azulEtiquetas,
+            "Helvetica",
+            18,
             Ventana,
-            text="Progreso de la descarga",
-            font="Helvetica 15",
-            bg=azulEtiquetas,
         )
-
-        # Poner etiqueta en pantalla
-        self.Etiqueta_Barra_Progress.pack(pady=77)
 
         # Ubicamos la barra de progresion
         self.barraDeProgresion.barraProgresionDescarga.place(x=13, y=470)
@@ -233,10 +455,14 @@ class Main:
         # ---------------------------------------------------------------------------
 
 
+# Clase que se encarga de preguntar al usuario donde quiere guardar el video
 class Buscar:
+    def __init__(self):
+        self.Directorio_Descarga = None
+
     def FuncionBuscar(self):
         """
-        Abre un cuadro de diálogo de archivo y establece el valor de la variable "Ubicacion_Video_PC" al directorio
+        Abre un cuadro de diálogo de archivo y establece el valor de la variable “Ubicacion_Video_PC” al directorio
         seleccionado por el usuario
         """
         log.info(
@@ -250,7 +476,15 @@ class Buscar:
         Ubicacion_Video_PC.set(self.Directorio_Descarga)
 
 
+# Clase que se encarga de descargar el video
 class DescargarVideo:
+    def __init__(self):
+        self.Descargar_Video = None
+        self.Obtener_Video = None
+        self.Carpeta_Guardar_Video = None
+        self.URL = None
+        self.barra = None
+
     def FuncionDescargarVideo(self):
         """
         Descarga un video de YouTube y lo guarda en una carpeta que el usuario elija
@@ -318,7 +552,18 @@ class DescargarVideo:
             log.info("La descarga del video se ha completado correctamente")
 
 
+# Clase que se encarga de descargar el audio
 class DescargarAudio:
+    def __init__(self):
+        self.cambiarFormato = None
+        self.ext = None
+        self.base = None
+        self.Descargar_Video = None
+        self.Obtener_Video = None
+        self.Carpeta_Guardar_Video = None
+        self.URL = None
+        self.barra = None
+
     def FuncionDescargarAudio(self):
         """
         Descarga el audio de un vídeo de YouTube y lo guarda en la carpeta que el usuario haya elegido
@@ -354,10 +599,7 @@ class DescargarAudio:
 
             self.cambiarFormato = self.base + ".mp3"
 
-            os.rename(
-                self.Descargar_Video.download(self.Carpeta_Guardar_Video),
-                self.cambiarFormato,
-            )
+            os.rename(self.base + self.ext, self.cambiarFormato)
 
         except:
 
@@ -394,21 +636,6 @@ class DescargarAudio:
             )
 
             log.info("La descarga del audio del video se ha completado correctamente")
-
-
-class CambiarColor:
-    def FuncionCambiarColor(self, button, colorRatonDentro, colorRatonFuera):
-        """
-        Toma un botón y dos colores, y vincula el botón para cambiar de color cuando el mouse ingresa y deja el botón
-        @param button - El botón al que desea cambiar el color.
-        @param colorRatonDentro - El color del botón cuando el mouse está sobre él.
-        @param colorRatonFuera - El color del botón cuando el mouse no está sobre él.
-        """
-        button.bind(
-            "<Enter>", func=lambda e: button.config(background=colorRatonDentro)
-        )
-
-        button.bind("<Leave>", func=lambda e: button.config(background=colorRatonFuera))
 
 
 # -----------------------------------------
