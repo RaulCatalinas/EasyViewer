@@ -333,6 +333,7 @@ class AumentarBarraDeProgresionEnParalelo:
 # Clase principal del programa
 class Main:
     def __init__(self):
+        self.downloader = None
         self.Etiqueta_Barra_Progress = None
         self.Boton_Descargar_Audio = None
         self.Boton_Descargar_Video = None
@@ -357,8 +358,7 @@ class Main:
         # Creamos una instancia de: BarraDeProgresion, Buscar, Descargar, AumentarBarraDeProgresionEnParalelo y CambiarColor
         self.barraDeProgresion = BarraDeProgresion()
         self.buscar = Buscar()
-        self.descargarVideo = DescargarVideo()
-        self.descargarAudio = DescargarAudio()
+        self.downloader = Downloader()
         self.aumentarBarraDeProgreso = AumentarBarraDeProgresionEnParalelo()
 
         # Texto + Caja + Botón de descargar video
@@ -412,7 +412,7 @@ class Main:
             amarilloOscuro,
             lambda: [
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo(),
-                self.descargarVideo.FuncionDescargarVideo(),
+                self.downloader.DescargarVideo(),
             ],
             "Helvetica",
             15,
@@ -429,7 +429,7 @@ class Main:
             amarilloOscuro,
             lambda: [
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo(),
-                self.descargarAudio.FuncionDescargarAudio(),
+                self.downloader.DescargarAudio(),
             ],
             "Helvetica",
             15,
@@ -476,166 +476,152 @@ class Buscar:
         Ubicacion_Video_PC.set(self.Directorio_Descarga)
 
 
-# Clase que se encarga de descargar el video
-class DescargarVideo:
-    def __init__(self):
-        self.Descargar_Video = None
-        self.Obtener_Video = None
-        self.Carpeta_Guardar_Video = None
-        self.URL = None
-        self.barra = None
+# Clase que se encarga de descargar el video y/o el audio
+class Downloader:
+    class DescargarVideo:
+        def __init__(self):
+            """
+            Descarga un video de YouTube y lo guarda en una carpeta que el usuario elija
+            """
+            # Crear instancia de la barra de progresion
+            self.barra = BarraDeProgresion()
 
-    def FuncionDescargarVideo(self):
-        """
-        Descarga un video de YouTube y lo guarda en una carpeta que el usuario elija
-        """
-        # Crear instancia de la barra de progresion
-        self.barra = BarraDeProgresion()
+            log.info("Se ha hecho click en el botón de descargar")
 
-        log.info("Se ha hecho click en el botón de descargar")
+            try:
 
-        try:
+                self.URL = Link_Video.get()
 
-            self.URL = Link_Video.get()
+                log.info("Se ha obtenido la URL del video a descargar")
 
-            log.info("Se ha obtenido la URL del video a descargar")
+                self.Carpeta_Guardar_Video = Ubicacion_Video_PC.get()
 
-            self.Carpeta_Guardar_Video = Ubicacion_Video_PC.get()
+                log.info(
+                    "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
+                )
 
-            log.info(
-                "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
-            )
+                self.Obtener_Video = pytube.YouTube(self.URL)
 
-            self.Obtener_Video = pytube.YouTube(self.URL)
+                log.info("Se ha obtenido el ID del video a descargar")
 
-            log.info("Se ha obtenido el ID del video a descargar")
+                self.Descargar_Video = (
+                    self.Obtener_Video.streams.get_highest_resolution()
+                )
 
-            self.Descargar_Video = self.Obtener_Video.streams.get_highest_resolution()
+                log.info("Se ha obtenido la resolución mas alta del video a descargar")
 
-            log.info("Se ha obtenido la resolución mas alta del video a descargar")
-
-            self.Descargar_Video.download(self.Carpeta_Guardar_Video)
-
-        except:
-
-            messagebox.showerror(
-                "Error de descarga", "No se ha conseguido descargar el video"
-            )
-
-            self.barra.barraProgresionDescarga["value"] = 0
-
-            percent.set("")
-
-            log.info(
-                "La variable que guarda el porcentaje de la descarga de se "
-                "ha restablecido correctamente"
-            )
-
-            log.info("El video no se ha podido descargar, algo ha salido mal")
-
-        else:
-
-            messagebox.showinfo(
-                "Completado",
-                "Puedes encontrar tu video en:\n" + self.Carpeta_Guardar_Video,
-            )
-
-            self.barra.barraProgresionDescarga["value"] = 0
-
-            percent.set("")
-
-            log.info(
-                "La variable que guarda el porcentaje de la descarga de se "
-                "ha restablecido correctamente"
-            )
-
-            log.info("La descarga del video se ha completado correctamente")
-
-
-# Clase que se encarga de descargar el audio
-class DescargarAudio:
-    def __init__(self):
-        self.cambiarFormato = None
-        self.ext = None
-        self.base = None
-        self.Descargar_Video = None
-        self.Obtener_Video = None
-        self.Carpeta_Guardar_Video = None
-        self.URL = None
-        self.barra = None
-
-    def FuncionDescargarAudio(self):
-        """
-        Descarga el audio de un vídeo de YouTube y lo guarda en la carpeta que el usuario haya elegido
-        """
-        # Crear instancia de la barra de progresion
-        self.barra = BarraDeProgresion()
-
-        log.info("Se ha hecho click en el botón de descargar")
-
-        try:
-
-            self.URL = Link_Video.get()
-
-            log.info("Se ha obtenido la URL del video a descargar")
-
-            self.Carpeta_Guardar_Video = Ubicacion_Video_PC.get()
-
-            log.info(
-                "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
-            )
-
-            self.Obtener_Video = pytube.YouTube(self.URL)
-
-            log.info("Se ha obtenido el ID del video a descargar")
-
-            self.Descargar_Video = self.Obtener_Video.streams.get_audio_only()
-
-            log.info("Se ha obtenido el audio del video a descargar")
-
-            self.base, self.ext = os.path.splitext(
                 self.Descargar_Video.download(self.Carpeta_Guardar_Video)
-            )
 
-            self.cambiarFormato = self.base + ".mp3"
+            except:
 
-            os.rename(self.base + self.ext, self.cambiarFormato)
+                messagebox.showerror(
+                    "Error de descarga", "No se ha conseguido descargar el video"
+                )
 
-        except:
+                self.barra.barraProgresionDescarga["value"] = 0
 
-            messagebox.showerror(
-                "Error de descarga", "No se ha conseguido descargar el audio"
-            )
+                percent.set("")
 
-            self.barra.barraProgresionDescarga["value"] = 0
+                log.info(
+                    "La variable que guarda el porcentaje de la descarga de se "
+                    "ha restablecido correctamente"
+                )
 
-            percent.set("")
+                log.info("El video no se ha podido descargar, algo ha salido mal")
 
-            log.info(
-                "La variable que guarda el porcentaje de la descarga de se "
-                "ha restablecido correctamente"
-            )
+            else:
 
-            log.info("El audio no se ha podido descargar, algo ha salido mal")
+                messagebox.showinfo(
+                    "Completado",
+                    "Puedes encontrar tu video en:\n" + self.Carpeta_Guardar_Video,
+                )
 
-        else:
+                self.barra.barraProgresionDescarga["value"] = 0
 
-            messagebox.showinfo(
-                "Completado",
-                "Puedes encontrar el audio del video en:\n"
-                + self.Carpeta_Guardar_Video,
-            )
+                percent.set("")
 
-            self.barra.barraProgresionDescarga["value"] = 0
+                log.info(
+                    "La variable que guarda el porcentaje de la descarga de se "
+                    "ha restablecido correctamente"
+                )
 
-            percent.set("")
+                log.info("La descarga del video se ha completado correctamente")
 
-            log.info(
-                "La variable que guarda el porcentaje de la descarga de se "
-                "ha restablecido correctamente"
-            )
+    class DescargarAudio:
+        def __init__(self):
+            """
+            Descarga el audio de un vídeo de YouTube y lo guarda en la carpeta que el usuario haya elegido
+            """
+            # Crear instancia de la barra de progresion
+            self.barra = BarraDeProgresion()
 
-            log.info("La descarga del audio del video se ha completado correctamente")
+            log.info("Se ha hecho click en el botón de descargar")
+
+            try:
+
+                self.URL = Link_Video.get()
+
+                log.info("Se ha obtenido la URL del video a descargar")
+
+                self.Carpeta_Guardar_Video = Ubicacion_Video_PC.get()
+
+                log.info(
+                    "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
+                )
+
+                self.Obtener_Video = pytube.YouTube(self.URL)
+
+                log.info("Se ha obtenido el ID del video a descargar")
+
+                self.Descargar_Video = self.Obtener_Video.streams.get_audio_only()
+
+                log.info("Se ha obtenido el audio del video a descargar")
+
+                self.base, self.ext = os.path.splitext(
+                    self.Descargar_Video.download(self.Carpeta_Guardar_Video)
+                )
+
+                self.cambiarFormato = self.base + ".mp3"
+
+                os.rename(self.base + self.ext, self.cambiarFormato)
+
+            except:
+
+                messagebox.showerror(
+                    "Error de descarga", "No se ha conseguido descargar el audio"
+                )
+
+                self.barra.barraProgresionDescarga["value"] = 0
+
+                percent.set("")
+
+                log.info(
+                    "La variable que guarda el porcentaje de la descarga de se "
+                    "ha restablecido correctamente"
+                )
+
+                log.info("El audio no se ha podido descargar, algo ha salido mal")
+
+            else:
+
+                messagebox.showinfo(
+                    "Completado",
+                    "Puedes encontrar el audio del video en:\n"
+                    + self.Carpeta_Guardar_Video,
+                )
+
+                self.barra.barraProgresionDescarga["value"] = 0
+
+                percent.set("")
+
+                log.info(
+                    "La variable que guarda el porcentaje de la descarga de se "
+                    "ha restablecido correctamente"
+                )
+
+                log.info(
+                    "La descarga del audio del video se ha completado correctamente"
+                )
 
 
 # -----------------------------------------

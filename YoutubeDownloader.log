@@ -1,0 +1,162 @@
+INFO:root:El programa Descargador de videos de YouTube se ha ejecutado el Wednesday, 08 June, 2022 12:56
+INFO:root:Se ha hecho click en el botón de seleccionar la dirección de la carpeta donde se quiere guardar el video descargado
+INFO:root:El aumento del progreso de la barra de progresion esta aumentando en un hilo distinto correctamente
+INFO:root:Se ha hecho click en el botón de descargar
+INFO:root:Se ha obtenido la URL del video a descargar
+INFO:root:Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado
+DEBUG:pytube.helpers:matched regex search: (?:v=|\/)([0-9A-Za-z_-]{11}).*
+INFO:root:Se ha obtenido el ID del video a descargar
+DEBUG:pytube.extract:applying descrambler
+DEBUG:pytube.extract:finding initial function name
+DEBUG:pytube.extract:Pattern failed: ytplayer\.config\s*=\s*
+DEBUG:pytube.extract:Could not parse object.
+DEBUG:pytube.extract:finished regex search, matched: (/s/player/[\w\d]+/[\w\d_/.]+/base\.js)
+DEBUG:pytube.cipher:finding initial function name
+DEBUG:pytube.cipher:finished regex search, matched: (?P<sig>[a-zA-Z0-9$]+)\s*=\s*function\(\s*a\s*\)\s*{\s*a\s*=\s*a\.split\(\s*""\s*\)
+DEBUG:pytube.cipher:getting transform plan
+DEBUG:pytube.helpers:matched regex search: Gsa=function\(\w\){[a-z=\.\(\"\)]*;(.*);(?:.+)}
+DEBUG:pytube.cipher:getting transform object
+DEBUG:pytube.cipher:Finding throttling function name
+DEBUG:pytube.cipher:finished regex search, matched: a\.[a-zA-Z]\s*&&\s*\([a-z]\s*=\s*a\.get\("n"\)\)\s*&&\s*\([a-z]\s*=\s*([a-zA-Z0-9$]+)(\[\d+\])?\([a-z]\)
+DEBUG:pytube.cipher:Finding throttling function name
+DEBUG:pytube.cipher:finished regex search, matched: a\.[a-zA-Z]\s*&&\s*\([a-z]\s*=\s*a\.get\("n"\)\)\s*&&\s*\([a-z]\s*=\s*([a-zA-Z0-9$]+)(\[\d+\])?\([a-z]\)
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+INFO:root:Se ha obtenido la resolución mas alta del video a descargar
+DEBUG:pytube.streams:downloading (74024635 total bytes) file to C:/Users/raulc/Downloads\¡He creado una BATERÍA para mi patinete y dura el DOBLE!.mp4
+DEBUG:pytube.streams:download remaining: 64587451
+DEBUG:pytube.streams:download remaining: 55150267
+DEBUG:pytube.streams:download remaining: 45713083
+DEBUG:pytube.streams:download remaining: 36275899
+DEBUG:pytube.streams:download remaining: 26838715
+DEBUG:pytube.streams:download remaining: 17401531
+DEBUG:pytube.streams:download remaining: 7964347
+DEBUG:pytube.streams:download remaining: 0
+DEBUG:pytube.streams:download finished
+INFO:root:La variable que guarda el porcentaje de la descarga de se ha restablecido correctamente
+INFO:root:La descarga del video se ha completado correctamente
+INFO:root:El aumento del progreso de la barra de progresion esta aumentando en un hilo distinto correctamente
+INFO:root:Se ha hecho click en el botón de descargar
+INFO:root:Se ha obtenido la URL del video a descargar
+INFO:root:Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado
+DEBUG:pytube.helpers:matched regex search: (?:v=|\/)([0-9A-Za-z_-]{11}).*
+INFO:root:Se ha obtenido el ID del video a descargar
+DEBUG:pytube.extract:applying descrambler
+DEBUG:pytube.extract:finding initial function name
+DEBUG:pytube.extract:Pattern failed: ytplayer\.config\s*=\s*
+DEBUG:pytube.extract:Could not parse object.
+DEBUG:pytube.extract:finished regex search, matched: (/s/player/[\w\d]+/[\w\d_/.]+/base\.js)
+DEBUG:pytube.cipher:finding initial function name
+DEBUG:pytube.cipher:finished regex search, matched: (?P<sig>[a-zA-Z0-9$]+)\s*=\s*function\(\s*a\s*\)\s*{\s*a\s*=\s*a\.split\(\s*""\s*\)
+DEBUG:pytube.cipher:getting transform plan
+DEBUG:pytube.helpers:matched regex search: Gsa=function\(\w\){[a-z=\.\(\"\)]*;(.*);(?:.+)}
+DEBUG:pytube.cipher:getting transform object
+DEBUG:pytube.cipher:Finding throttling function name
+DEBUG:pytube.cipher:finished regex search, matched: a\.[a-zA-Z]\s*&&\s*\([a-z]\s*=\s*a\.get\("n"\)\)\s*&&\s*\([a-z]\s*=\s*([a-zA-Z0-9$]+)(\[\d+\])?\([a-z]\)
+DEBUG:pytube.cipher:Finding throttling function name
+DEBUG:pytube.cipher:finished regex search, matched: a\.[a-zA-Z]\s*&&\s*\([a-z]\s*=\s*a\.get\("n"\)\)\s*&&\s*\([a-z]\s*=\s*([a-zA-Z0-9$]+)(\[\d+\])?\([a-z]\)
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+INFO:root:Se ha obtenido la resolución mas alta del video a descargar
+DEBUG:pytube.streams:downloading (74024635 total bytes) file to C:/Users/raulc/Downloads\¡He creado una BATERÍA para mi patinete y dura el DOBLE!.mp4
+DEBUG:pytube.streams:download remaining: 64587451
+DEBUG:pytube.streams:download remaining: 55150267
+DEBUG:pytube.streams:download remaining: 45713083
+DEBUG:pytube.streams:download remaining: 36275899
+DEBUG:pytube.streams:download remaining: 26838715
+DEBUG:pytube.streams:download remaining: 17401531
+DEBUG:pytube.streams:download remaining: 7964347
+DEBUG:pytube.streams:download remaining: 0
+DEBUG:pytube.streams:download finished
+INFO:root:La variable que guarda el porcentaje de la descarga de se ha restablecido correctamente
+INFO:root:La descarga del video se ha completado correctamente
+INFO:root:El aumento del progreso de la barra de progresion esta aumentando en un hilo distinto correctamente
+INFO:root:Se ha hecho click en el botón de descargar
+INFO:root:Se ha obtenido la URL del video a descargar
+INFO:root:Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado
+DEBUG:pytube.helpers:matched regex search: (?:v=|\/)([0-9A-Za-z_-]{11}).*
+INFO:root:Se ha obtenido el ID del video a descargar
+DEBUG:pytube.extract:applying descrambler
+DEBUG:pytube.extract:finding initial function name
+DEBUG:pytube.extract:Pattern failed: ytplayer\.config\s*=\s*
+DEBUG:pytube.extract:Could not parse object.
+DEBUG:pytube.extract:finished regex search, matched: (/s/player/[\w\d]+/[\w\d_/.]+/base\.js)
+DEBUG:pytube.cipher:finding initial function name
+DEBUG:pytube.cipher:finished regex search, matched: (?P<sig>[a-zA-Z0-9$]+)\s*=\s*function\(\s*a\s*\)\s*{\s*a\s*=\s*a\.split\(\s*""\s*\)
+DEBUG:pytube.cipher:getting transform plan
+DEBUG:pytube.helpers:matched regex search: Gsa=function\(\w\){[a-z=\.\(\"\)]*;(.*);(?:.+)}
+DEBUG:pytube.cipher:getting transform object
+DEBUG:pytube.cipher:Finding throttling function name
+DEBUG:pytube.cipher:finished regex search, matched: a\.[a-zA-Z]\s*&&\s*\([a-z]\s*=\s*a\.get\("n"\)\)\s*&&\s*\([a-z]\s*=\s*([a-zA-Z0-9$]+)(\[\d+\])?\([a-z]\)
+DEBUG:pytube.cipher:Finding throttling function name
+DEBUG:pytube.cipher:finished regex search, matched: a\.[a-zA-Z]\s*&&\s*\([a-z]\s*=\s*a\.get\("n"\)\)\s*&&\s*\([a-z]\s*=\s*([a-zA-Z0-9$]+)(\[\d+\])?\([a-z]\)
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+DEBUG:pytube.extract:signature found, skip decipher
+INFO:root:Se ha obtenido el audio del video a descargar
+DEBUG:pytube.streams:downloading (19969695 total bytes) file to C:/Users/raulc/Downloads\¡He creado una BATERÍA para mi patinete y dura el DOBLE!.mp4
+DEBUG:pytube.streams:download remaining: 10532511
+DEBUG:pytube.streams:download remaining: 1095327
+DEBUG:pytube.streams:download remaining: 0
+DEBUG:pytube.streams:download finished
+INFO:root:La variable que guarda el porcentaje de la descarga de se ha restablecido correctamente
+INFO:root:La descarga del audio del video se ha completado correctamente
