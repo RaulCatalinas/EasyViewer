@@ -379,7 +379,7 @@ class Main:
         # Texto + Caja + Botón de ubicación para guardar el video
         self.Ubicacion = Etiqueta(
             "¿Donde quieres guardar el video?",
-            35,
+            10,
             27,
             azulEtiquetas,
             "Helvetica",
@@ -393,7 +393,7 @@ class Main:
 
         self.Boton_Buscar = self.boton.BotonPosicionAbsoluta(
             "Seleccionar ubicación",
-            0.0012,
+            10,
             20,
             verdeOscuro,
             lambda: [self.buscar.FuncionBuscar()],
@@ -407,7 +407,7 @@ class Main:
         self.Boton_Descargar_Video = self.boton.BotonPosicionRelativa(
             "Descargar video",
             220,
-            348,
+            322,
             15,
             amarilloOscuro,
             lambda: [
@@ -424,7 +424,7 @@ class Main:
         self.Boton_Descargar_Audio = self.boton.BotonPosicionRelativa(
             "Descargar audio",
             420,
-            348,
+            322,
             15,
             amarilloOscuro,
             lambda: [
@@ -441,7 +441,7 @@ class Main:
         # Crear la etiqueta de la barra de progresion
         self.Etiqueta_Barra_Progress = Etiqueta(
             "Progreso de la descarga:",
-            77,
+            97,
             20,
             azulEtiquetas,
             "Helvetica",
