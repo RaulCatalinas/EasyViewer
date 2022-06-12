@@ -3,11 +3,19 @@ import os
 import threading as thr
 import time
 from datetime import datetime
-from tkinter import *
-from tkinter import filedialog, messagebox, Tk, Entry, Button, Label
+from tkinter import (
+    filedialog,
+    messagebox,
+    Tk,
+    Entry,
+    Button,
+    Label,
+    StringVar,
+    HORIZONTAL,
+)
 from tkinter.ttk import Progressbar
 
-import pytube
+from pytube import YouTube
 
 # -----------------------------------------------
 
@@ -116,7 +124,7 @@ class CambiarColor:
         @param colorRatonFuera - El color del botón cuando el mouse no está sobre él.
         """
         button.bind(
-            "<Enter>", func=lambda e: button.config(background=colorRatonDentro)
+            "<Enter>", func=lambda e: button.config(background=colorRatonDentro, cursor="hand2")
         )
 
         button.bind("<Leave>", func=lambda e: button.config(background=colorRatonFuera))
@@ -500,7 +508,7 @@ class Downloader:
                     "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
                 )
 
-                self.Obtener_Video = pytube.YouTube(self.URL)
+                self.Obtener_Video = YouTube(self.URL)
 
                 log.info("Se ha obtenido el ID del video a descargar")
 
@@ -569,7 +577,7 @@ class Downloader:
                     "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
                 )
 
-                self.Obtener_Video = pytube.YouTube(self.URL)
+                self.Obtener_Video = YouTube(self.URL)
 
                 log.info("Se ha obtenido el ID del video a descargar")
 
