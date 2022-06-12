@@ -4,7 +4,6 @@ from os import rename, path
 from threading import Thread
 from time import sleep
 from tkinter import (
-    messagebox,
     Tk,
     Entry,
     Button,
@@ -13,6 +12,7 @@ from tkinter import (
     HORIZONTAL,
 )
 from tkinter.filedialog import askdirectory
+from tkinter.messagebox import showinfo, showerror
 from tkinter.ttk import Progressbar
 
 from pytube import YouTube
@@ -521,9 +521,7 @@ class Downloader:
 
             except:
 
-                messagebox.showerror(
-                    "Error de descarga", "No se ha conseguido descargar el video"
-                )
+                showerror("Error de descarga", "No se ha conseguido descargar el video")
 
                 self.barra.barraProgresionDescarga["value"] = 0
 
@@ -538,7 +536,7 @@ class Downloader:
 
             else:
 
-                messagebox.showinfo(
+                showinfo(
                     "Completado",
                     "Puedes encontrar tu video en:\n" + self.Carpeta_Guardar_Video,
                 )
@@ -594,9 +592,7 @@ class Downloader:
 
             except:
 
-                messagebox.showerror(
-                    "Error de descarga", "No se ha conseguido descargar el audio"
-                )
+                showerror("Error de descarga", "No se ha conseguido descargar el audio")
 
                 self.barra.barraProgresionDescarga["value"] = 0
 
@@ -611,7 +607,7 @@ class Downloader:
 
             else:
 
-                messagebox.showinfo(
+                showinfo(
                     "Completado",
                     "Puedes encontrar el audio del video en:\n"
                     + self.Carpeta_Guardar_Video,
