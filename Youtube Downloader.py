@@ -124,7 +124,8 @@ class CambiarColor:
         @param colorRatonFuera - El color del botón cuando el mouse no está sobre él.
         """
         button.bind(
-            "<Enter>", func=lambda e: button.config(background=colorRatonDentro, cursor="hand2")
+            "<Enter>",
+            func=lambda e: button.config(background=colorRatonDentro, cursor="hand2"),
         )
 
         button.bind("<Leave>", func=lambda e: button.config(background=colorRatonFuera))
