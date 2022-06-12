@@ -1,10 +1,9 @@
-import logging as log
-import os
-import threading as thr
-import time
 from datetime import datetime
+from logging import DEBUG, info, basicConfig
+from os import rename, path
+from threading import Thread
+from time import sleep
 from tkinter import (
-    filedialog,
     messagebox,
     Tk,
     Entry,
@@ -13,6 +12,7 @@ from tkinter import (
     StringVar,
     HORIZONTAL,
 )
+from tkinter.filedialog import askdirectory
 from tkinter.ttk import Progressbar
 
 from pytube import YouTube
@@ -30,13 +30,13 @@ amarilloClaro = "#FFFF00"
 # ------------------------------------------------
 
 # Configurar el logging
-log.basicConfig(filename="YoutubeDownloader.log", filemode="w", level=log.DEBUG)
+basicConfig(filename="YoutubeDownloader.log", filemode="w", level=DEBUG)
 
 # Obtener tener la Fecha de cuando se ejecuta el script
 fecha = datetime.today()
 formato = fecha.strftime("%A, %d %B, %Y %H:%M")
 
-log.info(f"El programa Descargador de videos de YouTube se ha ejecutado el {formato}")
+info(f"El programa Descargador de videos de YouTube se ha ejecutado el {formato}")
 
 # Bloque de crear la interfaz gráfica + cambiar icono + poner el titulo + centrar ventana + Redimensionar ventana
 
@@ -306,7 +306,7 @@ class BarraDeProgresion:
         self.download = 0
         self.speed = 1
         while self.download < self.GB:
-            time.sleep(0.09)
+            sleep(0.09)
             self.barraProgresionDescarga["value"] += (self.speed / self.GB) * 100
             self.download += self.speed
             percent.set(str(int((self.download / self.GB) * 100)) + "%")
@@ -329,11 +329,11 @@ class AumentarBarraDeProgresionEnParalelo:
         self.barraDeProgresion = BarraDeProgresion()
 
         # Aumentamos el progreso de la barra en un hilo distinto
-        self.aumentarProgresoEnParalelo = thr.Thread(
+        self.aumentarProgresoEnParalelo = Thread(
             target=self.barraDeProgresion.AumentarProgreso()
         )
         self.aumentarProgresoEnParalelo.start()
-        log.info(
+        info(
             "El aumento del progreso de la barra de progresion esta aumentando en un hilo "
             "distinto correctamente"
         )
@@ -474,14 +474,12 @@ class Buscar:
         Abre un cuadro de diálogo de archivo y establece el valor de la variable “Ubicacion_Video_PC” al directorio
         seleccionado por el usuario
         """
-        log.info(
+        info(
             "Se ha hecho click en el botón de seleccionar la dirección de la carpeta donde se quiere "
             "guardar el video descargado"
         )
 
-        self.Directorio_Descarga = filedialog.askdirectory(
-            initialdir="Directorio seleccionado"
-        )
+        self.Directorio_Descarga = askdirectory(initialdir="Directorio seleccionado")
         Ubicacion_Video_PC.set(self.Directorio_Descarga)
 
 
@@ -495,29 +493,29 @@ class Downloader:
             # Crear instancia de la barra de progresion
             self.barra = BarraDeProgresion()
 
-            log.info("Se ha hecho click en el botón de descargar")
+            info("Se ha hecho click en el botón de descargar")
 
             try:
 
                 self.URL = Link_Video.get()
 
-                log.info("Se ha obtenido la URL del video a descargar")
+                info("Se ha obtenido la URL del video a descargar")
 
                 self.Carpeta_Guardar_Video = Ubicacion_Video_PC.get()
 
-                log.info(
+                info(
                     "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
                 )
 
                 self.Obtener_Video = YouTube(self.URL)
 
-                log.info("Se ha obtenido el ID del video a descargar")
+                info("Se ha obtenido el ID del video a descargar")
 
                 self.Descargar_Video = (
                     self.Obtener_Video.streams.get_highest_resolution()
                 )
 
-                log.info("Se ha obtenido la resolución mas alta del video a descargar")
+                info("Se ha obtenido la resolución mas alta del video a descargar")
 
                 self.Descargar_Video.download(self.Carpeta_Guardar_Video)
 
@@ -531,12 +529,12 @@ class Downloader:
 
                 percent.set("")
 
-                log.info(
+                info(
                     "La variable que guarda el porcentaje de la descarga de se "
                     "ha restablecido correctamente"
                 )
 
-                log.info("El video no se ha podido descargar, algo ha salido mal")
+                info("El video no se ha podido descargar, algo ha salido mal")
 
             else:
 
@@ -549,12 +547,12 @@ class Downloader:
 
                 percent.set("")
 
-                log.info(
+                info(
                     "La variable que guarda el porcentaje de la descarga de se "
                     "ha restablecido correctamente"
                 )
 
-                log.info("La descarga del video se ha completado correctamente")
+                info("La descarga del video se ha completado correctamente")
 
     class DescargarAudio:
         def __init__(self):
@@ -564,35 +562,35 @@ class Downloader:
             # Crear instancia de la barra de progresion
             self.barra = BarraDeProgresion()
 
-            log.info("Se ha hecho click en el botón de descargar")
+            info("Se ha hecho click en el botón de descargar")
 
             try:
 
                 self.URL = Link_Video.get()
 
-                log.info("Se ha obtenido la URL del video a descargar")
+                info("Se ha obtenido la URL del video a descargar")
 
                 self.Carpeta_Guardar_Video = Ubicacion_Video_PC.get()
 
-                log.info(
+                info(
                     "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
                 )
 
                 self.Obtener_Video = YouTube(self.URL)
 
-                log.info("Se ha obtenido el ID del video a descargar")
+                info("Se ha obtenido el ID del video a descargar")
 
                 self.Descargar_Video = self.Obtener_Video.streams.get_audio_only()
 
-                log.info("Se ha obtenido el audio del video a descargar")
+                info("Se ha obtenido el audio del video a descargar")
 
-                self.base, self.ext = os.path.splitext(
+                self.base, self.ext = path.splitext(
                     self.Descargar_Video.download(self.Carpeta_Guardar_Video)
                 )
 
                 self.cambiarFormato = self.base + ".mp3"
 
-                os.rename(self.base + self.ext, self.cambiarFormato)
+                rename(self.base + self.ext, self.cambiarFormato)
 
             except:
 
@@ -604,12 +602,12 @@ class Downloader:
 
                 percent.set("")
 
-                log.info(
+                info(
                     "La variable que guarda el porcentaje de la descarga de se "
                     "ha restablecido correctamente"
                 )
 
-                log.info("El audio no se ha podido descargar, algo ha salido mal")
+                info("El audio no se ha podido descargar, algo ha salido mal")
 
             else:
 
@@ -623,14 +621,12 @@ class Downloader:
 
                 percent.set("")
 
-                log.info(
+                info(
                     "La variable que guarda el porcentaje de la descarga de se "
                     "ha restablecido correctamente"
                 )
 
-                log.info(
-                    "La descarga del audio del video se ha completado correctamente"
-                )
+                info("La descarga del audio del video se ha completado correctamente")
 
 
 # -----------------------------------------
