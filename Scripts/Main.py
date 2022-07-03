@@ -1,5 +1,3 @@
-from datetime import datetime
-from logging import DEBUG, info, basicConfig
 from os import rename, path
 from threading import Thread
 from time import sleep
@@ -10,12 +8,17 @@ from tkinter import (
     Label,
     StringVar,
     HORIZONTAL,
+    Menu,
 )
 from tkinter.filedialog import askdirectory
 from tkinter.messagebox import showinfo, showerror
 from tkinter.ttk import Progressbar
 
 from pytube import YouTube
+
+from Scripts.Logging import GestionLogging
+
+log = GestionLogging()
 
 # -----------------------------------------------
 
@@ -27,16 +30,8 @@ Negro = "#000000"
 amarilloOscuro = "#333300"
 amarilloClaro = "#FFFF00"
 
+
 # ------------------------------------------------
-
-# Configurar el logging
-basicConfig(filename="YoutubeDownloader.log", filemode="w", level=DEBUG)
-
-# Obtener tener la Fecha de cuando se ejecuta el script
-fecha = datetime.today()
-formato = fecha.strftime("%A, %d %B, %Y %H:%M")
-
-info(f"El programa Descargador de videos de YouTube se ha ejecutado el {formato}")
 
 # Bloque de crear la interfaz gráfica + cambiar icono + poner el titulo + centrar ventana + Redimensionar ventana
 
@@ -333,7 +328,8 @@ class AumentarBarraDeProgresionEnParalelo:
             target=self.barraDeProgresion.AumentarProgreso()
         )
         self.aumentarProgresoEnParalelo.start()
-        info(
+
+        log.writeLog(
             "El aumento del progreso de la barra de progresion esta aumentando en un hilo "
             "distinto correctamente"
         )
@@ -358,6 +354,7 @@ class Main:
         self.buscar = None
         self.barraDeProgresion = None
         self.boton = Botones()
+        self.menuDeOpciones = MenuDeOpciones()
 
     # noinspection PyArgumentList
     def FuncionMain(self):
@@ -382,6 +379,8 @@ class Main:
         )
 
         self.URL_Video = CrearEntrys(Ventana, Link_Video, "Helvetica", 15, 70, 20)
+
+        Ventana.bind("<Button-3>", self.menuDeOpciones.FuncionMenuDeOpciones)
 
         # ---------------------------------------------------------------------------
 
@@ -474,11 +473,10 @@ class Buscar:
         Abre un cuadro de diálogo de archivo y establece el valor de la variable “Ubicacion_Video_PC” al directorio
         seleccionado por el usuario
         """
-        info(
+        log.writeLog(
             "Se ha hecho click en el botón de seleccionar la dirección de la carpeta donde se quiere "
             "guardar el video descargado"
         )
-
         self.Directorio_Descarga = askdirectory(initialdir="Directorio seleccionado")
         Ubicacion_Video_PC.set(self.Directorio_Descarga)
 
@@ -490,32 +488,34 @@ class Downloader:
             """
             Descarga un video de YouTube y lo guarda en una carpeta que el usuario elija
             """
-            # Crear instancia de la barra de progresion
+            # Crear instancia de la barra de progresion y de la clase que gestiona el logging
             self.barra = BarraDeProgresion()
 
-            info("Se ha hecho click en el botón de descargar")
+            log.writeLog("Se ha hecho click en el botón de descargar")
 
             try:
 
                 self.URL = Link_Video.get()
 
-                info("Se ha obtenido la URL del video a descargar")
+                log.writeLog("Se ha obtenido la URL del video a descargar")
 
                 self.Carpeta_Guardar_Video = Ubicacion_Video_PC.get()
 
-                info(
+                log.writeLog(
                     "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
                 )
 
                 self.Obtener_Video = YouTube(self.URL)
 
-                info("Se ha obtenido el ID del video a descargar")
+                log.writeLog("Se ha obtenido el ID del video a descargar")
 
                 self.Descargar_Video = (
                     self.Obtener_Video.streams.get_highest_resolution()
                 )
 
-                info("Se ha obtenido la resolución mas alta del video a descargar")
+                log.writeLog(
+                    "Se ha obtenido la resolución mas alta del video a descargar"
+                )
 
                 self.Descargar_Video.download(self.Carpeta_Guardar_Video)
 
@@ -527,12 +527,12 @@ class Downloader:
 
                 percent.set("")
 
-                info(
+                log.writeLog(
                     "La variable que guarda el porcentaje de la descarga de se "
                     "ha restablecido correctamente"
                 )
 
-                info("El video no se ha podido descargar, algo ha salido mal")
+                log.writeLog("El video no se ha podido descargar, algo ha salido mal")
 
             else:
 
@@ -545,12 +545,12 @@ class Downloader:
 
                 percent.set("")
 
-                info(
+                log.writeLog(
                     "La variable que guarda el porcentaje de la descarga de se "
                     "ha restablecido correctamente"
                 )
 
-                info("La descarga del video se ha completado correctamente")
+                log.writeLog("La descarga del video se ha completado correctamente")
 
     class DescargarAudio:
         def __init__(self):
@@ -560,27 +560,27 @@ class Downloader:
             # Crear instancia de la barra de progresion
             self.barra = BarraDeProgresion()
 
-            info("Se ha hecho click en el botón de descargar")
+            log.writeLog("Se ha hecho click en el botón de descargar")
 
             try:
 
                 self.URL = Link_Video.get()
 
-                info("Se ha obtenido la URL del video a descargar")
+                log.writeLog("Se ha obtenido la URL del video a descargar")
 
                 self.Carpeta_Guardar_Video = Ubicacion_Video_PC.get()
 
-                info(
+                log.writeLog(
                     "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
                 )
 
                 self.Obtener_Video = YouTube(self.URL)
 
-                info("Se ha obtenido el ID del video a descargar")
+                log.writeLog("Se ha obtenido el ID del video a descargar")
 
                 self.Descargar_Video = self.Obtener_Video.streams.get_audio_only()
 
-                info("Se ha obtenido el audio del video a descargar")
+                log.writeLog("Se ha obtenido el audio del video a descargar")
 
                 self.base, self.ext = path.splitext(
                     self.Descargar_Video.download(self.Carpeta_Guardar_Video)
@@ -598,12 +598,12 @@ class Downloader:
 
                 percent.set("")
 
-                info(
+                log.writeLog(
                     "La variable que guarda el porcentaje de la descarga de se "
                     "ha restablecido correctamente"
                 )
 
-                info("El audio no se ha podido descargar, algo ha salido mal")
+                log.writeLog("El audio no se ha podido descargar, algo ha salido mal")
 
             else:
 
@@ -617,15 +617,38 @@ class Downloader:
 
                 percent.set("")
 
-                info(
+                log.writeLog(
                     "La variable que guarda el porcentaje de la descarga de se "
                     "ha restablecido correctamente"
                 )
 
-                info("La descarga del audio del video se ha completado correctamente")
+                log.writeLog(
+                    "La descarga del audio del video se ha completado correctamente"
+                )
 
 
-# -----------------------------------------
+# Menu de opciones para copiar o pegar cosas del portapapeles
+class MenuDeOpciones:
+    def __init__(self):
+        self.menu = Menu(Ventana, tearoff=0)
+        self.menu.add_command(label="Copiar", command=self.Copiar)
+        self.menu.add_command(label="Pegar", command=self.Pegar)
+
+    def FuncionMenuDeOpciones(self, event):
+        try:
+            self.menu.tk_popup(event.x_root, event.y_root)
+        finally:
+            self.menu.grab_release()
+
+    @staticmethod
+    def Copiar():
+        pass
+
+    @staticmethod
+    def Pegar():
+        pass
+        # -----------------------------------------
+
 
 # Crear instancia de la clase que inicia el programa
 interfaz = Main()
