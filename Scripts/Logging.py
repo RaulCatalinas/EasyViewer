@@ -1,5 +1,5 @@
 from datetime import datetime
-from logging import DEBUG, info, basicConfig
+from logging import DEBUG, info, basicConfig, error
 
 
 # Configurar el logging
@@ -24,3 +24,7 @@ class GestionLogging:
     @staticmethod
     def writeLog(mensaje):
         info(mensaje)
+
+    @staticmethod
+    def writeError(mensaje):
+        error(mensaje)
