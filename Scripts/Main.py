@@ -1,3 +1,6 @@
+from Scripts.Aumentar_Barra_De_Progresion_En_Paralelo import (
+    AumentarBarraDeProgresionEnParalelo,
+)
 from Scripts.BarraDeProgresion import BarraDeProgresion
 from Scripts.Buscar import Buscar
 from Scripts.CambiarColor import colores as color
@@ -8,7 +11,6 @@ from Scripts.Downloader import DescargarVideo, DescargarAudio
 from Scripts.Logging import GestionLogging as log
 from Scripts.Menu_De_Opciones import MenuDeOpciones
 from Scripts.Ventana import Ventana
-from Scripts.Aumentar_Barra_De_Progresion_En_Paralelo import AumentarBarraDeProgresionEnParalelo
 
 # -----------------------------------------------
 # Ventana

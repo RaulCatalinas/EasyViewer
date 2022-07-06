@@ -1,5 +1,6 @@
 # Crear una clase que se encarga de crear una ventana heredando de la clase Tk
 from tkinter import Tk
+
 from Scripts.CambiarColor import colores as color
 
 

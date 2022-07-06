@@ -1,6 +1,6 @@
-from tkinter.ttk import Progressbar
 from time import sleep
 from tkinter import HORIZONTAL
+from tkinter.ttk import Progressbar
 
 
 # Barra de progresión
