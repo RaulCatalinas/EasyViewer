@@ -1,13 +1,12 @@
 from tkinter.filedialog import askdirectory
 
-from Scripts.Logging import GestionLogging as log
-
 
 # Clase que se encarga de preguntar al usuario donde quiere guardar el video
 class Buscar:
-    def __init__(self, UBICACION_VIDEO):
+    def __init__(self, UBICACION_VIDEO, log):
         self.UBICACION_VIDEO = UBICACION_VIDEO
         self.Directorio_Descarga = None
+        self.log = log
 
     def FuncionBuscar(self):
         """
@@ -15,7 +14,7 @@ class Buscar:
         seleccionado por el usuario
         """
 
-        log.writeLog(
+        self.log.writeLog(
             "Se ha hecho click en el botón de seleccionar la dirección de la carpeta donde se quiere "
             "guardar el video descargado"
         )

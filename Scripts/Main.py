@@ -1,5 +1,3 @@
-from threading import Thread
-
 from Scripts.BarraDeProgresion import BarraDeProgresion
 from Scripts.Buscar import Buscar
 from Scripts.CambiarColor import colores as color
@@ -10,6 +8,7 @@ from Scripts.Downloader import DescargarVideo, DescargarAudio
 from Scripts.Logging import GestionLogging as log
 from Scripts.Menu_De_Opciones import MenuDeOpciones
 from Scripts.Ventana import Ventana
+from Scripts.Aumentar_Barra_De_Progresion_En_Paralelo import AumentarBarraDeProgresionEnParalelo
 
 # -----------------------------------------------
 # Ventana
@@ -25,38 +24,6 @@ from Scripts.Constantes import (
 
 
 # ------------------------------------------------
-
-# Clase que aumenta la barra de progreso en paralelo con la descarga
-class AumentarBarraDeProgresionEnParalelo:
-    def __init__(self):
-        self.aumentarProgresoEnParalelo = None
-        self.barraDeProgresion = None
-
-    def FuncionAumentarBarraDeProgresionEnParalelo(self):
-        """
-        Creamos una instancia de la barra de progreso, luego creamos un hilo que llama a la función que aumenta la barra de
-        progreso
-        """
-        # Creamos una instancia de la barra de progresion
-        self.barraDeProgresion = BarraDeProgresion(
-            ventana,
-            PORCENTAJE_DESCARGA,
-            PORCENTAJE_DESCARGA_STRING,
-            13,
-            470,
-        )
-
-        # Aumentamos el progreso de la barra en un hilo distinto
-        self.aumentarProgresoEnParalelo = Thread(
-            target=self.barraDeProgresion.AumentarProgreso()
-        )
-        self.aumentarProgresoEnParalelo.start()
-
-        log.writeLog(
-            "El aumento del progreso de la barra de progresion esta aumentando en un hilo "
-            "distinto correctamente"
-        )
-
 
 # Clase principal del programa
 class Main:
@@ -88,8 +55,12 @@ class Main:
             13,
             470,
         )
-        self.buscar = Buscar(UBICACION_VIDEO)
-        self.aumentarBarraDeProgreso = AumentarBarraDeProgresionEnParalelo()
+        self.buscar = Buscar(UBICACION_VIDEO, log)
+        self.aumentarBarraDeProgreso = AumentarBarraDeProgresionEnParalelo(
+            PORCENTAJE_DESCARGA,
+            log,
+            self.barraDeProgresion,
+        )
 
         # Texto + Caja + Botón de descargar video
         self.Etiqueta_URL = Etiqueta(
@@ -149,6 +120,7 @@ class Main:
                     UBICACION_VIDEO,
                     PORCENTAJE_DESCARGA,
                     self.barraDeProgresion,
+                    log,
                 ),
             ],
             "Helvetica",
@@ -171,6 +143,7 @@ class Main:
                     UBICACION_VIDEO,
                     PORCENTAJE_DESCARGA,
                     self.barraDeProgresion,
+                    log,
                 ),
             ],
             "Helvetica",
