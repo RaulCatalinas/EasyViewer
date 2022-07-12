@@ -1,17 +1,22 @@
 # Crear una clase que se encarga de crear una ventana heredando de la clase Tk
 from tkinter import Tk
 
-from Scripts.CambiarColor import colores as color
-
 
 class Ventana(Tk):
-    def __init__(self):
+    def __init__(self, colorDeFondo):
+        self.colorDeFondo = colorDeFondo
         super().__init__()
         self.title("Youtube Downloader")
         self.resizable(False, False)
-        self.iconbitmap(".\Icon\Icono.ico")
-        self.config(bg=color["Negro"])
+        self.iconbitmap(r"C:\Users\famil\PycharmProjects\YoutubeDownloader\Icon\Icono.ico")
+        self.config(bg=self.colorDeFondo)
 
+        self.__CentrarVentana()
+
+    def ActualizarVentana(self):
+        self.mainloop()
+
+    def __CentrarVentana(self):
         # Medida ventana
         Ancho = 830
         Alto = 520
@@ -24,7 +29,4 @@ class Ventana(Tk):
         Coordenada_Y = int((Alto_Ventana / 2) - (Alto / 2))
 
         # Redimensionar Ventana
-        self.geometry("{}x{}+{}+{}".format(Ancho, Alto, Coordenada_X, Coordenada_Y))
-
-    def ActualizarVentana(self):
-        self.mainloop()
+        return self.geometry("{}x{}+{}+{}".format(Ancho, Alto, Coordenada_X, Coordenada_Y))

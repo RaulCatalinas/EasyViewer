@@ -1,13 +1,13 @@
-# Bloque de colores
+from enum import Enum
 
-colores = {
-    "azulEtiquetas": "#00FFEF",
-    "verdeOscuro": "#003300",
-    "verdeClaro": "#00FF00",
-    "Negro": "#000000",
-    "amarilloOscuro": "#333300",
-    "amarilloClaro": "#FFFF00",
-}
+
+class Colores(Enum):
+    AZUL_ETIQUETAS = "#00FFEF"
+    VERDE_OSCURO = "#003300"
+    VERDE_CLARO = "#00FF00"
+    NEGRO = "#000000"
+    AMARILLO_OSCURO = "#333300"
+    AMARILLO_CLARO = "#FFFF00"
 
 
 # Clase que cambia el color de los botones al pasar el ratón por encima
