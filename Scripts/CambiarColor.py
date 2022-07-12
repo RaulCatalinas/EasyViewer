@@ -10,7 +10,6 @@ class Colores(Enum):
     AMARILLO_CLARO = "#FFFF00"
 
 
-# hcbghdf
 # Clase que cambia el color de los botones al pasar el ratón por encima
 class CambiarColor:
     @staticmethod

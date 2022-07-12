@@ -16,7 +16,6 @@ class Ventana(Tk):
     def ActualizarVentana(self):
         self.mainloop()
 
-    # jvfhjvhj
     def __CentrarVentana(self):
         # Medida ventana
         Ancho = 830

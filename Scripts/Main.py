@@ -24,7 +24,6 @@ from Scripts.Constantes import (
     PORCENTAJE_DESCARGA_STRING,
 )
 
-# hybfydbf
 # ------------------------------------------------
 
 # Clase principal del programa
