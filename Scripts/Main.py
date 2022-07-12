@@ -3,7 +3,7 @@ from Scripts.Aumentar_Barra_De_Progresion_En_Paralelo import (
 )
 from Scripts.BarraDeProgresion import BarraDeProgresion
 from Scripts.Buscar import Buscar
-from Scripts.CambiarColor import colores as color
+from Scripts.CambiarColor import Colores
 from Scripts.CrearBotones import BotonPosicionAbsoluta, BotonPosicionRelativa
 from Scripts.CrearEntrys import CrearEntrys
 from Scripts.CrearEtiquetas import Etiqueta
@@ -14,7 +14,7 @@ from Scripts.Ventana import Ventana
 
 # -----------------------------------------------
 # Ventana
-ventana = Ventana()
+ventana = Ventana(Colores.NEGRO.value)
 menu = MenuDeOpciones(ventana)
 
 from Scripts.Constantes import (
@@ -30,23 +30,6 @@ from Scripts.Constantes import (
 # Clase principal del programa
 class Main:
     def __init__(self):
-        self.Etiqueta_Barra_Progress = None
-        self.Boton_Descargar_Audio = None
-        self.Boton_Descargar_Video = None
-        self.Boton_Buscar = None
-        self.Ubicacion_Video = None
-        self.Ubicacion = None
-        self.URL_Video = None
-        self.Etiqueta_URL = None
-        self.cambiarColor = None
-        self.aumentarBarraDeProgreso = None
-        self.descargarAudio = None
-        self.descargarVideo = None
-        self.buscar = None
-        self.barraDeProgresion = None
-
-    # noinspection PyArgumentList
-    def FuncionMain(self):
         """
         Crea la GUI para el programa.
         """
@@ -69,7 +52,7 @@ class Main:
             "Introduce la URL del video a descargar",
             10,
             30,
-            color["azulEtiquetas"],
+            Colores.AZUL_ETIQUETAS.value,
             "Helvetica",
             18,
             ventana,
@@ -86,7 +69,7 @@ class Main:
             "¿Donde quieres guardar el video?",
             10,
             27,
-            color["azulEtiquetas"],
+            Colores.AZUL_ETIQUETAS.value,
             "Helvetica",
             18,
             ventana,
@@ -100,13 +83,13 @@ class Main:
             "Seleccionar ubicación",
             10,
             20,
-            color["verdeOscuro"],
+            Colores.VERDE_OSCURO.value,
             lambda: [self.buscar.FuncionBuscar()],
             "Helvetica",
             15,
             ventana,
-            color["verdeClaro"],
-            color["verdeOscuro"],
+            Colores.VERDE_CLARO.value,
+            Colores.VERDE_OSCURO.value,
         )
 
         self.Boton_Descargar_Video = BotonPosicionRelativa(
@@ -114,7 +97,7 @@ class Main:
             220,
             322,
             15,
-            color["amarilloOscuro"],
+            Colores.AMARILLO_OSCURO.value,
             lambda: [
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo(),
                 DescargarVideo(
@@ -128,8 +111,8 @@ class Main:
             "Helvetica",
             15,
             ventana,
-            color["amarilloClaro"],
-            color["amarilloOscuro"],
+            Colores.AMARILLO_CLARO.value,
+            Colores.AMARILLO_OSCURO.value,
         )
 
         self.Boton_Descargar_Audio = BotonPosicionRelativa(
@@ -137,7 +120,7 @@ class Main:
             420,
             322,
             15,
-            color["amarilloOscuro"],
+            Colores.AMARILLO_OSCURO.value,
             lambda: [
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo(),
                 DescargarAudio(
@@ -151,8 +134,8 @@ class Main:
             "Helvetica",
             15,
             ventana,
-            color["amarilloClaro"],
-            color["amarilloOscuro"],
+            Colores.AMARILLO_CLARO.value,
+            Colores.AMARILLO_OSCURO.value,
         )
 
         # Crear la etiqueta de la barra de progresion
@@ -160,7 +143,7 @@ class Main:
             "Progreso de la descarga:",
             97,
             20,
-            color["azulEtiquetas"],
+            Colores.AZUL_ETIQUETAS.value,
             "Helvetica",
             18,
             ventana,
@@ -169,14 +152,7 @@ class Main:
         # Ubicamos la barra de progresion
         self.barraDeProgresion.barraProgresionDescarga.place(x=13, y=470)
 
-        # ---------------------------------------------------------------------------
 
-
-# Crear instancia de la clase que inicia el programa
-interfaz = Main()
-
-# Llamar a la función que inicia el programa
-interfaz.FuncionMain()
-
+Main()
 # Actualizar ventana
 ventana.ActualizarVentana()
