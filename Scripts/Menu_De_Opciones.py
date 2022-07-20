@@ -1,9 +1,6 @@
 from tkinter import Menu
 
 
-# Menu de opciones para copiar o pegar cosas del portapapeles
-
-
 class MenuDeOpciones:
     def __init__(self, ventana):
         self.ventana = ventana

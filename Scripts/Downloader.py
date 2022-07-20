@@ -1,12 +1,18 @@
 from os import rename, path
-from tkinter.messagebox import showinfo, showerror
 
 from pytube import YouTube
 
 
 class DescargarVideo:
     def __init__(
-        self, LINK_VIDEO, UBICACION_VIDEO, PORCENTAJE_DESCARGA, BarraDeProgresion, log
+            self,
+            LINK_VIDEO,
+            UBICACION_VIDEO,
+            PORCENTAJE_DESCARGA,
+            BarraDeProgresion,
+            log,
+            showinfo,
+            showerror,
     ):
         """
         Descarga un video de YouTube y lo guarda en una carpeta que el usuario elija
@@ -17,6 +23,8 @@ class DescargarVideo:
         # Crear instancia de la barra de progresion y de la clase que gestiona el logging
         self.barra = BarraDeProgresion
         self.log = log
+        self.showinfo = showinfo
+        self.showerror = showerror
 
         self.log.writeLog("Se ha hecho click en el botón de descargar")
 
@@ -45,7 +53,7 @@ class DescargarVideo:
 
         except:
 
-            showerror("Error de descarga", "No se ha conseguido descargar el video")
+            self.showerror("Error de descarga", "No se ha conseguido descargar el video")
 
             self.barra.barraProgresionDescarga["value"] = 0
 
@@ -62,7 +70,7 @@ class DescargarVideo:
 
         else:
 
-            showinfo(
+            self.showinfo(
                 "Completado",
                 "Puedes encontrar tu video en:\n" + self.Carpeta_Guardar_Video,
             )
@@ -81,7 +89,14 @@ class DescargarVideo:
 
 class DescargarAudio:
     def __init__(
-        self, LINK_VIDEO, UBICACION_VIDEO, PORCENTAJE_DESCARGA, BarraDeProgresion, log
+            self,
+            LINK_VIDEO,
+            UBICACION_VIDEO,
+            PORCENTAJE_DESCARGA,
+            BarraDeProgresion,
+            log,
+            showinfo,
+            showerror,
     ):
         """
         Descarga el audio de un vídeo de YouTube y lo guarda en la carpeta que el usuario haya elegido
@@ -92,6 +107,8 @@ class DescargarAudio:
         # Crear instancia de la barra de progresion
         self.barra = BarraDeProgresion
         self.log = log
+        self.showinfo = showinfo
+        self.showerror = showerror
 
         self.log.writeLog("Se ha hecho click en el botón de descargar")
 
@@ -120,7 +137,7 @@ class DescargarAudio:
 
         except:
 
-            showerror("Error de descarga", "No se ha conseguido descargar el audio")
+            self.showerror("Error de descarga", "No se ha conseguido descargar el audio")
 
             self.barra.barraProgresionDescarga["value"] = 0
 
@@ -140,7 +157,7 @@ class DescargarAudio:
 
             rename(self.base + self.ext, self.cambiarFormato)
 
-            showinfo(
+            self.showinfo(
                 "Completado",
                 "Puedes encontrar el audio del video en:\n"
                 + self.Carpeta_Guardar_Video,

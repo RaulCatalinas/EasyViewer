@@ -3,10 +3,11 @@ from tkinter.filedialog import askdirectory
 
 # Clase que se encarga de preguntar al usuario donde quiere guardar el video
 class Buscar:
-    def __init__(self, UBICACION_VIDEO, log):
+    def __init__(self, UBICACION_VIDEO, log, showerror):
         self.UBICACION_VIDEO = UBICACION_VIDEO
         self.Directorio_Descarga = None
         self.log = log
+        self.showerror = showerror
 
     def FuncionBuscar(self):
         """
