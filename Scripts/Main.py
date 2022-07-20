@@ -5,25 +5,24 @@ from Scripts.Aumentar_Barra_De_Progresion_En_Paralelo import (
 )
 from Scripts.BarraDeProgresion import BarraDeProgresion
 from Scripts.Buscar import Buscar
-from Scripts.CambiarColor import Colores
+from Scripts.Constantes import Colores
 from Scripts.CrearBotones import BotonPosicionAbsoluta, BotonPosicionRelativa
 from Scripts.CrearEntrys import CrearEntrys
 from Scripts.CrearEtiquetas import Etiqueta
 from Scripts.Downloader import DescargarVideo, DescargarAudio
 from Scripts.Logging import GestionLogging as log
 from Scripts.Menu_De_Opciones import MenuDeOpciones
-from Scripts.Validaciones import Comprobar_Si_Se_Ha_Seleccionado_Directorio
+from Scripts.Validaciones import (
+    Comprobar_Si_Se_Ha_Seleccionado_Directorio,
+)
 from Scripts.Ventana import Ventana
-
-showinfo = showinfo
-showerror = showerror
 
 # -----------------------------------------------
 # Ventana
 ventana = Ventana(Colores.NEGRO.value)
 menu = MenuDeOpciones(ventana)
 
-from Scripts.Constantes import (
+from Scripts.Variables_Control import (
     UBICACION_VIDEO,
     LINK_VIDEO,
     PORCENTAJE_DESCARGA,
@@ -110,7 +109,7 @@ class Main:
                     UBICACION_VIDEO,
                     log,
                     showerror,
-                )
+                ),
             )],
             "Helvetica",
             15,
@@ -131,7 +130,7 @@ class Main:
                     UBICACION_VIDEO,
                     log,
                     showerror,
-                )
+                ),
             )],
             "Helvetica",
             15,
@@ -156,6 +155,7 @@ class Main:
         Descarga el video.
         """
         self.URL_Video = URL_Video
+
         try:
             if comprobarDirectorio:
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
@@ -166,7 +166,7 @@ class Main:
                     self.barraDeProgresion,
                     log,
                     showinfo,
-                    showerror
+                    showerror,
                 )
 
         except Exception as e:
@@ -177,6 +177,7 @@ class Main:
         Descarga el audio.
         """
         self.URL_Video = URL_Video
+
         try:
             if comprobarDirectorio:
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
@@ -187,7 +188,7 @@ class Main:
                     self.barraDeProgresion,
                     log,
                     showinfo,
-                    showerror
+                    showerror,
                 )
         except Exception as e:
             showerror("Error", str(e))

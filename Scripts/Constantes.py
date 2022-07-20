@@ -1,6 +1,10 @@
-from tkinter import StringVar
+from enum import Enum
 
-UBICACION_VIDEO = StringVar()
-LINK_VIDEO = StringVar()
-PORCENTAJE_DESCARGA = StringVar()
-PORCENTAJE_DESCARGA_STRING = StringVar()
+
+class Colores(Enum):
+    AZUL_ETIQUETAS = "#00FFEF"
+    VERDE_OSCURO = "#003300"
+    VERDE_CLARO = "#00FF00"
+    NEGRO = "#000000"
+    AMARILLO_OSCURO = "#333300"
+    AMARILLO_CLARO = "#FFFF00"

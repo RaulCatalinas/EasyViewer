@@ -8,13 +8,13 @@ def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga, log, showerr
 
     if isdir(Directorio_Descarga.get()):
         log.writeLog(
-            "Se ha seleccionado un directorio para guardar el video"
+            "Se ha seleccionado ningún directorio para guardar el video"
         )
         return True
     else:
         showerror(
             "Error de directorio",
-            "No se ha seleccionado un directorio para guardar el video y/o el audio del video",
+            "No se ha seleccionado ningún directorio",
         )
         log.writeError(
             "No se ha seleccionado un directorio para guardar el video"
