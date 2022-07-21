@@ -14,6 +14,7 @@ from Scripts.Logging import GestionLogging as log
 from Scripts.Menu_De_Opciones import MenuDeOpciones
 from Scripts.Validaciones import (
     Comprobar_Si_Se_Ha_Seleccionado_Directorio,
+    Comprobar_Si_Es_URL_YouTube
 )
 from Scripts.Ventana import Ventana
 
@@ -104,12 +105,13 @@ class Main:
             15,
             Colores.AMARILLO_OSCURO.value,
             lambda: [self.__DescargarVideo(
-                LINK_VIDEO,
+                LINK_VIDEO.get(),
                 Comprobar_Si_Se_Ha_Seleccionado_Directorio(
                     UBICACION_VIDEO,
                     log,
                     showerror,
                 ),
+                log
             )],
             "Helvetica",
             15,
@@ -125,12 +127,13 @@ class Main:
             15,
             Colores.AMARILLO_OSCURO.value,
             lambda: [self.__DescargarAudio(
-                LINK_VIDEO,
+                LINK_VIDEO.get(),
                 Comprobar_Si_Se_Ha_Seleccionado_Directorio(
                     UBICACION_VIDEO,
                     log,
                     showerror,
                 ),
+                log
             )],
             "Helvetica",
             15,
@@ -150,14 +153,22 @@ class Main:
             ventana,
         )
 
-    def __DescargarVideo(self, URL_Video, comprobarDirectorio):
+    def __DescargarVideo(self, URL_Video, comprobarDirectorio, log):
         """
         Descarga el video.
         """
         self.URL_Video = URL_Video
+        self.comprobarDirectorio = comprobarDirectorio
+        self.log = log
 
         try:
-            if comprobarDirectorio:
+            if (
+                    self.comprobarDirectorio
+                    and Comprobar_Si_Es_URL_YouTube(
+                self.URL_Video,
+                self.log,
+            )
+            ):
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
                 DescargarVideo(
                     LINK_VIDEO,
@@ -166,20 +177,27 @@ class Main:
                     self.barraDeProgresion,
                     log,
                     showinfo,
-                    showerror,
                 )
 
         except Exception as e:
             showerror("Error", str(e))
 
-    def __DescargarAudio(self, URL_Video, comprobarDirectorio):
+    def __DescargarAudio(self, URL_Video, comprobarDirectorio, log):
         """
         Descarga el audio.
         """
         self.URL_Video = URL_Video
+        self.comprobarDirectorio = comprobarDirectorio
+        self.log = log
 
         try:
-            if comprobarDirectorio:
+            if (
+                    self.comprobarDirectorio
+                    and Comprobar_Si_Es_URL_YouTube(
+                self.URL_Video,
+                self.log,
+            )
+            ):
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
                 DescargarAudio(
                     LINK_VIDEO,
@@ -188,7 +206,6 @@ class Main:
                     self.barraDeProgresion,
                     log,
                     showinfo,
-                    showerror,
                 )
         except Exception as e:
             showerror("Error", str(e))

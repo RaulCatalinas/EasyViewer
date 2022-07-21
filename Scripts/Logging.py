@@ -19,7 +19,7 @@ class GestionLogging:
 
     @staticmethod
     def __ConfigurarLogging():
-        basicConfig(filename="../Log/YoutubeDownloader.txt", filemode="w", level=DEBUG)
+        basicConfig(filename="../Log/YoutubeDownloder.txt", filemode="w", level=DEBUG)
 
     @staticmethod
     def writeLog(mensaje):

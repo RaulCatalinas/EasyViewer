@@ -12,7 +12,6 @@ class DescargarVideo:
             BarraDeProgresion,
             log,
             showinfo,
-            showerror,
     ):
         """
         Descarga un video de YouTube y lo guarda en una carpeta que el usuario elija
@@ -24,7 +23,6 @@ class DescargarVideo:
         self.barra = BarraDeProgresion
         self.log = log
         self.showinfo = showinfo
-        self.showerror = showerror
 
         self.log.writeLog("Se ha hecho click en el botón de descargar")
 
@@ -53,8 +51,6 @@ class DescargarVideo:
 
         except:
 
-            self.showerror("Error de descarga", "No se ha conseguido descargar el video")
-
             self.barra.barraProgresionDescarga["value"] = 0
 
             self.PORCENTAJE_DESCARGA.set("")
@@ -67,6 +63,8 @@ class DescargarVideo:
             self.log.writeError(
                 "El video no se ha podido descargar, algo ha salido mal"
             )
+
+            raise Exception("El video no se ha podido descargar")
 
         else:
 
@@ -96,7 +94,6 @@ class DescargarAudio:
             BarraDeProgresion,
             log,
             showinfo,
-            showerror,
     ):
         """
         Descarga el audio de un vídeo de YouTube y lo guarda en la carpeta que el usuario haya elegido
@@ -108,7 +105,6 @@ class DescargarAudio:
         self.barra = BarraDeProgresion
         self.log = log
         self.showinfo = showinfo
-        self.showerror = showerror
 
         self.log.writeLog("Se ha hecho click en el botón de descargar")
 
@@ -137,8 +133,6 @@ class DescargarAudio:
 
         except:
 
-            self.showerror("Error de descarga", "No se ha conseguido descargar el audio")
-
             self.barra.barraProgresionDescarga["value"] = 0
 
             self.PORCENTAJE_DESCARGA.set("")
@@ -151,6 +145,8 @@ class DescargarAudio:
             self.log.writeError(
                 "El audio no se ha podido descargar, algo ha salido mal"
             )
+
+            raise Exception("El audio no se ha podido descargar")
 
         else:
             self.cambiarFormato = self.base + ".mp3"
