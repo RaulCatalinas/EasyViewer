@@ -8,7 +8,7 @@ class Ventana(Tk):
         super().__init__()
         self.title("Youtube Downloader")
         self.resizable(False, False)
-        self.iconbitmap("../Icon/icono.ico")
+        self.iconbitmap(r"C:/Users/famil/PycharmProjects/YoutubeDownloader/Icon/Icono.ico")
         self.config(bg=self.colorDeFondo)
 
         self.__CentrarVentana()
