@@ -1,4 +1,5 @@
 from os import rename, path
+from webbrowser import open
 
 from pytube import YouTube
 
@@ -19,7 +20,6 @@ class DescargarVideo:
         self.LINK_VIDEO = LINK_VIDEO
         self.UBICACION_VIDEO = UBICACION_VIDEO
         self.PORCENTAJE_DESCARGA = PORCENTAJE_DESCARGA
-        # Crear instancia de la barra de progresion y de la clase que gestiona el logging
         self.barra = BarraDeProgresion
         self.log = log
         self.showinfo = showinfo
@@ -68,10 +68,7 @@ class DescargarVideo:
 
         else:
 
-            self.showinfo(
-                "Completado",
-                "Puedes encontrar tu video en:\n" + self.Carpeta_Guardar_Video,
-            )
+            open(self.Carpeta_Guardar_Video)
 
             self.barra.barraProgresionDescarga["value"] = 0
 
@@ -153,11 +150,7 @@ class DescargarAudio:
 
             rename(self.base + self.ext, self.cambiarFormato)
 
-            self.showinfo(
-                "Completado",
-                "Puedes encontrar el audio del video en:\n"
-                + self.Carpeta_Guardar_Video,
-            )
+            open(self.Carpeta_Guardar_Video)
 
             self.barra.barraProgresionDescarga["value"] = 0
 
