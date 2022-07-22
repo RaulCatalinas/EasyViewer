@@ -165,11 +165,11 @@ class Main:
         try:
             if (
                     self.comprobarDirectorio
+                    and Comprobar_Conexion_Internet(self.log)
                     and Comprobar_Si_Es_URL_YouTube(
                 self.URL_Video,
                 self.log,
             )
-                    and Comprobar_Conexion_Internet(self.log)
             ):
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
                 DescargarVideo(
@@ -195,11 +195,11 @@ class Main:
         try:
             if (
                     self.comprobarDirectorio
+                    and Comprobar_Conexion_Internet(self.log)
                     and Comprobar_Si_Es_URL_YouTube(
                 self.URL_Video,
                 self.log,
             )
-                    and Comprobar_Conexion_Internet(self.log)
             ):
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
                 DescargarAudio(
