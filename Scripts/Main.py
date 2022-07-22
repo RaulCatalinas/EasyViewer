@@ -14,7 +14,8 @@ from Scripts.Logging import GestionLogging as log
 from Scripts.Menu_De_Opciones import MenuDeOpciones
 from Scripts.Validaciones import (
     Comprobar_Si_Se_Ha_Seleccionado_Directorio,
-    Comprobar_Si_Es_URL_YouTube
+    Comprobar_Si_Es_URL_YouTube,
+    Comprobar_Conexion_Internet,
 )
 from Scripts.Ventana import Ventana
 
@@ -168,6 +169,7 @@ class Main:
                 self.URL_Video,
                 self.log,
             )
+                    and Comprobar_Conexion_Internet(self.log)
             ):
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
                 DescargarVideo(
@@ -197,6 +199,7 @@ class Main:
                 self.URL_Video,
                 self.log,
             )
+                    and Comprobar_Conexion_Internet(self.log)
             ):
                 self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
                 DescargarAudio(
