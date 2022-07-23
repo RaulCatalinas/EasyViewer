@@ -1,4 +1,4 @@
-from tkinter.messagebox import showinfo, showerror
+from tkinter.messagebox import showerror
 
 from Scripts.Aumentar_Barra_De_Progresion_En_Paralelo import (
     AumentarBarraDeProgresionEnParalelo,
@@ -183,7 +183,6 @@ class Main:
                     PORCENTAJE_DESCARGA,
                     self.barraDeProgresion,
                     log,
-                    showinfo,
                 )
 
         except Exception as e:
@@ -217,7 +216,6 @@ class Main:
                     PORCENTAJE_DESCARGA,
                     self.barraDeProgresion,
                     log,
-                    showinfo,
                 )
         except Exception as e:
             showerror("Error", str(e))

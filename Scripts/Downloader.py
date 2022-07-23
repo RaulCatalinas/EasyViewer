@@ -12,7 +12,6 @@ class DescargarVideo:
             PORCENTAJE_DESCARGA,
             BarraDeProgresion,
             log,
-            showinfo,
     ):
         """
         Descarga un video de YouTube y lo guarda en una carpeta que el usuario elija
@@ -22,7 +21,6 @@ class DescargarVideo:
         self.PORCENTAJE_DESCARGA = PORCENTAJE_DESCARGA
         self.barra = BarraDeProgresion
         self.log = log
-        self.showinfo = showinfo
 
         self.log.writeLog("Se ha hecho click en el botón de descargar")
 
@@ -90,7 +88,6 @@ class DescargarAudio:
             PORCENTAJE_DESCARGA,
             BarraDeProgresion,
             log,
-            showinfo,
     ):
         """
         Descarga el audio de un vídeo de YouTube y lo guarda en la carpeta que el usuario haya elegido
@@ -101,7 +98,6 @@ class DescargarAudio:
         # Crear instancia de la barra de progresion
         self.barra = BarraDeProgresion
         self.log = log
-        self.showinfo = showinfo
 
         self.log.writeLog("Se ha hecho click en el botón de descargar")
 
