@@ -16,6 +16,7 @@ from Scripts.Validaciones import (
     Comprobar_Si_Se_Ha_Seleccionado_Directorio,
     Comprobar_Si_Es_URL_YouTube,
     Comprobar_Conexion_Internet,
+    Comprobar_Si_Se_Ha_Introducido_Una_URL,
 )
 from Scripts.Ventana import Ventana
 
@@ -164,7 +165,11 @@ class Main:
 
         try:
             if (
-                    self.comprobarDirectorio
+                    Comprobar_Si_Se_Ha_Introducido_Una_URL(
+                        self.URL_Video,
+                        self.log,
+                    )
+                    and self.comprobarDirectorio
                     and Comprobar_Conexion_Internet(self.log)
                     and Comprobar_Si_Es_URL_YouTube(
                 self.URL_Video,
@@ -194,7 +199,11 @@ class Main:
 
         try:
             if (
-                    self.comprobarDirectorio
+                    Comprobar_Si_Se_Ha_Introducido_Una_URL(
+                        self.URL_Video,
+                        self.log,
+                    )
+                    and self.comprobarDirectorio
                     and Comprobar_Conexion_Internet(self.log)
                     and Comprobar_Si_Es_URL_YouTube(
                 self.URL_Video,
