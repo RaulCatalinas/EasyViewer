@@ -2,9 +2,6 @@ from ctypes import windll, byref
 from ctypes.wintypes import DWORD
 from os.path import isdir
 
-from pytube.exceptions import VideoPrivate, VideoUnavailable
-from pytube.request import get
-
 
 def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga, log, showerror):
     """
@@ -31,18 +28,12 @@ def Comprobar_Si_Es_URL_YouTube(url, log):
     """
     Comprueba si la URL es de YouTube
     """
-    try:
-        if get(url):
-            return True
-    except VideoPrivate:
-        log.writeError("El video es privado")
-        raise Exception("El video es privado")
-    except VideoUnavailable:
-        log.writeError("El video no está disponible")
-        raise Exception("El video no está disponible")
-    except:
+    if "https://www.youtube.com/watch?v=" in url or "https://youtu.be/" in url:
+        log.writeLog("La URL es de YouTube")
+        return True
+    else:
         log.writeError("La URL no es de YouTube")
-        raise Exception("La url no es de youtube")
+        raise Exception("La URL no es de YouTube")
 
 
 def Comprobar_Conexion_Internet(log):
