@@ -49,6 +49,7 @@ class Main:
             470,
         )
         self.buscar = Buscar(UBICACION_VIDEO, log, showerror)
+
         self.aumentarBarraDeProgreso = AumentarBarraDeProgresionEnParalelo(
             PORCENTAJE_DESCARGA,
             log,
@@ -56,7 +57,7 @@ class Main:
         )
 
         # Texto + Caja + Botón de descargar video
-        self.Etiqueta_URL = Etiqueta(
+        Etiqueta(
             "Introduce la URL del video a descargar",
             10,
             30,
@@ -66,14 +67,14 @@ class Main:
             ventana,
         )
 
-        self.URL_Video = CrearEntrys(ventana, LINK_VIDEO, "Helvetica", 15, 70, 20)
+        CrearEntrys(ventana, LINK_VIDEO, "Helvetica", 15, 70, 20)
 
         ventana.bind("<Button-3>", menu.FuncionMenuDeOpciones)
 
         # ---------------------------------------------------------------------------
 
         # Texto + Caja + Botón de ubicación para guardar el video
-        self.Ubicacion = Etiqueta(
+        Etiqueta(
             "¿Donde quieres guardar el video?",
             10,
             27,
@@ -83,11 +84,11 @@ class Main:
             ventana,
         )
 
-        self.Ubicacion_Video = CrearEntrys(
+        CrearEntrys(
             ventana, UBICACION_VIDEO, "Helvetica", 15, 70, 20
         )
 
-        self.Boton_Buscar = BotonPosicionAbsoluta(
+        BotonPosicionAbsoluta(
             "Seleccionar ubicación",
             10,
             20,
@@ -100,21 +101,22 @@ class Main:
             Colores.VERDE_OSCURO.value,
         )
 
-        self.Boton_Descargar_Video = BotonPosicionRelativa(
+        BotonPosicionRelativa(
             "Descargar video",
             220,
             322,
             15,
             Colores.AMARILLO_OSCURO.value,
-            lambda: [self.__DescargarVideo(
-                LINK_VIDEO.get(),
-                Comprobar_Si_Se_Ha_Seleccionado_Directorio(
-                    UBICACION_VIDEO,
-                    log,
-                    showerror,
-                ),
-                log
-            )],
+            lambda: [
+                self.__DescargarVideo(
+                    LINK_VIDEO.get(),
+                    Comprobar_Si_Se_Ha_Seleccionado_Directorio(
+                        UBICACION_VIDEO,
+                        log,
+                        showerror,
+                    ),
+                    log
+                )],
             "Helvetica",
             15,
             ventana,
@@ -122,21 +124,22 @@ class Main:
             Colores.AMARILLO_OSCURO.value,
         )
 
-        self.Boton_Descargar_Audio = BotonPosicionRelativa(
+        BotonPosicionRelativa(
             "Descargar audio",
             420,
             322,
             15,
             Colores.AMARILLO_OSCURO.value,
-            lambda: [self.__DescargarAudio(
-                LINK_VIDEO.get(),
-                Comprobar_Si_Se_Ha_Seleccionado_Directorio(
-                    UBICACION_VIDEO,
-                    log,
-                    showerror,
-                ),
-                log
-            )],
+            lambda: [
+                self.__DescargarAudio(
+                    LINK_VIDEO.get(),
+                    Comprobar_Si_Se_Ha_Seleccionado_Directorio(
+                        UBICACION_VIDEO,
+                        log,
+                        showerror,
+                    ),
+                    log
+                )],
             "Helvetica",
             15,
             ventana,
@@ -145,7 +148,7 @@ class Main:
         )
 
         # Crear la etiqueta de la barra de progresion
-        self.Etiqueta_Barra_Progress = Etiqueta(
+        Etiqueta(
             "Progreso de la descarga:",
             97,
             20,
