@@ -1,9 +1,12 @@
 from tkinter import Menu
 
+from pyperclip import copy, paste
+
 
 class MenuDeOpciones:
-    def __init__(self, ventana):
+    def __init__(self, ventana, txtoACopiar):
         self.ventana = ventana
+        self.txtoACopiar = txtoACopiar
         self.menu = Menu(self.ventana, tearoff=0)
         self.menu.add_command(label="Copiar", command=self.__Copiar)
         self.menu.add_command(label="Pegar", command=self.__Pegar)
@@ -14,10 +17,8 @@ class MenuDeOpciones:
         finally:
             self.menu.grab_release()
 
-    @staticmethod
-    def __Copiar():
-        pass
+    def __Copiar(self):
+        copy(self.txtoACopiar.get())
 
-    @staticmethod
-    def __Pegar():
-        pass
+    def __Pegar(self):
+        self.txtoACopiar.set(paste())

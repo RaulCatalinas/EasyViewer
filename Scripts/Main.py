@@ -23,7 +23,6 @@ from Scripts.Ventana import Ventana
 # -----------------------------------------------
 # Ventana
 ventana = Ventana(Colores.NEGRO.value)
-menu = MenuDeOpciones(ventana)
 
 from Scripts.Variables_Control import (
     UBICACION_VIDEO,
@@ -31,6 +30,8 @@ from Scripts.Variables_Control import (
     PORCENTAJE_DESCARGA,
     PORCENTAJE_DESCARGA_STRING,
 )
+
+menu = MenuDeOpciones(ventana, LINK_VIDEO)
 
 
 # ------------------------------------------------
