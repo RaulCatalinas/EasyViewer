@@ -4,10 +4,10 @@ from threading import Thread
 # Clase que aumenta la barra de progreso en paralelo con la descarga
 class AumentarBarraDeProgresionEnParalelo:
     def __init__(
-            self,
-            PORCENTAJE_DESCARGA,
-            log,
-            barraDeProgresion,
+        self,
+        PORCENTAJE_DESCARGA,
+        log,
+        barraDeProgresion,
     ):
         self.PORCENTAJE_DESCARGA = PORCENTAJE_DESCARGA
         self.log = log

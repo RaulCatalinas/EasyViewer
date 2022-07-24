@@ -6,12 +6,12 @@ from pytube import YouTube
 
 class DescargarVideo:
     def __init__(
-            self,
-            LINK_VIDEO,
-            UBICACION_VIDEO,
-            PORCENTAJE_DESCARGA,
-            BarraDeProgresion,
-            log,
+        self,
+        LINK_VIDEO,
+        UBICACION_VIDEO,
+        PORCENTAJE_DESCARGA,
+        BarraDeProgresion,
+        log,
     ):
         """
         Descarga un video de YouTube y lo guarda en una carpeta que el usuario elija
@@ -82,12 +82,12 @@ class DescargarVideo:
 
 class DescargarAudio:
     def __init__(
-            self,
-            LINK_VIDEO,
-            UBICACION_VIDEO,
-            PORCENTAJE_DESCARGA,
-            BarraDeProgresion,
-            log,
+        self,
+        LINK_VIDEO,
+        UBICACION_VIDEO,
+        PORCENTAJE_DESCARGA,
+        BarraDeProgresion,
+        log,
     ):
         """
         Descarga el audio de un vídeo de YouTube y lo guarda en la carpeta que el usuario haya elegido

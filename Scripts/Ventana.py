@@ -8,7 +8,9 @@ class Ventana(Tk):
         super().__init__()
         self.title("Youtube Downloader")
         self.resizable(False, False)
-        self.iconbitmap(r"C:/Users/famil/PycharmProjects/YoutubeDownloader/Icon/Icono.ico")
+        self.iconbitmap(
+            r"C:/Users/famil/PycharmProjects/YoutubeDownloader/Icon/Icono.ico"
+        )
         self.config(bg=self.colorDeFondo)
 
         self.__CentrarVentana()
@@ -29,4 +31,6 @@ class Ventana(Tk):
         Coordenada_Y = int((Alto_Ventana / 2) - (Alto / 2))
 
         # Redimensionar Ventana
-        return self.geometry("{}x{}+{}+{}".format(Ancho, Alto, Coordenada_X, Coordenada_Y))
+        return self.geometry(
+            "{}x{}+{}+{}".format(Ancho, Alto, Coordenada_X, Coordenada_Y)
+        )

@@ -1,3 +1,4 @@
+from threading import Thread
 from tkinter.messagebox import showerror
 
 from Scripts.Aumentar_Barra_De_Progresion_En_Paralelo import (
@@ -85,9 +86,7 @@ class Main:
             ventana,
         )
 
-        CrearEntrys(
-            ventana, UBICACION_VIDEO, "Helvetica", 15, 70, 20
-        )
+        CrearEntrys(ventana, UBICACION_VIDEO, "Helvetica", 15, 70, 20)
 
         BotonPosicionAbsoluta(
             "Seleccionar ubicación",
@@ -108,16 +107,7 @@ class Main:
             322,
             15,
             Colores.AMARILLO_OSCURO.value,
-            lambda: [
-                self.__DescargarVideo(
-                    LINK_VIDEO.get(),
-                    Comprobar_Si_Se_Ha_Seleccionado_Directorio(
-                        UBICACION_VIDEO,
-                        log,
-                        showerror,
-                    ),
-                    log
-                )],
+            lambda: [self.__Descargar_Hilo_Nuevo_Video(LINK_VIDEO.get(), log)],
             "Helvetica",
             15,
             ventana,
@@ -131,16 +121,7 @@ class Main:
             322,
             15,
             Colores.AMARILLO_OSCURO.value,
-            lambda: [
-                self.__DescargarAudio(
-                    LINK_VIDEO.get(),
-                    Comprobar_Si_Se_Ha_Seleccionado_Directorio(
-                        UBICACION_VIDEO,
-                        log,
-                        showerror,
-                    ),
-                    log
-                )],
+            lambda: [self.__Descargar_Hilo_Nuevo_Audio(LINK_VIDEO.get(), log)],
             "Helvetica",
             15,
             ventana,
@@ -159,28 +140,30 @@ class Main:
             ventana,
         )
 
-    def __DescargarVideo(self, URL_Video, comprobarDirectorio, log):
+    def __DescargarVideo(self, URL_Video, log):
         """
         Descarga el video.
         """
         self.URL_Video = URL_Video
-        self.comprobarDirectorio = comprobarDirectorio
         self.log = log
 
         try:
             if (
-                    Comprobar_Si_Se_Ha_Introducido_Una_URL(
-                        self.URL_Video,
-                        self.log,
-                    )
-                    and self.comprobarDirectorio
-                    and Comprobar_Conexion_Internet(self.log)
-                    and Comprobar_Si_Es_URL_YouTube(
-                self.URL_Video,
-                self.log,
-            )
+                Comprobar_Si_Se_Ha_Introducido_Una_URL(
+                    self.URL_Video,
+                    self.log,
+                )
+                and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
+                    UBICACION_VIDEO,
+                    log,
+                    showerror,
+                )
+                and Comprobar_Conexion_Internet(self.log)
+                and Comprobar_Si_Es_URL_YouTube(
+                    self.URL_Video,
+                    self.log,
+                )
             ):
-                self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
                 DescargarVideo(
                     LINK_VIDEO,
                     UBICACION_VIDEO,
@@ -192,28 +175,30 @@ class Main:
         except Exception as e:
             showerror("Error", str(e))
 
-    def __DescargarAudio(self, URL_Video, comprobarDirectorio, log):
+    def __DescargarAudio(self, URL_Video, log):
         """
         Descarga el audio.
         """
         self.URL_Video = URL_Video
-        self.comprobarDirectorio = comprobarDirectorio
         self.log = log
 
         try:
             if (
-                    Comprobar_Si_Se_Ha_Introducido_Una_URL(
-                        self.URL_Video,
-                        self.log,
-                    )
-                    and self.comprobarDirectorio
-                    and Comprobar_Conexion_Internet(self.log)
-                    and Comprobar_Si_Es_URL_YouTube(
-                self.URL_Video,
-                self.log,
-            )
+                Comprobar_Si_Se_Ha_Introducido_Una_URL(
+                    self.URL_Video,
+                    self.log,
+                )
+                and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
+                    UBICACION_VIDEO,
+                    log,
+                    showerror,
+                )
+                and Comprobar_Conexion_Internet(self.log)
+                and Comprobar_Si_Es_URL_YouTube(
+                    self.URL_Video,
+                    self.log,
+                )
             ):
-                self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
                 DescargarAudio(
                     LINK_VIDEO,
                     UBICACION_VIDEO,
@@ -223,6 +208,14 @@ class Main:
                 )
         except Exception as e:
             showerror("Error", str(e))
+
+    def __Descargar_Hilo_Nuevo_Video(self, URL_Video, log):
+        Thread(target=self.__DescargarVideo, args=(URL_Video, log)).start()
+        self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
+
+    def __Descargar_Hilo_Nuevo_Audio(self, URL_Video, log):
+        Thread(target=self.__DescargarAudio, args=(URL_Video, log)).start()
+        self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
 
 
 Main()
