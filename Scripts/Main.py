@@ -147,33 +147,13 @@ class Main:
         self.URL_Video = URL_Video
         self.log = log
 
-        try:
-            if (
-                Comprobar_Si_Se_Ha_Introducido_Una_URL(
-                    self.URL_Video,
-                    self.log,
-                )
-                and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
-                    UBICACION_VIDEO,
-                    log,
-                    showerror,
-                )
-                and Comprobar_Conexion_Internet(self.log)
-                and Comprobar_Si_Es_URL_YouTube(
-                    self.URL_Video,
-                    self.log,
-                )
-            ):
-                DescargarVideo(
-                    LINK_VIDEO,
-                    UBICACION_VIDEO,
-                    PORCENTAJE_DESCARGA,
-                    self.barraDeProgresion,
-                    log,
-                )
-
-        except Exception as e:
-            showerror("Error", str(e))
+        DescargarVideo(
+            LINK_VIDEO,
+            UBICACION_VIDEO,
+            PORCENTAJE_DESCARGA,
+            self.barraDeProgresion,
+            log,
+        )
 
     def __DescargarAudio(self, URL_Video, log):
         """
@@ -182,6 +162,17 @@ class Main:
         self.URL_Video = URL_Video
         self.log = log
 
+        DescargarAudio(
+            LINK_VIDEO,
+            UBICACION_VIDEO,
+            PORCENTAJE_DESCARGA,
+            self.barraDeProgresion,
+            log,
+        )
+
+    def __Descargar_Hilo_Nuevo_Video(self, URL_Video, log):
+        self.URL_Video = URL_Video
+        self.log = log
         try:
             if (
                 Comprobar_Si_Se_Ha_Introducido_Una_URL(
@@ -190,7 +181,7 @@ class Main:
                 )
                 and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
                     UBICACION_VIDEO,
-                    log,
+                    self.log,
                     showerror,
                 )
                 and Comprobar_Conexion_Internet(self.log)
@@ -199,23 +190,39 @@ class Main:
                     self.log,
                 )
             ):
-                DescargarAudio(
-                    LINK_VIDEO,
-                    UBICACION_VIDEO,
-                    PORCENTAJE_DESCARGA,
-                    self.barraDeProgresion,
-                    log,
-                )
+                Thread(
+                    target=self.__DescargarVideo, args=(self.URL_Video, self.log)
+                ).start()
+                self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
         except Exception as e:
             showerror("Error", str(e))
 
-    def __Descargar_Hilo_Nuevo_Video(self, URL_Video, log):
-        Thread(target=self.__DescargarVideo, args=(URL_Video, log)).start()
-        self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
-
     def __Descargar_Hilo_Nuevo_Audio(self, URL_Video, log):
-        Thread(target=self.__DescargarAudio, args=(URL_Video, log)).start()
-        self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
+        self.URL_Video = URL_Video
+        self.log = log
+        try:
+            if (
+                Comprobar_Si_Se_Ha_Introducido_Una_URL(
+                    self.URL_Video,
+                    self.log,
+                )
+                and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
+                    UBICACION_VIDEO,
+                    self.log,
+                    showerror,
+                )
+                and Comprobar_Conexion_Internet(self.log)
+                and Comprobar_Si_Es_URL_YouTube(
+                    self.URL_Video,
+                    self.log,
+                )
+            ):
+                Thread(
+                    target=self.__DescargarAudio, args=(self.URL_Video, self.log)
+                ).start()
+                self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
+        except Exception as e:
+            showerror("Error", str(e))
 
 
 Main()
