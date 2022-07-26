@@ -71,5 +71,5 @@ def Comprobar_Si_El_Video_Esta_Disponible(log, URL_VIDEO):
         return True
 
     except:
-        log.writeError("Video no disponible o es privado")
-        raise Exception("Video no disponible o es privado")
+        log.writeError("El video no esta disponible o es privado")
+        raise Exception("El video no esta disponible o es privado")
