@@ -180,6 +180,10 @@ class Main:
                     self.URL_Video,
                     self.log,
                 )
+                and Comprobar_Si_Es_URL_YouTube(
+                    self.URL_Video,
+                    self.log,
+                )
                 and Comprobar_Si_El_Video_Esta_Disponible(self.log, self.URL_Video)
                 and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
                     UBICACION_VIDEO,
@@ -187,10 +191,6 @@ class Main:
                     showerror,
                 )
                 and Comprobar_Conexion_Internet(self.log)
-                and Comprobar_Si_Es_URL_YouTube(
-                    self.URL_Video,
-                    self.log,
-                )
             ):
                 Thread(
                     target=self.__DescargarVideo, args=(self.URL_Video, self.log)
@@ -208,6 +208,10 @@ class Main:
                     self.URL_Video,
                     self.log,
                 )
+                and Comprobar_Si_Es_URL_YouTube(
+                    self.URL_Video,
+                    self.log,
+                )
                 and Comprobar_Si_El_Video_Esta_Disponible(self.log, self.URL_Video)
                 and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
                     UBICACION_VIDEO,
@@ -215,10 +219,6 @@ class Main:
                     showerror,
                 )
                 and Comprobar_Conexion_Internet(self.log)
-                and Comprobar_Si_Es_URL_YouTube(
-                    self.URL_Video,
-                    self.log,
-                )
             ):
                 Thread(
                     target=self.__DescargarAudio, args=(self.URL_Video, self.log)

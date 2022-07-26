@@ -2,14 +2,7 @@ from ctypes import windll, byref
 from ctypes.wintypes import DWORD
 from os.path import isdir
 
-from pytube.exceptions import (
-    VideoUnavailable,
-    VideoPrivate,
-    AgeRestrictedError,
-    LiveStreamError,
-    VideoRegionBlocked,
-)
-from pytube.extract import video_id
+from pytube import YouTube
 
 
 def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga, log, showerror):
@@ -72,29 +65,11 @@ def Comprobar_Si_El_Video_Esta_Disponible(log, URL_VIDEO):
     """
     Comprueba si el video está disponible
     """
-    if VideoPrivate(__Extract_Video_ID(URL_VIDEO)):
-        log.writeError("El video es privado")
-        raise Exception("El video es privado")
-    elif VideoUnavailable(__Extract_Video_ID(URL_VIDEO)):
-        log.writeError("El video no está disponible")
-        raise Exception("El video no está disponible")
-    elif AgeRestrictedError(__Extract_Video_ID(URL_VIDEO)):
-        log.writeError("El video está restringido por edad")
-        raise Exception("El video está restringido por edad")
-    elif LiveStreamError(__Extract_Video_ID(URL_VIDEO)):
-        log.writeError("El video es un Live Stream")
-        raise Exception("El video es un Live Stream")
-    elif VideoRegionBlocked(__Extract_Video_ID(URL_VIDEO)):
-        log.writeError("El video está restringido por regiones")
-        raise Exception("El video está restringido por regiones")
-    else:
-        print("El video está disponible")
-        log.writeLog("El video está disponible")
+    try:
+        YouTube(URL_VIDEO).check_availability()
+        log.writeLog("Ok, video disponible")
         return True
 
-
-def __Extract_Video_ID(url):
-    """
-    Extrae el ID del video
-    """
-    return video_id(url)
+    except:
+        log.writeError("Video no disponible o es privado")
+        raise Exception("Video no disponible o es privado")
