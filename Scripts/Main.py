@@ -18,6 +18,7 @@ from Scripts.Validaciones import (
     Comprobar_Si_Es_URL_YouTube,
     Comprobar_Conexion_Internet,
     Comprobar_Si_Se_Ha_Introducido_Una_URL,
+    Comprobar_Si_El_Video_Esta_Disponible,
 )
 from Scripts.Ventana import Ventana
 
@@ -107,7 +108,7 @@ class Main:
             322,
             15,
             Colores.AMARILLO_OSCURO.value,
-            lambda: [self.__Descargar_Hilo_Nuevo_Video(LINK_VIDEO.get(), log)],
+            lambda: [self.__Descargar_Video_En_Un_Hilo_Nuevo(LINK_VIDEO.get(), log)],
             "Helvetica",
             15,
             ventana,
@@ -121,7 +122,7 @@ class Main:
             322,
             15,
             Colores.AMARILLO_OSCURO.value,
-            lambda: [self.__Descargar_Hilo_Nuevo_Audio(LINK_VIDEO.get(), log)],
+            lambda: [self.__Descargar_Audio_En_Un_Hilo_Nuevo(LINK_VIDEO.get(), log)],
             "Helvetica",
             15,
             ventana,
@@ -170,7 +171,7 @@ class Main:
             log,
         )
 
-    def __Descargar_Hilo_Nuevo_Video(self, URL_Video, log):
+    def __Descargar_Video_En_Un_Hilo_Nuevo(self, URL_Video, log):
         self.URL_Video = URL_Video
         self.log = log
         try:
@@ -179,6 +180,7 @@ class Main:
                     self.URL_Video,
                     self.log,
                 )
+                and Comprobar_Si_El_Video_Esta_Disponible(self.log, self.URL_Video)
                 and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
                     UBICACION_VIDEO,
                     self.log,
@@ -197,7 +199,7 @@ class Main:
         except Exception as e:
             showerror("Error", str(e))
 
-    def __Descargar_Hilo_Nuevo_Audio(self, URL_Video, log):
+    def __Descargar_Audio_En_Un_Hilo_Nuevo(self, URL_Video, log):
         self.URL_Video = URL_Video
         self.log = log
         try:
@@ -206,6 +208,7 @@ class Main:
                     self.URL_Video,
                     self.log,
                 )
+                and Comprobar_Si_El_Video_Esta_Disponible(self.log, self.URL_Video)
                 and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
                     UBICACION_VIDEO,
                     self.log,
