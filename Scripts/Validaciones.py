@@ -90,7 +90,7 @@ def Comprobar_Si_El_Video_Esta_Disponible(log, URL_VIDEO):
     else:
         print("El video está disponible")
         log.writeLog("El video está disponible")
-        return False
+        return True
 
 
 def __Extract_Video_ID(url):
