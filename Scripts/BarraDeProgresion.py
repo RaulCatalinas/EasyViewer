@@ -14,7 +14,6 @@ class BarraDeProgresion:
         PORCENTAJE_DESCARGA_STRING,
         x,
         y,
-        tamañoArchivo=0,
     ):
         self.speed = None
         self.download = None
