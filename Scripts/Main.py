@@ -1,9 +1,6 @@
 from threading import Thread
 from tkinter.messagebox import showerror
 
-from Scripts.Aumentar_Barra_De_Progresion_En_Paralelo import (
-    AumentarBarraDeProgresionEnParalelo,
-)
 from Scripts.BarraDeProgresion import BarraDeProgresion
 from Scripts.Buscar import Buscar
 from Scripts.Constantes import Colores
@@ -57,12 +54,6 @@ class Main:
             470,
         )
         self.buscar = Buscar(UBICACION_VIDEO, log, showerror)
-
-        self.aumentarBarraDeProgreso = AumentarBarraDeProgresionEnParalelo(
-            PORCENTAJE_DESCARGA,
-            log,
-            self.barraDeProgresion,
-        )
 
         # Texto + Caja + Botón de descargar video
         Etiqueta(
@@ -161,7 +152,6 @@ class Main:
             PORCENTAJE_DESCARGA,
             self.barraDeProgresion,
             log,
-            self.aumentarBarraDeProgreso,
         )
 
     def __DescargarAudio(self, URL_Video, log):
@@ -179,7 +169,6 @@ class Main:
             PORCENTAJE_DESCARGA,
             self.barraDeProgresion,
             log,
-            self.aumentarBarraDeProgreso,
         )
 
     def __Descargar_Video_En_Un_Hilo_Nuevo(self, URL_Video, log):
@@ -203,6 +192,7 @@ class Main:
                 )
                 and Comprobar_Conexion_Internet(self.log)
             ):
+                Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
                 Thread(
                     target=self.__DescargarVideo, args=(self.URL_Video, self.log)
                 ).start()
@@ -230,6 +220,7 @@ class Main:
                 )
                 and Comprobar_Conexion_Internet(self.log)
             ):
+                Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
                 Thread(
                     target=self.__DescargarAudio, args=(self.URL_Video, self.log)
                 ).start()
