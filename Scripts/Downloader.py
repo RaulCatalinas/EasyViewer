@@ -12,6 +12,7 @@ class DescargarVideo:
         PORCENTAJE_DESCARGA,
         BarraDeProgresion,
         log,
+        aumentarBarra,
     ):
         """
         Descarga un video de YouTube y lo guarda en una carpeta que el usuario elija
@@ -21,6 +22,7 @@ class DescargarVideo:
         self.PORCENTAJE_DESCARGA = PORCENTAJE_DESCARGA
         self.barra = BarraDeProgresion
         self.log = log
+        self.aumentarBarra = aumentarBarra
 
         self.log.writeLog("Se ha hecho click en el botón de descargar")
 
@@ -44,6 +46,8 @@ class DescargarVideo:
             self.log.writeLog(
                 "Se ha obtenido la resolución mas alta del video a descargar"
             )
+
+            self.aumentarBarra.FuncionAumentarBarraDeProgresionEnParalelo()
 
             self.Descargar_Video.download(self.Carpeta_Guardar_Video)
 
@@ -88,6 +92,7 @@ class DescargarAudio:
         PORCENTAJE_DESCARGA,
         BarraDeProgresion,
         log,
+        aumentarBarra,
     ):
         """
         Descarga el audio de un vídeo de YouTube y lo guarda en la carpeta que el usuario haya elegido
@@ -98,6 +103,7 @@ class DescargarAudio:
         # Crear instancia de la barra de progresion
         self.barra = BarraDeProgresion
         self.log = log
+        self.aumentarBarra = aumentarBarra
 
         self.log.writeLog("Se ha hecho click en el botón de descargar")
 
@@ -119,6 +125,8 @@ class DescargarAudio:
             self.Descargar_Video = self.Obtener_Video.streams.get_audio_only()
 
             self.log.writeLog("Se ha obtenido el audio del video a descargar")
+
+            self.aumentarBarra.FuncionAumentarBarraDeProgresionEnParalelo()
 
             self.base, self.ext = path.splitext(
                 self.Descargar_Video.download(self.Carpeta_Guardar_Video)

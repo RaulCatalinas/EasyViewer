@@ -154,6 +154,7 @@ class Main:
             PORCENTAJE_DESCARGA,
             self.barraDeProgresion,
             log,
+            self.aumentarBarraDeProgreso,
         )
 
     def __DescargarAudio(self, URL_Video, log):
@@ -169,6 +170,7 @@ class Main:
             PORCENTAJE_DESCARGA,
             self.barraDeProgresion,
             log,
+            self.aumentarBarraDeProgreso,
         )
 
     def __Descargar_Video_En_Un_Hilo_Nuevo(self, URL_Video, log):
@@ -195,7 +197,6 @@ class Main:
                 Thread(
                     target=self.__DescargarVideo, args=(self.URL_Video, self.log)
                 ).start()
-                self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
         except Exception as e:
             showerror("Error", str(e))
 
@@ -223,7 +224,6 @@ class Main:
                 Thread(
                     target=self.__DescargarAudio, args=(self.URL_Video, self.log)
                 ).start()
-                self.aumentarBarraDeProgreso.FuncionAumentarBarraDeProgresionEnParalelo()
         except Exception as e:
             showerror("Error", str(e))
 
