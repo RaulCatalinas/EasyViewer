@@ -7,7 +7,15 @@ from tkinter.ttk import Progressbar
 class BarraDeProgresion:
     # Crear barra de progresion
 
-    def __init__(self, ventana, PORCENTAJE_DESCARGA, PORCENTAJE_DESCARGA_STRING, x, y):
+    def __init__(
+        self,
+        ventana,
+        PORCENTAJE_DESCARGA,
+        PORCENTAJE_DESCARGA_STRING,
+        x,
+        y,
+        tamañoArchivo=0,
+    ):
         self.speed = None
         self.download = None
         self.GB = None
@@ -25,7 +33,7 @@ class BarraDeProgresion:
         """
         Es una función que aumenta el valor de una barra de progreso en un 1% cada 0,09 segundos hasta llegar al 100%
         """
-        self.GB = 100
+        self.GB = 0
         self.download = 0
         self.speed = 1
         while self.download < self.GB:

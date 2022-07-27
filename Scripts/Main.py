@@ -10,7 +10,12 @@ from Scripts.Constantes import Colores
 from Scripts.CrearBotones import BotonPosicionAbsoluta, BotonPosicionRelativa
 from Scripts.CrearEntrys import CrearEntrys
 from Scripts.CrearEtiquetas import Etiqueta
-from Scripts.Downloader import DescargarVideo, DescargarAudio
+from Scripts.Downloader import (
+    DescargarVideo,
+    DescargarAudio,
+    ObtenerTamañoVideo,
+    ObtenerTamañoAudio,
+)
 from Scripts.Logging import GestionLogging as log
 from Scripts.Menu_De_Opciones import MenuDeOpciones
 from Scripts.Validaciones import (
@@ -148,6 +153,8 @@ class Main:
         self.URL_Video = URL_Video
         self.log = log
 
+        self.barraDeProgresion.GB = ObtenerTamañoVideo(self.URL_Video, log)
+
         DescargarVideo(
             LINK_VIDEO,
             UBICACION_VIDEO,
@@ -163,6 +170,8 @@ class Main:
         """
         self.URL_Video = URL_Video
         self.log = log
+
+        self.barraDeProgresion.GB = ObtenerTamañoAudio(self.URL_Video, log)
 
         DescargarAudio(
             LINK_VIDEO,

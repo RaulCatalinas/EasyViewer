@@ -27,6 +27,7 @@ class DescargarVideo:
         self.log.writeLog("Se ha hecho click en el botón de descargar")
 
         try:
+            self.aumentarBarra.FuncionAumentarBarraDeProgresionEnParalelo()
             self.URL = self.LINK_VIDEO.get()
 
             self.log.writeLog("Se ha obtenido la URL del video a descargar")
@@ -46,8 +47,6 @@ class DescargarVideo:
             self.log.writeLog(
                 "Se ha obtenido la resolución mas alta del video a descargar"
             )
-
-            self.aumentarBarra.FuncionAumentarBarraDeProgresionEnParalelo()
 
             self.Descargar_Video.download(self.Carpeta_Guardar_Video)
 
@@ -100,7 +99,6 @@ class DescargarAudio:
         self.LINK_VIDEO = LINK_VIDEO
         self.UBICACION_VIDEO = UBICACION_VIDEO
         self.PORCENTAJE_DESCARGA = PORCENTAJE_DESCARGA
-        # Crear instancia de la barra de progresion
         self.barra = BarraDeProgresion
         self.log = log
         self.aumentarBarra = aumentarBarra
@@ -108,6 +106,7 @@ class DescargarAudio:
         self.log.writeLog("Se ha hecho click en el botón de descargar")
 
         try:
+            self.aumentarBarra.FuncionAumentarBarraDeProgresionEnParalelo()
             self.URL = self.LINK_VIDEO.get()
 
             self.log.writeLog("Se ha obtenido la URL del video a descargar")
@@ -125,8 +124,6 @@ class DescargarAudio:
             self.Descargar_Video = self.Obtener_Video.streams.get_audio_only()
 
             self.log.writeLog("Se ha obtenido el audio del video a descargar")
-
-            self.aumentarBarra.FuncionAumentarBarraDeProgresionEnParalelo()
 
             self.base, self.ext = path.splitext(
                 self.Descargar_Video.download(self.Carpeta_Guardar_Video)
@@ -168,3 +165,37 @@ class DescargarAudio:
             self.log.writeLog(
                 "La descarga del audio del video se ha completado correctamente"
             )
+
+
+def ObtenerTamañoVideo(URL, log):
+    """
+    Obtiene el tamaño del video a descargar
+    """
+    try:
+        video = YouTube(URL)
+
+        tamaño = video.streams.get_highest_resolution().filesize
+
+        log.writeLog("Se ha obtenido el tamaño del video")
+
+    except:
+        raise Exception("No se ha podido obtener el tamaño del video")
+
+    return tamaño
+
+
+def ObtenerTamañoAudio(URL, log):
+    """
+    Obtiene el tamaño del audio del video a descargar
+    """
+    try:
+        video = YouTube(URL)
+
+        tamaño = video.streams.get_audio_only().filesize
+
+        log.writeLog("Se ha obtenido el tamaño del audio")
+
+    except:
+        raise Exception("No se ha podido obtener el tamaño del audio")
+
+    return tamaño
