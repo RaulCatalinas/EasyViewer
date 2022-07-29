@@ -12,6 +12,7 @@ class DescargarVideo:
         PORCENTAJE_DESCARGA,
         BarraDeProgresion,
         log,
+        velocidad_Barra_De_Progresion,
     ):
         """
         Descarga un video de YouTube y lo guarda en una carpeta que el usuario elija
@@ -21,6 +22,7 @@ class DescargarVideo:
         self.PORCENTAJE_DESCARGA = PORCENTAJE_DESCARGA
         self.barra = BarraDeProgresion
         self.log = log
+        self.velocidad_Barra_De_Progresion = velocidad_Barra_De_Progresion
 
         self.log.writeLog("Se ha hecho click en el botón de descargar")
 
@@ -45,9 +47,12 @@ class DescargarVideo:
                 "Se ha obtenido la resolución mas alta del video a descargar"
             )
 
+            self.__EjecutarBarraDeProgresion(self.velocidad_Barra_De_Progresion)
+
             self.Descargar_Video.download(self.Carpeta_Guardar_Video)
 
         except:
+            self.__DetenerBarraDeProgresion()
 
             self.barra.barraProgresionDescarga["value"] = 0
 
@@ -65,8 +70,9 @@ class DescargarVideo:
             raise Exception("El video no se ha podido descargar")
 
         else:
-
             open(self.Carpeta_Guardar_Video)
+
+            self.__DetenerBarraDeProgresion()
 
             self.barra.barraProgresionDescarga["value"] = 0
 
@@ -79,6 +85,12 @@ class DescargarVideo:
 
             self.log.writeLog("La descarga del video se ha completado correctamente")
 
+    def __EjecutarBarraDeProgresion(self, velocidad):
+        self.barra.barraProgresionDescarga.start(velocidad)
+
+    def __DetenerBarraDeProgresion(self):
+        self.barra.barraProgresionDescarga.stop()
+
 
 class DescargarAudio:
     def __init__(
@@ -88,6 +100,7 @@ class DescargarAudio:
         PORCENTAJE_DESCARGA,
         BarraDeProgresion,
         log,
+        velocidad_Barra_De_Progresion,
     ):
         """
         Descarga el audio de un vídeo de YouTube y lo guarda en la carpeta que el usuario haya elegido
@@ -97,6 +110,7 @@ class DescargarAudio:
         self.PORCENTAJE_DESCARGA = PORCENTAJE_DESCARGA
         self.barra = BarraDeProgresion
         self.log = log
+        self.velocidad_Barra_De_Progresion = velocidad_Barra_De_Progresion
 
         self.log.writeLog("Se ha hecho click en el botón de descargar")
 
@@ -119,11 +133,14 @@ class DescargarAudio:
 
             self.log.writeLog("Se ha obtenido el audio del video a descargar")
 
+            self.__EjecutarBarraDeProgresion(self.velocidad_Barra_De_Progresion)
+
             self.base, self.ext = path.splitext(
                 self.Descargar_Video.download(self.Carpeta_Guardar_Video)
             )
 
         except:
+            self.__DetenerBarraDeProgresion()
 
             self.barra.barraProgresionDescarga["value"] = 0
 
@@ -147,6 +164,8 @@ class DescargarAudio:
 
             open(self.Carpeta_Guardar_Video)
 
+            self.__DetenerBarraDeProgresion()
+
             self.barra.barraProgresionDescarga["value"] = 0
 
             self.PORCENTAJE_DESCARGA.set("")
@@ -159,6 +178,12 @@ class DescargarAudio:
             self.log.writeLog(
                 "La descarga del audio del video se ha completado correctamente"
             )
+
+    def __EjecutarBarraDeProgresion(self, velocidad):
+        self.barra.barraProgresionDescarga.start(velocidad)
+
+    def __DetenerBarraDeProgresion(self):
+        self.barra.barraProgresionDescarga.stop()
 
 
 def ObtenerTamañoVideo(URL, log):

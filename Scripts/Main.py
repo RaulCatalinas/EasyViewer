@@ -152,6 +152,7 @@ class Main:
             PORCENTAJE_DESCARGA,
             self.barraDeProgresion,
             log,
+            20,
         )
 
     def __DescargarAudio(self, URL_Video, log):
@@ -169,6 +170,7 @@ class Main:
             PORCENTAJE_DESCARGA,
             self.barraDeProgresion,
             log,
+            15,
         )
 
     def __Descargar_Video_En_Un_Hilo_Nuevo(self, URL_Video, log):
