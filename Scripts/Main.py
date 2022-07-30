@@ -7,33 +7,17 @@ from Scripts.Constantes import Colores
 from Scripts.CrearBotones import BotonPosicionAbsoluta, BotonPosicionRelativa
 from Scripts.CrearEntrys import CrearEntrys
 from Scripts.CrearEtiquetas import Etiqueta
-from Scripts.Downloader import (
-    DescargarVideo,
-    DescargarAudio,
-    ObtenerTamañoVideo,
-    ObtenerTamañoAudio,
-)
+from Scripts.Downloader import *
 from Scripts.Logging import GestionLogging as log
 from Scripts.Menu_De_Opciones import MenuDeOpciones
-from Scripts.Validaciones import (
-    Comprobar_Si_Se_Ha_Seleccionado_Directorio,
-    Comprobar_Si_Es_URL_YouTube,
-    Comprobar_Conexion_Internet,
-    Comprobar_Si_Se_Ha_Introducido_Una_URL,
-    Comprobar_Si_El_Video_Esta_Disponible,
-)
+from Scripts.Validaciones import *
 from Scripts.Ventana import Ventana
 
 # -----------------------------------------------
 # Ventana
 ventana = Ventana(Colores.NEGRO.value)
 
-from Scripts.Variables_Control import (
-    UBICACION_VIDEO,
-    LINK_VIDEO,
-    PORCENTAJE_DESCARGA,
-    PORCENTAJE_DESCARGA_STRING,
-)
+from Scripts.Variables_Control import *
 
 menu = MenuDeOpciones(ventana, LINK_VIDEO)
 
