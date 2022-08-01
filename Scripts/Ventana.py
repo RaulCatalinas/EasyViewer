@@ -2,7 +2,7 @@
 from os.path import abspath
 from tkinter import Tk
 
-icono = abspath("../Icon/Icono.ico")
+icono = abspath(r"../Icon/Icono.ico")
 
 
 class Ventana(Tk):
