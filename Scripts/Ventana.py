@@ -2,7 +2,7 @@
 from os.path import abspath
 from tkinter import Tk
 
-icono = abspath("../Icon/Icono.ico")
+print(abspath("../Icon/Icono.ico"))
 
 
 class Ventana(Tk):
@@ -11,7 +11,7 @@ class Ventana(Tk):
         super().__init__()
         self.title("Youtube Downloader")
         self.resizable(False, False)
-        self.iconbitmap(icono)
+        self.iconbitmap(abspath("../Icon/Icono.ico"))
         self.config(bg=self.colorDeFondo)
 
         self.__CentrarVentana()
