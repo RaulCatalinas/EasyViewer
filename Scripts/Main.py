@@ -33,7 +33,7 @@ const.RUTA_ABSOLUTA = abspath("../Icon/Icono.ico")
 # Ventana
 ventana = Ventana(const.NEGRO, const.RUTA_ABSOLUTA)
 
-from Scripts.Variables_Control import *
+from Variables_Control import *
 
 menu = MenuDeOpciones(ventana, LINK_VIDEO)
 
