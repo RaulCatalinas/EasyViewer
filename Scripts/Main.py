@@ -1,21 +1,37 @@
+# modulos necesarios
+from os.path import abspath
 from threading import Thread
 from tkinter.messagebox import showerror
 
-from Scripts.BarraDeProgresion import BarraDeProgresion
-from Scripts.Buscar import Buscar
-from Scripts.Constantes import Colores
-from Scripts.CrearBotones import BotonPosicionAbsoluta, BotonPosicionRelativa
-from Scripts.CrearEntrys import CrearEntrys
-from Scripts.CrearEtiquetas import Etiqueta
-from Scripts.Downloader import *
-from Scripts.Logging import GestionLogging as log
-from Scripts.Menu_De_Opciones import MenuDeOpciones
-from Scripts.Validaciones import *
-from Scripts.Ventana import Ventana
+# Para las constantes
+from pconst import const
+
+# Scripts necesarios
+from BarraDeProgresion import BarraDeProgresion
+from Buscar import Buscar
+from CrearBotones import BotonPosicionAbsoluta, BotonPosicionRelativa
+from CrearEntrys import CrearEntrys
+from CrearEtiquetas import Etiqueta
+from Downloader import *
+from Logging import GestionLogging as log
+from Menu_De_Opciones import MenuDeOpciones
+from Validaciones import *
+from Ventana import Ventana
+
+# -------------------------------------------------
+# Constantes
+
+const.AZUL_ETIQUETAS = "#00FFEF"
+const.VERDE_OSCURO = "#003300"
+const.VERDE_CLARO = "#00FF00"
+const.NEGRO = "#000000"
+const.AMARILLO_OSCURO = "#333300"
+const.AMARILLO_CLARO = "#FFFF00"
+const.RUTA_ABSOLUTA = abspath("../Icon/Icono.ico")
 
 # -----------------------------------------------
 # Ventana
-ventana = Ventana(Colores.NEGRO.value)
+ventana = Ventana(const.NEGRO, const.RUTA_ABSOLUTA)
 
 from Scripts.Variables_Control import *
 
@@ -44,7 +60,7 @@ class Main:
             "Introduce la URL del video a descargar",
             10,
             30,
-            Colores.AZUL_ETIQUETAS.value,
+            const.AZUL_ETIQUETAS,
             "Helvetica",
             18,
             ventana,
@@ -61,7 +77,7 @@ class Main:
             "¿Donde quieres guardar el video?",
             10,
             27,
-            Colores.AZUL_ETIQUETAS.value,
+            const.AZUL_ETIQUETAS,
             "Helvetica",
             18,
             ventana,
@@ -73,13 +89,13 @@ class Main:
             "Seleccionar ubicación",
             10,
             20,
-            Colores.VERDE_OSCURO.value,
+            const.VERDE_OSCURO,
             lambda: [self.buscar.FuncionBuscar()],
             "Helvetica",
             15,
             ventana,
-            Colores.VERDE_CLARO.value,
-            Colores.VERDE_OSCURO.value,
+            const.VERDE_CLARO,
+            const.VERDE_OSCURO,
         )
 
         BotonPosicionRelativa(
@@ -87,13 +103,13 @@ class Main:
             220,
             322,
             15,
-            Colores.AMARILLO_OSCURO.value,
+            const.AMARILLO_OSCURO,
             lambda: [self.__Descargar_Video_En_Un_Hilo_Nuevo(LINK_VIDEO.get(), log)],
             "Helvetica",
             15,
             ventana,
-            Colores.AMARILLO_CLARO.value,
-            Colores.AMARILLO_OSCURO.value,
+            const.AMARILLO_CLARO,
+            const.AMARILLO_OSCURO,
         )
 
         BotonPosicionRelativa(
@@ -101,13 +117,13 @@ class Main:
             420,
             322,
             15,
-            Colores.AMARILLO_OSCURO.value,
+            const.AMARILLO_OSCURO,
             lambda: [self.__Descargar_Audio_En_Un_Hilo_Nuevo(LINK_VIDEO.get(), log)],
             "Helvetica",
             15,
             ventana,
-            Colores.AMARILLO_CLARO.value,
-            Colores.AMARILLO_OSCURO.value,
+            const.AMARILLO_CLARO,
+            const.AMARILLO_OSCURO,
         )
 
         # Crear la etiqueta de la barra de progresion
@@ -115,7 +131,7 @@ class Main:
             "Progreso de la descarga:",
             97,
             20,
-            Colores.AZUL_ETIQUETAS.value,
+            const.AZUL_ETIQUETAS,
             "Helvetica",
             18,
             ventana,
@@ -170,13 +186,12 @@ class Main:
                     self.URL_Video,
                     self.log,
                 )
-                and Comprobar_Si_El_Video_Esta_Disponible(self.log, self.URL_Video)
                 and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
                     UBICACION_VIDEO,
                     self.log,
-                    showerror,
                 )
                 and Comprobar_Conexion_Internet(self.log)
+                and Comprobar_Si_El_Video_Esta_Disponible(self.log, self.URL_Video)
             ):
                 Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
                 Thread(
@@ -198,13 +213,12 @@ class Main:
                     self.URL_Video,
                     self.log,
                 )
-                and Comprobar_Si_El_Video_Esta_Disponible(self.log, self.URL_Video)
                 and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
                     UBICACION_VIDEO,
                     self.log,
-                    showerror,
                 )
                 and Comprobar_Conexion_Internet(self.log)
+                and Comprobar_Si_El_Video_Esta_Disponible(self.log, self.URL_Video)
             ):
                 Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
                 Thread(

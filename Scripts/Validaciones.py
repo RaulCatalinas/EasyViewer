@@ -1,11 +1,10 @@
-from ctypes import windll, byref
-from ctypes.wintypes import DWORD
 from os.path import isdir
 
 from pytube import YouTube
+from requests import get, ConnectionError, Timeout
 
 
-def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga, log, showerror):
+def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga, log):
     """
     Comprueba si se ha seleccionado un directorio
     """
@@ -14,12 +13,8 @@ def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga, log, showerr
         log.writeLog("Se ha seleccionado ningún directorio para guardar el video")
         return True
     else:
-        showerror(
-            "Error de directorio",
-            "No se ha seleccionado ningún directorio",
-        )
-        log.writeError("No se ha seleccionado un directorio para guardar el video")
-        return False
+        raise Exception("No se ha seleccionado ningún directorio")
+        log.writeError("No se ha seleccionado ningún directorio")
 
 
 def Comprobar_Si_Es_URL_YouTube(url, log):
@@ -38,15 +33,13 @@ def Comprobar_Conexion_Internet(log):
     """
     Comprueba si hay conexión a internet
     """
-    flags = DWORD()
-    conexion = windll.wininet.InternetGetConnectedState(byref(flags), None)
-
-    if conexion:
-        log.writeLog("Hay conexión a internet")
-        return True
-    else:
-        log.writeError("No hay conexión a internet")
+    try:
+        get("https://www.google.es", timeout=5)
+    except (ConnectionError, Timeout):
         raise Exception("No hay conexión a internet")
+    else:
+        log.writeLog("Ok, hay conexión a internet")
+        return True
 
 
 def Comprobar_Si_Se_Ha_Introducido_Una_URL(url, log):

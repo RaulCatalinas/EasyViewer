@@ -1,17 +1,15 @@
 # Crear una clase que se encarga de crear una ventana heredando de la clase Tk
-from os.path import abspath
 from tkinter import Tk
-
-print(abspath("../Icon/Icono.ico"))
 
 
 class Ventana(Tk):
-    def __init__(self, colorDeFondo):
+    def __init__(self, colorDeFondo, rutaIcono):
         self.colorDeFondo = colorDeFondo
+        self.rutaIcono = rutaIcono
         super().__init__()
         self.title("Youtube Downloader")
         self.resizable(False, False)
-        self.iconbitmap(abspath("../Icon/Icono.ico"))
+        self.iconbitmap(self.rutaIcono)
         self.config(bg=self.colorDeFondo)
 
         self.__CentrarVentana()

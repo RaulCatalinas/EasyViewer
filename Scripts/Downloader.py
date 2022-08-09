@@ -1,4 +1,5 @@
-from os import rename, path
+from os import rename
+from os.path import splitext
 from webbrowser import open
 
 from pytube import YouTube
@@ -135,7 +136,7 @@ class DescargarAudio:
 
             self.__EjecutarBarraDeProgresion(self.velocidad_Barra_De_Progresion)
 
-            self.base, self.ext = path.splitext(
+            self.base, self.ext = splitext(
                 self.Descargar_Video.download(self.Carpeta_Guardar_Video)
             )
 
