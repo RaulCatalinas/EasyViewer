@@ -1,4 +1,4 @@
-# modulos necesarios
+# Librerias necesarias
 from os.path import abspath
 from threading import Thread
 from tkinter.messagebox import showerror

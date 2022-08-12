@@ -4,9 +4,9 @@ from pyperclip import copy, paste
 
 
 class MenuDeOpciones:
-    def __init__(self, ventana, txtoACopiar):
+    def __init__(self, ventana, textoACopiar):
         self.ventana = ventana
-        self.txtoACopiar = txtoACopiar
+        self.textoACopiar = textoACopiar
         self.menu = Menu(self.ventana, tearoff=0)
         self.menu.add_command(label="Copiar", command=self.__Copiar)
         self.menu.add_command(label="Pegar", command=self.__Pegar)
@@ -18,7 +18,7 @@ class MenuDeOpciones:
             self.menu.grab_release()
 
     def __Copiar(self):
-        copy(self.txtoACopiar.get())
+        copy(self.textoACopiar.get())
 
     def __Pegar(self):
-        self.txtoACopiar.set(paste())
+        self.textoACopiar.set(paste())
