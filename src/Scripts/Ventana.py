@@ -3,11 +3,14 @@ from tkinter import Tk
 
 
 class Ventana(Tk):
-    def __init__(self, colorDeFondo, rutaIcono):
+    def __init__(self, colorDeFondo, tituloVentana, ancho, alto, rutaIcono=None):
         self.colorDeFondo = colorDeFondo
         self.rutaIcono = rutaIcono
+        self.tituloVentana = tituloVentana
+        self.ancho = ancho
+        self.alto = alto
         super().__init__()
-        self.title("Youtube Downloader")
+        self.title(self.tituloVentana)
         self.resizable(False, False)
         self.iconbitmap(self.rutaIcono)
         self.config(bg=self.colorDeFondo)
@@ -18,18 +21,14 @@ class Ventana(Tk):
         self.mainloop()
 
     def __CentrarVentana(self):
-        # Medida ventana
-        Ancho = 830
-        Alto = 520
-
         # Cálculos para el centrado de la ventana
         Ancho_Ventana = self.winfo_screenwidth()
         Alto_Ventana = self.winfo_screenheight()
 
-        Coordenada_X = int((Ancho_Ventana / 2) - (Ancho / 2))
-        Coordenada_Y = int((Alto_Ventana / 2) - (Alto / 2))
+        Coordenada_X = int((Ancho_Ventana / 2) - (self.ancho / 2))
+        Coordenada_Y = int((Alto_Ventana / 2) - (self.alto / 2))
 
         # Redimensionar Ventana
         return self.geometry(
-            "{}x{}+{}+{}".format(Ancho, Alto, Coordenada_X, Coordenada_Y)
+            "{}x{}+{}+{}".format(self.ancho, self.alto, Coordenada_X, Coordenada_Y)
         )

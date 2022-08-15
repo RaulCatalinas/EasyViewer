@@ -31,7 +31,7 @@ const.RUTA_ABSOLUTA = abspath("../Icon/Icono.ico")
 
 # -----------------------------------------------
 # Ventana
-ventana = Ventana(const.NEGRO, const.RUTA_ABSOLUTA)
+ventana = Ventana(const.NEGRO, "Youtube Downloader", 830, 520, const.RUTA_ABSOLUTA)
 
 from Variables_Control import *
 
