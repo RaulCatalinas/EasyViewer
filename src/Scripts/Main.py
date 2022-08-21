@@ -1,5 +1,4 @@
 # Librerias necesarias
-from os.path import abspath
 from threading import Thread
 from tkinter.messagebox import showerror
 
@@ -27,11 +26,10 @@ const.VERDE_CLARO = "#00FF00"
 const.NEGRO = "#000000"
 const.AMARILLO_OSCURO = "#333300"
 const.AMARILLO_CLARO = "#FFFF00"
-const.RUTA_ABSOLUTA = abspath("../Icon/Icono.ico")
 
 # -----------------------------------------------
 # Ventana
-ventana = Ventana(const.NEGRO, "Youtube Downloader", 830, 520, const.RUTA_ABSOLUTA)
+ventana = Ventana(const.NEGRO, "Youtube Downloader", 830, 520)
 
 from Variables_Control import *
 
