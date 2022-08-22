@@ -19,20 +19,5 @@ class Ventana(Tk):
         chdir(dirname(__file__))
         self.config(bg=self.colorDeFondo)
 
-        self.__CentrarVentana()
-
     def ActualizarVentana(self):
         self.mainloop()
-
-    def __CentrarVentana(self):
-        # Cálculos para el centrado de la ventana
-        Ancho_Ventana = self.winfo_screenwidth()
-        Alto_Ventana = self.winfo_screenheight()
-
-        Coordenada_X = int((Ancho_Ventana / 2) - (self.ancho / 2))
-        Coordenada_Y = int((Alto_Ventana / 2) - (self.alto / 2))
-
-        # Redimensionar Ventana
-        return self.geometry(
-            "{}x{}+{}+{}".format(self.ancho, self.alto, Coordenada_X, Coordenada_Y)
-        )

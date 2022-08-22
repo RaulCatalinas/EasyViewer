@@ -6,6 +6,7 @@ from tkinter import Toplevel
 from CrearBotones import BotonPosicionRelativa
 from CrearEtiquetas import Etiqueta
 from src.Icon import Icono
+from CentrarVentana import CentrarVentana
 
 
 class DialogoCerrar:
@@ -17,6 +18,8 @@ class DialogoCerrar:
         color_Boton_Salir_Raton_Fuera,
         color_Boton_Minimizar_Raton_Dentro,
         color_Boton_Minimizar_Raton_Fuera,
+        color_Boton_Cancelar_Raton_Dentro,
+        color_Boton_Cancelar_Raton_Fuera,
         ancho,
         alto,
         colorEtiqueta,
@@ -30,6 +33,8 @@ class DialogoCerrar:
         @param color_Boton_Salir_Raton_Fuera - El color del botón salir cuando el ratón no pasa por encima.
         @param color_Boton_Minimizar_Raton_Dentro - El color del botón minimizar cuando el ratón pasa por encima.
         @param color_Boton_Minimizar_Raton_Fuera - El color del botón minimizar cuando el ratón no pasa por encima.
+        @param color_Boton_Cancelar_Raton_Dentro - El color del botón cancelar cuando el ratón pasa por encima.
+        @param color_Boton_Cancelar_Raton_Fuera - El color del botón cancelar cuando el ratón no pasa por encima.
         """
 
         self.parent = parent
@@ -38,12 +43,14 @@ class DialogoCerrar:
         self.color_Boton_Salir_Raton_Fuera = color_Boton_Salir_Raton_Fuera
         self.color_Boton_Minimizar_Raton_Dentro = color_Boton_Minimizar_Raton_Dentro
         self.color_Boton_Minimizar_Raton_Fuera = color_Boton_Minimizar_Raton_Fuera
+        self.color_Boton_Cancelar_Raton_Dentro = color_Boton_Cancelar_Raton_Dentro
+        self.color_Boton_Cancelar_Raton_Fuera = color_Boton_Cancelar_Raton_Fuera
         self.ancho = ancho
         self.alto = alto
         self.colorEtiqueta = colorEtiqueta
 
         self.top = Toplevel(self.parent)
-        self.__CentrarVentana()
+        CentrarVentana(self.top, self.ancho, self.alto)
         self.top.iconbitmap(Icono.getIcono())
         chdir(dirname(__file__))
         self.top.title("Salir")
@@ -62,7 +69,7 @@ class DialogoCerrar:
 
         BotonPosicionRelativa(
             "Si, salir de la app",
-            3,
+            15,
             50,
             15,
             self.color_Boton_Salir_Raton_Fuera,
@@ -76,7 +83,7 @@ class DialogoCerrar:
 
         BotonPosicionRelativa(
             "No, solo minimizar",
-            154,
+            173,
             50,
             15,
             self.color_Boton_Minimizar_Raton_Fuera,
@@ -88,6 +95,20 @@ class DialogoCerrar:
             self.color_Boton_Minimizar_Raton_Fuera,
         )
 
+        BotonPosicionRelativa(
+            "Cancelar, permanecer en la app",
+            40,
+            90,
+            25,
+            self.color_Boton_Cancelar_Raton_Fuera,
+            lambda: [self.cancelar()],
+            "Arial",
+            12,
+            self.top,
+            self.color_Boton_Cancelar_Raton_Dentro,
+            self.color_Boton_Cancelar_Raton_Fuera,
+        )
+
     def salir(self):
         self.top.destroy()
         self.parent.destroy()
@@ -97,18 +118,8 @@ class DialogoCerrar:
         self.top.destroy()
         self.parent.iconify()
 
-    def __CentrarVentana(self):
-        # Cálculos para el centrado de la ventana
-        Ancho_Ventana = self.top.winfo_screenwidth()
-        Alto_Ventana = self.top.winfo_screenheight()
-
-        Coordenada_X = int((Ancho_Ventana / 2) - (self.ancho / 2))
-        Coordenada_Y = int((Alto_Ventana / 2) - (self.alto / 2))
-
-        # Redimensionar Ventana
-        return self.top.geometry(
-            "{}x{}+{}+{}".format(self.ancho, self.alto, Coordenada_X, Coordenada_Y)
-        )
+    def cancelar(self):
+        self.top.destroy()
 
 
 class Cerrar:
@@ -120,6 +131,8 @@ class Cerrar:
         color_Boton_Salir_Raton_Fuera,
         color_Boton_Minimizar_Raton_Dentro,
         color_Boton_Minimizar_Raton_Fuera,
+        color_Boton_Cancelar_Raton_Dentro,
+        color_Boton_Cancelar_Raton_Fuera,
         ancho,
         alto,
         colorEtiqueta,
@@ -132,6 +145,8 @@ class Cerrar:
         @param color_Boton_Salir_Raton_Fuera - El color del botón salir cuando el ratón no pasa por encima.
         @param color_Boton_Minimizar_Raton_Dentro - El color del botón minimizar cuando el ratón pasa por encima.
         @param color_Boton_Minimizar_Raton_Fuera - El color del botón minimizar cuando el ratón no pasa por encima.
+        @param color_Boton_Cancelar_Raton_Dentro - El color del botón cancelar cuando el ratón pasa por encima.
+        @param color_Boton_Cancelar_Raton_Fuera - El color del botón cancelar cuando el ratón no pasa por encima.
         """
         self.dialogo = None
         self.parent = parent
@@ -140,6 +155,8 @@ class Cerrar:
         self.color_Boton_Salir_Raton_Fuera = color_Boton_Salir_Raton_Fuera
         self.color_Boton_Minimizar_Raton_Dentro = color_Boton_Minimizar_Raton_Dentro
         self.color_Boton_Minimizar_Raton_Fuera = color_Boton_Minimizar_Raton_Fuera
+        self.color_Boton_Cancelar_Raton_Dentro = color_Boton_Cancelar_Raton_Dentro
+        self.color_Boton_Cancelar_Raton_Fuera = color_Boton_Cancelar_Raton_Fuera
         self.ancho = ancho
         self.alto = alto
         self.colorEtiqueta = colorEtiqueta
@@ -154,6 +171,8 @@ class Cerrar:
             self.color_Boton_Salir_Raton_Fuera,
             self.color_Boton_Minimizar_Raton_Dentro,
             self.color_Boton_Minimizar_Raton_Fuera,
+            self.color_Boton_Cancelar_Raton_Dentro,
+            self.color_Boton_Cancelar_Raton_Fuera,
             self.ancho,
             self.alto,
             self.colorEtiqueta,

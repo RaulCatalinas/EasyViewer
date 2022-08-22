@@ -8,6 +8,7 @@ from pconst import const
 # Scripts necesarios
 from BarraDeProgresion import BarraDeProgresion
 from Buscar import Buscar
+from CentrarVentana import CentrarVentana
 from Cerrar import Cerrar
 from CrearBotones import BotonPosicionAbsoluta, BotonPosicionRelativa
 from CrearEntrys import CrearEntrys
@@ -31,10 +32,14 @@ const.ROJO = "#FF0000"
 const.ROJO_OSCURO = "#660000"
 const.NARANJA = "#FF8000"
 const.NARANJA_OSCURO = "#663300"
+const.ANCHO = 830
+const.ALTO = 520
 
 # -----------------------------------------------
 # Ventana
-ventana = Ventana(const.NEGRO, "Youtube Downloader", 830, 520)
+ventana = Ventana(const.NEGRO, "Youtube Downloader", const.ANCHO, const.ALTO)
+
+CentrarVentana(ventana, const.ANCHO, const.ALTO)
 
 Cerrar(
     ventana,
@@ -43,8 +48,10 @@ Cerrar(
     const.ROJO_OSCURO,
     const.NARANJA,
     const.NARANJA_OSCURO,
-    300,
-    100,
+    const.AMARILLO_CLARO,
+    const.AMARILLO_OSCURO,
+    330,  # Ancho de la ventana de confirmación de cierre
+    134,  # Alto de la ventana de confirmación de cierre
     const.AZUL_ETIQUETAS,
 )
 
