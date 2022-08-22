@@ -8,6 +8,7 @@ from pconst import const
 # Scripts necesarios
 from BarraDeProgresion import BarraDeProgresion
 from Buscar import Buscar
+from Cerrar import Cerrar
 from CrearBotones import BotonPosicionAbsoluta, BotonPosicionRelativa
 from CrearEntrys import CrearEntrys
 from CrearEtiquetas import Etiqueta
@@ -26,10 +27,26 @@ const.VERDE_CLARO = "#00FF00"
 const.NEGRO = "#000000"
 const.AMARILLO_OSCURO = "#333300"
 const.AMARILLO_CLARO = "#FFFF00"
+const.ROJO = "#FF0000"
+const.ROJO_OSCURO = "#660000"
+const.NARANJA = "#FF8000"
+const.NARANJA_OSCURO = "#663300"
 
 # -----------------------------------------------
 # Ventana
 ventana = Ventana(const.NEGRO, "Youtube Downloader", 830, 520)
+
+Cerrar(
+    ventana,
+    const.NEGRO,
+    const.ROJO,
+    const.ROJO_OSCURO,
+    const.NARANJA,
+    const.NARANJA_OSCURO,
+    300,
+    100,
+    const.AZUL_ETIQUETAS,
+)
 
 from Variables_Control import *
 
