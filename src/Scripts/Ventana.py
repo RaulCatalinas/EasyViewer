@@ -1,7 +1,7 @@
 # Crear una clase que se encarga de crear una ventana heredando de la clase Tk
 from os import chdir
 from os.path import dirname
-from tkinter import Tk, PhotoImage
+from tkinter import Tk
 
 from src.Icon import Icono
 
@@ -15,7 +15,7 @@ class Ventana(Tk):
         super().__init__()
         self.title(self.tituloVentana)
         self.resizable(False, False)
-        self.iconphoto(False, PhotoImage(file=Icono.getIcono()))
+        self.iconbitmap(Icono.getIcono())
         chdir(dirname(__file__))
         self.config(bg=self.colorDeFondo)
 
