@@ -1,12 +1,12 @@
 from os import chdir
 from os.path import dirname
 from sys import exit
-from tkinter import Toplevel
+from tkinter import Toplevel, PhotoImage
 
+from CentrarVentana import CentrarVentana
 from CrearBotones import BotonPosicionRelativa
 from CrearEtiquetas import Etiqueta
 from src.Icon import Icono
-from CentrarVentana import CentrarVentana
 
 
 class DialogoCerrar:
@@ -51,7 +51,7 @@ class DialogoCerrar:
 
         self.top = Toplevel(self.parent)
         CentrarVentana(self.top, self.ancho, self.alto)
-        self.top.iconbitmap(Icono.getIcono())
+        self.top.iconphoto(False, PhotoImage(file=Icono.getIcono()))
         chdir(dirname(__file__))
         self.top.title("Salir")
         self.top.configure(bg=self.colorFondo)

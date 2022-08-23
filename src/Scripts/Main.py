@@ -39,7 +39,7 @@ const.ALTO_VENTANA_PRINCIPAL = 520
 # Ventana
 ventana = Ventana(
     const.NEGRO,
-    "Youtube Downloader",
+    "Video Downloader",
     const.ANCHO_VENTANA_PRINCIPAL,
     const.ALTO_VENTANA_PRINCIPAL,
 )
