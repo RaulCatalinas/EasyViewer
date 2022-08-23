@@ -32,14 +32,19 @@ const.ROJO = "#FF0000"
 const.ROJO_OSCURO = "#660000"
 const.NARANJA = "#FF8000"
 const.NARANJA_OSCURO = "#663300"
-const.ANCHO = 830
-const.ALTO = 520
+const.ANCHO_VENTANA_PRINCIPAL = 830
+const.ALTO_VENTANA_PRINCIPAL = 520
 
 # -----------------------------------------------
 # Ventana
-ventana = Ventana(const.NEGRO, "Youtube Downloader", const.ANCHO, const.ALTO)
+ventana = Ventana(
+    const.NEGRO,
+    "Youtube Downloader",
+    const.ANCHO_VENTANA_PRINCIPAL,
+    const.ALTO_VENTANA_PRINCIPAL,
+)
 
-CentrarVentana(ventana, const.ANCHO, const.ALTO)
+CentrarVentana(ventana, const.ANCHO_VENTANA_PRINCIPAL, const.ALTO_VENTANA_PRINCIPAL)
 
 Cerrar(
     ventana,
