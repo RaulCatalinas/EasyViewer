@@ -3,8 +3,12 @@ from os.path import isdir
 from pytube import YouTube
 from requests import get, ConnectionError, Timeout
 
+from Logging import GestionLogging
 
-def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga, log):
+log = GestionLogging
+
+
+def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga):
     """
     Comprueba si se ha seleccionado un directorio
     """
@@ -17,7 +21,7 @@ def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga, log):
         log.writeError("No se ha seleccionado ningún directorio")
 
 
-def Comprobar_Si_Es_URL_YouTube(url, log):
+def Comprobar_Si_Es_URL_YouTube(url):
     """
     Comprueba si la URL es de YouTube
     """
@@ -29,7 +33,7 @@ def Comprobar_Si_Es_URL_YouTube(url, log):
         raise Exception("La URL no es de YouTube")
 
 
-def Comprobar_Conexion_Internet(log):
+def Comprobar_Conexion_Internet():
     """
     Comprueba si hay conexión a internet
     """
@@ -42,7 +46,7 @@ def Comprobar_Conexion_Internet(log):
         return True
 
 
-def Comprobar_Si_Se_Ha_Introducido_Una_URL(url, log):
+def Comprobar_Si_Se_Ha_Introducido_Una_URL(url):
     """
     Comprueba si se ha introducido una URL
     """
@@ -54,7 +58,7 @@ def Comprobar_Si_Se_Ha_Introducido_Una_URL(url, log):
         return True
 
 
-def Comprobar_Si_El_Video_Esta_Disponible(log, URL_VIDEO):
+def Comprobar_Si_El_Video_Esta_Disponible(OURL_VIDEO):
     """
     Comprueba si el video está disponible
     """

@@ -1,25 +1,19 @@
-from datetime import datetime
 from logging import DEBUG, info, basicConfig, error
+from os import chdir
+from os.path import dirname
+
+from Log.Log import getLog
 
 
 # Configurar el logging
 class GestionLogging:
     def __init__(self):
-        self.__ConfigurarLogging()
-
-        info(
-            f"El programa Descargador de videos de YouTube se ha ejecutado el {self.__getFecha()}"
+        basicConfig(
+            level=DEBUG,
+            filename=getLog(),
+            filemode="w",
         )
-
-    @staticmethod
-    def __getFecha():
-        fecha = datetime.today()
-        formato = fecha.strftime("%A, %d %B, %Y %H:%M")
-        return formato
-
-    @staticmethod
-    def __ConfigurarLogging():
-        basicConfig(filename="../../Log/YoutubeDownloder.txt", filemode="w", level=DEBUG)
+        chdir(dirname(__file__))
 
     @staticmethod
     def writeLog(mensaje):

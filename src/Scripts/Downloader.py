@@ -4,6 +4,10 @@ from webbrowser import open
 
 from pytube import YouTube
 
+from Logging import GestionLogging
+
+log = GestionLogging()
+
 
 class DescargarVideo:
     def __init__(
@@ -12,7 +16,6 @@ class DescargarVideo:
         UBICACION_VIDEO,
         PORCENTAJE_DESCARGA,
         BarraDeProgresion,
-        log,
         velocidad_Barra_De_Progresion,
     ):
         """
@@ -22,31 +25,28 @@ class DescargarVideo:
         self.UBICACION_VIDEO = UBICACION_VIDEO
         self.PORCENTAJE_DESCARGA = PORCENTAJE_DESCARGA
         self.barra = BarraDeProgresion
-        self.log = log
         self.velocidad_Barra_De_Progresion = velocidad_Barra_De_Progresion
 
-        self.log.writeLog("Se ha hecho click en el botón de descargar")
+        log.writeLog("Se ha hecho click en el botón de descargar")
 
         try:
             self.URL = self.LINK_VIDEO.get()
 
-            self.log.writeLog("Se ha obtenido la URL del video a descargar")
+            log.writeLog("Se ha obtenido la URL del video a descargar")
 
             self.Carpeta_Guardar_Video = self.UBICACION_VIDEO.get()
 
-            self.log.writeLog(
+            log.writeLog(
                 "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
             )
 
             self.Obtener_Video = YouTube(self.URL)
 
-            self.log.writeLog("Se ha obtenido el ID del video a descargar")
+            log.writeLog("Se ha obtenido el ID del video a descargar")
 
             self.Descargar_Video = self.Obtener_Video.streams.get_highest_resolution()
 
-            self.log.writeLog(
-                "Se ha obtenido la resolución mas alta del video a descargar"
-            )
+            log.writeLog("Se ha obtenido la resolución mas alta del video a descargar")
 
             self.__EjecutarBarraDeProgresion(self.velocidad_Barra_De_Progresion)
 
@@ -59,14 +59,12 @@ class DescargarVideo:
 
             self.PORCENTAJE_DESCARGA.set("")
 
-            self.log.writeLog(
+            log.writeLog(
                 "La variable que guarda el porcentaje de la descarga de se "
                 "ha restablecido correctamente"
             )
 
-            self.log.writeError(
-                "El video no se ha podido descargar, algo ha salido mal"
-            )
+            log.writeError("El video no se ha podido descargar, algo ha salido mal")
 
             raise Exception("El video no se ha podido descargar")
 
@@ -79,12 +77,12 @@ class DescargarVideo:
 
             self.PORCENTAJE_DESCARGA.set("")
 
-            self.log.writeLog(
+            log.writeLog(
                 "La variable que guarda el porcentaje de la descarga de se "
                 "ha restablecido correctamente"
             )
 
-            self.log.writeLog("La descarga del video se ha completado correctamente")
+            log.writeLog("La descarga del video se ha completado correctamente")
 
     def __EjecutarBarraDeProgresion(self, velocidad):
         self.barra.barraProgresionDescarga.start(velocidad)
@@ -100,7 +98,6 @@ class DescargarAudio:
         UBICACION_VIDEO,
         PORCENTAJE_DESCARGA,
         BarraDeProgresion,
-        log,
         velocidad_Barra_De_Progresion,
     ):
         """
@@ -110,29 +107,28 @@ class DescargarAudio:
         self.UBICACION_VIDEO = UBICACION_VIDEO
         self.PORCENTAJE_DESCARGA = PORCENTAJE_DESCARGA
         self.barra = BarraDeProgresion
-        self.log = log
         self.velocidad_Barra_De_Progresion = velocidad_Barra_De_Progresion
 
-        self.log.writeLog("Se ha hecho click en el botón de descargar")
+        log.writeLog("Se ha hecho click en el botón de descargar")
 
         try:
             self.URL = self.LINK_VIDEO.get()
 
-            self.log.writeLog("Se ha obtenido la URL del video a descargar")
+            log.writeLog("Se ha obtenido la URL del video a descargar")
 
             self.Carpeta_Guardar_Video = self.UBICACION_VIDEO.get()
 
-            self.log.writeLog(
+            log.writeLog(
                 "Se ha obtenido la dirección de la carpeta donde se quiere guardar el video descargado"
             )
 
             self.Obtener_Video = YouTube(self.URL)
 
-            self.log.writeLog("Se ha obtenido el ID del video a descargar")
+            log.writeLog("Se ha obtenido el ID del video a descargar")
 
             self.Descargar_Video = self.Obtener_Video.streams.get_audio_only()
 
-            self.log.writeLog("Se ha obtenido el audio del video a descargar")
+            log.writeLog("Se ha obtenido el audio del video a descargar")
 
             self.__EjecutarBarraDeProgresion(self.velocidad_Barra_De_Progresion)
 
@@ -147,14 +143,12 @@ class DescargarAudio:
 
             self.PORCENTAJE_DESCARGA.set("")
 
-            self.log.writeLog(
+            log.writeLog(
                 "La variable que guarda el porcentaje de la descarga de se "
                 "ha restablecido correctamente"
             )
 
-            self.log.writeError(
-                "El audio no se ha podido descargar, algo ha salido mal"
-            )
+            log.writeError("El audio no se ha podido descargar, algo ha salido mal")
 
             raise Exception("El audio no se ha podido descargar")
 
@@ -171,12 +165,12 @@ class DescargarAudio:
 
             self.PORCENTAJE_DESCARGA.set("")
 
-            self.log.writeLog(
+            log.writeLog(
                 "La variable que guarda el porcentaje de la descarga de se "
                 "ha restablecido correctamente"
             )
 
-            self.log.writeLog(
+            log.writeLog(
                 "La descarga del audio del video se ha completado correctamente"
             )
 
@@ -187,7 +181,7 @@ class DescargarAudio:
         self.barra.barraProgresionDescarga.stop()
 
 
-def ObtenerTamañoVideo(URL, log):
+def ObtenerTamañoVideo(URL):
     """
     Obtiene el tamaño del video a descargar
     """
@@ -204,7 +198,7 @@ def ObtenerTamañoVideo(URL, log):
     return tamaño
 
 
-def ObtenerTamañoAudio(URL, log):
+def ObtenerTamañoAudio(URL):
     """
     Obtiene el tamaño del audio del video a descargar
     """

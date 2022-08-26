@@ -3,7 +3,7 @@ from os import chdir
 from os.path import dirname
 from tkinter import Tk, PhotoImage
 
-from src.Icon import Icono
+from src.Icon.Icono import getIcono
 
 
 class Ventana(Tk):
@@ -15,7 +15,7 @@ class Ventana(Tk):
         super().__init__()
         self.title(self.tituloVentana)
         self.resizable(False, False)
-        self.iconphoto(False, PhotoImage(file=Icono.getIcono()))
+        self.iconphoto(False, PhotoImage(file=getIcono()))
         chdir(dirname(__file__))
         self.config(bg=self.colorDeFondo)
 

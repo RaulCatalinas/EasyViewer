@@ -14,7 +14,6 @@ from CrearBotones import BotonPosicionAbsoluta, BotonPosicionRelativa
 from CrearEntrys import CrearEntrys
 from CrearEtiquetas import Etiqueta
 from Downloader import *
-from Logging import GestionLogging as log
 from Menu_De_Opciones import MenuDeOpciones
 from Validaciones import *
 from Ventana import Ventana
@@ -39,7 +38,7 @@ const.ALTO_VENTANA_PRINCIPAL = 520
 # Ventana
 ventana = Ventana(
     const.NEGRO,
-    "Video Downloader",
+    "Easy Viewer",
     const.ANCHO_VENTANA_PRINCIPAL,
     const.ALTO_VENTANA_PRINCIPAL,
 )
@@ -80,7 +79,7 @@ class Main:
             13,
             470,
         )
-        self.buscar = Buscar(UBICACION_VIDEO, log, showerror)
+        self.buscar = Buscar(UBICACION_VIDEO)
 
         # Texto + Caja + Botón de descargar video
         Etiqueta(
@@ -131,7 +130,7 @@ class Main:
             322,
             15,
             const.AMARILLO_OSCURO,
-            lambda: [self.__Descargar_Video_En_Un_Hilo_Nuevo(LINK_VIDEO.get(), log)],
+            lambda: [self.__Descargar_Video_En_Un_Hilo_Nuevo(LINK_VIDEO.get())],
             "Helvetica",
             15,
             ventana,
@@ -145,7 +144,7 @@ class Main:
             322,
             15,
             const.AMARILLO_OSCURO,
-            lambda: [self.__Descargar_Audio_En_Un_Hilo_Nuevo(LINK_VIDEO.get(), log)],
+            lambda: [self.__Descargar_Audio_En_Un_Hilo_Nuevo(LINK_VIDEO.get())],
             "Helvetica",
             15,
             ventana,
@@ -164,93 +163,77 @@ class Main:
             ventana,
         )
 
-    def __DescargarVideo(self, URL_Video, log):
+    def __DescargarVideo(self, URL_Video):
         """
         Descarga el video.
         """
         self.URL_Video = URL_Video
-        self.log = log
 
-        self.barraDeProgresion.GB = ObtenerTamañoVideo(self.URL_Video, log)
+        self.barraDeProgresion.GB = ObtenerTamañoVideo(self.URL_Video)
 
         DescargarVideo(
             LINK_VIDEO,
             UBICACION_VIDEO,
             PORCENTAJE_DESCARGA,
             self.barraDeProgresion,
-            log,
             30,
         )
 
-    def __DescargarAudio(self, URL_Video, log):
+    def __DescargarAudio(self, URL_Video):
         """
         Descarga el audio.
         """
         self.URL_Video = URL_Video
-        self.log = log
 
-        self.barraDeProgresion.GB = ObtenerTamañoAudio(self.URL_Video, log)
+        self.barraDeProgresion.GB = ObtenerTamañoAudio(self.URL_Video)
 
         DescargarAudio(
             LINK_VIDEO,
             UBICACION_VIDEO,
             PORCENTAJE_DESCARGA,
             self.barraDeProgresion,
-            log,
             15,
         )
 
-    def __Descargar_Video_En_Un_Hilo_Nuevo(self, URL_Video, log):
+    def __Descargar_Video_En_Un_Hilo_Nuevo(self, URL_Video):
         self.URL_Video = URL_Video
-        self.log = log
         try:
             if (
                 Comprobar_Si_Se_Ha_Introducido_Una_URL(
                     self.URL_Video,
-                    self.log,
                 )
                 and Comprobar_Si_Es_URL_YouTube(
                     self.URL_Video,
-                    self.log,
                 )
                 and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
                     UBICACION_VIDEO,
-                    self.log,
                 )
-                and Comprobar_Conexion_Internet(self.log)
-                and Comprobar_Si_El_Video_Esta_Disponible(self.log, self.URL_Video)
+                and Comprobar_Conexion_Internet()
+                and Comprobar_Si_El_Video_Esta_Disponible(self.URL_Video)
             ):
                 Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
-                Thread(
-                    target=self.__DescargarVideo, args=(self.URL_Video, self.log)
-                ).start()
+                Thread(target=self.__DescargarVideo, args=self.URL_Video).start()
         except Exception as e:
             showerror("Error", str(e))
 
-    def __Descargar_Audio_En_Un_Hilo_Nuevo(self, URL_Video, log):
+    def __Descargar_Audio_En_Un_Hilo_Nuevo(self, URL_Video):
         self.URL_Video = URL_Video
-        self.log = log
         try:
             if (
                 Comprobar_Si_Se_Ha_Introducido_Una_URL(
                     self.URL_Video,
-                    self.log,
                 )
                 and Comprobar_Si_Es_URL_YouTube(
                     self.URL_Video,
-                    self.log,
                 )
                 and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
                     UBICACION_VIDEO,
-                    self.log,
                 )
-                and Comprobar_Conexion_Internet(self.log)
-                and Comprobar_Si_El_Video_Esta_Disponible(self.log, self.URL_Video)
+                and Comprobar_Conexion_Internet()
+                and Comprobar_Si_El_Video_Esta_Disponible(self.URL_Video)
             ):
                 Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
-                Thread(
-                    target=self.__DescargarAudio, args=(self.URL_Video, self.log)
-                ).start()
+                Thread(target=self.__DescargarAudio, args=self.URL_Video).start()
         except Exception as e:
             showerror("Error", str(e))
 
