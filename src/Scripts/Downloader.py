@@ -179,37 +179,3 @@ class DescargarAudio:
 
     def __DetenerBarraDeProgresion(self):
         self.barra.barraProgresionDescarga.stop()
-
-
-def ObtenerTamañoVideo(URL):
-    """
-    Obtiene el tamaño del video a descargar
-    """
-    try:
-        video = YouTube(URL)
-
-        tamaño = video.streams.get_highest_resolution().filesize
-
-        log.writeLog("Se ha obtenido el tamaño del video")
-
-    except:
-        raise Exception("No se ha podido obtener el tamaño del video")
-
-    return tamaño
-
-
-def ObtenerTamañoAudio(URL):
-    """
-    Obtiene el tamaño del audio del video a descargar
-    """
-    try:
-        video = YouTube(URL)
-
-        tamaño = video.streams.get_audio_only().filesize
-
-        log.writeLog("Se ha obtenido el tamaño del audio")
-
-    except:
-        raise Exception("No se ha podido obtener el tamaño del audio")
-
-    return tamaño

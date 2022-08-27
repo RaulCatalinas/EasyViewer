@@ -163,13 +163,16 @@ class Main:
             ventana,
         )
 
-    def __DescargarVideo(self, URL_Video):
+    def __DescargarVideo(self, URL_Video, *args, **kwargs):
         """
         Descarga el video.
         """
-        self.URL_Video = URL_Video
 
-        self.barraDeProgresion.GB = ObtenerTamañoVideo(self.URL_Video)
+        print(args)
+        print()
+        print(kwargs)
+
+        self.URL_Video = URL_Video
 
         DescargarVideo(
             LINK_VIDEO,
@@ -179,13 +182,16 @@ class Main:
             30,
         )
 
-    def __DescargarAudio(self, URL_Video):
+    def __DescargarAudio(self, URL_Video, *args, **kwargs):
         """
         Descarga el audio.
         """
-        self.URL_Video = URL_Video
 
-        self.barraDeProgresion.GB = ObtenerTamañoAudio(self.URL_Video)
+        print(args)
+        print()
+        print(kwargs)
+
+        self.URL_Video = URL_Video
 
         DescargarAudio(
             LINK_VIDEO,
@@ -211,8 +217,8 @@ class Main:
                 and Comprobar_Conexion_Internet()
                 and Comprobar_Si_El_Video_Esta_Disponible(self.URL_Video)
             ):
-                Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
                 Thread(target=self.__DescargarVideo, args=self.URL_Video).start()
+                Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
         except Exception as e:
             showerror("Error", str(e))
 
@@ -232,8 +238,8 @@ class Main:
                 and Comprobar_Conexion_Internet()
                 and Comprobar_Si_El_Video_Esta_Disponible(self.URL_Video)
             ):
-                Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
                 Thread(target=self.__DescargarAudio, args=self.URL_Video).start()
+                Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
         except Exception as e:
             showerror("Error", str(e))
 
