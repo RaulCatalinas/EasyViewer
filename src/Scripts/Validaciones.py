@@ -5,7 +5,7 @@ from requests import get, ConnectionError, Timeout
 
 from Logging import GestionLogging
 
-log = GestionLogging
+log = GestionLogging()
 
 
 def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga):
@@ -58,7 +58,7 @@ def Comprobar_Si_Se_Ha_Introducido_Una_URL(url):
         return True
 
 
-def Comprobar_Si_El_Video_Esta_Disponible(OURL_VIDEO):
+def Comprobar_Si_El_Video_Esta_Disponible(URL_VIDEO):
     """
     Comprueba si el video está disponible
     """
