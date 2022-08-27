@@ -217,8 +217,8 @@ class Main:
                 and Comprobar_Conexion_Internet()
                 and Comprobar_Si_El_Video_Esta_Disponible(self.URL_Video)
             ):
-                Thread(target=self.__DescargarVideo, args=self.URL_Video).start()
                 Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
+                Thread(target=self.__DescargarVideo, args=self.URL_Video).start()
         except Exception as e:
             showerror("Error", str(e))
 
@@ -238,8 +238,8 @@ class Main:
                 and Comprobar_Conexion_Internet()
                 and Comprobar_Si_El_Video_Esta_Disponible(self.URL_Video)
             ):
-                Thread(target=self.__DescargarAudio, args=self.URL_Video).start()
                 Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
+                Thread(target=self.__DescargarAudio, args=self.URL_Video).start()
         except Exception as e:
             showerror("Error", str(e))
 

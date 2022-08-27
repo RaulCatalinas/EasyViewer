@@ -14,11 +14,11 @@ def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga):
     """
 
     if isdir(Directorio_Descarga.get()):
-        log.writeLog("Se ha seleccionado ningún directorio para guardar el video")
+        log.writeLog("Se ha seleccionado un directorio para guardar el video")
         return True
     else:
-        raise Exception("No se ha seleccionado ningún directorio")
         log.writeError("No se ha seleccionado ningún directorio")
+        raise Exception("No se ha seleccionado ningún directorio")
 
 
 def Comprobar_Si_Es_URL_YouTube(url):
@@ -40,9 +40,10 @@ def Comprobar_Conexion_Internet():
     try:
         get("https://www.google.es", timeout=5)
     except (ConnectionError, Timeout):
+        log.writeError("No hay conexión a internet")
         raise Exception("No hay conexión a internet")
     else:
-        log.writeLog("Ok, hay conexión a internet")
+        log.writeLog("Si hay conexión a internet")
         return True
 
 
@@ -64,9 +65,13 @@ def Comprobar_Si_El_Video_Esta_Disponible(URL_VIDEO):
     """
     try:
         YouTube(URL_VIDEO).check_availability()
-        log.writeLog("Ok, video disponible")
+        log.writeLog("El video esta disponible")
         return True
 
     except:
-        log.writeError("No se ha podido acceder al video")
-        raise Exception("No se ha podido acceder al video")
+        log.writeError(
+            "No se ha podido acceder al video o es una emisión en directo vigente"
+        )
+        raise Exception(
+            "No se ha podido acceder al video o es una emisión en directo vigente"
+        )
