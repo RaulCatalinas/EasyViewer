@@ -17,6 +17,7 @@ from Downloader import *
 from Menu_De_Opciones import MenuDeOpciones
 from Validaciones import *
 from Ventana import Ventana
+from BarraDeTareas import BarraDeTareas
 
 # -------------------------------------------------
 # Constantes
@@ -32,7 +33,7 @@ const.ROJO_OSCURO = "#660000"
 const.NARANJA = "#FF8000"
 const.NARANJA_OSCURO = "#663300"
 const.ANCHO_VENTANA_PRINCIPAL = 830
-const.ALTO_VENTANA_PRINCIPAL = 520
+const.ALTO_VENTANA_PRINCIPAL = 545
 
 # -----------------------------------------------
 # Ventana
@@ -44,6 +45,8 @@ ventana = Ventana(
 )
 
 CentrarVentana(ventana, const.ANCHO_VENTANA_PRINCIPAL, const.ALTO_VENTANA_PRINCIPAL)
+
+BarraDeTareas(ventana)
 
 Cerrar(
     ventana,
