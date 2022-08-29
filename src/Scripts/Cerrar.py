@@ -3,7 +3,6 @@ from os.path import dirname
 from sys import exit
 from tkinter import Toplevel, PhotoImage
 
-from CentrarVentana import CentrarVentana
 from CrearBotones import BotonPosicionRelativa
 from CrearEtiquetas import Etiqueta
 from src.Icon.Icono import getIcono
@@ -50,10 +49,20 @@ class DialogoCerrar:
         self.colorEtiqueta = colorEtiqueta
 
         self.top = Toplevel(self.parent)
-        CentrarVentana(self.top, self.ancho, self.alto)
         self.top.iconphoto(False, PhotoImage(file=getIcono()))
         chdir(dirname(__file__))
         self.top.title("Salir")
+
+        # Cálculos para el centrado de la ventana
+        Ancho_Ventana = self.top.winfo_screenwidth()
+        Alto_Ventana = self.top.winfo_screenheight()
+
+        Coordenada_X = int((Ancho_Ventana / 2) - (ancho / 2))
+        Coordenada_Y = int((Alto_Ventana / 2) - (alto / 2))
+
+        # Redimensionar Ventana
+        self.top.geometry("{}x{}+{}+{}".format(ancho, alto, Coordenada_X, Coordenada_Y))
+
         self.top.configure(bg=self.colorFondo)
         self.top.resizable(False, False)
 

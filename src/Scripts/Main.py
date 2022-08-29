@@ -7,8 +7,8 @@ from pconst import const
 
 # Scripts necesarios
 from BarraDeProgresion import BarraDeProgresion
+from BarraDeTareas import BarraDeTareas
 from Buscar import Buscar
-from CentrarVentana import CentrarVentana
 from Cerrar import Cerrar
 from CrearBotones import BotonPosicionAbsoluta, BotonPosicionRelativa
 from CrearEntrys import CrearEntrys
@@ -17,7 +17,6 @@ from Downloader import *
 from Menu_De_Opciones import MenuDeOpciones
 from Validaciones import *
 from Ventana import Ventana
-from BarraDeTareas import BarraDeTareas
 
 # -------------------------------------------------
 # Constantes
@@ -43,8 +42,6 @@ ventana = Ventana(
     const.ANCHO_VENTANA_PRINCIPAL,
     const.ALTO_VENTANA_PRINCIPAL,
 )
-
-CentrarVentana(ventana, const.ANCHO_VENTANA_PRINCIPAL, const.ALTO_VENTANA_PRINCIPAL)
 
 BarraDeTareas(ventana)
 
