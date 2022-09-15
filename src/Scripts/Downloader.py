@@ -133,7 +133,10 @@ class DescargarAudio:
             self.__EjecutarBarraDeProgresion(self.velocidad_Barra_De_Progresion)
 
             self.base, self.ext = splitext(
-                self.Descargar_Video.download(self.Carpeta_Guardar_Video)
+                self.Descargar_Video.download(
+                    self.Carpeta_Guardar_Video,
+                    filename=f"{self.Descargar_Video.title}.mp3",
+                )
             )
 
         except:
