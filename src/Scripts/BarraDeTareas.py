@@ -12,7 +12,6 @@ class BarraDeTareas:
         self.contacto.add_command(command=self.Instagram, label="Instagram")
         self.contacto.add_command(command=self.Twitter, label="Twitter")
         self.contacto.add_command(command=self.Facebook, label="Facebook")
-        self.contacto.add_command(command=self.YouTube, label="YouTube")
 
         self.barra_De_Tareas.add_cascade(menu=self.contacto, label="Contacto")
         self.ventana.config(menu=self.barra_De_Tareas)
@@ -28,7 +27,3 @@ class BarraDeTareas:
     @staticmethod
     def Facebook():
         open_new_tab("https://www.facebook.com/Raul-F1forever-114186780454598/")
-
-    @staticmethod
-    def YouTube():
-        open_new_tab("https://www.youtube.com/channel/UC-Xr3nAHjMONDvKcQl0CQ8A")
