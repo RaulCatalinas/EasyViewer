@@ -16,7 +16,4 @@ seleccionada por el usuario
 Mientras se está descargando el video y/o el audio aumentara una barra de progresión conforme vaya avanzando 
 la descarga
 # Redes sociales
-
-<a href="https://www.instagram.com/raulf1foreveryt_oficial/?hl=es">Instagram</a>
-<a href="https://twitter.com/F1foreverRaul">Twitter</a>
-<a href="https://www.facebook.com/Raul-F1forever-114186780454598/">Facebook</a>
+Instagram: @raulf1foreverYT_Oficial
