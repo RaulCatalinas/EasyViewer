@@ -37,31 +37,31 @@ const.ALTO_VENTANA_PRINCIPAL = 545
 # -----------------------------------------------
 # Ventana
 ventana = Ventana(
-    const.NEGRO,
-    "Easy Viewer",
-    const.ANCHO_VENTANA_PRINCIPAL,
-    const.ALTO_VENTANA_PRINCIPAL,
+    colorDeFondo=const.NEGRO,
+    tituloVentana="Easy Viewer",
+    ancho=const.ANCHO_VENTANA_PRINCIPAL,
+    alto=const.ALTO_VENTANA_PRINCIPAL,
 )
 
-BarraDeTareas(ventana)
+BarraDeTareas(ventana=ventana)
 
 Cerrar(
-    ventana,
-    const.NEGRO,
-    const.ROJO,
-    const.ROJO_OSCURO,
-    const.NARANJA,
-    const.NARANJA_OSCURO,
-    const.AMARILLO_CLARO,
-    const.AMARILLO_OSCURO,
-    330,  # Ancho de la ventana de confirmación de cierre
-    134,  # Alto de la ventana de confirmación de cierre
-    const.AZUL_ETIQUETAS,
+    parent=ventana,
+    colorFondo=const.NEGRO,
+    color_Boton_Salir_Raton_Dentro=const.ROJO,
+    color_Boton_Salir_Raton_Fuera=const.ROJO_OSCURO,
+    color_Boton_Minimizar_Raton_Dentro=const.NARANJA,
+    color_Boton_Minimizar_Raton_Fuera=const.NARANJA_OSCURO,
+    color_Boton_Cancelar_Raton_Dentro=const.AMARILLO_CLARO,
+    color_Boton_Cancelar_Raton_Fuera=const.AMARILLO_OSCURO,
+    ancho=330,  # Ancho de la ventana de confirmación de cierre
+    alto=134,  # Alto de la ventana de confirmación de cierre
+    colorEtiqueta=const.AZUL_ETIQUETAS,
 )
 
 from Variables_Control import *
 
-menu = MenuDeOpciones(ventana, LINK_VIDEO)
+menu = MenuDeOpciones(ventana=ventana, textoACopiar=LINK_VIDEO)
 
 
 # ------------------------------------------------
@@ -72,27 +72,27 @@ class Main:
         """
         Crea la GUI para el programa.
         """
-        self.barraDeProgresion = BarraDeProgresion(
-            ventana,
-            PORCENTAJE_DESCARGA,
-            PORCENTAJE_DESCARGA_STRING,
-            13,
-            470,
-        )
-        self.buscar = Buscar(UBICACION_VIDEO)
+        self.buscar = Buscar(UBICACION_VIDEO=UBICACION_VIDEO)
 
         # Texto + Caja + Botón de descargar video
         Etiqueta(
-            "Introduce la URL del video a descargar",
-            10,
-            30,
-            const.AZUL_ETIQUETAS,
-            "Helvetica",
-            18,
-            ventana,
+            texto="Introduce la URL del video a descargar",
+            y=10,
+            ancho=30,
+            colorFondo=const.AZUL_ETIQUETAS,
+            fuente="Helvetica",
+            tamañoFuente=18,
+            ventana=ventana,
         )
 
-        CrearEntrys(ventana, LINK_VIDEO, "Helvetica", 15, 70, 20)
+        CrearEntrys(
+            ventana=ventana,
+            textvariable=LINK_VIDEO,
+            fuente="Helvetica",
+            tamañoDeFuente=15,
+            ancho=70,
+            y=20,
+        )
 
         ventana.bind("<Button-3>", menu.FuncionMenuDeOpciones)
 
@@ -100,67 +100,82 @@ class Main:
 
         # Texto + Caja + Botón de ubicación para guardar el video
         Etiqueta(
-            "¿Donde quieres guardar el video?",
-            10,
-            27,
-            const.AZUL_ETIQUETAS,
-            "Helvetica",
-            18,
-            ventana,
+            texto="¿Donde quieres guardar el video?",
+            y=10,
+            ancho=27,
+            colorFondo=const.AZUL_ETIQUETAS,
+            fuente="Helvetica",
+            tamañoFuente=18,
+            ventana=ventana,
         )
 
-        CrearEntrys(ventana, UBICACION_VIDEO, "Helvetica", 15, 70, 20)
+        CrearEntrys(
+            ventana=ventana,
+            textvariable=UBICACION_VIDEO,
+            fuente="Helvetica",
+            tamañoDeFuente=15,
+            ancho=70,
+            y=20,
+        )
 
         BotonPosicionAbsoluta(
-            "Seleccionar ubicación",
-            10,
-            20,
-            const.VERDE_OSCURO,
-            lambda: [self.buscar.FuncionBuscar()],
-            "Helvetica",
-            15,
-            ventana,
-            const.VERDE_CLARO,
-            const.VERDE_OSCURO,
+            texto="Seleccionar ubicación",
+            y=10,
+            ancho=20,
+            colorFondo=const.VERDE_OSCURO,
+            funcion=lambda: [self.buscar.FuncionBuscar()],
+            fuente="Helvetica",
+            tamañoFuente=15,
+            ventana=ventana,
+            colorRatonDentro=const.VERDE_CLARO,
+            colorRatonFuera=const.VERDE_OSCURO,
         )
 
         BotonPosicionRelativa(
-            "Descargar video",
-            220,
-            322,
-            15,
-            const.AMARILLO_OSCURO,
-            lambda: [self.__Descargar_Video_En_Un_Hilo_Nuevo(LINK_VIDEO.get())],
-            "Helvetica",
-            15,
-            ventana,
-            const.AMARILLO_CLARO,
-            const.AMARILLO_OSCURO,
+            texto="Descargar video",
+            x=220,
+            y=322,
+            ancho=15,
+            colorFondo=const.AMARILLO_OSCURO,
+            funcion=lambda: [self.__Descargar_Video_En_Un_Hilo_Nuevo(LINK_VIDEO.get())],
+            fuente="Helvetica",
+            tamañoFuente=15,
+            ventana=ventana,
+            colorRatonDentro=const.AMARILLO_CLARO,
+            colorRatonFuera=const.AMARILLO_OSCURO,
         )
 
         BotonPosicionRelativa(
-            "Descargar audio",
-            420,
-            322,
-            15,
-            const.AMARILLO_OSCURO,
-            lambda: [self.__Descargar_Audio_En_Un_Hilo_Nuevo(LINK_VIDEO.get())],
-            "Helvetica",
-            15,
-            ventana,
-            const.AMARILLO_CLARO,
-            const.AMARILLO_OSCURO,
+            texto="Descargar audio",
+            x=420,
+            y=322,
+            ancho=15,
+            colorFondo=const.AMARILLO_OSCURO,
+            funcion=lambda: [self.__Descargar_Audio_En_Un_Hilo_Nuevo(LINK_VIDEO.get())],
+            fuente="Helvetica",
+            tamañoFuente=15,
+            ventana=ventana,
+            colorRatonDentro=const.AMARILLO_CLARO,
+            colorRatonFuera=const.AMARILLO_OSCURO,
         )
 
         # Crear la etiqueta de la barra de progresion
         Etiqueta(
-            "Progreso de la descarga:",
-            97,
-            20,
-            const.AZUL_ETIQUETAS,
-            "Helvetica",
-            18,
-            ventana,
+            texto="Progreso de la descarga:",
+            y=97,
+            ancho=20,
+            colorFondo=const.AZUL_ETIQUETAS,
+            fuente="Helvetica",
+            tamañoFuente=18,
+            ventana=ventana,
+        )
+
+        self.barraDeProgresion = BarraDeProgresion(
+            ventana=ventana,
+            PORCENTAJE_DESCARGA=PORCENTAJE_DESCARGA,
+            PORCENTAJE_DESCARGA_STRING=PORCENTAJE_DESCARGA_STRING,
+            x=13,
+            y=470,
         )
 
     def __DescargarVideo(self, URL_Video, *args, **kwargs):
@@ -175,11 +190,11 @@ class Main:
         self.URL_Video = URL_Video
 
         DescargarVideo(
-            LINK_VIDEO,
-            UBICACION_VIDEO,
-            PORCENTAJE_DESCARGA,
-            self.barraDeProgresion,
-            30,
+            LINK_VIDEO=LINK_VIDEO,
+            UBICACION_VIDEO=UBICACION_VIDEO,
+            PORCENTAJE_DESCARGA=PORCENTAJE_DESCARGA,
+            BarraDeProgresion=self.barraDeProgresion,
+            velocidad_Barra_De_Progresion=30,
         )
 
     def __DescargarAudio(self, URL_Video, *args, **kwargs):
@@ -194,11 +209,11 @@ class Main:
         self.URL_Video = URL_Video
 
         DescargarAudio(
-            LINK_VIDEO,
-            UBICACION_VIDEO,
-            PORCENTAJE_DESCARGA,
-            self.barraDeProgresion,
-            15,
+            LINK_VIDEO=LINK_VIDEO,
+            UBICACION_VIDEO=UBICACION_VIDEO,
+            PORCENTAJE_DESCARGA=PORCENTAJE_DESCARGA,
+            BarraDeProgresion=self.barraDeProgresion,
+            velocidad_Barra_De_Progresion=15,
         )
 
     def __Descargar_Video_En_Un_Hilo_Nuevo(self, URL_Video):

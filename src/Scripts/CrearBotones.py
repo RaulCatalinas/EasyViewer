@@ -1,6 +1,6 @@
 from tkinter import Button
 
-from src.Scripts.CambiarColor import CambiarColor as color
+from CambiarColor import CambiarColor as color
 
 
 class BotonPosicionAbsoluta:
