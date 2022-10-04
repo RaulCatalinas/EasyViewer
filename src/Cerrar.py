@@ -5,7 +5,7 @@ from tkinter import Toplevel, PhotoImage
 
 from CrearBotones import BotonPosicionRelativa
 from CrearEtiquetas import Etiqueta
-from src.Icon.Icono import getIcono
+from Icon.Icono import getIcono
 
 
 class DialogoCerrar:

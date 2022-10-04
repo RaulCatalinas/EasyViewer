@@ -1,15 +1,14 @@
 # Librerias necesarias
+from configparser import ConfigParser
 from threading import Thread
 from tkinter.messagebox import showerror
-
-# Para las constantes
-from pconst import const
 
 # Scripts necesarios
 from BarraDeProgresion import BarraDeProgresion
 from BarraDeTareas import BarraDeTareas
 from Buscar import Buscar
 from Cerrar import Cerrar
+from Config.Ruta_Del_Archivo_De_Configuracion import *
 from CrearBotones import BotonPosicionAbsoluta, BotonPosicionRelativa
 from CrearEntrys import CrearEntrys
 from CrearEtiquetas import Etiqueta
@@ -18,45 +17,33 @@ from Menu_De_Opciones import MenuDeOpciones
 from Validaciones import *
 from Ventana import Ventana
 
-# -------------------------------------------------
-# Constantes
+config = ConfigParser()
 
-const.AZUL_ETIQUETAS = "#00FFEF"
-const.VERDE_OSCURO = "#003300"
-const.VERDE_CLARO = "#00FF00"
-const.NEGRO = "#000000"
-const.AMARILLO_OSCURO = "#333300"
-const.AMARILLO_CLARO = "#FFFF00"
-const.ROJO = "#FF0000"
-const.ROJO_OSCURO = "#660000"
-const.NARANJA = "#FF8000"
-const.NARANJA_OSCURO = "#663300"
-const.ANCHO_VENTANA_PRINCIPAL = 830
-const.ALTO_VENTANA_PRINCIPAL = 545
+config.read(Ruta_Del_Archivo_De_Configuracion())
+chdir(dirname(__file__))
 
-# -----------------------------------------------
 # Ventana
 ventana = Ventana(
-    colorDeFondo=const.NEGRO,
-    tituloVentana="Easy Viewer",
-    ancho=const.ANCHO_VENTANA_PRINCIPAL,
-    alto=const.ALTO_VENTANA_PRINCIPAL,
+    colorDeFondo=config["COLORES"]["NEGRO"],
+    tituloVentana=config["VENTANA"]["TITULO"],
+    ancho=config.getint("VENTANA", "ANCHO"),
+    alto=config.getint("VENTANA", "ALTO"),
 )
 
 BarraDeTareas(ventana=ventana)
 
 Cerrar(
     parent=ventana,
-    colorFondo=const.NEGRO,
-    color_Boton_Salir_Raton_Dentro=const.ROJO,
-    color_Boton_Salir_Raton_Fuera=const.ROJO_OSCURO,
-    color_Boton_Minimizar_Raton_Dentro=const.NARANJA,
-    color_Boton_Minimizar_Raton_Fuera=const.NARANJA_OSCURO,
-    color_Boton_Cancelar_Raton_Dentro=const.AMARILLO_CLARO,
-    color_Boton_Cancelar_Raton_Fuera=const.AMARILLO_OSCURO,
+    colorFondo=config["COLORES"]["NEGRO"],
+    color_Boton_Salir_Raton_Dentro=config["COLORES"]["ROJO"],
+    color_Boton_Salir_Raton_Fuera=config["COLORES"]["ROJO_OSCURO"],
+    color_Boton_Minimizar_Raton_Dentro=config["COLORES"]["NARANJA"],
+    color_Boton_Minimizar_Raton_Fuera=config["COLORES"]["NARANJA_OSCURO"],
+    color_Boton_Cancelar_Raton_Dentro=config["COLORES"]["AMARILLO"],
+    color_Boton_Cancelar_Raton_Fuera=config["COLORES"]["AMARILLO_OSCURO"],
     ancho=330,  # Ancho de la ventana de confirmación de cierre
     alto=134,  # Alto de la ventana de confirmación de cierre
-    colorEtiqueta=const.AZUL_ETIQUETAS,
+    colorEtiqueta=config["COLORES"]["AZUL_ETIQUETAS"],
 )
 
 from Variables_Control import *
@@ -79,7 +66,7 @@ class Main:
             texto="Introduce la URL del video a descargar",
             y=10,
             ancho=30,
-            colorFondo=const.AZUL_ETIQUETAS,
+            colorFondo=config["COLORES"]["AZUL_ETIQUETAS"],
             fuente="Helvetica",
             tamañoFuente=18,
             ventana=ventana,
@@ -103,7 +90,7 @@ class Main:
             texto="¿Donde quieres guardar el video?",
             y=10,
             ancho=27,
-            colorFondo=const.AZUL_ETIQUETAS,
+            colorFondo=config["COLORES"]["AZUL_ETIQUETAS"],
             fuente="Helvetica",
             tamañoFuente=18,
             ventana=ventana,
@@ -122,13 +109,13 @@ class Main:
             texto="Seleccionar ubicación",
             y=10,
             ancho=20,
-            colorFondo=const.VERDE_OSCURO,
+            colorFondo=config["COLORES"]["VERDE_OSCURO"],
             funcion=lambda: [self.buscar.FuncionBuscar()],
             fuente="Helvetica",
             tamañoFuente=15,
             ventana=ventana,
-            colorRatonDentro=const.VERDE_CLARO,
-            colorRatonFuera=const.VERDE_OSCURO,
+            colorRatonDentro=config["COLORES"]["VERDE"],
+            colorRatonFuera=config["COLORES"]["VERDE_OSCURO"],
         )
 
         BotonPosicionRelativa(
@@ -136,13 +123,13 @@ class Main:
             x=220,
             y=322,
             ancho=15,
-            colorFondo=const.AMARILLO_OSCURO,
+            colorFondo=config["COLORES"]["AMARILLO_OSCURO"],
             funcion=lambda: [self.__Descargar_Video_En_Un_Hilo_Nuevo(LINK_VIDEO.get())],
             fuente="Helvetica",
             tamañoFuente=15,
             ventana=ventana,
-            colorRatonDentro=const.AMARILLO_CLARO,
-            colorRatonFuera=const.AMARILLO_OSCURO,
+            colorRatonDentro=config["COLORES"]["AMARILLO"],
+            colorRatonFuera=config["COLORES"]["AMARILLO_OSCURO"],
         )
 
         BotonPosicionRelativa(
@@ -150,13 +137,13 @@ class Main:
             x=420,
             y=322,
             ancho=15,
-            colorFondo=const.AMARILLO_OSCURO,
+            colorFondo=config["COLORES"]["AMARILLO_OSCURO"],
             funcion=lambda: [self.__Descargar_Audio_En_Un_Hilo_Nuevo(LINK_VIDEO.get())],
             fuente="Helvetica",
             tamañoFuente=15,
             ventana=ventana,
-            colorRatonDentro=const.AMARILLO_CLARO,
-            colorRatonFuera=const.AMARILLO_OSCURO,
+            colorRatonDentro=config["COLORES"]["AMARILLO"],
+            colorRatonFuera=config["COLORES"]["AMARILLO_OSCURO"],
         )
 
         # Crear la etiqueta de la barra de progresion
@@ -164,7 +151,7 @@ class Main:
             texto="Progreso de la descarga:",
             y=97,
             ancho=20,
-            colorFondo=const.AZUL_ETIQUETAS,
+            colorFondo=config["COLORES"]["AZUL_ETIQUETAS"],
             fuente="Helvetica",
             tamañoFuente=18,
             ventana=ventana,

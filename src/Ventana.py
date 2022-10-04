@@ -3,7 +3,7 @@ from os import chdir
 from os.path import dirname
 from tkinter import Tk, PhotoImage
 
-from src.Icon.Icono import getIcono
+from Icon.Icono import getIcono
 
 
 class Ventana(Tk):
