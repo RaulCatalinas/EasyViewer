@@ -61,6 +61,12 @@ class BotonPosicionAbsoluta:
             self.colorRatonFuera,
         )
 
+    def DesactivarBoton(self):
+        self.boton.config(state="disabled")
+
+    def ActivarBoton(self):
+        self.boton.config(state="normal")
+
 
 class BotonPosicionRelativa:
     def __init__(
@@ -122,3 +128,9 @@ class BotonPosicionRelativa:
             self.colorRatonDentro,
             self.colorRatonFuera,
         )
+
+    def DesactivarBoton(self):
+        self.boton.config(state="disabled")
+
+    def ActivarBoton(self):
+        self.boton.config(state="normal")

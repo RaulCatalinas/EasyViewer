@@ -17,6 +17,11 @@ class DescargarVideo:
         PORCENTAJE_DESCARGA,
         BarraDeProgresion,
         velocidad_Barra_De_Progresion,
+        boton_Seleccionar_Ubicacion,
+        boton_Descargar_Video,
+        boton_Descargar_Audio,
+        entry_URL,
+        entry_Ubicacion_Video,
     ):
         """
         Descarga un video de YouTube y lo guarda en una carpeta que el usuario elija
@@ -26,10 +31,21 @@ class DescargarVideo:
         self.PORCENTAJE_DESCARGA = PORCENTAJE_DESCARGA
         self.barra = BarraDeProgresion
         self.velocidad_Barra_De_Progresion = velocidad_Barra_De_Progresion
+        self.boton_Descargar_Audio = boton_Descargar_Audio
+        self.boton_Descargar_Video = boton_Descargar_Video
+        self.boton_Seleccionar_Ubicacion = boton_Seleccionar_Ubicacion
+        self.entry_Ubicacion_Video = entry_Ubicacion_Video
+        self.entry_URL = entry_URL
 
         log.writeLog("Se ha hecho click en el botón de descargar")
 
         try:
+            self.boton_Seleccionar_Ubicacion.DesactivarBoton()
+            self.boton_Descargar_Video.DesactivarBoton()
+            self.boton_Descargar_Audio.DesactivarBoton()
+            self.entry_URL.DesactivarEntry()
+            self.entry_Ubicacion_Video.DesactivarEntry()
+
             self.URL = self.LINK_VIDEO.get()
 
             log.writeLog("Se ha obtenido la URL del video a descargar")
@@ -55,6 +71,12 @@ class DescargarVideo:
         except:
             self.__DetenerBarraDeProgresion()
 
+            self.boton_Seleccionar_Ubicacion.ActivarBoton()
+            self.boton_Descargar_Video.ActivarBoton()
+            self.boton_Descargar_Audio.ActivarBoton()
+            self.entry_URL.ActivarEntry()
+            self.entry_Ubicacion_Video.ActivarEntry()
+
             self.barra.barraProgresionDescarga["value"] = 0
 
             self.PORCENTAJE_DESCARGA.set("")
@@ -70,6 +92,12 @@ class DescargarVideo:
 
         else:
             open(self.Carpeta_Guardar_Video)
+
+            self.boton_Seleccionar_Ubicacion.ActivarBoton()
+            self.boton_Descargar_Video.ActivarBoton()
+            self.boton_Descargar_Audio.ActivarBoton()
+            self.entry_URL.ActivarEntry()
+            self.entry_Ubicacion_Video.ActivarEntry()
 
             self.__DetenerBarraDeProgresion()
 
@@ -99,6 +127,11 @@ class DescargarAudio:
         PORCENTAJE_DESCARGA,
         BarraDeProgresion,
         velocidad_Barra_De_Progresion,
+        boton_Seleccionar_Ubicacion,
+        boton_Descargar_Video,
+        boton_Descargar_Audio,
+        entry_URL,
+        entry_Ubicacion_Video,
     ):
         """
         Descarga el audio de un vídeo de YouTube y lo guarda en la carpeta que el usuario haya elegido
@@ -108,10 +141,21 @@ class DescargarAudio:
         self.PORCENTAJE_DESCARGA = PORCENTAJE_DESCARGA
         self.barra = BarraDeProgresion
         self.velocidad_Barra_De_Progresion = velocidad_Barra_De_Progresion
+        self.boton_Descargar_Audio = boton_Descargar_Audio
+        self.boton_Descargar_Video = boton_Descargar_Video
+        self.boton_Seleccionar_Ubicacion = boton_Seleccionar_Ubicacion
+        self.entry_Ubicacion_Video = entry_Ubicacion_Video
+        self.entry_URL = entry_URL
 
         log.writeLog("Se ha hecho click en el botón de descargar")
 
         try:
+            self.boton_Seleccionar_Ubicacion.DesactivarBoton()
+            self.boton_Descargar_Video.DesactivarBoton()
+            self.boton_Descargar_Audio.DesactivarBoton()
+            self.entry_URL.DesactivarEntry()
+            self.entry_Ubicacion_Video.DesactivarEntry()
+
             self.URL = self.LINK_VIDEO.get()
 
             log.writeLog("Se ha obtenido la URL del video a descargar")
@@ -142,6 +186,12 @@ class DescargarAudio:
         except:
             self.__DetenerBarraDeProgresion()
 
+            self.boton_Seleccionar_Ubicacion.ActivarBoton()
+            self.boton_Descargar_Video.ActivarBoton()
+            self.boton_Descargar_Audio.ActivarBoton()
+            self.entry_URL.ActivarEntry()
+            self.entry_Ubicacion_Video.ActivarEntry()
+
             self.barra.barraProgresionDescarga["value"] = 0
 
             self.PORCENTAJE_DESCARGA.set("")
@@ -161,6 +211,12 @@ class DescargarAudio:
             rename(self.base + self.ext, self.cambiarFormato)
 
             open(self.Carpeta_Guardar_Video)
+
+            self.boton_Seleccionar_Ubicacion.ActivarBoton()
+            self.boton_Descargar_Video.ActivarBoton()
+            self.boton_Descargar_Audio.ActivarBoton()
+            self.entry_URL.ActivarEntry()
+            self.entry_Ubicacion_Video.ActivarEntry()
 
             self.__DetenerBarraDeProgresion()
 

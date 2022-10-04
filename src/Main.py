@@ -72,7 +72,7 @@ class Main:
             ventana=ventana,
         )
 
-        CrearEntrys(
+        self.entry_URL = CrearEntrys(
             ventana=ventana,
             textvariable=LINK_VIDEO,
             fuente="Helvetica",
@@ -96,7 +96,7 @@ class Main:
             ventana=ventana,
         )
 
-        CrearEntrys(
+        self.entry_Ubicacion_Video = CrearEntrys(
             ventana=ventana,
             textvariable=UBICACION_VIDEO,
             fuente="Helvetica",
@@ -105,7 +105,7 @@ class Main:
             y=20,
         )
 
-        BotonPosicionAbsoluta(
+        self.boton_Seleccionar_Ubicacion = BotonPosicionAbsoluta(
             texto="Seleccionar ubicación",
             y=10,
             ancho=20,
@@ -118,7 +118,7 @@ class Main:
             colorRatonFuera=config["COLORES"]["VERDE_OSCURO"],
         )
 
-        BotonPosicionRelativa(
+        self.boton_Descargar_Video = BotonPosicionRelativa(
             texto="Descargar video",
             x=220,
             y=322,
@@ -132,7 +132,7 @@ class Main:
             colorRatonFuera=config["COLORES"]["AMARILLO_OSCURO"],
         )
 
-        BotonPosicionRelativa(
+        self.boton_Descargar_Audio = BotonPosicionRelativa(
             texto="Descargar audio",
             x=420,
             y=322,
@@ -182,6 +182,11 @@ class Main:
             PORCENTAJE_DESCARGA=PORCENTAJE_DESCARGA,
             BarraDeProgresion=self.barraDeProgresion,
             velocidad_Barra_De_Progresion=30,
+            boton_Descargar_Video=self.boton_Descargar_Video,
+            boton_Descargar_Audio=self.boton_Descargar_Audio,
+            boton_Seleccionar_Ubicacion=self.boton_Seleccionar_Ubicacion,
+            entry_URL=self.entry_URL,
+            entry_Ubicacion_Video=self.entry_Ubicacion_Video,
         )
 
     def __DescargarAudio(self, URL_Video, *args, **kwargs):
@@ -201,6 +206,11 @@ class Main:
             PORCENTAJE_DESCARGA=PORCENTAJE_DESCARGA,
             BarraDeProgresion=self.barraDeProgresion,
             velocidad_Barra_De_Progresion=15,
+            boton_Descargar_Video=self.boton_Descargar_Video,
+            boton_Descargar_Audio=self.boton_Descargar_Audio,
+            boton_Seleccionar_Ubicacion=self.boton_Seleccionar_Ubicacion,
+            entry_URL=self.entry_URL,
+            entry_Ubicacion_Video=self.entry_Ubicacion_Video,
         )
 
     def __Descargar_Video_En_Un_Hilo_Nuevo(self, URL_Video):

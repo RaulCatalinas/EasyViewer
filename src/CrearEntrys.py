@@ -30,3 +30,9 @@ class CrearEntrys:
 
         # Posicionar el Entry
         self.crearEntry.pack(pady=self.y)
+
+    def DesactivarEntry(self):
+        self.crearEntry.config(state="disabled")
+
+    def ActivarEntry(self):
+        self.crearEntry.config(state="normal")
