@@ -1,4 +1,5 @@
-from os.path import isdir
+from os import environ
+from os.path import isdir, join
 
 from pytube import YouTube
 from requests import get, ConnectionError, Timeout
@@ -17,8 +18,9 @@ def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga):
         log.writeLog("Se ha seleccionado un directorio para guardar el video")
         return True
     else:
-        log.writeError("No se ha seleccionado ningún directorio")
-        raise Exception("No se ha seleccionado ningún directorio")
+        log.writeError("Se ha establecido el directorio por defecto")
+        Directorio_Descarga.set(join(join(environ["USERPROFILE"]), "Desktop"))
+        return True
 
 
 def Comprobar_Si_Es_URL_YouTube(url):
