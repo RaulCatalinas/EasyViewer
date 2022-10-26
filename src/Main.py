@@ -19,11 +19,6 @@ from Ventana import Ventana
 
 config = ConfigParser()
 
-hiloDescargarVideo = None
-hiloProgresionVideo = None
-hiloDescargarAudio = None
-hiloProgresionAudio = None
-
 config.read(Ruta_Del_Archivo_De_Configuracion())
 chdir(dirname(__file__))
 
