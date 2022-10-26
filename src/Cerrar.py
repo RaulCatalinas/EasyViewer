@@ -1,11 +1,8 @@
-from os import chdir
-from os.path import dirname
 from sys import exit
-from tkinter import Toplevel, PhotoImage
+from tkinter import Toplevel
 
 from CrearBotones import BotonPosicionRelativa
 from CrearEtiquetas import Etiqueta
-from Icon.Icono import getIcono
 
 
 class DialogoCerrar:
@@ -22,6 +19,7 @@ class DialogoCerrar:
         ancho,
         alto,
         colorEtiqueta,
+        tituloVentana,
     ):
         """
         Crea una ventana Toplevel, y luego crea dos botones, uno que llama a la función salir() y el otro que llama a la
@@ -47,11 +45,10 @@ class DialogoCerrar:
         self.ancho = ancho
         self.alto = alto
         self.colorEtiqueta = colorEtiqueta
+        self.tituloVentana = tituloVentana
 
         self.top = Toplevel(self.parent)
-        self.top.iconphoto(False, PhotoImage(file=getIcono()))
-        chdir(dirname(__file__))
-        self.top.title("Salir")
+        self.top.title(self.tituloVentana)
 
         # Cálculos para el centrado de la ventana
         Ancho_Ventana = self.top.winfo_screenwidth()
@@ -145,6 +142,7 @@ class Cerrar:
         ancho,
         alto,
         colorEtiqueta,
+        tituloVentana,
     ):
         """
         La función se llama cuando la ventana se va a cerrar.
@@ -169,6 +167,7 @@ class Cerrar:
         self.ancho = ancho
         self.alto = alto
         self.colorEtiqueta = colorEtiqueta
+        self.tituloVentana = tituloVentana
 
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
 
@@ -185,6 +184,7 @@ class Cerrar:
             ancho=self.ancho,
             alto=self.alto,
             colorEtiqueta=self.colorEtiqueta,
+            tituloVentana=self.tituloVentana,
         )
 
         self.parent.wait_window(self.dialogo.top)

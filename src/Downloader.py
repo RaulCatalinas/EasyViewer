@@ -1,5 +1,3 @@
-from os import rename
-from os.path import splitext
 from webbrowser import open
 
 from pytube import YouTube
@@ -22,6 +20,7 @@ class DescargarVideo:
         boton_Descargar_Audio,
         entry_URL,
         entry_Ubicacion_Video,
+        NOMBRE_DESCARGA,
     ):
         """
         Descarga un video de YouTube y lo guarda en una carpeta que el usuario elija
@@ -36,6 +35,7 @@ class DescargarVideo:
         self.boton_Seleccionar_Ubicacion = boton_Seleccionar_Ubicacion
         self.entry_Ubicacion_Video = entry_Ubicacion_Video
         self.entry_URL = entry_URL
+        self.NOMBRE_DESCARGA = NOMBRE_DESCARGA
 
         log.writeLog("Se ha hecho click en el botón de descargar")
 
@@ -66,7 +66,20 @@ class DescargarVideo:
 
             self.__EjecutarBarraDeProgresion(self.velocidad_Barra_De_Progresion)
 
-            self.Descargar_Video.download(self.Carpeta_Guardar_Video)
+            self.espaciosEliminados = self.Obtener_Video.title.replace(" ", "-")
+            self.comasEliminadas = self.espaciosEliminados.replace(",", "")
+            self.exclamacionDeAperturaEliminada = self.comasEliminadas.replace("¡", "")
+            self.exclamacionDeCierreEliminada = (
+                self.exclamacionDeAperturaEliminada.replace("!", "")
+            )
+
+            print(self.exclamacionDeCierreEliminada)
+
+            self.NOMBRE_DESCARGA.set(f"{self.exclamacionDeCierreEliminada}.mp4")
+
+            self.Descargar_Video.download(
+                self.Carpeta_Guardar_Video, filename=self.NOMBRE_DESCARGA.get()
+            )
 
         except:
             self.__DetenerBarraDeProgresion()
@@ -132,6 +145,7 @@ class DescargarAudio:
         boton_Descargar_Audio,
         entry_URL,
         entry_Ubicacion_Video,
+        NOMBRE_DESCARGA,
     ):
         """
         Descarga el audio de un vídeo de YouTube y lo guarda en la carpeta que el usuario haya elegido
@@ -146,6 +160,7 @@ class DescargarAudio:
         self.boton_Seleccionar_Ubicacion = boton_Seleccionar_Ubicacion
         self.entry_Ubicacion_Video = entry_Ubicacion_Video
         self.entry_URL = entry_URL
+        self.NOMBRE_DESCARGA = NOMBRE_DESCARGA
 
         log.writeLog("Se ha hecho click en el botón de descargar")
 
@@ -176,11 +191,20 @@ class DescargarAudio:
 
             self.__EjecutarBarraDeProgresion(self.velocidad_Barra_De_Progresion)
 
-            self.base, self.ext = splitext(
-                self.Descargar_Video.download(
-                    self.Carpeta_Guardar_Video,
-                    filename=f"{self.Descargar_Video.title}.mp3",
-                )
+            self.espaciosEliminados = self.Obtener_Video.title.replace(" ", "-")
+            self.comasEliminadas = self.espaciosEliminados.replace(",", "")
+            self.exclamacionDeAperturaEliminada = self.comasEliminadas.replace("¡", "")
+            self.exclamacionDeCierreEliminada = (
+                self.exclamacionDeAperturaEliminada.replace("!", "")
+            )
+
+            print(self.exclamacionDeCierreEliminada)
+
+            self.NOMBRE_DESCARGA.set(f"{self.exclamacionDeCierreEliminada}.mp3")
+
+            self.Descargar_Video.download(
+                self.Carpeta_Guardar_Video,
+                filename=self.NOMBRE_DESCARGA.get(),
             )
 
         except:
@@ -206,10 +230,6 @@ class DescargarAudio:
             raise Exception("El audio no se ha podido descargar")
 
         else:
-            self.cambiarFormato = self.base + ".mp3"
-
-            rename(self.base + self.ext, self.cambiarFormato)
-
             open(self.Carpeta_Guardar_Video)
 
             self.boton_Seleccionar_Ubicacion.ActivarBoton()

@@ -19,6 +19,11 @@ from Ventana import Ventana
 
 config = ConfigParser()
 
+hiloDescargarVideo = None
+hiloProgresionVideo = None
+hiloDescargarAudio = None
+hiloProgresionAudio = None
+
 config.read(Ruta_Del_Archivo_De_Configuracion())
 chdir(dirname(__file__))
 
@@ -32,6 +37,7 @@ ventana = Ventana(
 
 BarraDeTareas(ventana=ventana)
 
+
 Cerrar(
     parent=ventana,
     colorFondo=config["COLORES"]["NEGRO"],
@@ -41,9 +47,10 @@ Cerrar(
     color_Boton_Minimizar_Raton_Fuera=config["COLORES"]["NARANJA_OSCURO"],
     color_Boton_Cancelar_Raton_Dentro=config["COLORES"]["AMARILLO"],
     color_Boton_Cancelar_Raton_Fuera=config["COLORES"]["AMARILLO_OSCURO"],
-    ancho=330,  # Ancho de la ventana de confirmación de cierre
-    alto=134,  # Alto de la ventana de confirmación de cierre
+    ancho=config.getint("VENTANA_CONTROL_CIERRE", "ANCHO"),
+    alto=config.getint("VENTANA_CONTROL_CIERRE", "ALTO"),
     colorEtiqueta=config["COLORES"]["AZUL_ETIQUETAS"],
+    tituloVentana=config["VENTANA_CONTROL_CIERRE"]["TITULO"],
 )
 
 from Variables_Control import *
@@ -187,6 +194,7 @@ class Main:
             boton_Seleccionar_Ubicacion=self.boton_Seleccionar_Ubicacion,
             entry_URL=self.entry_URL,
             entry_Ubicacion_Video=self.entry_Ubicacion_Video,
+            NOMBRE_DESCARGA=NOMBRE_DESCARGA,
         )
 
     def __DescargarAudio(self, URL_Video, *args, **kwargs):
@@ -211,10 +219,12 @@ class Main:
             boton_Seleccionar_Ubicacion=self.boton_Seleccionar_Ubicacion,
             entry_URL=self.entry_URL,
             entry_Ubicacion_Video=self.entry_Ubicacion_Video,
+            NOMBRE_DESCARGA=NOMBRE_DESCARGA,
         )
 
     def __Descargar_Video_En_Un_Hilo_Nuevo(self, URL_Video):
         self.URL_Video = URL_Video
+
         try:
             if (
                 Comprobar_Si_Se_Ha_Introducido_Una_URL(
@@ -229,13 +239,18 @@ class Main:
                 and Comprobar_Conexion_Internet()
                 and Comprobar_Si_El_Video_Esta_Disponible(self.URL_Video)
             ):
-                Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
-                Thread(target=self.__DescargarVideo, args=self.URL_Video).start()
+                Thread(
+                    target=self.barraDeProgresion.AumentarProgreso(), daemon=True
+                ).start()
+                Thread(
+                    target=self.__DescargarVideo, args=self.URL_Video, daemon=True
+                ).start()
         except Exception as e:
             showerror("Error", str(e))
 
     def __Descargar_Audio_En_Un_Hilo_Nuevo(self, URL_Video):
         self.URL_Video = URL_Video
+
         try:
             if (
                 Comprobar_Si_Se_Ha_Introducido_Una_URL(
@@ -250,12 +265,15 @@ class Main:
                 and Comprobar_Conexion_Internet()
                 and Comprobar_Si_El_Video_Esta_Disponible(self.URL_Video)
             ):
-                Thread(target=self.barraDeProgresion.AumentarProgreso()).start()
-                Thread(target=self.__DescargarAudio, args=self.URL_Video).start()
+                Thread(target=self.barraDeProgresion.AumentarProgreso(), daemon=True)
+
+                Thread(
+                    target=self.__DescargarAudio, args=self.URL_Video, daemon=True
+                ).start()
         except Exception as e:
             showerror("Error", str(e))
 
 
 Main()
-# Actualizar ventana
+
 ventana.ActualizarVentana()

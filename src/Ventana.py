@@ -26,7 +26,7 @@ class Ventana(Tk):
         self.geometry("{}x{}+{}+{}".format(ancho, alto, Coordenada_X, Coordenada_Y))
 
         self.resizable(False, False)
-        self.iconphoto(False, PhotoImage(file=getIcono()))
+        self.iconphoto(True, PhotoImage(file=getIcono()))
         chdir(dirname(__file__))
         self.config(bg=self.colorDeFondo)
 
