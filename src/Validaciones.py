@@ -14,12 +14,12 @@ def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga):
     Comprueba si se ha seleccionado un directorio
     """
 
-    if isdir(Directorio_Descarga.get()):
-        log.writeLog("Se ha seleccionado un directorio para guardar el video")
-        return True
-    else:
+    if Directorio_Descarga.get() == "":
         log.writeError("Se ha establecido el directorio por defecto")
         Directorio_Descarga.set(join(join(environ["USERPROFILE"]), "Desktop"))
+        return True
+    else:
+        log.writeLog("Se ha seleccionado un directorio para guardar el video")
         return True
 
 
@@ -77,3 +77,12 @@ def Comprobar_Si_El_Video_Esta_Disponible(URL_VIDEO):
         raise Exception(
             "No se ha podido acceder al video o es una emisión en directo vigente"
         )
+
+
+def Comprobar_Si_Es_Un_Directorio_Valido(Directorio_Descarga):
+    if isdir(Directorio_Descarga.get()):
+        log.writeLog("Se ha seleccionado un directorio valido")
+        return True
+    else:
+        log.writeError("Se ha seleccionado un directorio que no existe")
+        raise Exception("Por favor seleccione un directorio que exista")

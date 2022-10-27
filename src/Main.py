@@ -53,8 +53,6 @@ from Variables_Control import *
 menu = MenuDeOpciones(ventana=ventana, textoACopiar=LINK_VIDEO)
 
 
-# ------------------------------------------------
-
 # Clase principal del programa
 class Main:
     def __init__(self):
@@ -231,6 +229,7 @@ class Main:
                 and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
                     UBICACION_VIDEO,
                 )
+                and Comprobar_Si_Es_Un_Directorio_Valido(UBICACION_VIDEO)
                 and Comprobar_Conexion_Internet()
                 and Comprobar_Si_El_Video_Esta_Disponible(self.URL_Video)
             ):
@@ -257,6 +256,7 @@ class Main:
                 and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
                     UBICACION_VIDEO,
                 )
+                and Comprobar_Si_Es_Un_Directorio_Valido(UBICACION_VIDEO)
                 and Comprobar_Conexion_Internet()
                 and Comprobar_Si_El_Video_Esta_Disponible(self.URL_Video)
             ):
