@@ -2,6 +2,6 @@ from os import chdir
 from os.path import dirname
 
 
-def Ruta_Del_Archivo_De_Configuracion():
+def getRutaJson():
     chdir(dirname(__file__))
-    return "Config.cfg"
+    return "Config.json"
