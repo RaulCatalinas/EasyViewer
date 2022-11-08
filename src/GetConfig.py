@@ -1,4 +1,4 @@
-import json
+from json import load
 
 from Config.RutaJson import getRutaJson
 from Icon.RutaIcono import getRutaIcono
@@ -7,7 +7,7 @@ from Icon.RutaIcono import getRutaIcono
 class Config:
     def __init__(self):
         with open(getRutaJson()) as f:
-            self.config_json = json.load(f)
+            self.config_json = load(f)
 
         print(self.config_json)
 
