@@ -1,4 +1,4 @@
-# Youtube Downloader
+# Easy Viewer
 App para descargar videos de YouTube.
 
 El usuario introduce la URL del video que quiere descargar y selecciona la ubicación donde quiere guardar el video y/o 
