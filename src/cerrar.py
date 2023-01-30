@@ -55,7 +55,7 @@ class DialogoCerrar:
         self.top.resizable(False, False)
 
         self.etiqueta_confirmacion_cierre = Etiqueta(
-            texto="",
+            texto=config.get_config_execel(numero_columna_excel=6),
             posicion_eje_y=10,
             ancho=26,
             color_fondo=self.color_etiqueta,
@@ -64,12 +64,8 @@ class DialogoCerrar:
             ventana=self.top,
         )
 
-        self.etiqueta_confirmacion_cierre.etiqueta.config(
-            text=config.get_config_execel(numero_columna_excel=6)
-        )
-
         self.boton_salir = Boton(
-            texto="",
+            texto=config.get_config_execel(numero_columna_excel=7),
             posicion_eje_x=15,
             posicion_eje_y=50,
             ancho=15,
@@ -83,12 +79,8 @@ class DialogoCerrar:
             posicion_absoluta=False,
         )
 
-        self.boton_salir.boton.config(
-            text=config.get_config_execel(numero_columna_excel=7)
-        )
-
         self.boton_minimizar = Boton(
-            texto="",
+            texto=config.get_config_execel(numero_columna_excel=8),
             posicion_eje_x=173,
             posicion_eje_y=50,
             ancho=15,
@@ -102,12 +94,8 @@ class DialogoCerrar:
             posicion_absoluta=False,
         )
 
-        self.boton_minimizar.boton.config(
-            text=config.get_config_execel(numero_columna_excel=8)
-        )
-
         self.boton_cancelar = Boton(
-            texto="",
+            texto=config.get_config_execel(numero_columna_excel=9),
             posicion_eje_x=40,
             posicion_eje_y=90,
             ancho=25,
@@ -121,17 +109,13 @@ class DialogoCerrar:
             posicion_absoluta=False,
         )
 
-        self.boton_cancelar.boton.config(
-            text=config.get_config_execel(numero_columna_excel=9)
-        )
-
     def salir(self):
         """
         Destruye la ventana superior y la ventana principal y luego sale del programa.
         """
         self.top.destroy()
         self.parent.destroy()
-        exit()
+        sys.exit()
 
     def minimizar(self):
         """
