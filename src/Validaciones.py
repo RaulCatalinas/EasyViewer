@@ -1,88 +1,81 @@
+"""Comprobaciones ha realizar antes de descargar el video y/o el audio"""
+
 from os import environ
 from os.path import isdir, join
 
+import requests
 from pytube import YouTube
-from requests import get, ConnectionError, Timeout
 
-from Logging import GestionLogging
+from logging_app import GestionLogging
 
 log = GestionLogging()
 
 
-def Comprobar_Si_Se_Ha_Seleccionado_Directorio(Directorio_Descarga):
+def comprobar_si_se_ha_seleccionado_directorio(directorio_descarga):
     """
     Comprueba si se ha seleccionado un directorio
     """
 
-    if Directorio_Descarga.get() == "":
-        log.writeError("Se ha establecido el directorio por defecto")
-        Directorio_Descarga.set(join(join(environ["USERPROFILE"]), "Desktop"))
+    if directorio_descarga.get() != "" and isdir(directorio_descarga.get()):
+        log.write_log("Se ha seleccionado un directorio para guardar el video")
         return True
     else:
-        log.writeLog("Se ha seleccionado un directorio para guardar el video")
+        log.write_error("Se ha establecido el directorio por defecto")
+        directorio_descarga.set(join(join(environ["USERPROFILE"]), "Desktop"))
         return True
 
 
-def Comprobar_Si_Es_URL_YouTube(url):
+def comprobar_si_es_url_youtube(url):
     """
     Comprueba si la URL es de YouTube
     """
-    if "https://www.youtube.com/watch?v=" in url or "https://youtu.be/" in url:
-        log.writeLog("La URL es de YouTube")
+    if (
+        "https://www.youtube.com/watch?v=" in url.get()
+        or "https://youtu.be/" in url.get()
+        or "https://www.youtube.com/shorts/" in url.get()
+    ):
+        log.write_log("La URL es de YouTube")
         return True
     else:
-        log.writeError("La URL no es de YouTube")
+        log.write_error("La URL no es de YouTube")
         raise Exception("La URL no es de YouTube")
 
 
-def Comprobar_Conexion_Internet():
+def comprobar_conexion_internet():
     """
     Comprueba si hay conexión a internet
     """
     try:
-        get("https://www.google.es", timeout=5)
-    except (ConnectionError, Timeout):
-        log.writeError("No hay conexión a internet")
-        raise Exception("No hay conexión a internet")
+        requests.get("https://www.google.es", timeout=5)
+    except (requests.ConnectionError, requests.Timeout) as exc:
+        log.write_error("No hay conexión a internet")
+        raise Exception("No hay conexión a internet") from exc
     else:
-        log.writeLog("Si hay conexión a internet")
+        log.write_log("Si hay conexión a internet")
         return True
 
 
-def Comprobar_Si_Se_Ha_Introducido_Una_URL(url):
+def comprobar_si_se_ha_introducido_una_url(url):
     """
     Comprueba si se ha introducido una URL
     """
-    if url == "":
-        log.writeError("No se ha introducido ninguna URL")
+    if url.get() == "":
+        log.write_error("No se ha introducido ninguna URL")
         raise Exception("No se ha introducido ninguna URL")
     else:
-        log.writeLog("Se ha introducido una URL")
+        log.write_log("Se ha introducido una URL")
         return True
 
 
-def Comprobar_Si_El_Video_Esta_Disponible(URL_VIDEO):
+def comprobar_si_el_video_esta_disponible(url):
     """
     Comprueba si el video está disponible
     """
     try:
-        YouTube(URL_VIDEO).check_availability()
-        log.writeLog("El video esta disponible")
+        YouTube(url.get()).check_availability()
+        log.write_log("El video esta disponible")
         return True
 
-    except:
-        log.writeError(
-            "No se ha podido acceder al video o es una emisión en directo vigente"
-        )
-        raise Exception(
-            "No se ha podido acceder al video o es una emisión en directo vigente"
-        )
-
-
-def Comprobar_Si_Es_Un_Directorio_Valido(Directorio_Descarga):
-    if isdir(Directorio_Descarga.get()):
-        log.writeLog("Se ha seleccionado un directorio valido")
-        return True
-    else:
-        log.writeError("Se ha seleccionado un directorio que no existe")
-        raise Exception("Por favor seleccione un directorio que exista")
+    except Exception as exc:
+        log.write_error(str(exc))
+        raise Exception(str(exc)) from exc

@@ -1,271 +1,262 @@
-# Librerias necesarias
+"""Crea la GUI del programa"""
+
 from threading import Thread
 from tkinter.messagebox import showerror
 
-# Scripts necesarios
-from BarraDeProgresion import BarraDeProgresion
-from BarraDeTareas import BarraDeTareas
-from Buscar import Buscar
-from Cerrar import Cerrar
-from CrearBotones import BotonPosicionAbsoluta, BotonPosicionRelativa
-from CrearEntrys import CrearEntrys
-from CrearEtiquetas import Etiqueta
-from Downloader import *
-from GetConfig import Config, getIcono
-from Menu_De_Opciones import MenuDeOpciones
-from Validaciones import *
-from Ventana import Ventana
+import validaciones
+from barra_de_progresion import BarraDeProgresion
+from barra_de_tareas import BarraDeTareas
+from buscar import seleccionar_directorio
+from cerrar import Cerrar
+from crear_botones import Boton
+from crear_entrys import CrearEntrys
+from crear_etiquetas import Etiqueta
+from downloader import Descargar
+from get_config import Config, get_icono
+from menu_de_opciones import MenuDeOpciones
+from ventana import Ventana
 
 config = Config()
 
 # Ventana
 ventana = Ventana(
-    colorDeFondo=config.getConfig("COLORES", "NEGRO"),
-    tituloVentana=config.getConfig("VENTANA", "TITULO"),
-    ancho=config.getConfig("VENTANA", "ANCHO"),
-    alto=config.getConfig("VENTANA", "ALTO"),
-    icono=getIcono(),
+    color_fondo=config.get_config_json("COLORES", "NEGRO"),
+    titulo_ventana=config.get_config_json("VENTANA", "TITULO"),
+    ancho=config.get_config_json("VENTANA", "ANCHO"),
+    alto=config.get_config_json("VENTANA", "ALTO"),
+    icono=get_icono(),
 )
-
-BarraDeTareas(ventana=ventana)
-
 
 Cerrar(
     parent=ventana,
-    colorFondo=config.getConfig("COLORES", "NEGRO"),
-    color_Boton_Salir_Raton_Dentro=config.getConfig("COLORES", "ROJO"),
-    color_Boton_Salir_Raton_Fuera=config.getConfig("COLORES", "ROJO_OSCURO"),
-    color_Boton_Minimizar_Raton_Dentro=config.getConfig("COLORES", "NARANJA"),
-    color_Boton_Minimizar_Raton_Fuera=config.getConfig("COLORES", "NARANJA_OSCURO"),
-    color_Boton_Cancelar_Raton_Dentro=config.getConfig("COLORES", "AMARILLO"),
-    color_Boton_Cancelar_Raton_Fuera=config.getConfig("COLORES", "AMARILLO_OSCURO"),
-    ancho=config.getConfig("VENTANA_CONTROL_CIERRE", "ANCHO"),
-    alto=config.getConfig("VENTANA_CONTROL_CIERRE", "ALTO"),
-    colorEtiqueta=config.getConfig("COLORES", "AZUL_ETIQUETAS"),
-    tituloVentana=config.getConfig("VENTANA_CONTROL_CIERRE", "TITULO"),
+    color_fondo=config.get_config_json("COLORES", "NEGRO"),
+    color_boton_salir_raton_dentro=config.get_config_json("COLORES", "ROJO"),
+    color_boton_salir_raton_fuera=config.get_config_json("COLORES", "ROJO_OSCURO"),
+    color_boton_minimizar_raton_dentro=config.get_config_json("COLORES", "NARANJA"),
+    color_boton_minimizar_raton_fuera=config.get_config_json(
+        "COLORES", "NARANJA_OSCURO"
+    ),
+    color_boton_cancelar_raton_dentro=config.get_config_json("COLORES", "AMARILLO"),
+    color_boton_cancelar_raton_fuera=config.get_config_json(
+        "COLORES", "AMARILLO_OSCURO"
+    ),
+    ancho=config.get_config_json("VENTANA_CONTROL_CIERRE", "ANCHO"),
+    alto=config.get_config_json("VENTANA_CONTROL_CIERRE", "ALTO"),
+    color_etiqueta=config.get_config_json("COLORES", "AZUL_ETIQUETAS"),
 )
 
-from Variables_Control import *
+import variables_control
 
-menu = MenuDeOpciones(ventana=ventana, textoACopiar=LINK_VIDEO)
+menu = MenuDeOpciones(ventana=ventana, texto_a_copiar=variables_control.LINK_VIDEO)
 
 
 # Clase principal del programa
 class Main:
+    """
+    Crea la GUI para el programa.
+    """
+
     def __init__(self):
-        """
-        Crea la GUI para el programa.
-        """
-        self.buscar = Buscar(UBICACION_VIDEO=UBICACION_VIDEO)
+        BarraDeTareas(
+            ventana=ventana, actualizar_texto_widgets=self.__actualizar_texto_widgets
+        )
 
         # Texto + Caja + Botón de descargar video
-        Etiqueta(
-            texto="Introduce la URL del video a descargar",
-            y=10,
+        self.eitiqueta_url = Etiqueta(
+            texto=config.get_config_execel(numero_columna_excel=0),
+            posicion_eje_y=10,
             ancho=30,
-            colorFondo=config.getConfig("COLORES", "AZUL_ETIQUETAS"),
+            color_fondo=config.get_config_json("COLORES", "AZUL_ETIQUETAS"),
             fuente="Helvetica",
-            tamañoFuente=18,
+            tamaño_fuente=18,
             ventana=ventana,
         )
 
-        self.entry_URL = CrearEntrys(
+        self.entry_url = CrearEntrys(
             ventana=ventana,
-            textvariable=LINK_VIDEO,
+            textvariable=variables_control.LINK_VIDEO,
             fuente="Helvetica",
-            tamañoDeFuente=15,
+            tamaño_fuente=15,
             ancho=70,
-            y=20,
+            posicion_eje_y=20,
         )
 
-        ventana.bind("<Button-3>", menu.FuncionMenuDeOpciones)
+        ventana.bind("<Button-3>", menu.crear_menu_de_opciones)
 
         # ---------------------------------------------------------------------------
 
         # Texto + Caja + Botón de ubicación para guardar el video
-        Etiqueta(
-            texto="¿Donde quieres guardar el video?",
-            y=10,
-            ancho=27,
-            colorFondo=config.getConfig("COLORES", "AZUL_ETIQUETAS"),
+        self.etiqueta_ubicacion_video = Etiqueta(
+            texto=config.get_config_execel(numero_columna_excel=1),
+            posicion_eje_y=10,
+            ancho=30,
+            color_fondo=config.get_config_json("COLORES", "AZUL_ETIQUETAS"),
             fuente="Helvetica",
-            tamañoFuente=18,
+            tamaño_fuente=18,
             ventana=ventana,
         )
 
-        self.entry_Ubicacion_Video = CrearEntrys(
+        self.entry_ubicacion_video = CrearEntrys(
             ventana=ventana,
-            textvariable=UBICACION_VIDEO,
+            textvariable=variables_control.UBICACION_VIDEO,
             fuente="Helvetica",
-            tamañoDeFuente=15,
+            tamaño_fuente=15,
             ancho=70,
-            y=20,
+            posicion_eje_y=20,
         )
 
-        self.boton_Seleccionar_Ubicacion = BotonPosicionAbsoluta(
-            texto="Seleccionar ubicación",
-            y=10,
+        self.boton_seleccionar_ubicacion = Boton(
+            texto=config.get_config_execel(numero_columna_excel=2),
+            posicion_eje_y=10,
             ancho=20,
-            colorFondo=config.getConfig("COLORES", "VERDE_OSCURO"),
-            funcion=lambda: [self.buscar.FuncionBuscar()],
+            color_fondo=config.get_config_json("COLORES", "VERDE_OSCURO"),
+            funcion=lambda: [seleccionar_directorio(variables_control.UBICACION_VIDEO)],
             fuente="Helvetica",
-            tamañoFuente=15,
+            tamaño_fuente=16,
             ventana=ventana,
-            colorRatonDentro=config.getConfig("COLORES", "VERDE"),
-            colorRatonFuera=config.getConfig("COLORES", "VERDE_OSCURO"),
+            color_raton_dentro=config.get_config_json("COLORES", "VERDE"),
+            color_raton_fuera=config.get_config_json("COLORES", "VERDE_OSCURO"),
+            posicion_absoluta=True,
         )
 
-        self.boton_Descargar_Video = BotonPosicionRelativa(
-            texto="Descargar video",
-            x=220,
-            y=322,
+        self.boton_descargar_video = Boton(
+            texto=config.get_config_execel(numero_columna_excel=3),
+            posicion_eje_x=220,
+            posicion_eje_y=322,
             ancho=15,
-            colorFondo=config.getConfig("COLORES", "AMARILLO_OSCURO"),
-            funcion=lambda: [self.__Descargar_Video_En_Un_Hilo_Nuevo(LINK_VIDEO.get())],
+            color_fondo=config.get_config_json("COLORES", "AMARILLO_OSCURO"),
+            funcion=lambda: [
+                Thread(target=self.__descargar_video, daemon=True).start()
+            ],
             fuente="Helvetica",
-            tamañoFuente=15,
+            tamaño_fuente=15,
             ventana=ventana,
-            colorRatonDentro=config.getConfig("COLORES", "AMARILLO"),
-            colorRatonFuera=config.getConfig("COLORES", "AMARILLO_OSCURO"),
+            color_raton_dentro=config.get_config_json("COLORES", "AMARILLO"),
+            color_raton_fuera=config.get_config_json("COLORES", "AMARILLO_OSCURO"),
+            posicion_absoluta=False,
         )
 
-        self.boton_Descargar_Audio = BotonPosicionRelativa(
-            texto="Descargar audio",
-            x=420,
-            y=322,
+        self.boton_descargar_audio = Boton(
+            texto=config.get_config_execel(numero_columna_excel=4),
+            posicion_eje_x=420,
+            posicion_eje_y=322,
             ancho=15,
-            colorFondo=config.getConfig("COLORES", "AMARILLO_OSCURO"),
-            funcion=lambda: [self.__Descargar_Audio_En_Un_Hilo_Nuevo(LINK_VIDEO.get())],
+            color_fondo=config.get_config_json("COLORES", "AMARILLO_OSCURO"),
+            funcion=lambda: [
+                Thread(target=self.__descargar_audio, daemon=True).start()
+            ],
             fuente="Helvetica",
-            tamañoFuente=15,
+            tamaño_fuente=15,
             ventana=ventana,
-            colorRatonDentro=config.getConfig("COLORES", "AMARILLO"),
-            colorRatonFuera=config.getConfig("COLORES", "AMARILLO_OSCURO"),
+            color_raton_dentro=config.get_config_json("COLORES", "AMARILLO"),
+            color_raton_fuera=config.get_config_json("COLORES", "AMARILLO_OSCURO"),
+            posicion_absoluta=False,
         )
 
         # Crear la etiqueta de la barra de progresion
-        Etiqueta(
-            texto="Progreso de la descarga:",
-            y=97,
+        self.etiqueta_prograso_descarga = Etiqueta(
+            texto=config.get_config_execel(numero_columna_excel=5),
+            posicion_eje_y=97,
             ancho=20,
-            colorFondo=config.getConfig("COLORES", "AZUL_ETIQUETAS"),
+            color_fondo=config.get_config_json("COLORES", "AZUL_ETIQUETAS"),
             fuente="Helvetica",
-            tamañoFuente=18,
+            tamaño_fuente=18,
             ventana=ventana,
         )
 
-        self.barraDeProgresion = BarraDeProgresion(
+        self.barra_de_progresion = BarraDeProgresion(
             ventana=ventana,
-            PORCENTAJE_DESCARGA=PORCENTAJE_DESCARGA,
-            PORCENTAJE_DESCARGA_STRING=PORCENTAJE_DESCARGA_STRING,
-            x=13,
-            y=470,
+            posicion_eje_x=13,
+            posicion_eje_y=470,
         )
 
-    def __DescargarVideo(self, URL_Video, *args, **kwargs):
-        """
-        Descarga el video.
-        """
-
+    def __descargar_video(self, *args, **kwargs):
         print(args)
         print()
         print(kwargs)
 
-        self.URL_Video = URL_Video
+        try:
+            if (
+                validaciones.comprobar_si_se_ha_introducido_una_url(
+                    variables_control.LINK_VIDEO
+                )
+                and validaciones.comprobar_si_es_url_youtube(
+                    variables_control.LINK_VIDEO
+                )
+                and validaciones.comprobar_si_se_ha_seleccionado_directorio(
+                    variables_control.UBICACION_VIDEO,
+                )
+                and validaciones.comprobar_conexion_internet()
+                and validaciones.comprobar_si_el_video_esta_disponible(
+                    variables_control.LINK_VIDEO
+                )
+            ):
+                Descargar(
+                    barra_de_progresion=self.barra_de_progresion,
+                    boton_descargar_video=self.boton_descargar_video,
+                    boton_descargar_audio=self.boton_descargar_audio,
+                    boton_seleccionar_ubicacion=self.boton_seleccionar_ubicacion,
+                    entry_url=self.entry_url,
+                    entry_ubicacion_video=self.entry_ubicacion_video,
+                    descargar_video=True,
+                )
+        except Exception as e:
+            showerror("Error", str(e))
 
-        DescargarVideo(
-            LINK_VIDEO=LINK_VIDEO,
-            UBICACION_VIDEO=UBICACION_VIDEO,
-            PORCENTAJE_DESCARGA=PORCENTAJE_DESCARGA,
-            BarraDeProgresion=self.barraDeProgresion,
-            velocidad_Barra_De_Progresion=30,
-            boton_Descargar_Video=self.boton_Descargar_Video,
-            boton_Descargar_Audio=self.boton_Descargar_Audio,
-            boton_Seleccionar_Ubicacion=self.boton_Seleccionar_Ubicacion,
-            entry_URL=self.entry_URL,
-            entry_Ubicacion_Video=self.entry_Ubicacion_Video,
-            NOMBRE_DESCARGA=NOMBRE_DESCARGA,
-        )
-
-    def __DescargarAudio(self, URL_Video, *args, **kwargs):
-        """
-        Descarga el audio.
-        """
-
+    def __descargar_audio(self, *args, **kwargs):
         print(args)
         print()
         print(kwargs)
 
-        self.URL_Video = URL_Video
+        try:
+            if (
+                    validaciones.comprobar_si_se_ha_introducido_una_url(
+                        variables_control.LINK_VIDEO
+                    )
+                    and validaciones.comprobar_si_es_url_youtube(
+                        variables_control.LINK_VIDEO
+                    )
+                    and validaciones.comprobar_si_se_ha_seleccionado_directorio(
+                        variables_control.UBICACION_VIDEO,
+                    )
+                    and validaciones.comprobar_conexion_internet()
+                    and validaciones.comprobar_si_el_video_esta_disponible(
+                        variables_control.LINK_VIDEO
+                    )
+            ):
+                Descargar(
+                    barra_de_progresion=self.barra_de_progresion,
+                    boton_descargar_video=self.boton_descargar_video,
+                    boton_descargar_audio=self.boton_descargar_audio,
+                    boton_seleccionar_ubicacion=self.boton_seleccionar_ubicacion,
+                    entry_url=self.entry_url,
+                    entry_ubicacion_video=self.entry_ubicacion_video,
+                    descargar_video=False,
+                )
+        except Exception as e:
+            showerror("Error", str(e))
 
-        DescargarAudio(
-            LINK_VIDEO=LINK_VIDEO,
-            UBICACION_VIDEO=UBICACION_VIDEO,
-            PORCENTAJE_DESCARGA=PORCENTAJE_DESCARGA,
-            BarraDeProgresion=self.barraDeProgresion,
-            velocidad_Barra_De_Progresion=15,
-            boton_Descargar_Video=self.boton_Descargar_Video,
-            boton_Descargar_Audio=self.boton_Descargar_Audio,
-            boton_Seleccionar_Ubicacion=self.boton_Seleccionar_Ubicacion,
-            entry_URL=self.entry_URL,
-            entry_Ubicacion_Video=self.entry_Ubicacion_Video,
-            NOMBRE_DESCARGA=NOMBRE_DESCARGA,
+    def __actualizar_texto_widgets(self):
+        self.eitiqueta_url.config_etiqueta(
+            nuevo_texto=config.get_config_execel(numero_columna_excel=0)
         )
-
-    def __Descargar_Video_En_Un_Hilo_Nuevo(self, URL_Video):
-        self.URL_Video = URL_Video
-
-        try:
-            if (
-                Comprobar_Si_Se_Ha_Introducido_Una_URL(
-                    self.URL_Video,
-                )
-                and Comprobar_Si_Es_URL_YouTube(
-                    self.URL_Video,
-                )
-                and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
-                    UBICACION_VIDEO,
-                )
-                and Comprobar_Si_Es_Un_Directorio_Valido(UBICACION_VIDEO)
-                and Comprobar_Conexion_Internet()
-                and Comprobar_Si_El_Video_Esta_Disponible(self.URL_Video)
-            ):
-                Thread(
-                    target=self.barraDeProgresion.AumentarProgreso(), daemon=True
-                ).start()
-                Thread(
-                    target=self.__DescargarVideo, args=self.URL_Video, daemon=True
-                ).start()
-        except Exception as e:
-            showerror("Error", str(e))
-
-    def __Descargar_Audio_En_Un_Hilo_Nuevo(self, URL_Video):
-        self.URL_Video = URL_Video
-
-        try:
-            if (
-                Comprobar_Si_Se_Ha_Introducido_Una_URL(
-                    self.URL_Video,
-                )
-                and Comprobar_Si_Es_URL_YouTube(
-                    self.URL_Video,
-                )
-                and Comprobar_Si_Se_Ha_Seleccionado_Directorio(
-                    UBICACION_VIDEO,
-                )
-                and Comprobar_Si_Es_Un_Directorio_Valido(UBICACION_VIDEO)
-                and Comprobar_Conexion_Internet()
-                and Comprobar_Si_El_Video_Esta_Disponible(self.URL_Video)
-            ):
-                Thread(target=self.barraDeProgresion.AumentarProgreso(), daemon=True)
-
-                Thread(
-                    target=self.__DescargarAudio, args=self.URL_Video, daemon=True
-                ).start()
-        except Exception as e:
-            showerror("Error", str(e))
+        self.etiqueta_ubicacion_video.config_etiqueta(
+            nuevo_texto=config.get_config_execel(numero_columna_excel=1)
+        )
+        self.boton_seleccionar_ubicacion.config_boton(
+            nuevo_texto=config.get_config_execel(numero_columna_excel=2)
+        )
+        self.boton_descargar_video.config_boton(
+            nuevo_texto=config.get_config_execel(numero_columna_excel=3)
+        )
+        self.boton_descargar_audio.config_boton(
+            nuevo_texto=config.get_config_execel(numero_columna_excel=4)
+        )
+        self.etiqueta_prograso_descarga.config_etiqueta(
+            nuevo_texto=config.get_config_execel(numero_columna_excel=5)
+        )
 
 
 Main()
 
-ventana.ActualizarVentana()
+ventana.actualizar_ventana()

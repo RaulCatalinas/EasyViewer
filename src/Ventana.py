@@ -1,30 +1,36 @@
-# Crear una clase que se encarga de crear una ventana heredando de la clase Tk
+"""Crea la GUI de la app"""
+
 from tkinter import Tk, PhotoImage
 
 
 class Ventana(Tk):
-    def __init__(self, colorDeFondo, tituloVentana, ancho, alto, icono=None):
-        self.colorDeFondo = colorDeFondo
-        self.tituloVentana = tituloVentana
+    """Crea la ventana principal del la app"""
+
+    def __init__(self, color_fondo, titulo_ventana, ancho, alto, icono=None):
+        self.color_fondo = color_fondo
+        self.titulo_ventana = titulo_ventana
         self.ancho = ancho
         self.alto = alto
         self.icono = icono
         super().__init__()
-        self.title(self.tituloVentana)
+        self.title(self.titulo_ventana)
 
         # Cálculos para el centrado de la ventana
-        Ancho_Ventana = self.winfo_screenwidth()
-        Alto_Ventana = self.winfo_screenheight()
+        ancho_ventana = self.winfo_screenwidth()
+        alto_ventana = self.winfo_screenheight()
 
-        Coordenada_X = int((Ancho_Ventana / 2) - (ancho / 2))
-        Coordenada_Y = int((Alto_Ventana / 2) - (alto / 2))
+        coordenada_x = int((ancho_ventana / 2) - (ancho / 2))
+        coordenada_y = int((alto_ventana / 2) - (alto / 2))
 
         # Redimensionar Ventana
-        self.geometry("{}x{}+{}+{}".format(ancho, alto, Coordenada_X, Coordenada_Y))
+        self.geometry(f"{ancho}x{alto}+{coordenada_x}+{ coordenada_y}")
 
         self.resizable(False, False)
         self.iconphoto(True, PhotoImage(file=self.icono))
-        self.config(bg=self.colorDeFondo)
+        self.config(bg=self.color_fondo)
 
-    def ActualizarVentana(self):
+    def actualizar_ventana(self):
+        """
+        Actualiza la ventana.
+        """
         self.mainloop()
