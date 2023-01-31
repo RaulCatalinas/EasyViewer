@@ -1,3 +1,5 @@
+from webbrowser import open
+
 import interactuar_gui as gui
 from logging_app import GestionLogging as log
 
@@ -51,7 +53,7 @@ class Descargar:
             raise Exception(str(exc)) from exc
 
         else:
-            # open(url=gui.get_ubicacion_video())
+            open(gui.get_ubicacion_video())
 
             self.barra_de_progresion.detener_barra_de_progresion()
 
