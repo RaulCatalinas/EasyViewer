@@ -19,10 +19,10 @@ def comprobar_si_se_ha_seleccionado_directorio(directorio_descarga):
     if directorio_descarga.get() != "" and isdir(directorio_descarga.get()):
         log.write_log("Se ha seleccionado un directorio para guardar el video")
         return True
-    else:
-        log.write_error("Se ha establecido el directorio por defecto")
-        directorio_descarga.set(join(join(environ["USERPROFILE"]), "Desktop"))
-        return True
+
+    log.write_error("Se ha establecido el directorio por defecto")
+    directorio_descarga.set(join(join(environ["USERPROFILE"]), "Desktop"))
+    return True
 
 
 def comprobar_si_es_url_youtube(url):
@@ -36,9 +36,9 @@ def comprobar_si_es_url_youtube(url):
     ):
         log.write_log("La URL es de YouTube")
         return True
-    else:
-        log.write_error("La URL no es de YouTube")
-        raise Exception("La URL no es de YouTube")
+
+    log.write_error("La URL no es de YouTube")
+    raise Exception("La URL no es de YouTube")
 
 
 def comprobar_conexion_internet():
@@ -50,9 +50,9 @@ def comprobar_conexion_internet():
     except (requests.ConnectionError, requests.Timeout) as exc:
         log.write_error("No hay conexión a internet")
         raise Exception("No hay conexión a internet") from exc
-    else:
-        log.write_log("Si hay conexión a internet")
-        return True
+
+    log.write_log("Si hay conexión a internet")
+    return True
 
 
 def comprobar_si_se_ha_introducido_una_url(url):
@@ -62,9 +62,9 @@ def comprobar_si_se_ha_introducido_una_url(url):
     if url.get() == "":
         log.write_error("No se ha introducido ninguna URL")
         raise Exception("No se ha introducido ninguna URL")
-    else:
-        log.write_log("Se ha introducido una URL")
-        return True
+
+    log.write_log("Se ha introducido una URL")
+    return True
 
 
 def comprobar_si_el_video_esta_disponible(url):

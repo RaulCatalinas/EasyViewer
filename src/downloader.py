@@ -54,16 +54,15 @@ class Descargar:
 
             raise Exception(str(exc)) from exc
 
-        else:
-            gui.set_descargado_correctamente(True)
+        gui.set_descargado_correctamente(True)
 
-            open(gui.get_ubicacion_video())
+        open(gui.get_ubicacion_video())
 
-            self.barra_de_progresion.detener_barra_de_progresion()
+        self.barra_de_progresion.detener_barra_de_progresion()
 
-            self.__activar_widgets()
+        self.__activar_widgets()
 
-            log.write_log("Descarga completada correctamente")
+        log.write_log("Descarga completada correctamente")
 
     def __desactivar_widgets(self):
         self.boton_seleccionar_ubicacion.desactivar()
