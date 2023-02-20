@@ -8,10 +8,10 @@ from dotenv import load_dotenv, set_key
 from pandas import read_excel
 
 _ruta_proyecto = Path(__file__).parent.parent
-_ruta_json = Path(_ruta_proyecto, "Config", "Config.json")
-_ruta_icono = Path(_ruta_proyecto, "Icon", "icono.png")
-_ruta_archivo_idiomas = Path(_ruta_proyecto, "Config", "idiomas.xlsx")
-_ruta_variables_entorno = Path(_ruta_proyecto, "Config", ".env")
+_ruta_json = Path(_ruta_proyecto, "config", "config.json")
+_ruta_icono = Path(_ruta_proyecto, "icono", "icono.png")
+_ruta_archivo_idiomas = Path(_ruta_proyecto, "config", "idiomas.xlsx")
+_ruta_variables_entorno = Path(_ruta_proyecto, "config", ".env")
 print(
     f"""
     {_ruta_proyecto = }
