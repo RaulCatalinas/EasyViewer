@@ -1,4 +1,5 @@
 """Interactua con la GUI"""
+from sys import exit
 
 from pytube import YouTube
 
@@ -45,3 +46,29 @@ def get_nombre_descarga():
     from variables_control import NOMBRE_DESCARGA
 
     return NOMBRE_DESCARGA.get()
+
+
+def set_descargado_correctamente(descargado):
+    from variables_control import DESCARGADO_CORRECTAMENTE
+
+    return DESCARGADO_CORRECTAMENTE.set(descargado)
+
+
+def get_descargado_correctamente():
+    from variables_control import DESCARGADO_CORRECTAMENTE
+
+    return DESCARGADO_CORRECTAMENTE.get()
+
+
+def cancelar_descarga():
+    """
+    Cancela la descarga del video y/o audio y despues lo elimina
+    """
+    try:
+        raise KeyboardInterrupt("Descarga cancelada por el usuario")
+    except KeyboardInterrupt as exc:
+        print(exc)
+        print()
+        log.write_error(str(exc))
+    finally:
+        exit()

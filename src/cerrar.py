@@ -1,11 +1,13 @@
-import sys
 from tkinter import Toplevel
 
+import interactuar_gui as gui
 from crear_botones import Boton
 from crear_etiquetas import Etiqueta
 from get_config import Config
+from logging_app import GestionLogging
 
 config = Config()
+log = GestionLogging()
 
 
 class DialogoCerrar:
@@ -113,9 +115,16 @@ class DialogoCerrar:
         """
         Destruye la ventana superior y la ventana principal y luego sale del programa.
         """
-        self.top.destroy()
-        self.parent.destroy()
-        sys.exit()
+        try:
+            self.top.destroy()
+            self.parent.destroy()
+
+            if not gui.get_descargado_correctamente():
+                gui.cancelar_descarga()
+
+        except Exception as exc:
+            print(exc)
+            log.write_error(str(exc))
 
     def minimizar(self):
         """

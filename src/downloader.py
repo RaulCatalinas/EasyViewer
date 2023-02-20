@@ -29,6 +29,8 @@ class Descargar:
         self.descargar_video = descargar_video
 
         try:
+            gui.set_descargado_correctamente(False)
+
             self.__desactivar_widgets()
 
             if self.descargar_video:
@@ -53,6 +55,8 @@ class Descargar:
             raise Exception(str(exc)) from exc
 
         else:
+            gui.set_descargado_correctamente(True)
+
             open(gui.get_ubicacion_video())
 
             self.barra_de_progresion.detener_barra_de_progresion()
