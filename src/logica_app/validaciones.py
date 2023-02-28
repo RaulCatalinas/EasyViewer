@@ -6,9 +6,11 @@ from os.path import isdir, join
 import requests
 from pytube import YouTube
 
+from cliente.get_config import Config
 from cliente.logging_app import GestionLogging
 
 log = GestionLogging()
+config = Config()
 
 
 def comprobar_si_se_ha_seleccionado_directorio(directorio_descarga):
@@ -38,7 +40,7 @@ def comprobar_si_es_url_youtube(url):
         return True
 
     log.write_error("La URL no es de YouTube")
-    raise Exception("La URL no es de YouTube")
+    raise Exception(config.get_config_execel(17))
 
 
 def comprobar_conexion_internet():
@@ -49,7 +51,7 @@ def comprobar_conexion_internet():
         requests.get("https://www.google.es", timeout=5)
     except (requests.ConnectionError, requests.Timeout) as exc:
         log.write_error("No hay conexión a internet")
-        raise Exception("No hay conexión a internet") from exc
+        raise Exception(config.get_config_execel(16)) from exc
 
     log.write_log("Si hay conexión a internet")
     return True
@@ -61,7 +63,7 @@ def comprobar_si_se_ha_introducido_una_url(url):
     """
     if url.get() == "":
         log.write_error("No se ha introducido ninguna URL")
-        raise Exception("No se ha introducido ninguna URL")
+        raise Exception(config.get_config_execel(15))
 
     log.write_log("Se ha introducido una URL")
     return True
