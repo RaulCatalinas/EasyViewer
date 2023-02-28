@@ -1,9 +1,10 @@
 """Crea los labels de la app"""
 
-from tkinter import Label, font
+from tkinter import Label
+from tkinter.font import Font
 
 
-class Etiqueta:
+class Etiqueta(Label):
     """Crea los labels y los coloca en pantalla"""
 
     def __init__(
@@ -19,17 +20,17 @@ class Etiqueta:
         self.ventana = ventana
 
         # Crear la etiqueta
-        self.etiqueta = Label(
+        super().__init__(
             self.ventana,
             text=self.texto,
-            font=font.Font(family=self.fuente, size=self.tamaño_fuente),
+            font=Font(family=self.fuente, size=self.tamaño_fuente),
             width=self.ancho,
             bg=self.color_fondo,
         )
 
         # Colocar la etiqueta en la ventana
-        self.etiqueta.pack(pady=self.posicion_eje_y)
+        self.pack(pady=self.posicion_eje_y)
 
     def config_etiqueta(self, nuevo_texto):
         """Cambia el texto del label por el nuevo_texto"""
-        self.etiqueta.configure(text=nuevo_texto)
+        self.configure(text=nuevo_texto)

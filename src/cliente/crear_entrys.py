@@ -1,9 +1,10 @@
 """Crea los entrys para que el usuario interactue con la app"""
 
 from tkinter import Entry
+from tkinter.font import Font
 
 
-class CrearEntrys:
+class CrearEntrys(Entry):
     """Esta función crea un widget de Entrada y lo posiciona en la ventana."""
 
     def __init__(
@@ -17,24 +18,23 @@ class CrearEntrys:
         self.posicion_eje_y = posicion_eje_y
 
         # Crear el Entry
-        self.crear_entry = Entry(
+        super().__init__(
             self.ventana,
             textvariable=self.textvariable,
-            font=(self.fuente, self.tamaño_fuente),
+            font=Font(family=self.fuente, size=self.tamaño_fuente),
             width=self.ancho,
         )
-
         # Posicionar el Entry
-        self.crear_entry.pack(pady=self.posicion_eje_y)
+        self.pack(pady=self.posicion_eje_y)
 
     def desactivar(self):
         """
         Deshabilita el widget de entrada.
         """
-        self.crear_entry.config(state="disabled")
+        self.config(state="disabled")
 
     def activar(self):
         """
         Cambia el estado del widget de entrada a normal.
         """
-        self.crear_entry.config(state="normal")
+        self.config(state="normal")

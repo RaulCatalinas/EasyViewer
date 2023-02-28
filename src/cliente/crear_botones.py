@@ -1,11 +1,12 @@
 """Crea un boton en la posicion y funcion a ejecutar deseada"""
 
-from tkinter import Button, font
+from tkinter import Button
+from tkinter.font import Font
 
 from cambiar_color import CambiarColor as color
 
 
-class Boton:
+class Boton(Button):
     """
     Crea un botón.
 
@@ -50,22 +51,22 @@ class Boton:
         self.fuente = fuente
         self.tamaño_fuente = tamaño_fuente
 
-        self.boton = Button(
+        super().__init__(
             self.ventana,
             text=self.texto,
             bg=self.color_fondo,
-            font=font.Font(family=self.fuente, size=self.tamaño_fuente),
+            font=Font(family=self.fuente, size=self.tamaño_fuente),
             command=self.funcion,
             width=self.ancho,
         )
 
         if self.posicion_absoluta:
-            self.boton.pack(pady=self.posicion_eje_y)
+            self.pack(pady=self.posicion_eje_y)
         else:
-            self.boton.place(x=self.posicion_eje_x, y=self.posicion_eje_y)
+            self.place(x=self.posicion_eje_x, y=self.posicion_eje_y)
 
         color.hover(
-            self.boton,
+            self,
             self.color_raton_dentro,
             self.color_raton_fuera,
         )
@@ -74,13 +75,13 @@ class Boton:
         """
         Deshabilita el botón
         """
-        self.boton.configure(state="disabled")
+        self.configure(state="disabled")
 
     def activar(self):
         """
         Habilita el botón
         """
-        self.boton.configure(state="normal")
+        self.configure(state="normal")
 
     def config_boton(self, nuevo_texto):
         """
@@ -88,4 +89,4 @@ class Boton:
 
         :param nuevo_texto: El nuevo texto que se mostrará en el botón
         """
-        self.boton.configure(text=nuevo_texto)
+        self.configure(text=nuevo_texto)
