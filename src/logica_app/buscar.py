@@ -2,7 +2,7 @@
 
 from tkinter.filedialog import askdirectory
 
-from logging_app import GestionLogging
+from cliente.logging_app import GestionLogging
 
 log = GestionLogging()
 

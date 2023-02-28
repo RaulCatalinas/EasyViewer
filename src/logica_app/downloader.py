@@ -1,7 +1,7 @@
 from webbrowser import open
 
 import interactuar_gui as gui
-from logging_app import GestionLogging as log
+from cliente.logging_app import GestionLogging as log
 
 
 class Descargar:

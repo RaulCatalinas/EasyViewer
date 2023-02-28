@@ -6,7 +6,7 @@ from os.path import isdir, join
 import requests
 from pytube import YouTube
 
-from logging_app import GestionLogging
+from cliente.logging_app import GestionLogging
 
 log = GestionLogging()
 

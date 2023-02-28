@@ -1,10 +1,10 @@
 from tkinter import Toplevel
 
 import interactuar_gui as gui
-from crear_botones import Boton
-from crear_etiquetas import Etiqueta
-from get_config import Config
-from logging_app import GestionLogging
+from cliente.crear_botones import Boton
+from cliente.crear_etiquetas import Etiqueta
+from cliente.get_config import Config
+from cliente.logging_app import GestionLogging
 
 config = Config()
 log = GestionLogging()

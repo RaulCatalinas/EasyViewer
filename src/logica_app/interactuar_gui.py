@@ -3,7 +3,7 @@ from sys import exit
 
 from pytube import YouTube
 
-from logging_app import GestionLogging
+from cliente.logging_app import GestionLogging
 
 log = GestionLogging()
 
