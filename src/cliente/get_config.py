@@ -12,6 +12,7 @@ _ruta_json = Path(_ruta_proyecto, "config", "config.json")
 _ruta_icono = Path(_ruta_proyecto, "icono", "icono.png")
 _ruta_archivo_idiomas = Path(_ruta_proyecto, "config", "idiomas.xlsx")
 _ruta_variables_entorno = Path(_ruta_proyecto, "config", ".env")
+
 print(
     f"""
     {_ruta_proyecto = }
@@ -59,7 +60,8 @@ class Config:
 
         return idiomas.loc[numero_columna_excel][self.__get_idioma()]
 
-    def set_idioma(self, idioma):
+    @staticmethod
+    def set_idioma(idioma):
         """
         Establece el valor de la variable IDIOMA en las variables de entorno del sistema
 
@@ -71,16 +73,26 @@ class Config:
         # Guardar el idioma seleccionado en la variable de entorno
         set_key(_ruta_variables_entorno, key_to_set="IDIOMA", value_to_set=idioma)
 
-    def __get_idioma(self):
+    @staticmethod
+    def __get_idioma():
         print()
         print(f'Idioma de la app: {environ.get("IDIOMA")}')
         print()
         return environ.get("IDIOMA")
 
+    @staticmethod
+    def get_icono():
+        """
+        Devuelve la ruta del icono.
+        :return: La ruta del icono.
+        """
+        return _ruta_icono
 
-def get_icono():
-    """
-    Devuelve la ruta del icono.
-    :return: La ruta del icono.
-    """
-    return _ruta_icono
+    @staticmethod
+    def get_ruta_proyecto():
+        """
+        Devuelve la ruta del proyecto.
+        :return: La ruta del proyecto.
+        """
+
+        return _ruta_proyecto

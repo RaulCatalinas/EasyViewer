@@ -1,6 +1,5 @@
 from webbrowser import open
 
-import interactuar_gui as gui
 from cliente.logging_app import GestionLogging as log
 
 
@@ -28,21 +27,27 @@ class Descargar:
         self.entry_ubicacion_video = entry_ubicacion_video
         self.descargar_video = descargar_video
 
+        from variables_control import VariablesControl
+        from interactuar_api_pytube import InteractuarAPIPytube
+
+        self.variables_control = VariablesControl()
+        self.interactuar_api_pytube = InteractuarAPIPytube()
+
         try:
-            gui.set_descargado_correctamente(False)
+            self.variables_control.set_descargado_correctamente(False)
 
             self.__desactivar_widgets()
 
             if self.descargar_video:
-                self.descargar = gui.get_video(True)
+                self.descargar = self.interactuar_api_pytube.get_video(True)
             else:
-                self.descargar = gui.get_video(False)
+                self.descargar = self.interactuar_api_pytube.get_video(False)
 
             self.barra_de_progresion.ejecutar_barra_de_progresion()
 
             self.descargar.download(
-                output_path=gui.get_ubicacion_video(),
-                filename=gui.get_nombre_descarga(),
+                output_path=self.variables_control.get_ubicacion_video(),
+                filename=self.variables_control.get_nombre_descarga(),
             )
 
         except Exception as exc:
@@ -54,9 +59,9 @@ class Descargar:
 
             raise Exception(str(exc)) from exc
 
-        gui.set_descargado_correctamente(True)
+        variables_control.set_descargado_correctamente(True)
 
-        open(gui.get_ubicacion_video())
+        open(self.variables_control.get_ubicacion_video())
 
         self.barra_de_progresion.detener_barra_de_progresion()
 

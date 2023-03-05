@@ -1,22 +1,28 @@
 """Crea la GUI del programa"""
 
+from actualizar_dependencias import ActualizarDependencias
+
+# Primero actualizamos las dependencias del programa
+ActualizarDependencias()
+
+# Y ahora importamos y creamos la GUI del mismo
 from threading import Thread
 from tkinter.messagebox import showerror
-
-import validaciones
 from barra_de_progresion import BarraDeProgresion
 from barra_de_tareas import BarraDeTareas
-from buscar import seleccionar_directorio
-from cerrar import Cerrar
 from crear_botones import Boton
 from crear_entrys import CrearEntrys
 from crear_etiquetas import Etiqueta
-from downloader import Descargar
-from get_config import Config, get_icono
+from get_config import Config
+from logica_app.cerrar import Cerrar
+from logica_app.downloader import Descargar
+from logica_app.seleccionar_directorio import SeleccionarDirectorio
+from logica_app.validaciones import Validaciones
 from menu_de_opciones import MenuDeOpciones
 from ventana import Ventana
 
 config = Config()
+validaciones = Validaciones()
 
 # Ventana
 ventana = Ventana(
@@ -24,8 +30,10 @@ ventana = Ventana(
     titulo_ventana=config.get_config_json("VENTANA", "TITULO"),
     ancho=config.get_config_json("VENTANA", "ANCHO"),
     alto=config.get_config_json("VENTANA", "ALTO"),
-    icono=get_icono(),
+    icono=config.get_icono(),
 )
+
+from logica_app.variables_control import LINK_VIDEO, UBICACION_VIDEO
 
 Cerrar(
     parent=ventana,
@@ -45,9 +53,7 @@ Cerrar(
     color_etiqueta=config.get_config_json("COLORES", "AZUL_ETIQUETAS"),
 )
 
-import variables_control
-
-menu = MenuDeOpciones(ventana=ventana, texto_a_copiar=variables_control.LINK_VIDEO)
+menu = MenuDeOpciones(ventana=ventana, texto_a_copiar=LINK_VIDEO)
 
 
 # Clase principal del programa
@@ -74,7 +80,7 @@ class Main:
 
         self.entry_url = CrearEntrys(
             ventana=ventana,
-            textvariable=variables_control.LINK_VIDEO,
+            textvariable=LINK_VIDEO,
             fuente="Helvetica",
             tamaño_fuente=15,
             ancho=70,
@@ -98,7 +104,7 @@ class Main:
 
         self.entry_ubicacion_video = CrearEntrys(
             ventana=ventana,
-            textvariable=variables_control.UBICACION_VIDEO,
+            textvariable=UBICACION_VIDEO,
             fuente="Helvetica",
             tamaño_fuente=15,
             ancho=70,
@@ -110,7 +116,7 @@ class Main:
             posicion_eje_y=10,
             ancho=20,
             color_fondo=config.get_config_json("COLORES", "VERDE_OSCURO"),
-            funcion=lambda: [seleccionar_directorio(variables_control.UBICACION_VIDEO)],
+            funcion=lambda: [SeleccionarDirectorio(UBICACION_VIDEO)],
             fuente="Helvetica",
             tamaño_fuente=16,
             ventana=ventana,
@@ -177,19 +183,13 @@ class Main:
 
         try:
             if (
-                validaciones.comprobar_si_se_ha_introducido_una_url(
-                    variables_control.LINK_VIDEO
-                )
-                and validaciones.comprobar_si_es_url_youtube(
-                    variables_control.LINK_VIDEO
-                )
+                validaciones.comprobar_si_se_ha_introducido_una_url(LINK_VIDEO)
+                and validaciones.comprobar_si_es_url_youtube(LINK_VIDEO)
                 and validaciones.comprobar_si_se_ha_seleccionado_directorio(
-                    variables_control.UBICACION_VIDEO,
+                    UBICACION_VIDEO,
                 )
                 and validaciones.comprobar_conexion_internet()
-                and validaciones.comprobar_si_el_video_esta_disponible(
-                    variables_control.LINK_VIDEO
-                )
+                and validaciones.comprobar_si_el_video_esta_disponible(LINK_VIDEO)
             ):
                 Descargar(
                     barra_de_progresion=self.barra_de_progresion,
@@ -210,19 +210,13 @@ class Main:
 
         try:
             if (
-                    validaciones.comprobar_si_se_ha_introducido_una_url(
-                        variables_control.LINK_VIDEO
-                    )
-                    and validaciones.comprobar_si_es_url_youtube(
-                        variables_control.LINK_VIDEO
-                    )
-                    and validaciones.comprobar_si_se_ha_seleccionado_directorio(
-                        variables_control.UBICACION_VIDEO,
-                    )
-                    and validaciones.comprobar_conexion_internet()
-                    and validaciones.comprobar_si_el_video_esta_disponible(
-                        variables_control.LINK_VIDEO
-                    )
+                validaciones.comprobar_si_se_ha_introducido_una_url(LINK_VIDEO)
+                and validaciones.comprobar_si_es_url_youtube(LINK_VIDEO)
+                and validaciones.comprobar_si_se_ha_seleccionado_directorio(
+                    UBICACION_VIDEO,
+                )
+                and validaciones.comprobar_conexion_internet()
+                and validaciones.comprobar_si_el_video_esta_disponible(LINK_VIDEO)
             ):
                 Descargar(
                     barra_de_progresion=self.barra_de_progresion,

@@ -12,7 +12,7 @@ class Ventana(Tk):
         self.ancho = ancho
         self.alto = alto
         self.icono = icono
-        super().__init__()
+        super().__init__(useTk=True)
         self.title(self.titulo_ventana)
 
         # Cálculos para el centrado de la ventana

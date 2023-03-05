@@ -1,6 +1,5 @@
 from tkinter import Toplevel
 
-import interactuar_gui as gui
 from cliente.crear_botones import Boton
 from cliente.crear_etiquetas import Etiqueta
 from cliente.get_config import Config
@@ -39,6 +38,12 @@ class DialogoCerrar:
         self.ancho = ancho
         self.alto = alto
         self.color_etiqueta = color_etiqueta
+
+        from variables_control import VariablesControl
+        from interactuar_api_pytube import InteractuarAPIPytube
+
+        self.variables_control = VariablesControl()
+        self.interactuar_api_pytube = InteractuarAPIPytube()
 
         self.top = Toplevel(self.parent)
         self.top.title(config.get_config_execel(numero_columna_excel=10))
@@ -119,8 +124,8 @@ class DialogoCerrar:
             self.top.destroy()
             self.parent.destroy()
 
-            if not gui.get_descargado_correctamente():
-                gui.cancelar_descarga()
+            if not self.variables_control.get_descargado_correctamente():
+                self.interactuar_api_pytube.cancelar_descarga()
 
         except Exception as exc:
             print(exc)
@@ -158,7 +163,6 @@ class Cerrar:
         color_etiqueta,
     ):
 
-        self.dialogo = None
         self.parent = parent
         self.color_fondo = color_fondo
         self.color_boton_salir_raton_dentro = color_boton_salir_raton_dentro
