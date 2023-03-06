@@ -1,13 +1,8 @@
 """Crea la GUI del programa"""
 
-from actualizar_dependencias import ActualizarDependencias
-
-# Primero actualizamos las dependencias del programa
-ActualizarDependencias()
-
-# Y ahora importamos y creamos la GUI del mismo
 from threading import Thread
 from tkinter.messagebox import showerror
+
 from barra_de_progresion import BarraDeProgresion
 from barra_de_tareas import BarraDeTareas
 from crear_botones import Boton
