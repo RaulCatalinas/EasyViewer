@@ -12,7 +12,7 @@ Para instalarlo sigue estos pasos:
 3. Tras ejecutar el comando que obtiene e instala poetry y agregarlo al "PATH" ejecuta este comando en una terminal (no es necesario que lo ejeutes como administrador): <p>poetry --version<p> Si te sale la version de poetry esta instalado correctamente.
 4. Ejecuta el comando: poetry install
 
-Y cuando termine de ejecutarse ya tines instalas las dependencias del programa.
+Y cuando termine de ejecutarse ya tienes instalas las dependencias del programa.
 
 Para mas informacion acerca de poetry haz click en este enlace: https://python-poetry.org
 
