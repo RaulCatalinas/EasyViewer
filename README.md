@@ -1,4 +1,4 @@
-# Como instalar poetry
+# Como instalar las dependencias 
 
 Para instalar/actualizar las dependencias necesitas poetry.
 
@@ -10,8 +10,11 @@ Para instalarlo sigue estos pasos:
    * Si estas en windows usa este otro comando ejecutandolo como administardor en una terminal de "Poweshell": <p>(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py - </p>
 2. Agrega la ruta de instalacion de "poetry" a tu variable de entorno "PATH"
 3. Tras ejecutar el comando que obtiene e instala poetry y agregarlo al "PATH" ejecuta este comando en una terminal (no es necesario que lo ejeutes como administrador): <p>poetry --version<p> Si te sale la version de poetry esta instalado correctamente.
+4. Ejecuta el comando: poetry install
 
-   Para mas informacion acerca de poetry haz click en este enlace: https://python-poetry.org
+Y cuando termine de ejecutarse ya tines instalas las dependencias del programa.
+
+Para mas informacion acerca de poetry haz click en este enlace: https://python-poetry.org
 
 # Descripcion poyecto
 
