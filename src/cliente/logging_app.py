@@ -4,23 +4,19 @@ from logging import DEBUG, info, basicConfig, error
 from os import mkdir
 from os.path import exists
 
-from get_config import Config
-
-config = Config()
 
 
 class GestionLogging:
     """Crea una carpeta llamada "Log" si no existe, luego crea un archivo de registro llamado "App.log" en esa carpeta y escribre en ese log cuando se llama a la funcion encargada de ello"""
-
     def __init__(self):
 
-        if not exists(f"{config.get_ruta_proyecto()}/Log"):
-            mkdir(f"{config.get_ruta_proyecto()}/Log")
+        if not exists("Log"):
+            mkdir("Log")
 
         basicConfig(
             level=DEBUG,
             filemode="w+",
-            filename=f"{config.get_ruta_proyecto()}/Log/App.log",
+            filename="Log/App.log",
             format="%(asctime)s -> %(levelname)s: %(message)s",
         )
 
