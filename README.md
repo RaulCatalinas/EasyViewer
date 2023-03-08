@@ -1,50 +1,50 @@
-# Instalacion de poetry
+# Poetry installation
 
-## Globalmente
+## Globally
 
-1. Descargar e instalar poetry:
+1. Download and install poetry:
 
-   * Si estas en un sistema tipo Unix o WSL ejecuta como administardor este comando en una terminal: <p>curl -sSL https://install.python-poetry.org | python3 - </p>
-   * Si estas en windows usa este otro comando ejecutandolo como administardor en una terminal de "Poweshell": <p>(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py - </p>
-2. Agrega la ruta de instalacion de "poetry" a tu variable de entorno "PATH"
-3. Tras ejecutar el comando que obtiene e instala poetry y agregarlo al "PATH" ejecuta este comando en una terminal (no es necesario que lo ejeutes como administrador): <p>poetry --version<p> Si te sale la version de poetry esta instalado correctamente.
+   * If you are on a Unix or WSL system, run this command in a terminal as administrator: <p>curl -sSL https://install.python-poetry.org | python3 - </p>
+   * If you are on windows use this other command running it as administrator in a "Powershell" terminal: <p>(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py - </p>
+2. Add the "poetry" installation path to your "PATH" environment variable
+3. After running the command that gets and installs poetry and adds it to the "PATH" run this command in a terminal (you don't need to run it as administrator): <p>poetry --version<p> If you get the version of poetry is installed correctly.
 
-   ## Localmente
+   ## Locally
 
 
-   1. Crear un entorno virtual
-   2. Activar el entorno virtual
-   3. Ejecutar en una terminal este comando: pip install poetry
+   1. Create a virtual environment
+   2. Activate the virtual environment
+   3. Run in a terminal this command: pip install poetry
 
-      ## Instalacion de las dependencias
+      # Installation of dependencies
 
-      Ejecuta poetry install (teniendo el entorno virtual activado), cuando termine de ejecutarse ya tienes instalas las dependencias del programa.
+      Run poetry install (with the virtual environment activated), when it finishes running you already have the program dependencies installed.
 
-# Mas informacion de poetry
+# More information on poetry
 
 https://python-poetry.org
 
-# Descripcion del poyecto
+# Description of the project
 
-App para descargar videos y/o el audio de los videos de YouTube.
+App to download videos and/or audio from YouTube videos.
 
-El usuario introduce la URL del video que quiere descargar y selecciona la ubicación donde quiere guardar el video y/o
-el audio, en caso de que el usuario no seleccione una ubicacion, se establece su escritorio como ubicacion por defecto.
+The user enters the URL of the video they want to download and selects the location where they want to save the video and/or
+the audio, in case the user does not select a location, his desktop is set as the default location.
 
-El usuario tiene 2 dos botones para escoger:
+The user has 2 two buttons to choose from:
 
-1. Descargar video: Este botón descargará el video obtenido de la URL proporcionada por el usuario, una vez que este
-   descargado lo guardara en la carpeta seleccionada por el usuario
+1. Download video: This button will download the video obtained from the URL provided by the user, once this
+   downloaded will save it in the folder selected by the user
 
-2. Descargar audio: Este botón descargará el audio del video obtenido de la URL proporcionada por el usuario, una vez que
-   este descargado le cambiara el formato a .mp3 y por último se guardara en la carpeta
-   seleccionada por el usuario
+2. Download Audio: This button will download the audio of the video obtained from the URL provided by the user, once
+   This downloaded will change the format to .mp3 and finally it will be saved in the folder
+   user selected
 
-Mientras se está descargando el video y/o el audio aumentara una barra de progresión conforme vaya avanzando
-la descarga
+While the video and/or audio is being downloaded, a progress bar will increase as it progresses
+the discharge
 
-# Redes sociales
+# Social networks
 
-<a href="https://www.instagram.com/raulf1foreveryt_oficial/?hl=es">Instagram</a>
+<a href="https://www.instagram.com/raulf1foreveryt_oficial/?hl=en">Instagram</a>
 <a href="https://twitter.com/F1foreverRaul">Twitter</a>
-<a href="https://www.facebook.com/Raul-F1forever-114186780454598/">Facebook</a>
+<a href="https://www.facebook.com/Raul-F1forever-114186780454598/">Facebook
