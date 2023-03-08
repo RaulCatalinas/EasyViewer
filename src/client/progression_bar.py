@@ -27,10 +27,10 @@ class ProgressionBar:
         """
         Starts a progress bar.
         """
-        self.bar_progression_download.start()
+        self.download_progression_bar.start()
 
     def stop_progression_bar(self):
         """
         Stops the progress bar.
         """
-        self.bar_progression_download.stop()
+        self.download_progression_bar.stop()
