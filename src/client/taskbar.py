@@ -25,7 +25,7 @@ class TaskBar:
         self.language = Menu(self.taskbar, tearoff=False)
         self.language.add_command(
             label=config.get_config_execel(excel_column_number=13),
-            command=self.english,
+            command=self.spanish,
         )
 
         self.language.add_command(
@@ -48,21 +48,21 @@ class TaskBar:
         Open a new tab in your browser and navigate to the Instagram page of the user who
         specify
         """
-        open_new_tab("https:www.instagram.comraulf1foreveryt_oficial?hl=en")
+        open_new_tab("https://www.instagram.com/raulf1foreveryt_oficial")
 
     @staticmethod
     def twitter():
         """
         Open a new tab in your browser and go to the instagram of the author of this code.
         """
-        open_new_tab("https:twitter.comF1foreverRaul")
+        open_new_tab("https://twitter.com/F1foreverRaul")
 
     @staticmethod
     def facebook():
         """
         Open a new tab in your browser and go to the Facebook page of the author of this code.
         """
-        open_new_tab("https:www.facebook.comRaul-F1forever-114186780454598")
+        open_new_tab("https://www.facebook.com/profile.php?id=100063559000286")
 
     def english(self):
         """
@@ -76,7 +76,7 @@ class TaskBar:
         """
         Sets the language to Spanish.
         """
-        config.set_language("Spanish")
+        config.set_language("Español")
         self.update_text_widgets()
         self.update_taskbar_text()
 
