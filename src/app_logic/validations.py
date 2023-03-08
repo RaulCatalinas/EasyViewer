@@ -37,8 +37,8 @@ class Validations:
         """
         if (
             "https:www.youtube.comwatch?v=" in url.get()
-            or "https:youtu.be" in url.get()
-            or "https:www.youtube.comshorts" in url.get()
+            or "https://youtu.be/" in url.get()
+            or "https://www.youtube.com/shorts/" in url.get()
         ):
             log.write_log("The URL is from YouTube")
             return True
@@ -52,7 +52,7 @@ class Validations:
         Check if there is internet connection
         """
         try:
-            requests.get("https:www.google.com", timeout=5)
+            requests.get("https://www.google.com", timeout=5)
         except (requests.ConnectionError, requests.Timeout) as exc:
             log.write_error("No internet connection")
             raise Exception(config.get_config_execel(16)) from exc
