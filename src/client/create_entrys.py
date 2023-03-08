@@ -25,7 +25,7 @@ class CreateEntrys(Entry):
         # Position the Entry
         self.pack(pady=self.y_axis_position)
 
-    def deactivate(self):
+    def disable(self):
         """
         Disables the input widget.
         """

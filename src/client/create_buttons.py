@@ -71,7 +71,7 @@ class CreateButton(Button):
             self.color_mouse_out,
         )
 
-    def deactivate(self):
+    def disable(self):
         """
         Disable the button
         """

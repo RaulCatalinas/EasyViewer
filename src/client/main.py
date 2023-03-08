@@ -168,16 +168,16 @@ class Main:
             if (
                 validations.check_if_a_url_has_been_entered(LINK_VIDEO)
                 and validations.check_if_is_url_youtube(LINK_VIDEO)
-                and validations.check_if_directory_has_been_selected(
+                and validations.check_if_directory_is_selected(
                     VIDEO_LOCATION,
                 )
                 and validations.check_internet_connection()
                 and validations.check_if_the_video_is_available(LINK_VIDEO)
             ):
                 Download(
-                    progression_bar=self.progression_bar,
-                    video_download_button=self.video_download_button,
-                    audio_download_button=self.audio_download_button,
+                    progress_bar=self.progression_bar,
+                    video_download_button=self.button_download_video,
+                    audio_download_button=self.button_download_audio,
                     button_select_location=self.button_select_location,
                     entry_url=self.entry_url,
                     entry_location_video=self.entry_location_video,
@@ -195,16 +195,16 @@ class Main:
             if (
                 validations.check_if_a_url_has_been_entered(LINK_VIDEO)
                 and validations.check_if_is_url_youtube(LINK_VIDEO)
-                and validations.check_if_directory_has_been_selected(
+                and validations.check_if_directory_is_selected(
                     VIDEO_LOCATION,
                 )
                 and validations.check_internet_connection()
                 and validations.check_if_the_video_is_available(LINK_VIDEO)
             ):
                 Download(
-                    progression_bar=self.progression_bar,
-                    video_download_button=self.video_download_button,
-                    audio_download_button=self.audio_download_button,
+                    progress_bar=self.progression_bar,
+                    video_download_button=self.button_download_video,
+                    audio_download_button=self.button_download_audio,
                     button_select_location=self.button_select_location,
                     entry_url=self.entry_url,
                     entry_location_video=self.entry_location_video,

@@ -20,7 +20,7 @@ class Download:
         entry_location_video,
         download_video,
     ):
-        self.progression_bar = progression_bar
+        self.progress_bar = progress_bar
         self.button_select_location = button_select_location
         self.video_download_button = video_download_button
         self.audio_download_button = audio_download_button
@@ -30,8 +30,9 @@ class Download:
         self.download_video = download_video
 
         from interact_api_pytube import InteractAPIPytube
+        from control_variables import ControlVariables
 
-        self.control_variables = VariablesControl()
+        self.control_variables = ControlVariables()
         self.interact_api_pytube = InteractAPIPytube()
 
         try:
@@ -44,7 +45,7 @@ class Download:
             else:
                 self.download = self.interact_api_pytube.get_video(False)
 
-            self.progression_bar.execute_progression_bar()
+            self.progress_bar.execute_progression_bar()
 
             self.download.download(
                 output_path=self.control_variables.get_location_video(),
@@ -52,7 +53,7 @@ class Download:
             )
 
         except Exception as exc:
-            self.progression_bar.stop_progression_bar()
+            self.progress_bar.stop_progression_bar()
 
             self.__activate_widgets()
 
@@ -64,18 +65,18 @@ class Download:
 
         open(self.control_variables.get_video_location())
 
-        self.progression_bar.stop_progression_bar()
+        self.progress_bar.stop_progression_bar()
 
         self.__activate_widgets()
 
         log.write_log("Download completed successfully")
 
     def __disable_widgets(self):
-        self.button_select_location.deactivate()
-        self.video_download_button.deactivate()
+        self.button_select_location.disable()
+        self.video_download_button.disable()
         self.audio_download_button.disable()
-        self.entry_url.deactivate()
-        self.entry_location_video.deactivate()
+        self.entry_url.disable()
+        self.entry_location_video.disable()
 
     def __activate_widgets(self):
         self.button_select_location.activate()
