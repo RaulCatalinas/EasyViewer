@@ -55,7 +55,7 @@ class Main:
         TaskBar(window=window, update_text_widgets=self.__update_text_widgets)
 
         self.label_url = CreateLabel(
-            text=config.get_config_execel(excel_column_number=0),
+            text=config.get_config_excel(excel_column_number=0),
             y_axis_position=10,
             width=30,
             background_color=config.get_config_json("COLORS", "BLUE_LABELS"),
@@ -76,7 +76,7 @@ class Main:
         window.bind("<Button-3>", menu.create_menu_of_options)
 
         self.label_location_video = CreateLabel(
-            text=config.get_config_execel(excel_column_number=1),
+            text=config.get_config_excel(excel_column_number=1),
             y_axis_position=10,
             width=30,
             background_color=config.get_config_json("COLORS", "BLUE_LABELS"),
@@ -95,7 +95,7 @@ class Main:
         )
 
         self.button_select_location = CreateButton(
-            text=config.get_config_execel(excel_column_number=2),
+            text=config.get_config_excel(excel_column_number=2),
             y_axis_position=10,
             width=20,
             background_color=config.get_config_json("COLORS", "DARK_GREEN"),
@@ -109,7 +109,7 @@ class Main:
         )
 
         self.button_download_video = CreateButton(
-            text=config.get_config_execel(excel_column_number=3),
+            text=config.get_config_excel(excel_column_number=3),
             x_axis_position=220,
             y_axis_position=322,
             width=15,
@@ -126,7 +126,7 @@ class Main:
         )
 
         self.button_download_audio = CreateButton(
-            text=config.get_config_execel(excel_column_number=4),
+            text=config.get_config_excel(excel_column_number=4),
             x_axis_position=420,
             y_axis_position=322,
             width=15,
@@ -144,7 +144,7 @@ class Main:
 
         # Create the progress bar label
         self.label_progression_download = CreateLabel(
-            text=config.get_config_execel(excel_column_number=5),
+            text=config.get_config_excel(excel_column_number=5),
             y_axis_position=97,
             width=20,
             background_color=config.get_config_json("COLORS", "BLUE_LABELS"),
@@ -215,22 +215,22 @@ class Main:
 
     def __update_text_widgets(self):
         self.label_url.update_text(
-            new_text=config.get_config_execel(excel_column_number=0)
+            new_text=config.get_config_excel(excel_column_number=0)
         )
         self.label_location_video.update_text(
-            new_text=config.get_config_execel(excel_column_number=1)
+            new_text=config.get_config_excel(excel_column_number=1)
         )
         self.button_select_location.update_text(
-            new_text=config.get_config_execel(excel_column_number=2)
+            new_text=config.get_config_excel(excel_column_number=2)
         )
         self.button_download_video.update_text(
-            new_text=config.get_config_execel(excel_column_number=3)
+            new_text=config.get_config_excel(excel_column_number=3)
         )
         self.button_download_audio.update_text(
-            new_text=config.get_config_execel(excel_column_number=4)
+            new_text=config.get_config_excel(excel_column_number=4)
         )
         self.label_progression_download.update_text(
-            new_text=config.get_config_execel(excel_column_number=5)
+            new_text=config.get_config_excel(excel_column_number=5)
         )
 
 

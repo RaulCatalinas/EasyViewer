@@ -24,20 +24,20 @@ class TaskBar:
 
         self.language = Menu(self.taskbar, tearoff=False)
         self.language.add_command(
-            label=config.get_config_execel(excel_column_number=13),
+            label=config.get_config_excel(excel_column_number=13),
             command=self.spanish,
         )
 
         self.language.add_command(
-            label=config.get_config_execel(excel_column_number=14),
+            label=config.get_config_excel(excel_column_number=14),
             command=self.english,
         )
 
         self.taskbar.add_cascade(
-            menu=self.contact, label=config.get_config_execel(excel_column_number=11)
+            menu=self.contact, label=config.get_config_excel(excel_column_number=11)
         )
         self.taskbar.add_cascade(
-            menu=self.language, label=config.get_config_execel(excel_column_number=12)
+            menu=self.language, label=config.get_config_excel(excel_column_number=12)
         )
 
         self.window.config(menu=self.taskbar)
@@ -86,16 +86,16 @@ class TaskBar:
         """
         self.language.entryconfig(
             0,
-            label=config.get_config_execel(excel_column_number=13),
+            label=config.get_config_excel(excel_column_number=13),
         )
         self.language.entryconfig(
             1,
-            label=config.get_config_execel(excel_column_number=14),
+            label=config.get_config_excel(excel_column_number=14),
         )
         self.taskbar.entryconfig(
-            0, label=config.get_config_execel(excel_column_number=11)
+            0, label=config.get_config_excel(excel_column_number=11)
         )
         self.taskbar.entryconfig(
             1,
-            label=config.get_config_execel(excel_column_number=12),
+            label=config.get_config_excel(excel_column_number=12),
         )

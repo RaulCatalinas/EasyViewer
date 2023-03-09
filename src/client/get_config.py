@@ -49,7 +49,7 @@ class Config:
         """
         return self.config_json[section][data]
 
-    def get_config_execel(self, excel_column_number):
+    def get_config_excel(self, excel_column_number):
         """
         Returns the value of the cell in the column of the excel file that corresponds to the language that the
         user has selected
