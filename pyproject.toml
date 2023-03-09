@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "Easy Viewer"
-version = "1.0.0"
-description = "App para bajar videos de youtube"
+version = "0.2.1"
+description = "App to download youtube videos"
 authors = ["Raul Catalinas"]
 
 [tool.poetry.dependencies]
