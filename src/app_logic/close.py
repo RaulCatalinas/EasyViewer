@@ -2,12 +2,12 @@
 
 from tkinter import Toplevel
 
+from client.app_settings import AppSettings
 from client.create_buttons import CreateButton
 from client.create_labels import CreateLabel
-from client.get_config import Config
 from client.logging_management import LoggingManagement
 
-config = Config()
+app_settings = AppSettings()
 log = LoggingManagement()
 
 
@@ -48,7 +48,7 @@ class DialogClose:
         self.interact_api_pytube = InteractAPIPytube()
 
         self.top = Toplevel()
-        self.top.title(config.get_config_excel(excel_column_number=10))
+        self.top.title(app_settings.get_config_excel(excel_column_number=10))
 
         # Calculations for window centering
         self.window_width = self.top.winfo_screenwidth()
@@ -66,7 +66,7 @@ class DialogClose:
         self.top.resizable(False, False)
 
         self.label_confirmation_closing = CreateLabel(
-            text=config.get_config_excel(excel_column_number=6),
+            text=app_settings.get_config_excel(excel_column_number=6),
             y_axis_position=10,
             width=26,
             background_color=self.color_label,
@@ -76,7 +76,7 @@ class DialogClose:
         )
 
         self.exit_button = CreateButton(
-            text=config.get_config_excel(excel_column_number=7),
+            text=app_settings.get_config_excel(excel_column_number=7),
             x_axis_position=15,
             y_axis_position=50,
             width=15,
@@ -91,7 +91,7 @@ class DialogClose:
         )
 
         self.button_minimize = CreateButton(
-            text=config.get_config_excel(excel_column_number=8),
+            text=app_settings.get_config_excel(excel_column_number=8),
             x_axis_position=173,
             y_axis_position=50,
             width=15,
@@ -106,7 +106,7 @@ class DialogClose:
         )
 
         self.button_cancel = CreateButton(
-            text=config.get_config_excel(excel_column_number=9),
+            text=app_settings.get_config_excel(excel_column_number=9),
             x_axis_position=40,
             y_axis_position=90,
             width=25,

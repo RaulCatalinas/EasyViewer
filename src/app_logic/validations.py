@@ -6,11 +6,11 @@ from os.path import isdir, join
 import requests
 from pytube import YouTube
 
-from client.get_config import Config
+from client.app_settings import AppSettings
 from logging_management import LoggingManagement
 
 log = LoggingManagement()
-config = Config()
+app_settings = AppSettings()
 
 
 class Validations:
@@ -44,7 +44,7 @@ class Validations:
             return True
 
         log.write_error("The URL is not from YouTube")
-        raise Exception(config.get_config_excel(17))
+        raise Exception(app_settings.get_config_excel(17))
 
     @staticmethod
     def check_internet_connection():
@@ -55,7 +55,7 @@ class Validations:
             requests.get("https://www.google.com", timeout=5)
         except (requests.ConnectionError, requests.Timeout) as exc:
             log.write_error("No internet connection")
-            raise Exception(config.get_config_excel(16)) from exc
+            raise Exception(app_settings.get_config_excel(16)) from exc
 
         log.write_log("If there is internet connection")
         return True
@@ -67,7 +67,7 @@ class Validations:
         """
         if url.get() == "":
             log.write_error("No URL entered")
-            raise Exception(config.get_config_excel(15))
+            raise Exception(app_settings.get_config_excel(15))
 
         log.write_log("A URL has been entered")
         return True

@@ -30,7 +30,7 @@ print()
 load_dotenv(_environment_variables_path)
 
 
-class Config:
+class AppSettings:
     """Read a JSON file and an Excel file, and return the value of a key to be able to configure the app"""
 
     def __init__(self):

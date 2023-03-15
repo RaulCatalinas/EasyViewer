@@ -3,9 +3,9 @@
 from tkinter import Menu
 from webbrowser import open_new_tab
 
-from get_config import Config
+from app_settings import AppSettings
 
-config = Config()
+app_settings = AppSettings()
 
 
 class TaskBar:
@@ -24,23 +24,25 @@ class TaskBar:
 
         self.language = Menu(self.taskbar, tearoff=False)
         self.language.add_command(
-            label=config.get_config_excel(excel_column_number=13),
+            label=app_settings.get_config_excel(excel_column_number=13),
             command=self.spanish,
         )
 
         self.language.add_command(
-            label=config.get_config_excel(excel_column_number=14),
+            label=app_settings.get_config_excel(excel_column_number=14),
             command=self.english,
         )
 
         self.taskbar.add_cascade(
-            menu=self.contact, label=config.get_config_excel(excel_column_number=11)
+            menu=self.contact,
+            label=app_settings.get_config_excel(excel_column_number=11),
         )
         self.taskbar.add_cascade(
-            menu=self.language, label=config.get_config_excel(excel_column_number=12)
+            menu=self.language,
+            label=app_settings.get_config_excel(excel_column_number=12),
         )
 
-        self.window.config(menu=self.taskbar)
+        self.window.app_settings(menu=self.taskbar)
 
     @staticmethod
     def instagram():
@@ -68,7 +70,7 @@ class TaskBar:
         """
         Sets the language to English.
         """
-        config.set_language("English")
+        app_settings.set_language("English")
         self.update_text_widgets()
         self.update_taskbar_text()
 
@@ -76,7 +78,7 @@ class TaskBar:
         """
         Sets the language to Spanish.
         """
-        config.set_language("Español")
+        app_settings.set_language("Español")
         self.update_text_widgets()
         self.update_taskbar_text()
 
@@ -86,16 +88,16 @@ class TaskBar:
         """
         self.language.entryconfig(
             0,
-            label=config.get_config_excel(excel_column_number=13),
+            label=app_settings.get_config_excel(excel_column_number=13),
         )
         self.language.entryconfig(
             1,
-            label=config.get_config_excel(excel_column_number=14),
+            label=app_settings.get_config_excel(excel_column_number=14),
         )
         self.taskbar.entryconfig(
-            0, label=config.get_config_excel(excel_column_number=11)
+            0, label=app_settings.get_config_excel(excel_column_number=11)
         )
         self.taskbar.entryconfig(
             1,
-            label=config.get_config_excel(excel_column_number=12),
+            label=app_settings.get_config_excel(excel_column_number=12),
         )
