@@ -1,92 +1,38 @@
-"""Create a button in the desired position and function to execute"""
-
-from tkinter import Button
-from tkinter.font import Font
-
-from hover import Hover
+from flet import IconButton, ElevatedButton, OutlinedButton
 
 
-class CreateButton(Button):
-    """
-    Create a button.
-
-    :param text: The text to be displayed on the button
-    :param position_x_axis: The x position of the button
-    :param width: width
-    :param background_color: The background color of the button
-    :param function: The function the button will call when clicked
-    :param window: The window the button will be in
-    :param color_mouse_in: The color of the button when the mouse is over it
-    :param mouse_color_out: The color of the button when the mouse is not over it
-    :param absolute_position: If True, the button will be positioned in the window using the
-    pack() method. If it is False, it will be placed using the place() method.
-    :param position_y_axis: The y position of the button
-    """
-
-    def __init__(
-        self,
-        text,
-        width,
-        background_color,
-        function,
-        window,
-        color_mouse_in,
-        color_mouse_out,
-        absolute_position,
-        font,
-        font_size,
-        y_axis_position,
-        x_axis_position=None,
-    ):
-        self.text = text
-        self.width = width
-        self.background_color = background_color
-        self.window = window
-        self.color_mouse_in = color_mouse_in
-        self.color_mouse_out = color_mouse_out
+class CreateIconButton(IconButton):
+    def __init__(self, icon_button, function, offset_button):
+        self.icon_button = icon_button
         self.function = function
-        self.absolute_position = absolute_position
-        self.position_x_axis = x_axis_position
-        self.y_axis_position = y_axis_position
-        self.font = font
-        self.font_size = font_size
+        self.offset_button = offset_button
 
-        super().__init__(
-            self.window,
-            text=self.text,
-            bg=self.background_color,
-            font=Font(family=self.font, size=self.font_size),
-            command=self.function,
-            width=self.width,
+    def _build(self):
+        return super().__init__(
+            icon=self.icon_button,
+            on_click=self.function,
+            scale=2.5,
+            offset=self.offset_button,
         )
 
-        if self.absolute_position:
-            self.pack(pady=self.y_axis_position)
-        else:
-            self.place(x=self.position_x_axis, y=self.y_axis_position)
-
-        Hover(
-            self,
-            self.color_mouse_in,
-            self.color_mouse_out,
-        )
-
-    def disable(self):
-        """
-        Disable the button
-        """
-        self.configure(state="disabled")
+    def desactivate(self):
+        self.disabled = True
 
     def activate(self):
-        """
-        Enable the button
-        """
-        self.configure(state="normal")
+        self.disabled = False
 
-    def update_text(self, new_text):
-        """
-        Takes a string as an argument and changes the button text to that string
 
-        :param new_text: The new text to be displayed on the button
-        """
-        self.configure(text=new_text)
+class CreateElevatedButton(ElevatedButton):
+    def __init__(self, text_button, function):
+        self.text_button = text_button
+        self.function = function
+
+        super().__init__(text=self.text_button, on_click=self.function)
+
+
+class CreateOutlinedButton(OutlinedButton):
+    def __init__(self, text_button, function):
+        self.text_button = text_button
+        self.function = function
+
+        super().__init__(text=self.text_button, on_click=self.function)

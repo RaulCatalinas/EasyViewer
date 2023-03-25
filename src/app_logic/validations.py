@@ -17,7 +17,7 @@ class Validations:
     """Required validations before downloading a video"""
 
     @staticmethod
-    def check_if_directory_is_selected(download_directory):
+    def check_if_directory_is_selected(download_directory, input_directory, page):
         """
         Check if a directory is selected, otherwise it puts a default directory
         """
@@ -26,8 +26,15 @@ class Validations:
             log.write_log("A directory has been selected to save the video")
             return True
 
+        default_directory = join(join(environ["USERPROFILE"]), "Desktop")
+
+        download_directory.set(default_directory)
+        input_directory.value = default_directory
+
         log.write_error("Default directory set")
-        download_directory.set(join(join(environ["USERPROFILE"]), "Desktop"))
+
+        page.update()
+
         return True
 
     @staticmethod
@@ -36,7 +43,7 @@ class Validations:
         Check if the URL is from YouTube
         """
         if (
-            "https:www.youtube.comwatch?v=" in url.get()
+            "https://www.youtube.com/watch?v=" in url.get()
             or "https://youtu.be/" in url.get()
             or "https://www.youtube.com/shorts/" in url.get()
         ):

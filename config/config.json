@@ -1,23 +1,10 @@
 {
   "COLORS": {
-    "BLACK": "#000000",
-    "BLUE_LABELS": "#00FFEF",
-    "DARK_GREEN": "#003300",
-    "DARK_ORANGE": "#663300",
-    "DARK_RED": "#660000",
-    "DARK_YELLOW": "#333300",
-    "GREEN": "#00FF00",
-    "ORANGE": "#FF8000",
-    "RED": "#FF0000",
-    "YELLOW": "#FFFF00"
+    "GREEN": "#00FF00"
   },
   "WINDOW": {
     "HIGH": 545,
     "TITLE": "Easy Viewer",
     "WIDTH": 830
-  },
-  "WINDOW_CONTROL_CLOSE": {
-    "HIGH": 134,
-    "WIDTH": 330
   }
 }
