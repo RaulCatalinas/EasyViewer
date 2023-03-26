@@ -107,7 +107,6 @@ class Main(AppSettings):
             page=page,
             input_url=self.input_url,
             input_directory=self.input_directory,
-            update_dialog=self.confirm_dialog.update_dialog,
             title_dialog=self.confirm_dialog.title_dialog,
             content_dialog=self.confirm_dialog.content_dialog,
             button_exit_the_app=self.confirm_dialog.button_exit_the_app,

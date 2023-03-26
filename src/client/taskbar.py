@@ -10,7 +10,6 @@ class TaskBar(AppBar, AppSettings):
         page,
         input_url,
         input_directory,
-        update_dialog,
         button_exit_the_app,
         content_dialog,
         title_dialog,
@@ -18,7 +17,6 @@ class TaskBar(AppBar, AppSettings):
         self.page = page
         self.input_url = input_url
         self.input_directory = input_directory
-        self.update_dialog = update_dialog
         self.title_dialog = title_dialog
         self.content_dialog = content_dialog
         self.button_exit_the_app = button_exit_the_app

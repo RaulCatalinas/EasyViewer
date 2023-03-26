@@ -41,6 +41,3 @@ class ConfirmClose(AppSettings, AlertDialog):
     def __cancel(self):
         self.open = False
         self.page.update()
-
-    def update_dialog(self):
-        return self.update()
