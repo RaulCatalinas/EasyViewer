@@ -4,7 +4,7 @@
 name = "altgraph"
 version = "0.17.3"
 description = "Python graph (network) package"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 files = [
@@ -367,7 +367,7 @@ files = [
 name = "macholib"
 version = "1.16.2"
 description = "Mach-O header analysis and editing"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 files = [
@@ -524,7 +524,7 @@ test = ["hypothesis (>=5.5.3)", "pytest (>=6.0)", "pytest-xdist (>=1.31)"]
 name = "pefile"
 version = "2023.2.7"
 description = "Python PE parsing module"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6.0"
 files = [
@@ -536,7 +536,7 @@ files = [
 name = "pillow"
 version = "9.4.0"
 description = "Python Imaging Library (Fork)"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -643,7 +643,7 @@ test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.2.2)", "pytest-
 name = "pyinstaller"
 version = "5.9.0"
 description = "PyInstaller bundles a Python application and all its dependencies into a single package."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "<3.12,>=3.7"
 files = [
@@ -677,7 +677,7 @@ hook-testing = ["execnet (>=1.5.0)", "psutil", "pytest (>=2.7.3)"]
 name = "pyinstaller-hooks-contrib"
 version = "2023.1"
 description = "Community maintained hooks for PyInstaller"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -779,7 +779,7 @@ files = [
 name = "pywin32-ctypes"
 version = "0.2.0"
 description = ""
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 files = [
@@ -846,7 +846,7 @@ idna2008 = ["idna"]
 name = "setuptools"
 version = "67.6.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1137,4 +1137,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.2"
-content-hash = "f9356fa316d59b0e8ff8b563c021e0fa0d809ea60d3a46adb67759492334c0f7"
+content-hash = "22c8ba45d50889334a8b94f6b78dda7d03a082afb9d30c2f3a0ff75372b95232"
