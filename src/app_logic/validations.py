@@ -33,7 +33,7 @@ class Validations:
 
         log.write_error("Default directory set")
 
-        page.update()
+        page.update(input_directory)
 
         return True
 
