@@ -15,7 +15,6 @@ python="3.11.2"
 flet = "^0.4.2"
 pyinstaller = "^5.9.0"
 pillow = "^9.4.0"
-setuptools = "^67.6.0"
 
 [tool.poetry.group.dev.dependencies]
 pylint="2.16.2"
