@@ -1,10 +1,10 @@
 image:
-  - Visual Studio 2019
+  - Visual Studio 2022
   - macOS
   - Ubuntu
 
 skip_branch_with_pr: true
-stack: python 3.10
+stack: python 3.11
 
 environment:
   GITHUB_TOKEN:
@@ -31,13 +31,13 @@ deploy:
 for:
   - matrix:
       only:
-        - image: Visual Studio 2019
+        - image: Visual Studio 2022
 
     after_build:
-      - 7z a counter-windows.zip %CD%\dist\*.exe
+      - 7z a EasyViewer-windows.zip %CD%\dist\*.exe
 
     artifacts:
-      - path: counter-windows.zip
+      - path: EasyViewer-windows.zip
 
   #
   #   macOS package
@@ -47,10 +47,10 @@ for:
         - image: macOS
 
     after_build:
-      - tar -czvf counter-macos.tar.gz -C dist counter.app
+      - tar -czvf EasyViewer-macos.tar.gz -C dist counter.app
 
     artifacts:
-      - path: counter-macos.tar.gz
+      - path: EasyViewer-macos.tar.gz
 
   #
   #   Linux package
@@ -60,7 +60,7 @@ for:
         - image: Ubuntu
 
     after_build:
-      - tar -czvf counter-linux.tar.gz -C dist counter
+      - tar -czvf EasyViewer-linux.tar.gz -C dist counter
 
     artifacts:
-      - path: counter-linux.tar.gz
+      - path: EasyViewer-linux.tar.gz
