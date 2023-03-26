@@ -7,3 +7,6 @@ class CreateText(Text):
         self.text_size = text_size
 
         super().__init__(value=self.text, font_family="Arial", size=self.text_size)
+
+    def change_text(self, new_text):
+        self.value = new_text

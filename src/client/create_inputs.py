@@ -36,3 +36,6 @@ class CreateInputs(TextField):
 
     def activate(self):
         self.disabled = False
+
+    def change_placeholder(self, new_placeholder):
+        self.hint_text = new_placeholder

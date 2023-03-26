@@ -76,6 +76,7 @@ class Main(AppSettings):
                 input_directory=self.input_directory,
             ),
             offset_button=ft.Offset(0, 1.5),
+            scale_button=2.5,
         )
 
         self.button_download_video = CreateIconButton(
@@ -84,6 +85,7 @@ class Main(AppSettings):
                 Thread(target=self.download_video, daemon=True).start()
             ],
             offset_button=ft.Offset(-0.9, 2.5),
+            scale_button=2.5,
         )
 
         self.button_download_audio = CreateIconButton(
@@ -92,6 +94,7 @@ class Main(AppSettings):
                 Thread(target=self.download_audio, daemon=True).start()
             ],
             offset_button=ft.Offset(1, 1.3),
+            scale_button=2.5,
         )
 
         self.progress_bar = CreateProgressBar(
@@ -100,7 +103,15 @@ class Main(AppSettings):
             offset_progressbar=ft.Offset(0, 23),
         )
 
-        self.taskbar = TaskBar(page)
+        self.taskbar = TaskBar(
+            page=page,
+            input_url=self.input_url,
+            input_directory=self.input_directory,
+            update_dialog=self.confirm_dialog.update_dialog,
+            title_dialog=self.confirm_dialog.title_dialog,
+            content_dialog=self.confirm_dialog.content_dialog,
+            button_exit_the_app=self.confirm_dialog.button_exit_the_app,
+        )
 
         page.add(
             self.input_url,

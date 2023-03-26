@@ -57,9 +57,9 @@ class AppSettings:
         :param excel_column_number: The number of the column in the Excel file
         :return: The value of the cell in the column of the language being used.
         """
-        print(languages.loc[excel_column_number][self.__get_language()])
+        print(languages.loc[excel_column_number][self.get_language()])
 
-        return languages.loc[excel_column_number][self.__get_language()]
+        return languages.loc[excel_column_number][self.get_language()]
 
     @staticmethod
     def set_language(language):
@@ -77,7 +77,7 @@ class AppSettings:
         )
 
     @staticmethod
-    def __get_language():
+    def get_language():
         print()
         print(f'App language: {environ.get("LANGUAGE")}')
         print()
