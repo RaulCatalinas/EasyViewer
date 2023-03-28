@@ -13,12 +13,11 @@ from create_inputs import CreateInputs
 from progressbar import CreateProgressBar
 from taskbar import TaskBar
 
-validations = Validations()
 
-
-class Main(AppSettings):
+class Main(AppSettings, Validations):
     def __init__(self, page: ft.Page):
-        super().__init__()
+        AppSettings.__init__(self)
+        Validations.__init__(self)
 
         # Set the window title and resize it
         page.title = self.get_config_json("WINDOW", "TITLE")
