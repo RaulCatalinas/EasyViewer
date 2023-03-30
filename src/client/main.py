@@ -10,8 +10,9 @@ from app_logic.download import Download
 from app_logic.select_directory import SelectDirectory
 from app_logic.validations import Validations
 from app_settings import AppSettings
-from create_buttons import CreateIconButton
+from create_buttons import CreateIconButton, CreateElevatedButton
 from create_inputs import CreateInputs
+from create_text import CreateText
 from progressbar import CreateProgressBar
 from taskbar import TaskBar
 
@@ -153,7 +154,7 @@ class Main(AppSettings, Validations, ControlVariables):
                     download_video=False,
                 )
         except Exception as exc:
-            print(exc)
+            self.__create_dialog_error(error=str(exc), page=page)
 
     def download_audio(self, page):
         self.set_control_variable("URL_VIDEO", self.input_url.value)
@@ -181,7 +182,27 @@ class Main(AppSettings, Validations, ControlVariables):
                     download_video=False,
                 )
         except Exception as exc:
-            print(exc)
+            self.__create_dialog_error(error=str(exc), page=page)
+
+    def __create_dialog_error(self, error, page):
+        button_close_dialog = CreateElevatedButton(
+            text_button="Ok", function=lambda e: __close_dialog()
+        )
+
+        dialog_error = ft.AlertDialog(
+            title=ft.Icon(name=ft.icons.ERROR, scale=1.3),
+            content=CreateText(text=error, text_size=23),
+            actions=[button_close_dialog],
+            actions_alignment=ft.MainAxisAlignment.END,
+        )
+
+        def __close_dialog():
+            dialog_error.open = False
+            page.update()
+
+        page.dialog = dialog_error
+        dialog_error.open = True
+        page.update()
 
 
 ft.app(target=Main)

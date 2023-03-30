@@ -21,7 +21,7 @@ print(
     f"""
     {_project_path = }
     
-    {_config_path}
+    {_config_path = }
     {_config_json_path = }
     {_languages_file_path = }
     {_environment_variables_path = }
