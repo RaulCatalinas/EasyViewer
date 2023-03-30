@@ -5,6 +5,8 @@ from threading import Thread
 import flet as ft
 
 from app_logic.confirm_close import ConfirmClose
+from app_logic.control_variables import ControlVariables
+from app_logic.download import Download
 from app_logic.select_directory import SelectDirectory
 from app_logic.validations import Validations
 from app_settings import AppSettings
@@ -14,10 +16,13 @@ from progressbar import CreateProgressBar
 from taskbar import TaskBar
 
 
-class Main(AppSettings, Validations):
+class Main(AppSettings, Validations, ControlVariables):
     def __init__(self, page: ft.Page):
         AppSettings.__init__(self)
         Validations.__init__(self)
+        ControlVariables.__init__(self)
+
+        VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
 
         # Set the window title and resize it
         page.title = self.get_config_json("WINDOW", "TITLE")
@@ -65,6 +70,7 @@ class Main(AppSettings, Validations):
             text_align_input=ft.TextAlign.CENTER,
             read_only_input=True,
             offset_input=ft.Offset(0, 0.5),
+            value_input=VIDEO_LOCATION if VIDEO_LOCATION != "" else None,
         )
 
         self.button_directory = CreateIconButton(
@@ -81,7 +87,7 @@ class Main(AppSettings, Validations):
         self.button_download_video = CreateIconButton(
             icon_button=ft.icons.VIDEO_FILE,
             function=lambda e: [
-                Thread(target=self.download_video, daemon=True).start()
+                Thread(target=self.download_video(page), daemon=True).start()
             ],
             offset_button=ft.Offset(-0.9, 2.5),
             scale_button=2.5,
@@ -90,7 +96,7 @@ class Main(AppSettings, Validations):
         self.button_download_audio = CreateIconButton(
             icon_button=ft.icons.AUDIO_FILE,
             function=lambda e: [
-                Thread(target=self.download_audio, daemon=True).start()
+                Thread(target=self.download_audio(page), daemon=True).start()
             ],
             offset_button=ft.Offset(1, 1.3),
             scale_button=2.5,
@@ -121,11 +127,61 @@ class Main(AppSettings, Validations):
             self.taskbar,
         )
 
-    def download_video(self):
-        print("Download video")
+    def download_video(self, page):
+        self.set_control_variable("URL_VIDEO", self.input_url.value)
 
-    def download_audio(self):
-        print("Download audio")
+        URL = self.get_control_variables("URL_VIDEO")
+        VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
+
+        try:
+            if (
+                self.check_if_a_url_has_been_entered(URL)
+                and self.check_if_is_url_youtube(URL)
+                and self.check_if_directory_is_selected(
+                    input_directory=self.input_directory,
+                    page=page,
+                    video_location=VIDEO_LOCATION,
+                )
+                and self.check_internet_connection()
+                and self.check_if_the_video_is_available(URL)
+            ):
+                Download(
+                    button_select_location=self.button_directory,
+                    button_download_video=self.button_download_video,
+                    button_download_audio=self.button_download_audio,
+                    input_url=self.input_url,
+                    download_video=False,
+                )
+        except Exception as exc:
+            print(exc)
+
+    def download_audio(self, page):
+        self.set_control_variable("URL_VIDEO", self.input_url.value)
+
+        URL = self.get_control_variables("URL_VIDEO")
+        VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
+
+        try:
+            if (
+                self.check_if_a_url_has_been_entered(URL)
+                and self.check_if_is_url_youtube(URL)
+                and self.check_if_directory_is_selected(
+                    input_directory=self.input_directory,
+                    page=page,
+                    video_location=VIDEO_LOCATION,
+                )
+                and self.check_internet_connection()
+                and self.check_if_the_video_is_available(URL)
+            ):
+                Download(
+                    button_select_location=self.button_directory,
+                    button_download_video=self.button_download_video,
+                    button_download_audio=self.button_download_audio,
+                    input_url=self.input_url,
+                    download_video=False,
+                )
+        except Exception as exc:
+            print(exc)
 
 
 ft.app(target=Main)

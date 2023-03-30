@@ -5,15 +5,18 @@ from flet import AlertDialog, MainAxisAlignment
 from app_settings import AppSettings
 from client.create_buttons import CreateElevatedButton, CreateOutlinedButton
 from client.create_text import CreateText
+from control_variables import ControlVariables
+from interact_api_pytube import cancel_download
 
 
-class ConfirmClose(AppSettings, AlertDialog):
+class ConfirmClose(AppSettings, AlertDialog, ControlVariables):
     """Control the closing of the app"""
 
     def __init__(self, page):
         self.page = page
 
         AppSettings.__init__(self)
+        ControlVariables.__init__(self)
 
         self.button_exit_the_app = CreateElevatedButton(
             text_button=self.get_config_excel(4),
@@ -36,7 +39,12 @@ class ConfirmClose(AppSettings, AlertDialog):
         )
 
     def __exit(self):
-        self.page.window_destroy()
+        try:
+            if not self.get_control_variables("DOWNLOADED_SUCCESSFULLY"):
+                cancel_download()
+
+        finally:
+            self.page.window_destroy()
 
     def __cancel(self):
         self.open = False

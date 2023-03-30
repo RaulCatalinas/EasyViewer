@@ -8,18 +8,26 @@ from dotenv import load_dotenv, set_key
 from pandas import read_excel
 
 _project_path = Path(__file__).parent.parent.parent
-_json_path = Path(_project_path, "config", "config.json")
+
+_config_path = Path(_project_path, "config")
+_config_json_path = Path(_config_path, "config.json")
+_languages_file_path = Path(_config_path, "languages.xlsx")
+_environment_variables_path = Path(_config_path, ".env")
+_control_variables_json_path = Path(_config_path, "control_variables.json")
+
 _icon_path = Path(_project_path, "icon", "icon.png")
-_languages_file_path = Path(_project_path, "config", "languages.xlsx")
-_environment_variables_path = Path(_project_path, "config", ".env")
 
 print(
     f"""
     {_project_path = }
-    {_json_path = }
-    {_icon_path = }
+    
+    {_config_path}
+    {_config_json_path = }
     {_languages_file_path = }
     {_environment_variables_path = }
+    {_control_variables_json_path = }
+    
+    {_icon_path = }
     """
 )
 
@@ -34,7 +42,7 @@ class AppSettings:
     """Read a JSON file and an Excel file, and return the value of a key to be able to configure the app"""
 
     def __init__(self):
-        with open(_json_path, encoding="utf-8") as json:
+        with open(_config_json_path, encoding="utf-8") as json:
             self.config_json = load(json)
 
         print(self.config_json)
@@ -92,10 +100,10 @@ class AppSettings:
         return _icon_path
 
     @staticmethod
-    def get_project_path():
+    def get_file_control_variables():
         """
-        Returns the path of the project.
-        :return: The project path.
+        Returns the json path of the control variables.
+        :return: The son path of the control variables.
         """
 
-        return _project_path
+        return _control_variables_json_path

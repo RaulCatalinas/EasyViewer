@@ -1,69 +1,45 @@
 """Control variables for the operation of the app"""
 
+from json import load, dump
 
-class ControlVariables:
+from client.app_settings import AppSettings
+
+
+class ControlVariables(AppSettings):
     """Control variables for the app"""
 
     def __init__(self):
-        self._video_location = ""
-        self._url_video = ""
-        self._download_name = ""
-        self._downloaded_successfully = None
+        self.control_variables_file = self.get_file_control_variables()
 
-    @property
-    def video_location(self):
-        """
-        Returns the location selected by the user
-        :return: The location selected by the user
-        """
+        super().__init__()
 
-        return self._video_location
+        with open(self.control_variables_file, encoding="utf-8") as read_json:
+            self.dict_control_variables = load(read_json, parse_constant=True)
+            print()
+            print(self.dict_control_variables)
 
-    @video_location.setter
-    def video_location(self, location):
-        self._video_location = location
+    def get_control_variables(self, control_variable):
+        return self.dict_control_variables[control_variable]
 
-    @property
-    def download_name(self):
-        """
-        Returns the name of the download
-        :return: The name of the download
-        """
+    def set_control_variable(self, control_variable, value):
+        try:
+            self.dict_control_variables[control_variable] = value
+            print()
+            print(self.dict_control_variables)
 
-        return self._download_name
+            VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
 
-    @download_name.setter
-    def download_name(self, name):
-        """Set the name for the downloaded video"""
-
-        self._download_name = name
-
-    @property
-    def downloaded_successfully(self):
-        """
-        Returns if a video has been downloaded well or not
-        :return: Whether a video downloaded well or not
-        """
-
-        return self._downloaded_successfully
-
-    @downloaded_successfully.setter
-    def downloaded_successfully(self, downloaded):
-        """
-        Establishes if a video or audio has been downloaded well or not
-        """
-
-        self._downloaded_successfully = downloaded
-
-    @property
-    def url_video(self):
-        """
-        Returns the url of the video
-        :return: The url of the video
-        """
-
-        return self._url_video
-
-    @url_video.setter
-    def url_video(self, url):
-        self._url_video = url
+            with open(
+                self.control_variables_file, mode="w", encoding="utf-8"
+            ) as set_json:
+                dump(
+                    {
+                        "VIDEO_LOCATION": VIDEO_LOCATION,
+                        "DOWNLOAD_NAME": "",
+                        "URL_VIDEO": "",
+                        "DOWNLOADED_SUCCESSFULLY": False,
+                    },
+                    set_json,
+                )
+        except Exception as exc:
+            raise Exception(str(exc)) from exc

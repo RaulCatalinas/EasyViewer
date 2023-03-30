@@ -11,6 +11,7 @@ class CreateInputs(TextField):
         keyboard_type_input=KeyboardType.TEXT,
         autofocus_input=False,
         read_only_input=False,
+        value_input=None,
     ):
         self.placeholder_input = placeholder_input
         self.text_size_input = text_size_input
@@ -19,6 +20,7 @@ class CreateInputs(TextField):
         self.autofocus_input = autofocus_input
         self.read_only_input = read_only_input
         self.offset_input = offset_input
+        self.value_input = value_input
 
     def _build(self):
         return super().__init__(
@@ -29,6 +31,7 @@ class CreateInputs(TextField):
             text_size=self.text_size_input,
             text_align=self.text_align_input,
             offset=self.offset_input,
+            value=self.value_input,
         )
 
     def desactivate(self):

@@ -1,20 +1,21 @@
 """Interact with the pytube API"""
+
 from sys import exit
 
 from pytube import YouTube
 
 from client.logging_management import LoggingManagement
+from control_variables import ControlVariables
 
-log = LoggingManagement()
 
-
-class InteractAPIPytube:
+class InteractAPIPytube(LoggingManagement, ControlVariables):
     """Interact with the pytube API"""
 
     def __init__(self):
-        from control_variables import ControlVariables
+        ControlVariables.__init__(self)
+        LoggingManagement.__init__(self)
 
-        self.variables_control = ControlVariables()
+        self.url_video = self.get_control_variables("URL_VIDEO")
 
     def get_video(self, video):
         """
@@ -23,28 +24,29 @@ class InteractAPIPytube:
         :param video: boolean, returns video if true or audio if false
         :return: The video or audio.
         """
-        _video_id = YouTube(url=self.variables_control.get_url_video())
-        print(_video_id)
+        _VIDEO_ID = YouTube(url=self.url_video)
+        _TITLE = _VIDEO_ID.title
 
         if video:
-            self.variables_control.set_download_name(f"{_video_id.title}.mp4")
-            log.write_log("The video will be downloaded")
-            return _video_id.streams.get_highest_resolution()
+            self.set_control_variable("DOWNLOAD_NAME", f"{_TITLE}.mp4")
 
-        self.variables_control.set_download_name(f"{_video_id.title}.mp3")
-        log.write_log("Audio will be downloaded")
-        return _video_id.streams.get_audio_only()
+            self.write_log("The video will be downloaded")
+            return _VIDEO_ID.streams.get_highest_resolution()
 
-    @staticmethod
-    def cancel_download():
-        """
-        Cancel the download of the video and/or audio and then delete it
-        """
-        try:
-            raise KeyboardInterrupt("Download canceled by user")
-        except KeyboardInterrupt as exc:
-            print(exc)
-            print()
-            log.write_error(str(exc))
-        finally:
-            exit()
+        self.set_control_variable("DOWNLOAD_NAME", f"{_TITLE}.mp3")
+
+        self.write_log("Audio will be downloaded")
+        return _VIDEO_ID.streams.get_audio_only()
+
+
+def cancel_download():
+    """
+    Cancel the download of the video and/or audio and then delete it
+    """
+    try:
+        raise KeyboardInterrupt("Download canceled by user")
+    except KeyboardInterrupt as exc:
+        print(exc)
+        print()
+    finally:
+        exit()

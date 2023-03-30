@@ -1,94 +1,95 @@
 """Checks to perform before downloading the video and/or the audio"""
 
 from os import environ
-from os.path import isdir, join
+from os.path import join
 
 import requests
 from pytube import YouTube
 
 from client.app_settings import AppSettings
+from control_variables import ControlVariables
 from logging_management import LoggingManagement
 
-log = LoggingManagement()
-app_settings = AppSettings()
 
-
-class Validations:
+class Validations(AppSettings, LoggingManagement):
     """Required validations before downloading a video"""
 
-    @staticmethod
-    def check_if_directory_is_selected(download_directory, input_directory, page):
+    def __init__(self):
+        AppSettings.__init__(self)
+        LoggingManagement.__init__(self)
+
+        self.control_variables = ControlVariables()
+
+    def check_if_a_url_has_been_entered(self, url):
+        """
+        Check if a URL has been entered
+        """
+
+        if url == "":
+            self.write_error("No URL entered")
+            raise Exception(self.get_config_excel(9))
+
+        self.write_log("A URL has been entered")
+        return True
+
+    def check_if_is_url_youtube(self, url):
+        """
+        Check if the URL is from YouTube
+        """
+
+        if (
+            "https://www.youtube.com/watch?v=" in url
+            or "https://youtu.be/" in url
+            or "https://www.youtube.com/shorts/" in url
+        ):
+            self.write_log("The URL is from YouTube")
+            return True
+
+        self.write_error("The URL is not from YouTube")
+        raise Exception(self.get_config_excel(11))
+
+    def check_if_directory_is_selected(self, input_directory, page, video_location):
         """
         Check if a directory is selected, otherwise it puts a default directory
         """
 
-        if download_directory.get() != "" and isdir(download_directory.get()):
-            log.write_log("A directory has been selected to save the video")
+        if video_location != "":
+            self.write_log("A directory has been selected to save the video")
             return True
 
-        default_directory = join(join(environ["USERPROFILE"]), "Desktop")
+        DEFAULT_DIRECTORY = join(join(environ["USERPROFILE"]), "Desktop")
+        input_directory.value = DEFAULT_DIRECTORY
+        self.control_variables.set_control_variable("VIDEO_LOCATION", DEFAULT_DIRECTORY)
 
-        download_directory.set(default_directory)
-        input_directory.value = default_directory
-
-        log.write_error("Default directory set")
+        self.write_log("Default directory set")
 
         page.update(input_directory)
 
         return True
 
-    @staticmethod
-    def check_if_is_url_youtube(url):
-        """
-        Check if the URL is from YouTube
-        """
-        if (
-            "https://www.youtube.com/watch?v=" in url.get()
-            or "https://youtu.be/" in url.get()
-            or "https://www.youtube.com/shorts/" in url.get()
-        ):
-            log.write_log("The URL is from YouTube")
-            return True
-
-        log.write_error("The URL is not from YouTube")
-        raise Exception(app_settings.get_config_excel(17))
-
-    @staticmethod
-    def check_internet_connection():
+    def check_internet_connection(self):
         """
         Check if there is internet connection
         """
         try:
             requests.get("https://www.google.com", timeout=5)
         except (requests.ConnectionError, requests.Timeout) as exc:
-            log.write_error("No internet connection")
-            raise Exception(app_settings.get_config_excel(16)) from exc
+            self.write_error("No internet connection")
+            raise Exception(self.get_config_excel(10)) from exc
 
-        log.write_log("If there is internet connection")
+        self.write_log("If there is internet connection")
         return True
 
-    @staticmethod
-    def check_if_a_url_has_been_entered(url):
-        """
-        Check if a URL has been entered
-        """
-        if url.get() == "":
-            log.write_error("No URL entered")
-            raise Exception(app_settings.get_config_excel(15))
-
-        log.write_log("A URL has been entered")
-        return True
-
-    @staticmethod
-    def check_if_the_video_is_available(url):
+    def check_if_the_video_is_available(self, url):
         """
         Check if the video is available
         """
+
         try:
-            YouTube(url.get()).check_availability()
-            log.write_log("The video is available")
+            YouTube(url).check_availability()
+            self.write_log("The video is available")
             return True
 
         except Exception as exc:
-            log.write_error(str(exc))
+            self.write_error(str(exc))
             raise Exception(str(exc)) from exc
