@@ -1,28 +1,8 @@
 """Start the app"""
 
-import os
-import sys
+from add_to_pythonpath import add_to_pythonpath
 
-print(sys.path)
-
-SRC_PATH = os.path.abspath("../../src")
-APP_LOGIC = os.path.abspath("../app_logic")
-CLIENT_PATH = os.path.abspath("../client")
-
-print(
-    f"""
-    {SRC_PATH = }
-    {APP_LOGIC = }
-    {CLIENT_PATH = }
-    """
-)
-
-for path in [SRC_PATH, APP_LOGIC, CLIENT_PATH]:
-    if path not in sys.path:
-        sys.path.insert(0, path)
-        print(f"{path} added to sys.path")
-    else:
-        print(f"{path} already in sys.path")
+add_to_pythonpath()
 
 
 from threading import Thread
