@@ -17,9 +17,9 @@ from app_logic.validations import Validations
 from app_settings import AppSettings
 from create_buttons import CreateIconButton, CreateElevatedButton
 from create_inputs import CreateInputs
-from create_text import CreateText
 from progressbar import CreateProgressBar
 from taskbar import TaskBar
+from create_dialog import CreateDialog
 
 
 class Main(AppSettings, Validations, ControlVariables):
@@ -57,8 +57,7 @@ class Main(AppSettings, Validations, ControlVariables):
         def __event_close_window(event):
             if event.data == "close":
                 page.dialog = self.confirm_dialog
-                self.confirm_dialog.open = True
-                page.update()
+                self.confirm_dialog.show_close_dialog(page)
 
         page.on_window_event = __event_close_window
 
@@ -118,9 +117,7 @@ class Main(AppSettings, Validations, ControlVariables):
             page=page,
             input_url=self.input_url,
             input_directory=self.input_directory,
-            title_dialog=self.confirm_dialog.title_dialog,
-            content_dialog=self.confirm_dialog.content_dialog,
-            button_exit_the_app=self.confirm_dialog.button_exit_the_app,
+            close_dialog=self.confirm_dialog,
         )
 
         page.add(
@@ -159,7 +156,7 @@ class Main(AppSettings, Validations, ControlVariables):
                     download_video=False,
                 )
         except Exception as exc:
-            self.__create_dialog_error(error=str(exc), page=page)
+            self.__show_dialog_error(error=str(exc), page=page)
 
     def download_audio(self, page):
         self.set_control_variable("URL_VIDEO", self.input_url.value)
@@ -187,27 +184,27 @@ class Main(AppSettings, Validations, ControlVariables):
                     download_video=False,
                 )
         except Exception as exc:
-            self.__create_dialog_error(error=str(exc), page=page)
+            self.__show_dialog_error(error=str(exc), page=page)
 
-    def __create_dialog_error(self, error, page):
+    def __show_dialog_error(self, error, page):
         button_close_dialog = CreateElevatedButton(
-            text_button="Ok", function=lambda e: __close_dialog()
+            text_button="Ok", function=lambda e: __change_state_dialog()
         )
 
-        dialog_error = ft.AlertDialog(
-            title=ft.Icon(name=ft.icons.ERROR, scale=1.3),
-            content=CreateText(text=error, text_size=23),
-            actions=[button_close_dialog],
-            actions_alignment=ft.MainAxisAlignment.END,
+        dialog_error = CreateDialog(
+            icon=True,
+            title_dialog=ft.icons.ERROR,
+            title_size=1.3,
+            content_dialog=error,
+            content_size=23,
+            actions_dialog=[button_close_dialog],
+            actions_alignment_dialog=ft.MainAxisAlignment.END,
         )
 
-        def __close_dialog():
-            dialog_error.open = False
-            page.update()
+        dialog_error.change_state_dialog(page)
 
-        page.dialog = dialog_error
-        dialog_error.open = True
-        page.update()
+        def __change_state_dialog():
+            return dialog_error.change_state_dialog(page)
 
 
 ft.app(target=Main)

@@ -14,18 +14,14 @@ class ChangeLanguage(Dropdown, AppSettings):
         page,
         input_url,
         input_directory,
-        title_dialog,
-        content_dialog,
-        button_exit_the_app,
+        close_dialog,
         dropdown_contact,
     ):
         self.appbar = appbar
         self.page = page
         self.input_url = input_url
         self.input_directory = input_directory
-        self.title_dialog = title_dialog
-        self.content_dialog = content_dialog
-        self.button_exit_the_app = button_exit_the_app
+        self.close_dialog = close_dialog
         self.dropdown_contact = dropdown_contact
 
         AppSettings.__init__(self)
@@ -78,9 +74,9 @@ class ChangeLanguage(Dropdown, AppSettings):
 
         self.input_url.change_placeholder(self.get_config_excel(14))
         self.input_directory.change_placeholder(self.get_config_excel(15))
-        self.title_dialog.change_text(self.get_config_excel(12))
-        self.content_dialog.change_text(self.get_config_excel(3))
-        self.button_exit_the_app.change_text_button(self.get_config_excel(4))
+        self.close_dialog.update_text_dialog(
+            text_title=self.get_config_excel(12), text_content=self.get_config_excel(3)
+        )
         self.dropdown_contact.hint_text = self.get_config_excel(16)
 
         if not self.dropdown_contact.visible:
@@ -90,9 +86,6 @@ class ChangeLanguage(Dropdown, AppSettings):
                 self.appbar,
                 self.input_url,
                 self.input_directory,
-                self.title_dialog,
-                self.content_dialog,
-                self.button_exit_the_app,
                 self,
                 self.dropdown_contact,
             )
@@ -100,9 +93,6 @@ class ChangeLanguage(Dropdown, AppSettings):
         return self.page.update(
             self.input_url,
             self.input_directory,
-            self.title_dialog,
-            self.content_dialog,
-            self.button_exit_the_app,
             self,
             self.dropdown_contact,
         )
