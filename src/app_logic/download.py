@@ -1,6 +1,7 @@
 from webbrowser import open
 
 from client.logging_management import LoggingManagement
+
 from control_variables import ControlVariables
 from interact_api_pytube import InteractAPIPytube
 
@@ -17,12 +18,14 @@ class Download(InteractAPIPytube, LoggingManagement, ControlVariables):
         button_download_audio,
         input_url,
         download_video,
+        page,
     ):
         self.button_select_location = button_select_location
         self.button_download_video = button_download_video
         self.button_download_audio = button_download_audio
         self.input_url = input_url
         self.download_video = download_video
+        self.page = page
 
         ControlVariables.__init__(self)
         InteractAPIPytube.__init__(self)
@@ -36,7 +39,7 @@ class Download(InteractAPIPytube, LoggingManagement, ControlVariables):
 
             self.set_control_variable("DOWNLOADED_SUCCESSFULLY", False)
 
-            self.__disable_widgets()
+            self.__change_state_widgets()
 
             if self.download_video:
                 self.download = self.get_video(True)
@@ -48,12 +51,12 @@ class Download(InteractAPIPytube, LoggingManagement, ControlVariables):
                 filename=self.download_name,
             )
 
-        except Exception as exc:
-            self.__activate_widgets()
+        except Exception as exception:
+            self.__change_state_widgets()
 
-            self.write_error(str(exc))
+            self.write_error(exception)
 
-            raise Exception(str(exc)) from exc
+            raise Exception(exception) from exception
 
         self.set_control_variable("DOWNLOADED_SUCCESSFULLY", True)
 
@@ -63,14 +66,10 @@ class Download(InteractAPIPytube, LoggingManagement, ControlVariables):
 
         self.write_log("Download completed successfully")
 
-    def __disable_widgets(self):
-        self.button_select_location.desactivate()
-        self.button_download_video.desactivate()
-        self.button_download_audio.desactivate()
-        self.input_url.desactivate()
+    def __change_state_widgets(self):
+        """If the widgets are activated they deactivate it and vice versa"""
 
-    def __activate_widgets(self):
-        self.button_select_location.activate()
-        self.button_download_video.activate()
-        self.button_download_audio.activate()
-        self.input_url.activate()
+        self.button_select_location.change_state()
+        self.button_download_video.change_state()
+        self.button_download_audio.change_state()
+        self.input_url.change_state()

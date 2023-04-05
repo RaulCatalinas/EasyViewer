@@ -15,11 +15,16 @@ class CreateIconButton(IconButton):
             offset=self.offset_button,
         )
 
-    def desactivate(self):
-        self.disabled = True
+    def change_state(self, page):
+        """If the button is activated, it deactivates it and vice versa"""
 
-    def activate(self):
-        self.disabled = False
+        if not self.disabled:
+            self.disabled = True
+
+        else:
+            self.disabled = False
+
+        return page.update(self)
 
 
 class CreateElevatedButton(ElevatedButton):

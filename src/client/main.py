@@ -1,14 +1,21 @@
 """Start the app"""
 
+
 from add_to_pythonpath import add_to_pythonpath
 
 add_to_pythonpath()
 
-
+from flet import (
+    Page,
+    icons,
+    CrossAxisAlignment,
+    KeyboardType,
+    TextAlign,
+    Offset,
+    app,
+    MainAxisAlignment,
+)
 from threading import Thread
-
-import flet as ft
-
 from app_logic.confirm_close import ConfirmClose
 from app_logic.control_variables import ControlVariables
 from app_logic.download import Download
@@ -23,10 +30,12 @@ from create_dialog import CreateDialog
 
 
 class Main(AppSettings, Validations, ControlVariables):
-    def __init__(self, page: ft.Page):
+    def __init__(self, page: Page):
         AppSettings.__init__(self)
         Validations.__init__(self)
         ControlVariables.__init__(self)
+
+        self.confirm_dialog = ConfirmClose(page)
 
         VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
 
@@ -39,8 +48,8 @@ class Main(AppSettings, Validations, ControlVariables):
         page.window_center()
 
         # Center elements
-        page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-        page.vertical_alignment = ft.CrossAxisAlignment.CENTER
+        page.horizontal_alignment = CrossAxisAlignment.CENTER
+        page.vertical_alignment = CrossAxisAlignment.CENTER
 
         # Set window size
         page.window_resizable = False
@@ -52,65 +61,83 @@ class Main(AppSettings, Validations, ControlVariables):
         # Window close confirmation
         page.window_prevent_close = True
 
-        self.confirm_dialog = ConfirmClose(page)
-
         def __event_close_window(event):
             if event.data == "close":
+                self.__overlay(page)
                 page.dialog = self.confirm_dialog
-                self.confirm_dialog.show_close_dialog(page)
+
+                if self.error_dialog.open:
+                    self.error_dialog.change_state(page)
+
+                self.confirm_dialog.change_state_close_dialog(page)
 
         page.on_window_event = __event_close_window
+
+        # Error dialog
+        self.button_close_dialog = CreateElevatedButton(
+            text_button="Ok", function=lambda e: None
+        )
+
+        self.error_dialog = CreateDialog(
+            icon=True,
+            title_dialog=icons.ERROR,
+            title_size=1.3,
+            content_dialog="",
+            content_size=23,
+            actions_dialog=[self.button_close_dialog],
+            actions_alignment_dialog=MainAxisAlignment.END,
+        )
 
         self.input_url = CreateInputs(
             placeholder_input=self.get_config_excel(14),
             text_size_input=20,
-            keyboard_type_input=ft.KeyboardType.URL,
-            text_align_input=ft.TextAlign.CENTER,
+            keyboard_type_input=KeyboardType.URL,
+            text_align_input=TextAlign.CENTER,
             autofocus_input=True,
         )
 
         self.input_directory = CreateInputs(
             placeholder_input=self.get_config_excel(15),
             text_size_input=20,
-            text_align_input=ft.TextAlign.CENTER,
+            text_align_input=TextAlign.CENTER,
             read_only_input=True,
-            offset_input=ft.Offset(0, 0.5),
+            offset_input=Offset(0, 0.5),
             value_input=VIDEO_LOCATION if VIDEO_LOCATION != "" else None,
         )
 
+        self.select_directory = SelectDirectory(
+            page=page, input_directory=self.input_directory
+        )
+
         self.button_directory = CreateIconButton(
-            icon_button=ft.icons.FOLDER,
-            function=lambda e: SelectDirectory(
-                page=page,
-                confirm_dialog=self.confirm_dialog,
-                input_directory=self.input_directory,
-            ),
-            offset_button=ft.Offset(0, 1.5),
+            icon_button=icons.FOLDER,
+            function=lambda e: self.select_directory.select_directory(),
+            offset_button=Offset(0, 1.5),
             scale_button=2.5,
         )
 
         self.button_download_video = CreateIconButton(
-            icon_button=ft.icons.VIDEO_FILE,
+            icon_button=icons.VIDEO_FILE,
             function=lambda e: [
-                Thread(target=self.download_video(page), daemon=True).start()
+                Thread(target=self.__download, args=[page, True], daemon=True).start()
             ],
-            offset_button=ft.Offset(-0.9, 2.5),
+            offset_button=Offset(-0.9, 2.5),
             scale_button=2.5,
         )
 
         self.button_download_audio = CreateIconButton(
-            icon_button=ft.icons.AUDIO_FILE,
+            icon_button=icons.AUDIO_FILE,
             function=lambda e: [
-                Thread(target=self.download_audio(page), daemon=True).start()
+                Thread(target=self.__download, args=[page, False], daemon=True).start()
             ],
-            offset_button=ft.Offset(1, 1.3),
+            offset_button=Offset(1, 1.3),
             scale_button=2.5,
         )
 
         self.progress_bar = CreateProgressBar(
             color_progressbar=self.get_config_json("COLORS", "GREEN"),
             value_progressbar=0,
-            offset_progressbar=ft.Offset(0, 23),
+            offset_progressbar=Offset(0, 23),
         )
 
         self.taskbar = TaskBar(
@@ -120,7 +147,57 @@ class Main(AppSettings, Validations, ControlVariables):
             close_dialog=self.confirm_dialog,
         )
 
-        page.add(
+        Thread(target=self.__add, args=[page], daemon=False).start()
+        Thread(target=self.__overlay, args=[page], daemon=False).start()
+
+    def __download(self, page, download_video):
+        """
+        Download the video if the parameter "download video" is true, otherwise it'll download the audio of the video
+        """
+
+        self.set_control_variable("URL_VIDEO", self.input_url.value)
+
+        URL = self.get_control_variables("URL_VIDEO")
+        VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
+
+        try:
+            if (
+                self.check_if_a_url_has_been_entered(URL)
+                and self.check_if_is_url_youtube(URL)
+                and self.check_if_directory_is_selected(
+                    input_directory=self.input_directory,
+                    page=page,
+                    video_location=VIDEO_LOCATION,
+                )
+                and self.check_internet_connection()
+                and self.check_if_the_video_is_available(URL)
+            ):
+                Download(
+                    button_select_location=self.button_directory,
+                    button_download_video=self.button_download_video,
+                    button_download_audio=self.button_download_audio,
+                    input_url=self.input_url,
+                    download_video=download_video,
+                    page=page,
+                )
+
+        except Exception as exception:
+            self.__show_dialog_error(error=exception, page=page)
+
+    def __show_dialog_error(self, error, page):
+        """Displays a dialog with the error occurred"""
+
+        self.__overlay(page)
+        page.dialog = self.error_dialog
+        self.error_dialog.content_text.change_text(error)
+        self.button_close_dialog.on_click = lambda e: self.error_dialog.change_state(
+            page
+        )
+
+        self.error_dialog.change_state(page)
+
+    def __add(self, page):
+        ITEMS_TO_ADD_TO_THE_PAGE = [
             self.input_url,
             self.input_directory,
             self.button_directory,
@@ -128,83 +205,21 @@ class Main(AppSettings, Validations, ControlVariables):
             self.button_download_audio,
             self.progress_bar,
             self.taskbar,
-        )
+            self.select_directory,
+        ]
 
-    def download_video(self, page):
-        self.set_control_variable("URL_VIDEO", self.input_url.value)
+        for item in ITEMS_TO_ADD_TO_THE_PAGE:
+            page.add(item)
 
-        URL = self.get_control_variables("URL_VIDEO")
-        VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
+    def __overlay(self, page):
+        TO_ADD_TO_THE_OVERLAY_OF_THE_PAGE = [
+            self.confirm_dialog,
+            self.error_dialog,
+        ]
 
-        try:
-            if (
-                self.check_if_a_url_has_been_entered(URL)
-                and self.check_if_is_url_youtube(URL)
-                and self.check_if_directory_is_selected(
-                    input_directory=self.input_directory,
-                    page=page,
-                    video_location=VIDEO_LOCATION,
-                )
-                and self.check_internet_connection()
-                and self.check_if_the_video_is_available(URL)
-            ):
-                Download(
-                    button_select_location=self.button_directory,
-                    button_download_video=self.button_download_video,
-                    button_download_audio=self.button_download_audio,
-                    input_url=self.input_url,
-                    download_video=False,
-                )
-        except Exception as exc:
-            self.__show_dialog_error(error=str(exc), page=page)
-
-    def download_audio(self, page):
-        self.set_control_variable("URL_VIDEO", self.input_url.value)
-
-        URL = self.get_control_variables("URL_VIDEO")
-        VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
-
-        try:
-            if (
-                self.check_if_a_url_has_been_entered(URL)
-                and self.check_if_is_url_youtube(URL)
-                and self.check_if_directory_is_selected(
-                    input_directory=self.input_directory,
-                    page=page,
-                    video_location=VIDEO_LOCATION,
-                )
-                and self.check_internet_connection()
-                and self.check_if_the_video_is_available(URL)
-            ):
-                Download(
-                    button_select_location=self.button_directory,
-                    button_download_video=self.button_download_video,
-                    button_download_audio=self.button_download_audio,
-                    input_url=self.input_url,
-                    download_video=False,
-                )
-        except Exception as exc:
-            self.__show_dialog_error(error=str(exc), page=page)
-
-    def __show_dialog_error(self, error, page):
-        button_close_dialog = CreateElevatedButton(
-            text_button="Ok", function=lambda e: __change_state_dialog()
-        )
-
-        dialog_error = CreateDialog(
-            icon=True,
-            title_dialog=ft.icons.ERROR,
-            title_size=1.3,
-            content_dialog=error,
-            content_size=23,
-            actions_dialog=[button_close_dialog],
-            actions_alignment_dialog=ft.MainAxisAlignment.END,
-        )
-
-        dialog_error.change_state_dialog(page)
-
-        def __change_state_dialog():
-            return dialog_error.change_state_dialog(page)
+        for i in TO_ADD_TO_THE_OVERLAY_OF_THE_PAGE:
+            page.overlay.append(i)
 
 
-ft.app(target=Main)
+if __name__ == "__main__":
+    app(target=Main)

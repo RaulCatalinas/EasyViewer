@@ -1,6 +1,6 @@
 """Control the logic of the taskbar"""
 
-from flet import AppBar, icons, Column, Offset
+from flet import AppBar, icons, Column, Offset, Image, Icon
 
 from app_settings import AppSettings
 from change_language import ChangeLanguage
@@ -19,31 +19,11 @@ class TaskBar(AppBar, AppSettings):
         self.close_dialog = close_dialog
 
         AppSettings.__init__(self)
-
         self.change_theme = ChangeTheme()
 
-        self.dropdown_language = ChangeLanguage(
-            appbar=self,
-            page=self.page,
-            input_url=self.input_url,
-            input_directory=self.input_directory,
-            close_dialog=self.close_dialog,
-            dropdown_contact=None,
-        )
-
-        self.dropdown_contact = Contact(
-            dropdown_language=self.dropdown_language,
-            page=self.page,
-            appbar=self,
-        )
-
-        self.dropdown_language.dropdown_contact = self.dropdown_contact
-
-        self.icon_theme = CreateIconButton(
-            icon_button=self.change_theme.set_initial_icon_theme(self.page),
-            function=lambda e: self.change_theme.change_theme(
-                page=self.page, icon_theme=self.icon_theme
-            ),
+        self.spanish_flag = Image(src=self.get_image("spain.png"), width=30, height=30)
+        self.english_flag = Image(
+            src=self.get_image("united-kingdom.png"), width=30, height=30
         )
 
         self.icon_language = CreateIconButton(
@@ -58,9 +38,46 @@ class TaskBar(AppBar, AppSettings):
             offset_button=Offset(0, 0.3),
         )
 
+        self.icon_theme = CreateIconButton(
+            icon_button=self.change_theme.set_initial_icon_theme(self.page),
+            function=lambda e: self.change_theme.change_theme(
+                page=self.page, icon_theme=self.icon_theme
+            ),
+        )
+
+        self.dropdown_language = ChangeLanguage(
+            appbar=self,
+            page=self.page,
+            input_url=self.input_url,
+            input_directory=self.input_directory,
+            close_dialog=self.close_dialog,
+            dropdown_contact=None,
+            spanish_flag=self.spanish_flag,
+            english_flag=self.english_flag,
+            icon_language=self.icon_language,
+            icon_theme=self.icon_theme,
+        )
+
+        self.dropdown_contact = Contact(
+            dropdown_language=self.dropdown_language,
+            page=self.page,
+            appbar=self,
+            spanish_flag=self.spanish_flag,
+            english_flag=self.english_flag,
+            icon_contact=self.icon_contact,
+            icon_theme=self.icon_theme,
+        )
+
+        self.dropdown_language.dropdown_contact = self.dropdown_contact
+
     def _build(self):
         return AppBar.__init__(
             self,
+            title=(
+                self.spanish_flag
+                if self.get_language() == "Español"
+                else self.english_flag
+            ),
             actions=[
                 self.icon_theme,
                 Column(controls=[self.icon_language, self.dropdown_language]),

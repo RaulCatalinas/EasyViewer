@@ -7,6 +7,7 @@ from create_text import CreateText
 
 class CreateDialog(AlertDialog):
     """Create a dialog with a title, content, and actions to communicate something to the user"""
+
     def __init__(
         self,
         title_dialog: str | Icon,
@@ -16,7 +17,7 @@ class CreateDialog(AlertDialog):
         actions_dialog: list,
         actions_alignment_dialog,
         icon: bool = False,
-    ):
+    ) -> None:
         self.title_dialog = title_dialog
         self.content_dialog = content_dialog
         self.title_size = title_size
@@ -42,31 +43,29 @@ class CreateDialog(AlertDialog):
             actions_alignment=self.actions_alignment_dialog,
         )
 
-    def change_state_dialog(self, page):
+    def change_state(self, page) -> None:
         """
         If the dialog is not open, open it and update the page. If the dialog is open, close it and
         update the page
-        
+
         :param page: The page that the dialog is on
         :return: The page.update() function is being returned.
         """
         if not self.open:
-            page.dialog = self
             self.open = True
-            return page.update()
 
-        self.open = False
-        return page.update()
+        else:
+            self.open = False
+
+        page.update()
 
     def update_text(self, text_title, text_content):
         """
         It takes two strings as arguments, and returns a tuple of two functions
-        
+
         :param text_title: The title of the text
         :param text_content: The text that will be displayed in the content text box
         :return: A tuple of the return values of the two methods.
         """
-        return (
-            self.title_text.change_text(text_title),
-            self.content_text.change_text(text_content),
-        )
+        self.title_text.change_text(text_title)
+        self.content_text.change_text(text_content)

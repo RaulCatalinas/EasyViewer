@@ -2,9 +2,9 @@
 
 from sys import exit
 
+from client.logging_management import LoggingManagement
 from pytube import YouTube
 
-from client.logging_management import LoggingManagement
 from control_variables import ControlVariables
 
 
@@ -46,7 +46,7 @@ def cancel_download():
     try:
         raise KeyboardInterrupt("Download canceled by user")
     except KeyboardInterrupt as exc:
-        print(exc)
         print()
+        print(exc)
     finally:
         exit()

@@ -2,11 +2,18 @@
 
 from subprocess import run
 
-command = """flet pack src/client/main.py -n EasyViewer -i icon/icon.png --product-name EasyViewer --product-version "0.2.1" --copyright "Copyright (c) 2023 Raul Catalinas Esteban" --add-data src;* --add-data icon;* --add-data config;config"""
 
-execute = run(command, capture_output=True, text=True, check=True)
+def compile_app():
+    """Compile the app to generate the executable file"""
 
-if execute.returncode == 0:
-    print("App compiled successfully")
-else:
-    print(f"Could not compile, this is the reason: {execute.stderr}")
+    COMMAND = """flet pack src/client/main.py -n EasyViewer -i icon/icon.png --product-name EasyViewer --product-version "0.2.1" --copyright "Copyright (c) 2023 Raul Catalinas Esteban" --add-data config;config --add-data icon;icon --add-data src/app_logic;app_logic --add-data src/client;client"""
+
+    execute = run(COMMAND, capture_output=True, check=True)
+
+    if execute.returncode == 0:
+        return print("App compiled successfully")
+
+    return print(f"Could not compile, this is the reason: {execute.stderr}")
+
+
+compile_app()

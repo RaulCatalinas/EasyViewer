@@ -1,38 +1,35 @@
-"""Checks to perform before downloading the video and/or the audio"""
-
 from os import environ
 from os.path import join
 
-import requests
-from pytube import YouTube
-
 from client.app_settings import AppSettings
+from client.logging_management import LoggingManagement
+from pytube import YouTube
+from requests import get, ConnectionError, Timeout
+
 from control_variables import ControlVariables
-from logging_management import LoggingManagement
 
 
-class Validations(AppSettings, LoggingManagement):
+class Validations(LoggingManagement, AppSettings):
     """Required validations before downloading a video"""
 
     def __init__(self):
-        AppSettings.__init__(self)
         LoggingManagement.__init__(self)
-
+        AppSettings.__init__(self)
         self.control_variables = ControlVariables()
 
-    def check_if_a_url_has_been_entered(self, url):
+    def check_if_a_url_has_been_entered(self, url: str) -> bool:
         """
         Check if a URL has been entered
         """
 
-        if url == "":
+        if not url:
             self.write_error("No URL entered")
-            raise Exception(self.get_config_excel(9))
+            raise ValueError(self.get_config_excel(9))
 
         self.write_log("A URL has been entered")
         return True
 
-    def check_if_is_url_youtube(self, url):
+    def check_if_is_url_youtube(self, url: str) -> bool:
         """
         Check if the URL is from YouTube
         """
@@ -46,14 +43,17 @@ class Validations(AppSettings, LoggingManagement):
             return True
 
         self.write_error("The URL is not from YouTube")
-        raise Exception(self.get_config_excel(11))
+        raise ValueError(self.get_config_excel(11))
 
-    def check_if_directory_is_selected(self, input_directory, page, video_location):
+    def check_if_directory_is_selected(
+        self, input_directory: str, page: object, video_location: str
+    ) -> bool:
         """
-        Check if a directory is selected, otherwise it puts a default directory
+        Check if a directory is selected,
+        otherwise it puts a default directory
         """
 
-        if video_location != "":
+        if video_location:
             self.write_log("A directory has been selected to save the video")
             return True
 
@@ -62,25 +62,23 @@ class Validations(AppSettings, LoggingManagement):
         self.control_variables.set_control_variable("VIDEO_LOCATION", DEFAULT_DIRECTORY)
 
         self.write_log("Default directory set")
-
         page.update(input_directory)
-
         return True
 
-    def check_internet_connection(self):
+    def check_internet_connection(self) -> bool:
         """
-        Check if there is internet connection
+        Check if there is an internet connection
         """
         try:
-            requests.get("https://www.google.com", timeout=5)
-        except (requests.ConnectionError, requests.Timeout) as exc:
+            get("https://www.google.com", timeout=5)
+        except (ConnectionError, Timeout) as exc:
             self.write_error("No internet connection")
-            raise Exception(self.get_config_excel(10)) from exc
+            raise ConnectionError(self.get_config_excel(16)) from exc
 
-        self.write_log("If there is internet connection")
+        self.write_log("Internet connection is available")
         return True
 
-    def check_if_the_video_is_available(self, url):
+    def check_if_the_video_is_available(self, url: str) -> bool:
         """
         Check if the video is available
         """
@@ -90,6 +88,6 @@ class Validations(AppSettings, LoggingManagement):
             self.write_log("The video is available")
             return True
 
-        except Exception as exc:
-            self.write_error(str(exc))
-            raise Exception(str(exc)) from exc
+        except Exception as exception:
+            self.write_error(exception)
+            raise ValueError(exception) from exception

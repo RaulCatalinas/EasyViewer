@@ -34,11 +34,16 @@ class CreateInputs(TextField):
             value=self.value_input,
         )
 
-    def desactivate(self):
-        self.disabled = True
+    def change_state(self, page):
+        """If the input is activated, it deactivates it and vice versa"""
 
-    def activate(self):
-        self.disabled = False
+        if not self.disabled:
+            self.disabled = True
+
+        else:
+            self.disabled = False
+
+        return page.update(self)
 
     def change_placeholder(self, new_placeholder):
         self.hint_text = new_placeholder
