@@ -69,7 +69,7 @@ class Download(InteractAPIPytube, LoggingManagement, ControlVariables):
     def __change_state_widgets(self):
         """If the widgets are activated they deactivate it and vice versa"""
 
-        self.button_select_location.change_state()
-        self.button_download_video.change_state()
-        self.button_download_audio.change_state()
-        self.input_url.change_state()
+        self.button_select_location.change_state(self.page)
+        self.button_download_video.change_state(self.page)
+        self.button_download_audio.change_state(self.page)
+        self.input_url.change_state(self.page)
