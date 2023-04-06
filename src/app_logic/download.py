@@ -1,7 +1,10 @@
+"""
+Downloads a video or audio from a YouTube video and saves it to a specific location
+"""
+
 from webbrowser import open
 
 from client.logging_management import LoggingManagement
-
 from control_variables import ControlVariables
 from interact_api_pytube import InteractAPIPytube
 
@@ -35,11 +38,9 @@ class Download(InteractAPIPytube, LoggingManagement, ControlVariables):
         self.download_name = self.get_control_variables("DOWNLOAD_NAME")
 
         try:
-            print(self.video_location)
+            self.__change_state_widgets()
 
             self.set_control_variable("DOWNLOADED_SUCCESSFULLY", False)
-
-            self.__change_state_widgets()
 
             if self.download_video:
                 self.download = self.get_video(True)
@@ -58,11 +59,11 @@ class Download(InteractAPIPytube, LoggingManagement, ControlVariables):
 
             raise Exception(exception) from exception
 
-        self.set_control_variable("DOWNLOADED_SUCCESSFULLY", True)
-
         open(self.video_location)
 
-        self.__activate_widgets()
+        self.__change_state_widgets()
+
+        self.set_control_variable("DOWNLOADED_SUCCESSFULLY", True)
 
         self.write_log("Download completed successfully")
 
