@@ -1,8 +1,8 @@
 """Prompts the user to select a directory for the downloaded file"""
 
-from client.app_settings import AppSettings
 from flet import FilePicker, FilePickerResultEvent
 
+from client.app_settings import AppSettings
 from control_variables import ControlVariables
 
 
@@ -19,7 +19,7 @@ class SelectDirectory(FilePicker, ControlVariables, AppSettings):
         FilePicker.__init__(self, on_result=self.__on_result)
 
     def __on_result(self, event: FilePickerResultEvent):
-        self.input_directory.value = event.path
+        self.input_directory.set_value(event.path)
         self.set_control_variable("VIDEO_LOCATION", event.path)
         self.page.update(self.input_directory)
 

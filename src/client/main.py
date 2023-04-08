@@ -1,9 +1,6 @@
 """Start the app"""
 
-
-from add_to_pythonpath import add_to_pythonpath
-
-add_to_pythonpath()
+from threading import Thread
 
 from flet import (
     Page,
@@ -15,7 +12,7 @@ from flet import (
     app,
     MainAxisAlignment,
 )
-from threading import Thread
+
 from app_logic.confirm_close import ConfirmClose
 from app_logic.control_variables import ControlVariables
 from app_logic.download import Download
@@ -23,10 +20,10 @@ from app_logic.select_directory import SelectDirectory
 from app_logic.validations import Validations
 from app_settings import AppSettings
 from create_buttons import CreateIconButton, CreateElevatedButton
+from create_dialog import CreateDialog
 from create_inputs import CreateInputs
 from progressbar import CreateProgressBar
 from taskbar import TaskBar
-from create_dialog import CreateDialog
 
 
 class Main(AppSettings, Validations, ControlVariables):

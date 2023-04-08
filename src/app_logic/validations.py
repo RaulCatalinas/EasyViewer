@@ -1,11 +1,11 @@
 from os import environ
 from os.path import join
 
-from client.app_settings import AppSettings
-from client.logging_management import LoggingManagement
 from pytube import YouTube
 from requests import get, ConnectionError, Timeout
 
+from client.app_settings import AppSettings
+from client.logging_management import LoggingManagement
 from control_variables import ControlVariables
 
 
@@ -58,7 +58,7 @@ class Validations(LoggingManagement, AppSettings):
             return True
 
         DEFAULT_DIRECTORY = join(join(environ["USERPROFILE"]), "Desktop")
-        input_directory.value = DEFAULT_DIRECTORY
+        input_directory.set_value(DEFAULT_DIRECTORY)
         self.control_variables.set_control_variable("VIDEO_LOCATION", DEFAULT_DIRECTORY)
 
         self.write_log("Default directory set")
