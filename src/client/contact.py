@@ -15,16 +15,12 @@ class Contact(Dropdown, AppSettings):
         dropdown_language,
         page,
         appbar,
-        spanish_flag,
-        english_flag,
         icon_contact,
         icon_theme,
     ):
         self.dropdown_language = dropdown_language
         self.page = page
         self.appbar = appbar
-        self.english_flag = english_flag
-        self.spanish_flag = spanish_flag
         self.icon_contact = icon_contact
         self.icon_theme = icon_theme
 
@@ -60,8 +56,6 @@ class Contact(Dropdown, AppSettings):
 
             self.appbar.toolbar_height = 114
 
-            self.spanish_flag.offset = Offset(0, -0.85)
-            self.english_flag.offset = Offset(0, -0.85)
             self.icon_contact.offset = Offset(6.50, 0.3)
             self.icon_theme.offset = Offset(0, -0.65)
 
@@ -73,9 +67,8 @@ class Contact(Dropdown, AppSettings):
 
         if not self.dropdown_language.visible:
             self.appbar.toolbar_height = 63
+
             self.icon_theme.offset = Offset(0, 0)
-            self.spanish_flag.offset = Offset(0, 0)
-            self.english_flag.offset = Offset(0, 0)
 
         return self.page.update(self, self.appbar)
 
@@ -91,8 +84,7 @@ class Contact(Dropdown, AppSettings):
 
         if not self.dropdown_language.visible:
             self.appbar.toolbar_height = 63
+
             self.icon_theme.offset = Offset(0, 0)
-            self.spanish_flag.offset = Offset(0, 0)
-            self.english_flag.offset = Offset(0, 0)
 
         return self.page.update(self, self.appbar)

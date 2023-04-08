@@ -20,7 +20,6 @@ _project_path = Path(__file__).parent.parent.parent
 ) = get_files_path()
 
 _icon_path = _project_path.joinpath("icon", "icon.png")
-_images_path = _project_path.joinpath("images")
 
 LANGUAGES = read_excel(_languages_file_path)
 
@@ -85,11 +84,3 @@ class AppSettings:
         """
 
         return _control_variables_json_path
-
-    @staticmethod
-    def get_image(image: str) -> str:
-        """
-        Returns the path to the images
-        :return: The path to the images
-        """
-        return _images_path.joinpath(image)

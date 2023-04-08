@@ -1,6 +1,6 @@
 """Control the logic of the taskbar"""
 
-from flet import AppBar, icons, Column, Offset, Image, Icon
+from flet import AppBar, icons, Column, Offset
 
 from app_settings import AppSettings
 from change_language import ChangeLanguage
@@ -20,11 +20,6 @@ class TaskBar(AppBar, AppSettings):
 
         AppSettings.__init__(self)
         self.change_theme = ChangeTheme()
-
-        self.spanish_flag = Image(src=self.get_image("spain.png"), width=30, height=30)
-        self.english_flag = Image(
-            src=self.get_image("united-kingdom.png"), width=30, height=30
-        )
 
         self.icon_language = CreateIconButton(
             icon_button=icons.LANGUAGE,
@@ -52,8 +47,6 @@ class TaskBar(AppBar, AppSettings):
             input_directory=self.input_directory,
             close_dialog=self.close_dialog,
             dropdown_contact=None,
-            spanish_flag=self.spanish_flag,
-            english_flag=self.english_flag,
             icon_language=self.icon_language,
             icon_theme=self.icon_theme,
         )
@@ -62,8 +55,6 @@ class TaskBar(AppBar, AppSettings):
             dropdown_language=self.dropdown_language,
             page=self.page,
             appbar=self,
-            spanish_flag=self.spanish_flag,
-            english_flag=self.english_flag,
             icon_contact=self.icon_contact,
             icon_theme=self.icon_theme,
         )
@@ -73,11 +64,6 @@ class TaskBar(AppBar, AppSettings):
     def _build(self):
         return AppBar.__init__(
             self,
-            title=(
-                self.spanish_flag
-                if self.get_language() == "Español"
-                else self.english_flag
-            ),
             actions=[
                 self.icon_theme,
                 Column(controls=[self.icon_language, self.dropdown_language]),

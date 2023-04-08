@@ -48,7 +48,7 @@ class CreateInputs(TextField):
     def change_placeholder(self, new_placeholder):
         """
         This function changes the placeholder text of a widget.
-        
+
         :param new_placeholder: The new text that will replace the current placeholder text in a user interface element, such as a text input field or a search bar
         """
 
@@ -57,8 +57,8 @@ class CreateInputs(TextField):
     def set_value(self, new_value):
         """
         This function sets a new value for a given object's attribute.
-        
+
         :param new_value: The new value that will be assigned to the "value" attribute of the object that this method is called on
         """
-        
+
         self.value = new_value

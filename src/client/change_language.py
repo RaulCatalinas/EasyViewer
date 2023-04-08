@@ -16,8 +16,6 @@ class ChangeLanguage(Dropdown, AppSettings):
         input_directory,
         close_dialog,
         dropdown_contact,
-        spanish_flag,
-        english_flag,
         icon_language,
         icon_theme,
     ):
@@ -27,8 +25,6 @@ class ChangeLanguage(Dropdown, AppSettings):
         self.input_directory = input_directory
         self.close_dialog = close_dialog
         self.dropdown_contact = dropdown_contact
-        self.spanish_flag = spanish_flag
-        self.english_flag = english_flag
         self.icon_language = icon_language
         self.icon_theme = icon_theme
 
@@ -53,8 +49,7 @@ class ChangeLanguage(Dropdown, AppSettings):
         if not self.visible:
             self.visible = True
             self.appbar.toolbar_height = 114
-            self.spanish_flag.offset = Offset(0, -0.85)
-            self.english_flag.offset = Offset(0, -0.85)
+
             self.icon_language.offset = Offset(6.50, 0.3)
             self.icon_theme.offset = Offset(0, -0.65)
 
@@ -65,9 +60,8 @@ class ChangeLanguage(Dropdown, AppSettings):
 
         if not self.dropdown_contact.visible:
             self.appbar.toolbar_height = 63
+
             self.icon_theme.offset = Offset(0, 0)
-            self.spanish_flag.offset = Offset(0, 0)
-            self.english_flag.offset = Offset(0, 0)
 
         return self.page.update(self, self.appbar)
 
@@ -76,11 +70,9 @@ class ChangeLanguage(Dropdown, AppSettings):
 
         if self.value in ["Spanish", "Español"]:
             self.set_language("Español")
-            self.appbar.title = self.spanish_flag
 
         else:
             self.set_language("English")
-            self.appbar.title = self.english_flag
 
         self.visible = False
 
@@ -101,9 +93,8 @@ class ChangeLanguage(Dropdown, AppSettings):
 
         if not self.dropdown_contact.visible:
             self.appbar.toolbar_height = 63
+
             self.icon_theme.offset = Offset(0, 0)
-            self.spanish_flag.offset = Offset(0, 0)
-            self.english_flag.offset = Offset(0, 0)
 
         return self.page.update(
             self.appbar,
