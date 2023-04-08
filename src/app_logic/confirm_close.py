@@ -1,10 +1,10 @@
 """Control the closing of the app"""
 
+from flet import MainAxisAlignment
+
 from client.app_settings import AppSettings
 from client.create_buttons import CreateElevatedButton, CreateOutlinedButton
 from client.create_dialog import CreateDialog
-from flet import MainAxisAlignment
-
 from control_variables import ControlVariables
 from interact_api_pytube import cancel_download
 

@@ -2,9 +2,9 @@
 
 from sys import exit
 
-from client.logging_management import LoggingManagement
 from pytube import YouTube
 
+from client.logging_management import LoggingManagement
 from control_variables import ControlVariables
 
 
