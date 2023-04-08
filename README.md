@@ -1,50 +1,70 @@
-# Poetry installation
+# EasyViwer
 
-## Globally
+## Description
 
-1. Download and install poetry:
+EasyViewer is an application that allows you to download videos and/or audio from YouTube videos.
 
-   * If you are on a Unix or WSL system, run this command in a terminal as administrator: <p>curl -sSL https://install.python-poetry.org | python3 - </p>
-   * If you are on windows use this other command running it as administrator in a "Powershell" terminal: <p>(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py - </p>
-2. Add the "poetry" installation path to your "PATH" environment variable
-3. After running the command that gets and installs poetry and adds it to the "PATH" run this command in a terminal (you don't need to run it as administrator): <p>poetry --version<p> If you get the version of poetry is installed correctly.
+The user enters the URL of the video and selects the location to save the file.
 
-   ## Locally
+The app offers two buttons: Download Video and Download Audio.
 
+While the file is downloading, a progress bar is displayed.
 
-   1. Create a virtual environment
-   2. Activate the virtual environment
-   3. Run in a terminal this command: pip install poetry
+## Requirements
 
-      # Installation of dependencies
+* Python 3.11 or higher
 
-      Run poetry install (with the virtual environment activated), when it finishes running you already have the program dependencies installed.
+The app has been developed and tested on Python 3.11, although it may work with older versions.
 
-# More information on poetry
+However, I cannot guarantee full app functionality on Python versions prior to 3.11.
 
-https://python-poetry.org
+If you're having trouble running your app on an older version of Python, upgrade to version 3.11 or higher to ensure that everything works correctly.
 
-# Description of the project
+To download the latest version of Python, visit the [official website](https://www.python.org/downloads).
 
-App to download videos and/or audio from YouTube videos.
+## Installation
 
-The user enters the URL of the video they want to download and selects the location where they want to save the video and/or
-the audio, in case the user does not select a location, his desktop is set as the default location.
+### Poetry
 
-The user has 2 two buttons to choose from:
+Poetry is a dependency management tool that simplifies the installation and management of Python packages.
 
-1. Download video: This button will download the video obtained from the URL provided by the user, once this
-   downloaded will save it in the folder selected by the user
+#### Global installation
 
-2. Download Audio: This button will download the audio of the video obtained from the URL provided by the user, once
-   This downloaded will change the format to .mp3 and finally it will be saved in the folder
-   user selected
+To install Poetry globally, follow these steps:
 
-While the video and/or audio is being downloaded, a progress bar will increase as it progresses
-the discharge
+1. Download and install Poetry by running the following command in a terminal as administrator:
+   * On Unix or WSL: `curl -sSL https://install.python-poetry.org | python3 -`
+   * On Windows in a PowerShell terminal: `(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -`
+2. Add the Poetry installation path to your `PATH` environment variable.
+3. To verify that Poetry is installed correctly, run the following command in a terminal: `poetry --version`.
 
-# Social networks
+#### Local installation
 
-<a href="https://www.instagram.com/raulf1foreveryt_oficial/?hl=en">Instagram</a>
-<a href="https://twitter.com/F1foreverRaul">Twitter</a>
-<a href="https://www.facebook.com/Raul-F1forever-114186780454598/">Facebook
+Installing Poetry locally can be useful if you want to manage different dependencies for different projects. To install Poetry locally, follow these steps:
+
+1. Create a virtual environment for your project.
+2. Activate the virtual environment.
+3. Run the following command in a terminal: `pip install poetry`.
+
+### Dependencies
+
+To install the dependencies required for your project, run the following command in a terminal with the virtual environment activated: `poetry install`.
+
+This will automatically install all the dependencies specified in your project's `pyproject.toml` file.
+
+For more information on Poetry, visit the [official website](https://python-poetry.org).
+
+## Contributions
+
+Thank you for considering contributing to the project! Here are some ways you can help:
+
+* Clone the repository and work on new features or bug fixes in your own branch.
+* Submit pull requests for your changes and make sure you follow our coding standards and documentation requirements.
+* Help review and approve pull requests from other developers.
+* Share the project on your social networks or blog so that more people can learn about it.
+
+## Social Networks
+
+* [Instagram](https://www.instagram.com/raulf1foreveryt_oficial/?hl=en)
+* [Twitter](https://twitter.com/F1foreverRaul)
+* [Facebook](https://www.facebook.com/Raul-F1forever-114186780454598/)
