@@ -8,7 +8,7 @@ def get_files_path() -> tuple[str, str]:
 
     :return: A tuple of four strings: "languages.xlsx", ".env", "control_variables.json", and "config.json".
     """
-    
+
     chdir(dirname(__file__))
 
     return ("languages.xlsx", ".env", "control_variables.json", "config.json")
