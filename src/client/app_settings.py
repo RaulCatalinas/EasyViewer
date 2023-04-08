@@ -7,12 +7,18 @@ from pathlib import Path
 from dotenv import load_dotenv, set_key
 from pandas import read_excel
 
+from config.get_files import get_files_path
+
 _project_path = Path(__file__).parent.parent.parent
-_config_path = _project_path.joinpath("config")
-_config_json_path = _config_path.joinpath("config.json")
-_languages_file_path = _config_path.joinpath("languages.xlsx")
-_environment_variables_path = _config_path.joinpath(".env")
-_control_variables_json_path = _config_path.joinpath("control_variables.json")
+
+
+(
+    _languages_file_path,
+    _environment_variables_path,
+    _control_variables_json_path,
+    _config_json_path,
+) = get_files_path()
+
 _icon_path = _project_path.joinpath("icon", "icon.png")
 _images_path = _project_path.joinpath("images")
 
