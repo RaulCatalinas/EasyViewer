@@ -58,5 +58,4 @@ class ConfirmClose(AppSettings, CreateDialog):
         return self.change_state(page)
 
     def update_text_dialog(self, text_title: str, text_content: str) -> None:
-        self.update_text(text_title=text_title, text_content=text_content),
-        self.button_exit_the_app.change_text_button(self.get_config_excel(4)),
+        self.update_text(text_title=text_title, text_content=text_content)

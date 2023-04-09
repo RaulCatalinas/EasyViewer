@@ -2,15 +2,12 @@
 
 from json import load
 from os import environ
-from pathlib import Path
+from threading import Thread, Lock
 
 from dotenv import load_dotenv, set_key
 from pandas import read_excel
 
 from config.get_files import get_files_path
-
-_project_path = Path(__file__).parent.parent.parent
-
 
 (
     _languages_file_path,
@@ -18,8 +15,6 @@ _project_path = Path(__file__).parent.parent.parent
     _control_variables_json_path,
     _config_json_path,
 ) = get_files_path()
-
-_icon_path = _project_path.joinpath("icon", "icon.png")
 
 LANGUAGES = read_excel(_languages_file_path)
 
@@ -30,6 +25,8 @@ class AppSettings:
     """Read a JSON file and an Excel file, and return the value of a key to be able to configure the app"""
 
     def __init__(self):
+        self.lock = Lock()
+
         with open(_config_json_path, encoding="utf-8") as f:
             self.config_json = load(f)
 
@@ -56,8 +53,7 @@ class AppSettings:
         LANGUAGE = self.get_language()
         return LANGUAGES.loc[excel_column_number][LANGUAGE]
 
-    @staticmethod
-    def set_language(language: str) -> None:
+    def set_language(self, language: str, page) -> None:
         """
         Sets the value of the LANGUAGE variable in the system environment variables
 
@@ -65,6 +61,9 @@ class AppSettings:
         """
 
         environ["LANGUAGE"] = language
+
+        self.save(page=page, language=language)
+
         set_key(
             _environment_variables_path, key_to_set="LANGUAGE", value_to_set=language
         )
@@ -84,3 +83,24 @@ class AppSettings:
         """
 
         return _control_variables_json_path
+
+    def save(self, page, language):
+        with self.lock:
+            Thread(
+                target=page.client_storage.set,
+                args=["language", language],
+                daemon=False,
+            ).start()
+
+    def set_environment_variable(self, page):
+        LANGUAGE = page.client_storage.get("language") or "English"
+
+        print(f"{LANGUAGE = }")
+
+        environ["LANGUAGE"] = LANGUAGE
+
+        set_key(
+            _environment_variables_path,
+            key_to_set="LANGUAGE",
+            value_to_set=LANGUAGE,
+        )

@@ -32,6 +32,8 @@ class Main(AppSettings, Validations, ControlVariables):
         Validations.__init__(self)
         ControlVariables.__init__(self)
 
+        self.set_environment_variable(page)
+
         self.confirm_dialog = ConfirmClose(page)
 
         VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
@@ -99,7 +101,7 @@ class Main(AppSettings, Validations, ControlVariables):
             text_align_input=TextAlign.CENTER,
             read_only_input=True,
             offset_input=Offset(0, 0.5),
-            value_input=VIDEO_LOCATION if VIDEO_LOCATION != "" else None,
+            value_input=VIDEO_LOCATION or None,
         )
 
         self.select_directory = SelectDirectory(
@@ -142,6 +144,7 @@ class Main(AppSettings, Validations, ControlVariables):
             input_url=self.input_url,
             input_directory=self.input_directory,
             close_dialog=self.confirm_dialog,
+            button_exit_the_app=self.confirm_dialog.button_exit_the_app,
         )
 
         Thread(target=self.__add, args=[page], daemon=False).start()

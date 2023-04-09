@@ -18,6 +18,7 @@ class ChangeLanguage(Dropdown, AppSettings):
         dropdown_contact,
         icon_language,
         icon_theme,
+        button_exit_the_app,
     ):
         self.appbar = appbar
         self.page = page
@@ -27,11 +28,11 @@ class ChangeLanguage(Dropdown, AppSettings):
         self.dropdown_contact = dropdown_contact
         self.icon_language = icon_language
         self.icon_theme = icon_theme
+        self.button_exit_the_app = button_exit_the_app
 
         AppSettings.__init__(self)
 
-    def _build(self):
-        return Dropdown.__init__(
+        Dropdown.__init__(
             self,
             options=[
                 dropdown.Option(self.get_config_excel(7)),
@@ -40,7 +41,7 @@ class ChangeLanguage(Dropdown, AppSettings):
             value=self.get_language(),
             visible=False,
             alignment=alignment.center,
-            on_change=lambda e: self.__change_language(),
+            on_change=lambda e: self.__change_language(page),
         )
 
     def change_visibility_dropdown_language(self):
@@ -65,14 +66,14 @@ class ChangeLanguage(Dropdown, AppSettings):
 
         return self.page.update(self, self.appbar)
 
-    def __change_language(self):
+    def __change_language(self, page):
         """Change the language of the app, update the texts of the app and update the environment variable to the chosen language"""
 
         if self.value in ["Spanish", "Español"]:
-            self.set_language("Español")
+            self.set_language(language="Español", page=page)
 
         else:
-            self.set_language("English")
+            self.set_language(language="English", page=page)
 
         self.visible = False
 
@@ -84,9 +85,12 @@ class ChangeLanguage(Dropdown, AppSettings):
 
         self.input_url.change_placeholder(self.get_config_excel(14))
         self.input_directory.change_placeholder(self.get_config_excel(15))
+
         self.close_dialog.update_text(
             text_title=self.get_config_excel(12), text_content=self.get_config_excel(3)
         )
+        self.button_exit_the_app.change_text_button(self.get_config_excel(4))
+
         self.dropdown_contact.hint_text = self.get_config_excel(16)
 
         self.icon_language.offset = Offset(0, 0.3)
@@ -102,4 +106,5 @@ class ChangeLanguage(Dropdown, AppSettings):
             self.input_directory,
             self,
             self.dropdown_contact,
+            self.button_exit_the_app,
         )

@@ -12,11 +12,14 @@ from create_buttons import CreateIconButton
 class TaskBar(AppBar, AppSettings):
     """Create a taskbar with a dropdown to change the language, a dropdown to contact the developer, and create a button to toggle the app theme between light and dark theme."""
 
-    def __init__(self, page, input_url, input_directory, close_dialog):
+    def __init__(
+        self, page, input_url, input_directory, close_dialog, button_exit_the_app
+    ):
         self.page = page
         self.input_url = input_url
         self.input_directory = input_directory
         self.close_dialog = close_dialog
+        self.button_exit_the_app = button_exit_the_app
 
         AppSettings.__init__(self)
         self.change_theme = ChangeTheme()
@@ -49,6 +52,7 @@ class TaskBar(AppBar, AppSettings):
             dropdown_contact=None,
             icon_language=self.icon_language,
             icon_theme=self.icon_theme,
+            button_exit_the_app=self.button_exit_the_app,
         )
 
         self.dropdown_contact = Contact(
