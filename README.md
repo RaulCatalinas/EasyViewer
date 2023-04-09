@@ -28,6 +28,7 @@ To download the latest version of Python, visit the [official website](https://w
 * python-dotenv (Environment variable for language switching)
 * pandas (Read the Excel file for game texts)
 * openpyxl (Dependence on "pandas" to read the Excel file for the texts of the game)
+* flet (Graphical interface)
 * requests (Checking if the user has internet)
 
   To install these dependencies execute in a terminal with the virtual environment activated this command: `poetry install`.
