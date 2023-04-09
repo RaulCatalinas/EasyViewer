@@ -40,7 +40,7 @@ class Download(InteractAPIPytube, LoggingManagement, ControlVariables):
         try:
             self.__change_state_widgets()
 
-            self.set_control_variable("DOWNLOADED_SUCCESSFULLY", False)
+            self.set_control_variable_in_ini("DOWNLOADED_SUCCESSFULLY", False)
 
             if self.download_video:
                 self.download = self.get_video(True)
@@ -63,7 +63,9 @@ class Download(InteractAPIPytube, LoggingManagement, ControlVariables):
 
         self.__change_state_widgets()
 
-        self.set_control_variable("DOWNLOADED_SUCCESSFULLY", True)
+        self.set_control_variable_in_ini("URL_VIDEO", "")
+        self.set_control_variable_in_ini("DOWNLOAD_NAME", "")
+        self.set_control_variable_in_ini("DOWNLOADED_SUCCESSFULLY", True)
 
         self.write_log("Download completed successfully")
 

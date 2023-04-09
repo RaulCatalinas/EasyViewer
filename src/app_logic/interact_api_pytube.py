@@ -28,12 +28,12 @@ class InteractAPIPytube(LoggingManagement, ControlVariables):
         _TITLE = _VIDEO_ID.title
 
         if video:
-            self.set_control_variable("DOWNLOAD_NAME", f"{_TITLE}.mp4")
+            self.set_control_variable_in_ini("DOWNLOAD_NAME", f"{_TITLE}.mp4")
 
             self.write_log("The video will be downloaded")
             return _VIDEO_ID.streams.get_highest_resolution()
 
-        self.set_control_variable("DOWNLOAD_NAME", f"{_TITLE}.mp3")
+        self.set_control_variable_in_ini("DOWNLOAD_NAME", f"{_TITLE}.mp3")
 
         self.write_log("Audio will be downloaded")
         return _VIDEO_ID.streams.get_audio_only()

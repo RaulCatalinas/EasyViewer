@@ -105,7 +105,9 @@ class Main(AppSettings, Validations, ControlVariables):
         )
 
         self.select_directory = SelectDirectory(
-            page=page, input_directory=self.input_directory
+            page=page,
+            input_directory=self.input_directory,
+            set_control_variable_in_ini=self.set_control_variable_in_ini,
         )
 
         self.button_directory = CreateIconButton(
@@ -155,7 +157,7 @@ class Main(AppSettings, Validations, ControlVariables):
         Download the video if the parameter "download video" is true, otherwise it'll download the audio of the video
         """
 
-        self.set_control_variable("URL_VIDEO", self.input_url.value)
+        self.set_control_variable_in_ini("URL_VIDEO", self.input_url.value)
 
         URL = self.get_control_variables("URL_VIDEO")
         VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
@@ -168,6 +170,7 @@ class Main(AppSettings, Validations, ControlVariables):
                     input_directory=self.input_directory,
                     page=page,
                     video_location=VIDEO_LOCATION,
+                    set_control_variable_in_ini=self.set_control_variable_in_ini,
                 )
                 and self.check_internet_connection()
                 and self.check_if_the_video_is_available(URL)
@@ -187,12 +190,13 @@ class Main(AppSettings, Validations, ControlVariables):
     def __show_dialog_error(self, error, page):
         """Displays a dialog with the error occurred"""
 
-        self.__overlay(page)
-        page.dialog = self.error_dialog
-        self.error_dialog.content_text.change_text(error)
         self.button_close_dialog.on_click = lambda e: self.error_dialog.change_state(
             page
         )
+        self.error_dialog.content_text.change_text(error)
+
+        self.__overlay(page)
+        page.dialog = self.error_dialog
 
         self.error_dialog.change_state(page)
 

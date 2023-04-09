@@ -11,4 +11,4 @@ def get_files_path() -> tuple[str, str]:
 
     chdir(dirname(__file__))
 
-    return ("languages.xlsx", ".env", "control_variables.json", "config.json")
+    return ("languages.xlsx", ".env", "control_variables.ini", "config.json")

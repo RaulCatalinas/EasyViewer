@@ -6,7 +6,6 @@ from requests import get, ConnectionError, Timeout
 
 from client.app_settings import AppSettings
 from client.logging_management import LoggingManagement
-from control_variables import ControlVariables
 
 
 class Validations(LoggingManagement, AppSettings):
@@ -15,7 +14,6 @@ class Validations(LoggingManagement, AppSettings):
     def __init__(self):
         LoggingManagement.__init__(self)
         AppSettings.__init__(self)
-        self.control_variables = ControlVariables()
 
     def check_if_a_url_has_been_entered(self, url: str) -> bool:
         """
@@ -46,23 +44,28 @@ class Validations(LoggingManagement, AppSettings):
         raise ValueError(self.get_config_excel(11))
 
     def check_if_directory_is_selected(
-        self, input_directory: str, page: object, video_location: str
+        self,
+        input_directory: str,
+        page: object,
+        video_location: str,
+        set_control_variable_in_ini,
     ) -> bool:
         """
         Check if a directory is selected,
         otherwise it puts a default directory
         """
 
-        if video_location:
+        if not video_location:
+            DEFAULT_DIRECTORY = join(join(environ["USERPROFILE"]), "Desktop")
+            input_directory.set_value(DEFAULT_DIRECTORY)
+            set_control_variable_in_ini("VIDEO_LOCATION", DEFAULT_DIRECTORY)
+
+            self.write_log("Default directory set")
+            page.update(input_directory)
+
+        else:
             self.write_log("A directory has been selected to save the video")
-            return True
 
-        DEFAULT_DIRECTORY = join(join(environ["USERPROFILE"]), "Desktop")
-        input_directory.set_value(DEFAULT_DIRECTORY)
-        self.control_variables.set_control_variable("VIDEO_LOCATION", DEFAULT_DIRECTORY)
-
-        self.write_log("Default directory set")
-        page.update(input_directory)
         return True
 
     def check_internet_connection(self) -> bool:

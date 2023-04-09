@@ -43,7 +43,7 @@ class ConfirmClose(AppSettings, CreateDialog):
     def __exit(self, page):
         try:
             if not self.control_variables.get_control_variables(
-                "DOWNLOADED_SUCCESSFULLY"
+                control_variable="DOWNLOADED_SUCCESSFULLY", get_bool=True
             ):
                 cancel_download()
 
