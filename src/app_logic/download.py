@@ -2,14 +2,13 @@
 Downloads a video or audio from a YouTube video and saves it to a specific location
 """
 
-from webbrowser import open
+from os import startfile
 
 from client.logging_management import LoggingManagement
-from control_variables import ControlVariables
 from interact_api_pytube import InteractAPIPytube
 
 
-class Download(InteractAPIPytube, LoggingManagement, ControlVariables):
+class Download(InteractAPIPytube, LoggingManagement):
     """
     Downloads a video or audio from a YouTube video and saves it to a specific location
     """
@@ -22,6 +21,10 @@ class Download(InteractAPIPytube, LoggingManagement, ControlVariables):
         input_url,
         download_video,
         page,
+        set_control_variable_in_ini,
+        get_control_variables,
+        change_state_widgets,
+        reset_control_variables,
     ):
         self.button_select_location = button_select_location
         self.button_download_video = button_download_video
@@ -29,18 +32,21 @@ class Download(InteractAPIPytube, LoggingManagement, ControlVariables):
         self.input_url = input_url
         self.download_video = download_video
         self.page = page
+        self.set_control_variable_in_ini = set_control_variable_in_ini
+        self.get_control_variables = get_control_variables
+        self.change_state_widgets = change_state_widgets
+        self.reset_control_variables = reset_control_variables
 
-        ControlVariables.__init__(self)
-        InteractAPIPytube.__init__(self)
+        InteractAPIPytube.__init__(self, self.set_control_variable_in_ini)
         LoggingManagement.__init__(self)
 
         self.video_location = self.get_control_variables("VIDEO_LOCATION")
         self.download_name = self.get_control_variables("DOWNLOAD_NAME")
 
         try:
-            self.__change_state_widgets()
-
             self.set_control_variable_in_ini("DOWNLOADED_SUCCESSFULLY", False)
+
+            self.change_state_widgets(self.page)
 
             if self.download_video:
                 self.download = self.get_video(True)
@@ -53,26 +59,18 @@ class Download(InteractAPIPytube, LoggingManagement, ControlVariables):
             )
 
         except Exception as exception:
-            self.__change_state_widgets()
+            self.change_state_widgets(self.page)
 
             self.write_error(exception)
 
             raise Exception(exception) from exception
 
-        open(self.video_location)
+        startfile(self.video_location)
 
-        self.__change_state_widgets()
+        self.change_state_widgets(self.page)
 
-        self.set_control_variable_in_ini("URL_VIDEO", "")
-        self.set_control_variable_in_ini("DOWNLOAD_NAME", "")
+        self.reset_control_variables()
+
         self.set_control_variable_in_ini("DOWNLOADED_SUCCESSFULLY", True)
 
         self.write_log("Download completed successfully")
-
-    def __change_state_widgets(self):
-        """If the widgets are activated they deactivate it and vice versa"""
-
-        self.button_select_location.change_state(self.page)
-        self.button_download_video.change_state(self.page)
-        self.button_download_audio.change_state(self.page)
-        self.input_url.change_state(self.page)

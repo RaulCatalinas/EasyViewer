@@ -55,7 +55,7 @@ class Validations(LoggingManagement, AppSettings):
         otherwise it puts a default directory
         """
 
-        if not video_location:
+        if not video_location or video_location == "None":
             DEFAULT_DIRECTORY = join(join(environ["USERPROFILE"]), "Desktop")
             input_directory.set_value(DEFAULT_DIRECTORY)
             set_control_variable_in_ini("VIDEO_LOCATION", DEFAULT_DIRECTORY)

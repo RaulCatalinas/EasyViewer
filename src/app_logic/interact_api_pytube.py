@@ -1,19 +1,17 @@
 """Interact with the pytube API"""
 
-from sys import exit
-
 from pytube import YouTube
 
 from client.logging_management import LoggingManagement
-from control_variables import ControlVariables
 
 
-class InteractAPIPytube(LoggingManagement, ControlVariables):
+class InteractAPIPytube(LoggingManagement):
     """Interact with the pytube API"""
 
-    def __init__(self):
-        ControlVariables.__init__(self)
-        LoggingManagement.__init__(self)
+    def __init__(self, set_control_variable_in_ini):
+        self.set_control_variable_in_ini = set_control_variable_in_ini
+
+        super().__init__()
 
         self.url_video = self.get_control_variables("URL_VIDEO")
 
@@ -37,16 +35,3 @@ class InteractAPIPytube(LoggingManagement, ControlVariables):
 
         self.write_log("Audio will be downloaded")
         return _VIDEO_ID.streams.get_audio_only()
-
-
-def cancel_download():
-    """
-    Cancel the download of the video and/or audio and then delete it
-    """
-    try:
-        raise KeyboardInterrupt("Download canceled by user")
-    except KeyboardInterrupt as exc:
-        print()
-        print(exc)
-    finally:
-        exit()
