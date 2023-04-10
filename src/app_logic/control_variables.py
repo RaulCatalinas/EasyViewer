@@ -66,3 +66,12 @@ class ControlVariables(AppSettings):
 
         except Exception as exception:
             raise Exception(exception) from exception
+
+    def save_to_local_storage(self, page):
+        page.client_storage.set(
+            "video_location", self.get_control_variables("VIDEO_LOCATION")
+        )
+
+    def set_in_ini(self, page):
+        VIDEO_LOCATION = page.client_storage.get("video_location")
+        self.set_control_variable_in_ini("VIDEO_LOCATION", VIDEO_LOCATION)

@@ -5,21 +5,19 @@ from flet import MainAxisAlignment
 from client.app_settings import AppSettings
 from client.create_buttons import CreateElevatedButton, CreateOutlinedButton
 from client.create_dialog import CreateDialog
-from control_variables import ControlVariables
-from interact_api_pytube import cancel_download
 
 
 class ConfirmClose(AppSettings, CreateDialog):
     """Control the closing of the app"""
 
-    def __init__(self, page):
+    def __init__(self, page, save_to_local_storage):
         AppSettings.__init__(self)
-
-        self.control_variables = ControlVariables()
 
         self.button_exit_the_app = CreateElevatedButton(
             text_button=self.get_config_excel(4),
-            function=lambda e: self.__exit(page),
+            function=lambda e: self.__exit(
+                page=page, save_to_local_storage=save_to_local_storage
+            ),
         )
 
         self.button_cancel_exit_the_app = CreateOutlinedButton(
@@ -40,16 +38,10 @@ class ConfirmClose(AppSettings, CreateDialog):
             actions_alignment_dialog=MainAxisAlignment.END,
         )
 
-    def __exit(self, page):
-        try:
-            if not self.control_variables.get_control_variables(
-                control_variable="DOWNLOADED_SUCCESSFULLY", get_bool=True
-            ):
-                cancel_download()
-
-        finally:
-            self.change_state(page)
-            page.window_destroy()
+    def __exit(self, page, save_to_local_storage):
+        self.change_state(page)
+        save_to_local_storage(page)
+        page.window_destroy()
 
     def __cancel(self, page):
         return self.change_state(page)

@@ -33,8 +33,11 @@ class Main(AppSettings, Validations, ControlVariables):
         ControlVariables.__init__(self)
 
         self.set_environment_variable(page)
+        self.set_in_ini(page)
 
-        self.confirm_dialog = ConfirmClose(page)
+        self.confirm_dialog = ConfirmClose(
+            page=page, save_to_local_storage=self.save_to_local_storage
+        )
 
         VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
 
@@ -101,7 +104,7 @@ class Main(AppSettings, Validations, ControlVariables):
             text_align_input=TextAlign.CENTER,
             read_only_input=True,
             offset_input=Offset(0, 0.5),
-            value_input=VIDEO_LOCATION or None,
+            value_input=VIDEO_LOCATION if VIDEO_LOCATION != "None" else None,
         )
 
         self.select_directory = SelectDirectory(
@@ -182,9 +185,17 @@ class Main(AppSettings, Validations, ControlVariables):
                     input_url=self.input_url,
                     download_video=download_video,
                     page=page,
+                    set_control_variable_in_ini=self.set_control_variable_in_ini,
+                    get_control_variables=self.get_control_variables,
+                    change_state_widgets=self.__change_state_widgets,
+                    reset_control_variables=self.__reset_control_variables,
                 )
 
         except Exception as exception:
+            self.__change_state_widgets(page)
+
+            self.__reset_control_variables()
+
             self.__show_dialog_error(error=exception, page=page)
 
     def __show_dialog_error(self, error, page):
@@ -223,6 +234,18 @@ class Main(AppSettings, Validations, ControlVariables):
 
         for i in TO_ADD_TO_THE_OVERLAY_OF_THE_PAGE:
             page.overlay.append(i)
+
+    def __change_state_widgets(self, page):
+        """If the widgets are activated they deactivate it and vice versa"""
+
+        self.button_directory.change_state(page)
+        self.button_download_video.change_state(page)
+        self.button_download_audio.change_state(page)
+        self.input_url.change_state(page)
+
+    def __reset_control_variables(self):
+        self.set_control_variable_in_ini("URL_VIDEO", "")
+        self.set_control_variable_in_ini("DOWNLOAD_NAME", "")
 
 
 if __name__ == "__main__":
