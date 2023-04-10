@@ -15,6 +15,7 @@ from flet import (
 
 from app_logic.confirm_close import ConfirmClose
 from app_logic.control_variables import ControlVariables
+from app_logic.delete_file import delete_file
 from app_logic.download import Download
 from app_logic.select_directory import SelectDirectory
 from app_logic.validations import Validations
@@ -36,7 +37,8 @@ class Main(AppSettings, Validations, ControlVariables):
         self.set_in_ini(page)
 
         self.confirm_dialog = ConfirmClose(
-            page=page, save_to_local_storage=self.save_to_local_storage
+            page=page,
+            save_to_local_storage=self.save_to_local_storage,
         )
 
         VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
@@ -188,13 +190,18 @@ class Main(AppSettings, Validations, ControlVariables):
                     set_control_variable_in_ini=self.set_control_variable_in_ini,
                     get_control_variables=self.get_control_variables,
                     change_state_widgets=self.__change_state_widgets,
-                    reset_control_variables=self.__reset_control_variables,
+                    reset_control_variables=self.reset,
                 )
 
         except Exception as exception:
             self.__change_state_widgets(page)
 
-            self.__reset_control_variables()
+            delete_file(
+                path_to_video=self.get_control_variables("VIDEO_LOCATION"),
+                download_name=self.get_control_variables("DOWNLOAD_NAME"),
+            )
+
+            self.reset()
 
             self.__show_dialog_error(error=exception, page=page)
 
@@ -242,10 +249,6 @@ class Main(AppSettings, Validations, ControlVariables):
         self.button_download_video.change_state(page)
         self.button_download_audio.change_state(page)
         self.input_url.change_state(page)
-
-    def __reset_control_variables(self):
-        self.set_control_variable_in_ini("URL_VIDEO", "")
-        self.set_control_variable_in_ini("DOWNLOAD_NAME", "")
 
 
 if __name__ == "__main__":

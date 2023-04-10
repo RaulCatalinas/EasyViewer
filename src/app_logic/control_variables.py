@@ -75,3 +75,7 @@ class ControlVariables(AppSettings):
     def set_in_ini(self, page):
         VIDEO_LOCATION = page.client_storage.get("video_location")
         self.set_control_variable_in_ini("VIDEO_LOCATION", VIDEO_LOCATION)
+
+    def reset(self):
+        self.set_control_variable_in_ini("URL_VIDEO", "")
+        self.set_control_variable_in_ini("DOWNLOAD_NAME", "")
