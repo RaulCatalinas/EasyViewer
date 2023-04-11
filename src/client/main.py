@@ -194,16 +194,15 @@ class Main(AppSettings, Validations, ControlVariables):
                 )
 
         except Exception as exception:
-            self.__change_state_widgets(page)
+            self.__show_dialog_error(error=exception, page=page)
 
             delete_file(
                 path_to_video=self.get_control_variables("VIDEO_LOCATION"),
                 download_name=self.get_control_variables("DOWNLOAD_NAME"),
+                reset=self.reset,
             )
 
-            self.reset()
-
-            self.__show_dialog_error(error=exception, page=page)
+            self.__change_state_widgets(page)
 
     def __show_dialog_error(self, error, page):
         """Displays a dialog with the error occurred"""

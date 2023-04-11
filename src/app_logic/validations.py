@@ -76,7 +76,7 @@ class Validations(LoggingManagement, AppSettings):
             get("https://www.google.com", timeout=5)
         except (ConnectionError, Timeout) as exc:
             self.write_error("No internet connection")
-            raise ConnectionError(self.get_config_excel(16)) from exc
+            raise ConnectionError(self.get_config_excel(10)) from exc
 
         self.write_log("Internet connection is available")
         return True

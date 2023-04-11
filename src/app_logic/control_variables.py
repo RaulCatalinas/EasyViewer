@@ -32,10 +32,7 @@ class ControlVariables(AppSettings):
             value=str(value),
         )
 
-        VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
-
-        if VIDEO_LOCATION not in ["", None]:
-            self.__save_in_ini()
+        self.__save_in_ini()
 
     def get_control_variables(
         self, control_variable: str, get_bool=False
