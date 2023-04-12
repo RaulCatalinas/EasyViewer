@@ -1,9 +1,5 @@
 from os import remove
 
-from client.logging_management import LoggingManagement
-
-log = LoggingManagement
-
 
 def delete_file(path_to_video, download_name, reset):
     """
