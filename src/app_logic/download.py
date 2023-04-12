@@ -25,6 +25,7 @@ class Download(InteractAPIPytube, LoggingManagement):
         get_control_variables,
         change_state_widgets,
         reset_control_variables,
+        update_progressbar,
     ):
         self.button_select_location = button_select_location
         self.button_download_video = button_download_video
@@ -36,15 +37,19 @@ class Download(InteractAPIPytube, LoggingManagement):
         self.get_control_variables = get_control_variables
         self.change_state_widgets = change_state_widgets
         self.reset_control_variables = reset_control_variables
+        self.update_progressbar = update_progressbar
 
-        InteractAPIPytube.__init__(self, self.set_control_variable_in_ini)
+        InteractAPIPytube.__init__(
+            self,
+            set_control_variable_in_ini,
+        )
         LoggingManagement.__init__(self)
 
         self.video_location = self.get_control_variables("VIDEO_LOCATION")
         self.download_name = self.get_control_variables("DOWNLOAD_NAME")
 
         try:
-            self.set_control_variable_in_ini("DOWNLOADED_SUCCESSFULLY", False)
+            self.update_progressbar(new_value=None, page=self.page)
 
             self.change_state_widgets(self.page)
 
@@ -63,6 +68,8 @@ class Download(InteractAPIPytube, LoggingManagement):
 
             self.write_error(exception)
 
+            self.update_progressbar(new_value=0, page=self.page)
+
             raise Exception(exception) from exception
 
         startfile(self.video_location)
@@ -71,6 +78,6 @@ class Download(InteractAPIPytube, LoggingManagement):
 
         self.reset_control_variables()
 
-        self.set_control_variable_in_ini("DOWNLOADED_SUCCESSFULLY", True)
-
         self.write_log("Download completed successfully")
+
+        self.update_progressbar(new_value=0, page=self.page)

@@ -23,7 +23,7 @@ from app_settings import AppSettings
 from create_buttons import CreateIconButton, CreateElevatedButton
 from create_dialog import CreateDialog
 from create_inputs import CreateInputs
-from progressbar import CreateProgressBar
+from progress_bar import CreateProgressBar
 from taskbar import TaskBar
 
 
@@ -191,6 +191,7 @@ class Main(AppSettings, Validations, ControlVariables):
                     get_control_variables=self.get_control_variables,
                     change_state_widgets=self.__change_state_widgets,
                     reset_control_variables=self.reset,
+                    update_progressbar=self.progress_bar.update_progress_bar,
                 )
 
         except Exception as exception:

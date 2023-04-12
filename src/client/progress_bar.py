@@ -13,3 +13,7 @@ class CreateProgressBar(ProgressBar):
             value=self.value_progressbar,
             offset=self.offset_progressbar,
         )
+
+    def update_progress_bar(self, new_value, page):
+        self.value = new_value
+        page.update(self)
