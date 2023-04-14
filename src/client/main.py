@@ -20,6 +20,7 @@ from app_logic.download import Download
 from app_logic.select_directory import SelectDirectory
 from app_logic.validations import Validations
 from app_settings import AppSettings
+from change_theme import ChangeTheme
 from create_buttons import CreateIconButton, CreateElevatedButton
 from create_dialog import CreateDialog
 from create_inputs import CreateInputs
@@ -33,6 +34,8 @@ class Main(AppSettings, Validations, ControlVariables):
         Validations.__init__(self)
         ControlVariables.__init__(self)
 
+        self.change_theme = ChangeTheme()
+
         self.set_environment_variable(page)
         self.set_in_ini(page)
 
@@ -40,6 +43,9 @@ class Main(AppSettings, Validations, ControlVariables):
             page=page,
             save_to_local_storage=self.save_to_local_storage,
         )
+
+        if self.change_theme.get_theme(page) is None:
+            self.change_theme.set_default_theme(page)
 
         VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
 
@@ -60,7 +66,7 @@ class Main(AppSettings, Validations, ControlVariables):
         page.window_maximizable = False
 
         # Set user selected color theme
-        page.theme_mode = page.client_storage.get("theme")
+        page.theme_mode = self.change_theme.get_theme(page)
 
         # Window close confirmation
         page.window_prevent_close = True

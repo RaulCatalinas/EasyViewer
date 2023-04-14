@@ -45,3 +45,9 @@ class ChangeTheme:
             Thread(
                 target=page.client_storage.set, args=["theme", theme], daemon=False
             ).start()
+
+    def get_theme(self, page):
+        return page.client_storage.get("theme")
+
+    def set_default_theme(self, page):
+        self.__save_theme(page=page, theme="light")
