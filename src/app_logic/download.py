@@ -45,9 +45,6 @@ class Download(InteractAPIPytube, LoggingManagement):
         )
         LoggingManagement.__init__(self)
 
-        self.video_location = self.get_control_variables("VIDEO_LOCATION")
-        self.download_name = self.get_control_variables("DOWNLOAD_NAME")
-
         try:
             self.update_progressbar(new_value=None, page=self.page)
 
@@ -59,8 +56,8 @@ class Download(InteractAPIPytube, LoggingManagement):
                 self.download = self.get_video(False)
 
             self.download.download(
-                output_path=self.video_location,
-                filename=self.download_name,
+                output_path=self.get_control_variables("VIDEO_LOCATION"),
+                filename=self.get_control_variables("DOWNLOAD_NAME"),
             )
 
         except Exception as exception:
@@ -72,12 +69,12 @@ class Download(InteractAPIPytube, LoggingManagement):
 
             raise Exception(exception) from exception
 
-        startfile(self.video_location)
+        startfile(self.get_control_variables("VIDEO_LOCATION"))
+
+        self.update_progressbar(new_value=0, page=self.page)
 
         self.change_state_widgets(self.page)
 
         self.reset_control_variables()
 
         self.write_log("Download completed successfully")
-
-        self.update_progressbar(new_value=0, page=self.page)
