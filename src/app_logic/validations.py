@@ -32,11 +32,7 @@ class Validations(LoggingManagement, AppSettings):
         Check if the URL is from YouTube
         """
 
-        if (
-            "https://www.youtube.com/watch?v=" in url
-            or "https://youtu.be/" in url
-            or "https://www.youtube.com/shorts/" in url
-        ):
+        if "https://www.youtube.com" in url or "https://youtu.be/" in url:
             self.write_log("The URL is from YouTube")
             return True
 
