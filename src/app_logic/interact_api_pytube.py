@@ -28,17 +28,7 @@ class InteractAPIPytube(LoggingManagement, AppSettings):
             _VIDEO_ID = YouTube(url=self.url_video)
             _TITLE = _VIDEO_ID.title
 
-            if "|" in _TITLE:
-                _NEW_TITLE = _TITLE.replace("|", "-")
-
-            the_title_has_an_end_point = _NEW_TITLE.endswith(".")
-
-            if the_title_has_an_end_point:
-                _CORRECTED_TITLE = _NEW_TITLE.rstrip(_TITLE[-1])
-
-            _title_for_the_file = (
-                _CORRECTED_TITLE if the_title_has_an_end_point else _NEW_TITLE
-            )
+            _title_for_the_file = self.__clean_title(_TITLE)
 
             if video:
                 self.set_control_variable_in_ini(
@@ -56,4 +46,19 @@ class InteractAPIPytube(LoggingManagement, AppSettings):
             return _VIDEO_ID.streams.get_audio_only()
 
         except Exception as exception:
+            self.write_error(exception)
             raise Exception(self.get_config_excel(17)) from exception
+
+    def __clean_title(self, title):
+        _NEW_TITLE = title.replace("|", "-")
+
+        the_title_has_an_end_point = _NEW_TITLE.endswith(".")
+
+        if the_title_has_an_end_point:
+            _CORRECTED_TITLE = _NEW_TITLE.rstrip(_NEW_TITLE[-1])
+
+        _title_for_the_file = (
+            _CORRECTED_TITLE if the_title_has_an_end_point else _NEW_TITLE
+        )
+
+        return _title_for_the_file
