@@ -6,7 +6,7 @@ from subprocess import run
 def compile_app():
     """Compile the app to generate the executable file"""
 
-    COMMAND = """flet pack src/client/main.py -n EasyViewer -i icon/icon.png --product-name EasyViewer --file-description EasyViewer --file-version 1.1.0 --copyright "Copyright (c) 2023 Raul Catalinas Esteban" --add-data config;config --add-data icon;icon --add-data src/app_logic;app_logic --add-data src/client;client"""
+    COMMAND = """flet pack src/client/main.py -n EasyViewer -i icon/icon.png --product-name EasyViewer --file-description EasyViewer --file-version 1.0.1 --copyright "Copyright (c) 2023 Raul Catalinas Esteban" --add-data config;config --add-data icon;icon --add-data src/app_logic;app_logic --add-data src/client;client"""
 
     execute = run(COMMAND, capture_output=True, check=True)
 
