@@ -37,6 +37,9 @@ class CreateElevatedButton(ElevatedButton):
     def change_text_button(self, new_text):
         self.text = new_text
 
+    def change_function(self, new_function, *args):
+        self.on_click = lambda e: new_function(*args)
+
 
 class CreateOutlinedButton(OutlinedButton):
     def __init__(self, text_button, function):
@@ -44,3 +47,6 @@ class CreateOutlinedButton(OutlinedButton):
         self.function = function
 
         super().__init__(text=self.text_button, on_click=self.function)
+
+    def change_function(self, new_function, *args):
+        self.on_click = lambda e: new_function(*args)

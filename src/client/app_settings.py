@@ -1,8 +1,10 @@
 """Set the app settings"""
 
+from configparser import ConfigParser
 from json import load
 from os import environ
-from threading import Thread, Lock
+from threading import Lock
+from threading import Thread
 
 from dotenv import load_dotenv, set_key
 from pandas import read_excel
@@ -14,6 +16,7 @@ from config.get_files import get_files_path
     _environment_variables_path,
     _control_variables_json_path,
     _config_json_path,
+    _token_github,
 ) = get_files_path()
 
 LANGUAGES = read_excel(_languages_file_path)
@@ -26,6 +29,9 @@ class AppSettings:
 
     def __init__(self):
         self.lock = Lock()
+
+        self.config = ConfigParser()
+        self.config.read(_token_github, encoding="utf-8")
 
         with open(_config_json_path, encoding="utf-8") as f:
             self.config_json = load(f)
@@ -102,3 +108,6 @@ class AppSettings:
             key_to_set="LANGUAGE",
             value_to_set=LANGUAGE,
         )
+
+    def get_token(self):
+        return self.config["Token"]["token"]

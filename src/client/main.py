@@ -26,6 +26,9 @@ from create_dialog import CreateDialog
 from create_inputs import CreateInputs
 from progress_bar import CreateProgressBar
 from taskbar import TaskBar
+from update_app import UpdateApp
+
+update_app = UpdateApp()
 
 
 class Main(AppSettings, Validations, ControlVariables):
@@ -158,6 +161,7 @@ class Main(AppSettings, Validations, ControlVariables):
             input_directory=self.input_directory,
             close_dialog=self.confirm_dialog,
             button_exit_the_app=self.confirm_dialog.button_exit_the_app,
+            check_updates=update_app.check_updates,
         )
 
         Thread(target=self.__add, args=[page], daemon=False).start()
@@ -214,9 +218,7 @@ class Main(AppSettings, Validations, ControlVariables):
     def __show_dialog_error(self, error, page):
         """Displays a dialog with the error occurred"""
 
-        self.button_close_dialog.on_click = lambda e: self.error_dialog.change_state(
-            page
-        )
+        self.button_close_dialog.change_function(self.error_dialog.change_state, page)
         self.error_dialog.content_text.change_text(error)
 
         self.__overlay(page)
@@ -243,6 +245,7 @@ class Main(AppSettings, Validations, ControlVariables):
         TO_ADD_TO_THE_OVERLAY_OF_THE_PAGE = [
             self.confirm_dialog,
             self.error_dialog,
+            update_app.update_dialog,
         ]
 
         for i in TO_ADD_TO_THE_OVERLAY_OF_THE_PAGE:

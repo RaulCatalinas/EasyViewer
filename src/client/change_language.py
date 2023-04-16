@@ -19,6 +19,7 @@ class ChangeLanguage(Dropdown, AppSettings):
         icon_language,
         icon_theme,
         button_exit_the_app,
+        icon_update,
     ):
         self.appbar = appbar
         self.page = page
@@ -29,6 +30,7 @@ class ChangeLanguage(Dropdown, AppSettings):
         self.icon_language = icon_language
         self.icon_theme = icon_theme
         self.button_exit_the_app = button_exit_the_app
+        self.icon_update = icon_update
 
         AppSettings.__init__(self)
 
@@ -53,6 +55,7 @@ class ChangeLanguage(Dropdown, AppSettings):
 
             self.icon_language.offset = Offset(6.50, 0.3)
             self.icon_theme.offset = Offset(0, -0.65)
+            self.icon_update.offset = Offset(0, -0.63)
 
             return self.page.update(self, self.appbar)
 
@@ -63,6 +66,7 @@ class ChangeLanguage(Dropdown, AppSettings):
             self.appbar.toolbar_height = 63
 
             self.icon_theme.offset = Offset(0, 0)
+            self.icon_update.offset = Offset(0, 0)
 
         return self.page.update(self, self.appbar)
 
@@ -99,6 +103,7 @@ class ChangeLanguage(Dropdown, AppSettings):
             self.appbar.toolbar_height = 63
 
             self.icon_theme.offset = Offset(0, 0)
+            self.icon_update.offset = Offset(0, 0)
 
         return self.page.update(
             self.appbar,
