@@ -1,4 +1,6 @@
-"""Start the app"""
+"""
+Start the app
+"""
 
 from threading import Thread
 
@@ -32,6 +34,10 @@ update_app = UpdateApp()
 
 
 class Main(AppSettings, Validations, ControlVariables):
+    """
+    Start the app
+    """
+
     def __init__(self, page: Page):
         AppSettings.__init__(self)
         Validations.__init__(self)
@@ -82,7 +88,7 @@ class Main(AppSettings, Validations, ControlVariables):
                 if self.error_dialog.open:
                     self.error_dialog.change_state(page)
 
-                self.confirm_dialog.change_state_close_dialog(page)
+                self.confirm_dialog.change_state(page)
 
         page.on_window_event = __event_close_window
 
@@ -114,7 +120,7 @@ class Main(AppSettings, Validations, ControlVariables):
             text_size_input=20,
             text_align_input=TextAlign.CENTER,
             read_only_input=True,
-            offset_input=Offset(0, 0.5),
+            offset_y=0.5,
             value_input=VIDEO_LOCATION if VIDEO_LOCATION != "None" else None,
         )
 
@@ -127,7 +133,7 @@ class Main(AppSettings, Validations, ControlVariables):
         self.button_directory = CreateIconButton(
             icon_button=icons.FOLDER,
             function=lambda e: self.select_directory.select_directory(),
-            offset_button=Offset(0, 1.5),
+            offset_y=1.5,
             scale_button=2.5,
         )
 
@@ -136,7 +142,8 @@ class Main(AppSettings, Validations, ControlVariables):
             function=lambda e: [
                 Thread(target=self.__download, args=[page, True], daemon=True).start()
             ],
-            offset_button=Offset(-0.9, 2.5),
+            offset_x=-0.9,
+            offset_y=2.5,
             scale_button=2.5,
         )
 
@@ -145,7 +152,8 @@ class Main(AppSettings, Validations, ControlVariables):
             function=lambda e: [
                 Thread(target=self.__download, args=[page, False], daemon=True).start()
             ],
-            offset_button=Offset(1, 1.3),
+            offset_x=1,
+            offset_y=1.3,
             scale_button=2.5,
         )
 
@@ -162,6 +170,7 @@ class Main(AppSettings, Validations, ControlVariables):
             close_dialog=self.confirm_dialog,
             button_exit_the_app=self.confirm_dialog.button_exit_the_app,
             check_updates=update_app.check_updates,
+            update_dialog=update_app.update_dialog,
         )
 
         Thread(target=self.__add, args=[page], daemon=False).start()
@@ -170,6 +179,10 @@ class Main(AppSettings, Validations, ControlVariables):
     def __download(self, page, download_video):
         """
         Download the video if the parameter "download video" is true, otherwise it'll download the audio of the video
+
+        :param page: Is a reference to the app window
+
+        :param download_video: boolean, if it's true it'll download the video, if it's false it'll download the audio of the video
         """
 
         self.set_control_variable_in_ini("URL_VIDEO", self.input_url.value)
@@ -208,7 +221,7 @@ class Main(AppSettings, Validations, ControlVariables):
             self.__show_dialog_error(error=exception, page=page)
 
             delete_file(
-                path_to_video=self.get_control_variables("VIDEO_LOCATION"),
+                path_to_the_file=self.get_control_variables("VIDEO_LOCATION"),
                 download_name=self.get_control_variables("DOWNLOAD_NAME"),
                 reset=self.reset,
             )
@@ -216,7 +229,13 @@ class Main(AppSettings, Validations, ControlVariables):
             self.__change_state_widgets(page)
 
     def __show_dialog_error(self, error, page):
-        """Displays a dialog with the error occurred"""
+        """
+        Displays a dialog with the error occurred
+
+        :param page: Is a reference to the app window
+
+        :param error: Error that has occurred
+        """
 
         self.button_close_dialog.change_function(self.error_dialog.change_state, page)
         self.error_dialog.content_text.change_text(error)
@@ -227,6 +246,12 @@ class Main(AppSettings, Validations, ControlVariables):
         self.error_dialog.change_state(page)
 
     def __add(self, page):
+        """
+        Adds a list of items to a given page.
+
+        :param page: Is a reference to the app window
+        """
+
         ITEMS_TO_ADD_TO_THE_PAGE = [
             self.input_url,
             self.input_directory,
@@ -242,6 +267,12 @@ class Main(AppSettings, Validations, ControlVariables):
             page.add(item)
 
     def __overlay(self, page):
+        """
+        Adds a list of dialogs to the overlay of a given page.
+
+        :param page: Is a reference to the app window
+        """
+
         TO_ADD_TO_THE_OVERLAY_OF_THE_PAGE = [
             self.confirm_dialog,
             self.error_dialog,
@@ -252,7 +283,11 @@ class Main(AppSettings, Validations, ControlVariables):
             page.overlay.append(i)
 
     def __change_state_widgets(self, page):
-        """If the widgets are activated they deactivate it and vice versa"""
+        """
+        If the widgets are activated they deactivate it and vice versa
+
+        :param page: Is a reference to the app window
+        """
 
         self.button_directory.change_state(page)
         self.button_download_video.change_state(page)

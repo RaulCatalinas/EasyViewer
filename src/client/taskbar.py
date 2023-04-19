@@ -1,6 +1,8 @@
-"""Control the logic of the taskbar"""
+"""
+Control the logic of the taskbar
+"""
 
-from flet import AppBar, icons, Column, Offset
+from flet import AppBar, icons, Column
 
 from app_settings import AppSettings
 from change_language import ChangeLanguage
@@ -10,7 +12,9 @@ from create_buttons import CreateIconButton
 
 
 class TaskBar(AppBar, AppSettings):
-    """Create a taskbar with a dropdown to change the language, a dropdown to contact the developer, and create a button to toggle the app theme between light and dark theme."""
+    """
+    Create a taskbar
+    """
 
     def __init__(
         self,
@@ -20,6 +24,7 @@ class TaskBar(AppBar, AppSettings):
         close_dialog,
         button_exit_the_app,
         check_updates,
+        update_dialog,
     ):
         self.page = page
         self.input_url = input_url
@@ -27,6 +32,7 @@ class TaskBar(AppBar, AppSettings):
         self.close_dialog = close_dialog
         self.button_exit_the_app = button_exit_the_app
         self.check_updates = check_updates
+        self.update_dialog = update_dialog
 
         AppSettings.__init__(self)
         self.change_theme = ChangeTheme()
@@ -34,13 +40,13 @@ class TaskBar(AppBar, AppSettings):
         self.icon_language = CreateIconButton(
             icon_button=icons.LANGUAGE,
             function=lambda e: self.dropdown_language.change_visibility_dropdown_language(),
-            offset_button=Offset(0, 0.3),
+            offset_y=0.3,
         )
 
         self.icon_contact = CreateIconButton(
             icon_button=icons.CONTACTS,
             function=lambda e: self.dropdown_contact.change_visibility_dropdown_contact(),
-            offset_button=Offset(0, 0.3),
+            offset_y=0.3,
         )
 
         self.icon_theme = CreateIconButton(
@@ -66,6 +72,7 @@ class TaskBar(AppBar, AppSettings):
             icon_theme=self.icon_theme,
             button_exit_the_app=self.button_exit_the_app,
             icon_update=self.icon_update,
+            update_dialog=self.update_dialog,
         )
 
         self.dropdown_contact = Contact(
@@ -90,3 +97,12 @@ class TaskBar(AppBar, AppSettings):
             ],
             toolbar_height=63,
         )
+
+    def change_height(self, new_height):
+        """
+        Changes the height of the taskbar.
+
+        :param new_height: The new height that will be assigned to the taskbar
+        """
+
+        self.toolbar_height = new_height

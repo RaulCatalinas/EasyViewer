@@ -1,4 +1,6 @@
-"""Interact with the pytube API"""
+"""
+Interact with the pytube API
+"""
 
 from pytube import YouTube
 
@@ -7,7 +9,9 @@ from client.logging_management import LoggingManagement
 
 
 class InteractAPIPytube(LoggingManagement, AppSettings):
-    """Interact with the pytube API"""
+    """
+    Interact with the pytube API
+    """
 
     def __init__(self, set_control_variable_in_ini):
         self.set_control_variable_in_ini = set_control_variable_in_ini
@@ -21,9 +25,11 @@ class InteractAPIPytube(LoggingManagement, AppSettings):
         """
         Takes a link to a YouTube video and returns the highest resolution video or audio.
 
-        :param video: boolean, returns video if true or audio if false
+        :param video: boolean, download the video if it's true or the audio if it's false
+
         :return: The video or audio.
         """
+
         try:
             _VIDEO_ID = YouTube(url=self.url_video)
             _TITLE = _VIDEO_ID.title
@@ -50,6 +56,14 @@ class InteractAPIPytube(LoggingManagement, AppSettings):
             raise Exception(self.get_config_excel(17)) from exception
 
     def __clean_title(self, title):
+        """
+        Replaces "|" with "-" in a given title and removes the trailing "." if present.
+
+        :param title: Title of the file being downloaded
+
+        :return: the cleaned version of the input title, where any "|" are replaced with "-", and if the title ends with a ".", it's removed.
+        """
+
         _NEW_TITLE = title.replace("|", "-")
 
         the_title_has_an_end_point = _NEW_TITLE.endswith(".")

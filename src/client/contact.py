@@ -1,14 +1,18 @@
-"""Control the logic to be able to contact the developer"""
+"""
+Control the logic to be able to contact the developer
+"""
 
 from webbrowser import open_new_tab
 
-from flet import Dropdown, dropdown, alignment, Offset
+from flet import Dropdown, dropdown, alignment
 
 from app_settings import AppSettings
 
 
 class Contact(Dropdown, AppSettings):
-    """Allows the user to select a social network and then opens a new tab with the selected social network."""
+    """
+    Control the logic to be able to contact the developer
+    """
 
     def __init__(
         self, dropdown_language, page, appbar, icon_contact, icon_theme, icon_update
@@ -45,45 +49,67 @@ class Contact(Dropdown, AppSettings):
         )
 
     def change_visibility_dropdown_contact(self):
-        """Show or hide the dropdown if it is hidden or not respectively"""
+        """
+        Show or hide the dropdown if it's hidden or not respectively
+        """
 
         if not self.visible:
             self.visible = True
 
-            self.appbar.toolbar_height = 114
+            self.appbar.change_height(114)
 
-            self.icon_contact.offset = Offset(6.50, 0.3)
-            self.icon_theme.offset = Offset(0, -0.65)
-            self.icon_update.offset = Offset(0, -0.63)
+            self.icon_contact.change_offset(6.50, 0.3)
+            self.icon_theme.change_offset(0, -0.65)
+            self.icon_update.change_offset(0, -0.63)
 
             return self.page.update(self, self.appbar)
 
         self.visible = False
 
-        self.icon_contact.offset = Offset(0, 0.3)
+        self.icon_contact.change_offset(0, 0.3)
 
-        if not self.dropdown_language.visible:
-            self.appbar.toolbar_height = 63
+        if not self.dropdown_language.get_visibility():
+            self.appbar.change_height(63)
 
-            self.icon_theme.offset = Offset(0, 0)
-            self.icon_update.offset = Offset(0, 0)
+            self.icon_theme.change_offset(0, 0)
+            self.icon_update.change_offset(0, 0)
 
         return self.page.update(self, self.appbar)
 
     def __contact(self):
-        """Opens the selected social network in a new browser tab"""
+        """
+        Opens the selected social network in a new browser tab
+        """
 
         self.selected_social_network = self.value
         open_new_tab(self.social_networks[self.selected_social_network])
 
         self.visible = False
 
-        self.icon_contact.offset = Offset(0, 0.3)
+        self.icon_contact.change_offset(0, 0.3)
 
-        if not self.dropdown_language.visible:
-            self.appbar.toolbar_height = 63
+        if not self.dropdown_language.get_visibility():
+            self.appbar.change_height(63)
 
-            self.icon_theme.offset = Offset(0, 0)
-            self.icon_update.offset = Offset(0, 0)
+            self.icon_theme.change_offset(0, 0)
+            self.icon_update.change_offset(0, 0)
 
         return self.page.update(self, self.appbar)
+
+    def change_placeholder(self, new_placeholder):
+        """
+        Changes the placeholder text.
+
+        :param new_placeholder: The new text that will replace the current placeholder text
+        """
+
+        self.hint_text = new_placeholder
+
+    def get_visibility(self):
+        """
+        Returns the visibility state of the dropdown.
+
+        :return: The value of the attribute `visible`.
+        """
+
+        return self.visible

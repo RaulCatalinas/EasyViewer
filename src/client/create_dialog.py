@@ -1,4 +1,6 @@
-"""Create a dialog to communicate something to the user"""
+"""
+Create a dialog to communicate something to the user
+"""
 
 from flet import Icon, AlertDialog
 
@@ -6,7 +8,9 @@ from create_text import CreateText
 
 
 class CreateDialog(AlertDialog):
-    """Create a dialog with a title, content, and actions to communicate something to the user"""
+    """
+    Create a dialog to communicate something to the user
+    """
 
     def __init__(
         self,
@@ -45,12 +49,11 @@ class CreateDialog(AlertDialog):
 
     def change_state(self, page) -> None:
         """
-        If the dialog is not open, open it and update the page. If the dialog is open, close it and
-        update the page
+        If the dialog is not open, it opens it and updates the window, if it's open, it closes it and updates the window
 
-        :param page: The page that the dialog is on
-        :return: The page.update() function is being returned.
+        :param page: Is a reference to the app window
         """
+
         if not self.open:
             self.open = True
 
@@ -59,13 +62,20 @@ class CreateDialog(AlertDialog):
 
         page.update()
 
-    def update_text(self, text_title, text_content):
+    def update_title_dialog(self, new_title):
         """
-        It takes two strings as arguments, and returns a tuple of two functions
+        Updates the title of the dialog.
 
-        :param text_title: The title of the text
-        :param text_content: The text that will be displayed in the content text box
-        :return: A tuple of the return values of the two methods.
+        :param new_title: The new title that will replace the current title
         """
-        self.title_text.change_text(text_title)
-        self.content_text.change_text(text_content)
+
+        self.title_text.change_text(new_title)
+
+    def update_content_dialog(self, new_content):
+        """
+        Updates the content of the dialog.
+
+        :param new_content: The new content that will replace the current content of the dialog
+        """
+
+        self.content_text.change_text(new_content)

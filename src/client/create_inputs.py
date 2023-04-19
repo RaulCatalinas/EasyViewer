@@ -1,12 +1,22 @@
-from flet import TextField, KeyboardType
+"""
+Create the inputs
+"""
+
+from flet import TextField, KeyboardType, Offset
 
 
 class CreateInputs(TextField):
+    """
+    Create the inputs
+    """
+
     def __init__(
         self,
         placeholder_input,
         text_size_input,
         text_align_input,
+        offset_x=0,
+        offset_y=0,
         offset_input=None,
         keyboard_type_input=KeyboardType.TEXT,
         autofocus_input=False,
@@ -21,6 +31,8 @@ class CreateInputs(TextField):
         self.read_only_input = read_only_input
         self.offset_input = offset_input
         self.value_input = value_input
+        self.offset_x = offset_x
+        self.offset_y = offset_y
 
     def _build(self):
         return super().__init__(
@@ -30,12 +42,16 @@ class CreateInputs(TextField):
             read_only=self.read_only_input,
             text_size=self.text_size_input,
             text_align=self.text_align_input,
-            offset=self.offset_input,
+            offset=Offset(self.offset_x, self.offset_y),
             value=self.value_input,
         )
 
     def change_state(self, page):
-        """If the input is activated, it deactivates it and vice versa"""
+        """
+        If the input is activated, it deactivates it and vice versa
+
+        :param page: Is a reference to the app window
+        """
 
         if not self.disabled:
             self.disabled = True
@@ -47,18 +63,18 @@ class CreateInputs(TextField):
 
     def change_placeholder(self, new_placeholder):
         """
-        This function changes the placeholder text of a widget.
+        Changes the placeholder.
 
-        :param new_placeholder: The new text that will replace the current placeholder text in a user interface element, such as a text input field or a search bar
+        :param new_placeholder: The new placeholder that will replace the current placeholder
         """
 
         self.hint_text = new_placeholder
 
     def set_value(self, new_value):
         """
-        This function sets a new value for a given object's attribute.
+        Sets a new value for the input.
 
-        :param new_value: The new value that will be assigned to the "value" attribute of the object that this method is called on
+        :param new_value: The new value that will be assigned to the input
         """
 
         self.value = new_value

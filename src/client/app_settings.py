@@ -41,7 +41,9 @@ class AppSettings:
         Returns the value of a key in a dictionary, which is inside another dictionary
 
         :param section: is the section of the json file
+
         :param data: is the name of the parameter you want to get from the json file
+
         :return: The value of the "data" key in the "section" section of the json file.
         """
 
@@ -49,10 +51,10 @@ class AppSettings:
 
     def get_config_excel(self, excel_column_number: int) -> str:
         """
-        Returns the value of the cell in the column of the excel file that corresponds to the language that the
-        user has selected
+        Returns the value of the cell in the column of the excel file that corresponds to the language that the user has selected
 
         :param excel_column_number: The number of the column in the Excel file
+
         :return: The value of the cell in the column of the language being used.
         """
 
@@ -61,7 +63,9 @@ class AppSettings:
 
     def set_language(self, language: str, page) -> None:
         """
-        Sets the value of the LANGUAGE variable in the system environment variables
+        Sets the value of the "LANGUAGE" environment variable
+
+        :param page: Is a reference to the app window
 
         :param language: The language to set
         """
@@ -76,21 +80,35 @@ class AppSettings:
 
     @staticmethod
     def get_language() -> str:
-        """Gets the language of the app saved in the environment variable"""
+        """
+        Gets the language saved in the environment variable
+
+        :return: The value of the environment variable "LANGUAGE"
+        """
 
         LANGUAGE = environ.get("LANGUAGE")
+
         return LANGUAGE
 
     @staticmethod
     def get_file_control_variables() -> str:
         """
         Returns the json path of the control variables.
-        :return: The son path of the control variables.
+
+        :return: The path of the control variables.
         """
 
         return _control_variables_json_path
 
     def save(self, page, language):
+        """
+        Saves the language of the app in a client storage using a separate thread.
+
+        :param page: Is a reference to the app window
+
+        :param language: Language of the app being saved. It's used as a key to store it in the client's storage.
+        """
+
         with self.lock:
             Thread(
                 target=page.client_storage.set,
@@ -99,6 +117,12 @@ class AppSettings:
             ).start()
 
     def set_environment_variable(self, page):
+        """
+        Sets the "LANGUAGE" environment variable to the value saved in client storage. Defaults to "English" if nothing is saved.
+
+        :param page: Is a reference to the app window
+        """
+
         LANGUAGE = page.client_storage.get("language") or "English"
 
         environ["LANGUAGE"] = LANGUAGE
@@ -110,4 +134,10 @@ class AppSettings:
         )
 
     def get_token(self):
+        """
+        Returns the token value from the "Token" section of the INI file.
+
+        :return: The value of the `token` key from the `Token` section of the `config` dictionary.
+        """
+
         return self.config["Token"]["token"]

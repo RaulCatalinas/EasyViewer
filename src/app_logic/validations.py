@@ -1,3 +1,7 @@
+"""
+Validating various aspects of a YouTube video download request
+"""
+
 from os import environ
 from os.path import join
 
@@ -9,7 +13,9 @@ from client.logging_management import LoggingManagement
 
 
 class Validations(LoggingManagement, AppSettings):
-    """Required validations before downloading a video"""
+    """
+    Validating various aspects of a YouTube video download request
+    """
 
     def __init__(self):
         LoggingManagement.__init__(self)
@@ -17,7 +23,13 @@ class Validations(LoggingManagement, AppSettings):
 
     def check_if_a_url_has_been_entered(self, url: str) -> bool:
         """
-        Check if a URL has been entered
+        Checks if a URL has been entered.
+
+        :param url: a string representing a URL that needs to be checked if it has been entered or not
+
+        :type url: str
+
+        :return: A boolean value indicating whether a URL has been entered or not.
         """
 
         if not url:
@@ -29,7 +41,13 @@ class Validations(LoggingManagement, AppSettings):
 
     def check_if_is_url_youtube(self, url: str) -> bool:
         """
-        Check if the URL is from YouTube
+        This function checks if a given URL is from YouTube.
+
+        :param url: A string representing a URL that needs to be checked if it is from YouTube or not
+
+        :type url: str
+
+        :return: If the URL is from YouTube, the function returns True. If the URL is not from YouTube, the function raises a ValueError.
         """
 
         if "https://www.youtube.com" in url or "https://youtu.be/" in url:
@@ -47,8 +65,23 @@ class Validations(LoggingManagement, AppSettings):
         set_control_variable_in_ini,
     ) -> bool:
         """
-        Check if a directory is selected,
-        otherwise it puts a default directory
+        Checks if a directory is selected
+
+        :param input_directory: a string representing the path of the selected directory
+
+        :param page: Is a reference to the app window
+
+        :param set_control_variable_in_ini: A function that sets a value for a specific key in an INI configuration file
+
+        :param video_location: A string representing the directory where the video will be saved. If no directory has been selected, it will be set to "None"
+
+        :type input_directory: str
+
+        :type page: object
+
+        :type video_location: str
+
+        :return: A boolean value.
         """
 
         if not video_location or video_location == "None":
@@ -66,8 +99,11 @@ class Validations(LoggingManagement, AppSettings):
 
     def check_internet_connection(self) -> bool:
         """
-        Check if there is an internet connection
+        Checks if there is an internet connection by attempting to connect to Google.
+
+        :return: A boolean value indicating whether an internet connection is available or not.
         """
+
         try:
             get("https://www.google.com", timeout=5)
         except (ConnectionError, Timeout) as exc:
@@ -79,7 +115,13 @@ class Validations(LoggingManagement, AppSettings):
 
     def check_if_the_video_is_available(self, url: str) -> bool:
         """
-        Check if the video is available
+        This function checks if a YouTube video is available by attempting to access its URL.
+
+        :param url: A string representing the URL of a YouTube video
+
+        :type url: str
+
+        :return: A boolean value indicating whether the video is available or not.
         """
 
         try:

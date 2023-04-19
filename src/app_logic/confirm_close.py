@@ -1,4 +1,6 @@
-"""Control the closing of the app"""
+"""
+Control the closing of the app
+"""
 
 from flet import MainAxisAlignment
 
@@ -8,7 +10,9 @@ from client.create_dialog import CreateDialog
 
 
 class ConfirmClose(AppSettings, CreateDialog):
-    """Control the closing of the app"""
+    """
+    Control the closing of the app
+    """
 
     def __init__(self, page, save_to_local_storage):
         AppSettings.__init__(self)
@@ -19,7 +23,6 @@ class ConfirmClose(AppSettings, CreateDialog):
                 page=page, save_to_local_storage=save_to_local_storage
             ),
         )
-
         self.button_cancel_exit_the_app = CreateOutlinedButton(
             text_button="No", function=lambda e: self.__cancel(page)
         )
@@ -39,15 +42,21 @@ class ConfirmClose(AppSettings, CreateDialog):
         )
 
     def __exit(self, page, save_to_local_storage):
+        """
+        Exits the program and saves the location selected by the user to your local storage
+        """
+
         self.change_state(page)
+
         save_to_local_storage(page)
+
         page.window_destroy()
 
     def __cancel(self, page):
-        return self.change_state(page)
+        """
+        Close the app exit confirmation dialog
 
-    def change_state_close_dialog(self, page):
-        return self.change_state(page)
+        :param page: Is a reference to the app window
+        """
 
-    def update_text_dialog(self, text_title: str, text_content: str) -> None:
-        self.update_text(text_title=text_title, text_content=text_content)
+        return self.change_state(page)

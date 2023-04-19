@@ -1,4 +1,6 @@
-"""Controls the logic of control variables"""
+"""
+Controls the logic of control variables
+"""
 
 from configparser import ConfigParser
 from threading import Thread, Lock
@@ -8,7 +10,9 @@ from client.app_settings import AppSettings
 
 
 class ControlVariables(AppSettings):
-    """Controls the logic of control variables"""
+    """
+    Controls the logic of control variables
+    """
 
     def __init__(self):
         super().__init__()
@@ -24,7 +28,9 @@ class ControlVariables(AppSettings):
     def set_control_variable_in_ini(
         self, control_variable: str, value: Union[str, bool]
     ):
-        """Sets a new value for a control variable"""
+        """
+        Sets a new value for a control variable
+        """
 
         self.config.set(
             section="ControlVariables",
@@ -37,7 +43,13 @@ class ControlVariables(AppSettings):
     def get_control_variables(
         self, control_variable: str, get_bool=False
     ) -> str | bool:
-        """Gets the value of the control variable"""
+        """
+        Gets the value of the control variable
+
+        :param control_variable: Control variable to set
+
+        :param get_bool: If true it returns a boolean, if false it returns a str
+        """
 
         if not get_bool:
             return self.config.get(
@@ -49,7 +61,9 @@ class ControlVariables(AppSettings):
         )
 
     def __save_in_ini(self) -> None:
-        """Saves the location selected by the user in the JSON file"""
+        """
+        Saves the location selected by the user in the JSON file
+        """
 
         try:
             with self.lock, open(
@@ -65,14 +79,30 @@ class ControlVariables(AppSettings):
             raise Exception(exception) from exception
 
     def save_to_local_storage(self, page):
+        """
+        Saves the video location to the client's local storage.
+
+        :param page: Is a reference to the app window, it's being used to access the client storage functionality
+        """
+
         page.client_storage.set(
             "video_location", self.get_control_variables("VIDEO_LOCATION")
         )
 
     def set_in_ini(self, page):
+        """
+        Sets a control variable in the INI file.
+
+        :param page: Is a reference to the app window, it's being used to access the client storage functionality
+        """
+
         VIDEO_LOCATION = page.client_storage.get("video_location")
         self.set_control_variable_in_ini("VIDEO_LOCATION", VIDEO_LOCATION)
 
     def reset(self):
+        """
+        Resets two control variables in from the INI file.
+        """
+
         self.set_control_variable_in_ini("URL_VIDEO", "")
         self.set_control_variable_in_ini("DOWNLOAD_NAME", "")
