@@ -2,13 +2,11 @@
 Validating various aspects of a YouTube video download request
 """
 
-from os import environ
-from os.path import join
-
 from pytube import YouTube
 from requests import get, ConnectionError, Timeout
 
 from client.app_settings import AppSettings
+from client.get_paths import get_desktop_path
 from client.logging_management import LoggingManagement
 
 
@@ -85,7 +83,7 @@ class Validations(LoggingManagement, AppSettings):
         """
 
         if not video_location or video_location == "None":
-            DEFAULT_DIRECTORY = join(join(environ["USERPROFILE"]), "Desktop")
+            DEFAULT_DIRECTORY = get_desktop_path()
             input_directory.set_value(DEFAULT_DIRECTORY)
             set_control_variable_in_ini("VIDEO_LOCATION", DEFAULT_DIRECTORY)
 
