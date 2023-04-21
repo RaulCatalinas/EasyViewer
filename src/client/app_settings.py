@@ -9,7 +9,7 @@ from threading import Thread
 from dotenv import load_dotenv, set_key
 from pandas import read_excel
 
-from config.get_files import get_files_path
+from config.get_configuration_files import get_configuration_files
 
 (
     _languages_file_path,
@@ -17,7 +17,7 @@ from config.get_files import get_files_path
     _control_variables_json_path,
     _config_json_path,
     _token_github,
-) = get_files_path()
+) = get_configuration_files()
 
 LANGUAGES = read_excel(_languages_file_path)
 
