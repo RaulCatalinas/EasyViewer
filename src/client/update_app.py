@@ -5,30 +5,29 @@ Update the app to the latest available version
 from os.path import abspath
 
 from flet import MainAxisAlignment
-from github.MainClass import Github
 from tomlkit import load
 
 from app_settings import AppSettings
 from create_buttons import CreateElevatedButton, CreateOutlinedButton
 from create_dialog import CreateDialog
+from interact_api_github import InteractApiGitHub
 
 
-class UpdateApp(Github, AppSettings):
+class UpdateApp(InteractApiGitHub, AppSettings):
     """
     Update the app to the latest available version
     """
 
     def __init__(self):
         AppSettings.__init__(self)
+        InteractApiGitHub.__init__(self)
 
-        self.token = self.get_token()
-        Github.__init__(self, self.token)
+        self.connect_to_api()
 
-        self.user = self.get_user("RaulCatalinas")
-        self.repo = self.user.get_repo("EasyViewer")
-        self.latest_release = self.repo.get_latest_release()
-        self.download_url = self.latest_release.get_assets()[0].browser_download_url
-        self.release_version = self.download_url.split("/")[-2].replace("v", "")
+        self.download_url = self.get_download_url()
+
+        self.release_name = self.get_release_name()
+        self.release_version = self.get_release_version()
         self.user_version = self.__get_user_version()
 
         self.button_update = CreateElevatedButton(
