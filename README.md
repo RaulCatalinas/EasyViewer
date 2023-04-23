@@ -28,12 +28,11 @@ To download the latest version of Python, visit the [official website](https://w
 * python-dotenv (Environment variable for language switching)
 * pandas (Read the Excel file for game texts)
 * openpyxl (Dependence on "pandas" to read the Excel file for the texts of the game)
-* pytube (To download the video/audio of the YouTube video)
 * flet (Graphical interface)
-* pygithub (Connect to the GitHub API)
-* pyshortcuts (To create the shortcut)
+* pytube (To download the video/audio of the YouTube video)
+* requests (Checking if the user has internet)
 
-  To install these dependencies execute in a terminal with the virtual environment activated this command: `poetry install`.To create the shortcut
+  To install these dependencies execute in a terminal with the virtual environment activated this command: `poetry install`.
 
   This will automatically install all the dependencies specified in your project's `pyproject.toml` file.
 

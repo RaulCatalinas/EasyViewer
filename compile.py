@@ -4,7 +4,7 @@ from subprocess import run
 
 from src.client.get_paths import get_icon_path
 
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 
 
 def compile_app():

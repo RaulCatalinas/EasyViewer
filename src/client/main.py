@@ -10,7 +10,6 @@ from flet import (
     CrossAxisAlignment,
     KeyboardType,
     TextAlign,
-    Offset,
     app,
     MainAxisAlignment,
 )
@@ -28,9 +27,6 @@ from create_dialog import CreateDialog
 from create_inputs import CreateInputs
 from progress_bar import CreateProgressBar
 from taskbar import TaskBar
-from update_app import UpdateApp
-
-update_app = UpdateApp()
 
 
 class Main(AppSettings, Validations, ControlVariables):
@@ -160,7 +156,7 @@ class Main(AppSettings, Validations, ControlVariables):
         self.progress_bar = CreateProgressBar(
             color_progressbar=self.get_config_json("COLORS", "GREEN"),
             value_progressbar=0,
-            offset_progressbar=Offset(0, 23),
+            offset_y=23,
         )
 
         self.taskbar = TaskBar(
@@ -169,8 +165,6 @@ class Main(AppSettings, Validations, ControlVariables):
             input_directory=self.input_directory,
             close_dialog=self.confirm_dialog,
             button_exit_the_app=self.confirm_dialog.button_exit_the_app,
-            check_updates=update_app.check_updates,
-            update_dialog=update_app.update_dialog,
         )
 
         Thread(target=self.__add, args=[page], daemon=False).start()
@@ -276,7 +270,6 @@ class Main(AppSettings, Validations, ControlVariables):
         TO_ADD_TO_THE_OVERLAY_OF_THE_PAGE = [
             self.confirm_dialog,
             self.error_dialog,
-            update_app.update_dialog,
         ]
 
         for i in TO_ADD_TO_THE_OVERLAY_OF_THE_PAGE:

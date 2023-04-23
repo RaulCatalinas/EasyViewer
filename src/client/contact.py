@@ -14,15 +14,12 @@ class Contact(Dropdown, AppSettings):
     Control the logic to be able to contact the developer
     """
 
-    def __init__(
-        self, dropdown_language, page, appbar, icon_contact, icon_theme, icon_update
-    ):
+    def __init__(self, dropdown_language, page, appbar, icon_contact, icon_theme):
         self.dropdown_language = dropdown_language
         self.page = page
         self.appbar = appbar
         self.icon_contact = icon_contact
         self.icon_theme = icon_theme
-        self.icon_update = icon_update
 
         AppSettings.__init__(self)
 
@@ -60,19 +57,15 @@ class Contact(Dropdown, AppSettings):
 
             self.icon_contact.change_offset(6.50, 0.3)
             self.icon_theme.change_offset(0, -0.65)
-            self.icon_update.change_offset(0, -0.63)
 
             return self.page.update(self, self.appbar)
 
         self.visible = False
 
-        self.icon_contact.change_offset(0, 0.3)
-
         if not self.dropdown_language.get_visibility():
             self.appbar.change_height(63)
 
             self.icon_theme.change_offset(0, 0)
-            self.icon_update.change_offset(0, 0)
 
         return self.page.update(self, self.appbar)
 
@@ -92,7 +85,6 @@ class Contact(Dropdown, AppSettings):
             self.appbar.change_height(63)
 
             self.icon_theme.change_offset(0, 0)
-            self.icon_update.change_offset(0, 0)
 
         return self.page.update(self, self.appbar)
 

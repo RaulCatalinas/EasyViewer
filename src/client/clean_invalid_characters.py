@@ -22,7 +22,7 @@ def clean_invalid_characters(title: str) -> str:
     name_without_period = sub(r"\.$", "", title)
 
     if OS == "Windows":
-        invalid_chars = r"[<>:/\\|?*]"
+        invalid_chars = r'[<>:/\\"|?*]'
 
     elif OS == "Darwin":
         invalid_chars = r"[:/]"

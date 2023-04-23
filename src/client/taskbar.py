@@ -23,16 +23,12 @@ class TaskBar(AppBar, AppSettings):
         input_directory,
         close_dialog,
         button_exit_the_app,
-        check_updates,
-        update_dialog,
     ):
         self.page = page
         self.input_url = input_url
         self.input_directory = input_directory
         self.close_dialog = close_dialog
         self.button_exit_the_app = button_exit_the_app
-        self.check_updates = check_updates
-        self.update_dialog = update_dialog
 
         AppSettings.__init__(self)
         self.change_theme = ChangeTheme()
@@ -56,11 +52,6 @@ class TaskBar(AppBar, AppSettings):
             ),
         )
 
-        self.icon_update = CreateIconButton(
-            icon_button=icons.UPDATE,
-            function=lambda e: self.check_updates(self.page),
-        )
-
         self.dropdown_language = ChangeLanguage(
             appbar=self,
             page=self.page,
@@ -71,8 +62,6 @@ class TaskBar(AppBar, AppSettings):
             icon_language=self.icon_language,
             icon_theme=self.icon_theme,
             button_exit_the_app=self.button_exit_the_app,
-            icon_update=self.icon_update,
-            update_dialog=self.update_dialog,
         )
 
         self.dropdown_contact = Contact(
@@ -81,7 +70,6 @@ class TaskBar(AppBar, AppSettings):
             appbar=self,
             icon_contact=self.icon_contact,
             icon_theme=self.icon_theme,
-            icon_update=self.icon_update,
         )
 
         self.dropdown_language.dropdown_contact = self.dropdown_contact
@@ -93,7 +81,6 @@ class TaskBar(AppBar, AppSettings):
                 self.icon_theme,
                 Column(controls=[self.icon_language, self.dropdown_language]),
                 Column(controls=[self.icon_contact, self.dropdown_contact]),
-                self.icon_update,
             ],
             toolbar_height=63,
         )
