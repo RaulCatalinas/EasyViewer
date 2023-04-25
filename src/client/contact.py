@@ -61,6 +61,7 @@ class Contact(Dropdown, AppSettings):
             return self.page.update(self, self.appbar)
 
         self.visible = False
+        self.icon_contact.change_offset(0, 0.3)
 
         if not self.dropdown_language.get_visibility():
             self.appbar.change_height(63)
