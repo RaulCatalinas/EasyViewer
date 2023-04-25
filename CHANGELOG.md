@@ -15,3 +15,9 @@
 ## Fixed
 
 - Corrected an issue where some videos were not saved correctly due to incompatible characters with OS filenames not being removed.
+
+# 1.0.4 - 25-04-2023
+
+## Fixed
+
+- Fixed issue where contact icon disappeared from window after taskbar resize
