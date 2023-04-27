@@ -187,26 +187,26 @@ files = [
 
 [[package]]
 name = "flet"
-version = "0.5.2"
+version = "0.6.2"
 description = "Flet for Python - easily build interactive multi-platform apps in Python"
 category = "main"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "flet-0.5.2-py3-none-any.whl", hash = "sha256:68298b650705773894c042f97e896124bb61414af0bd818fb8279625694008f9"},
-    {file = "flet-0.5.2-py3-none-macosx_10_14_x86_64.whl", hash = "sha256:4d51683e7f1d5d94737831bd25c27da99f301e2cd23a107b50269a10b3bb6670"},
-    {file = "flet-0.5.2-py3-none-macosx_12_0_arm64.whl", hash = "sha256:d2c5a477dd48e27a4b1e115f39bd26435b9472e5c362e9295605419a566ef007"},
-    {file = "flet-0.5.2-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:422d25769a538ec9e44ec0e3ae9df5e5e8047a14d36cb646b70d444887c7562e"},
-    {file = "flet-0.5.2-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:05672ce2375f0f90ab40b5683b3729223af6b049278aa85b467a1d70192f96ae"},
-    {file = "flet-0.5.2-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a543e1c65e945a6dcc7a5ab54889872c148c7f45b09bccfa59f40e0ea8ed66e6"},
-    {file = "flet-0.5.2-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:03579ec4abe2bd388fdb2e44d859d96e8bc228ea5baf46411f23e04b984d29e1"},
-    {file = "flet-0.5.2-py3-none-win32.whl", hash = "sha256:eee78336e5ad973ad550509eeb78bab60f02b63102518dcfc9ec59f3508238bf"},
-    {file = "flet-0.5.2-py3-none-win_amd64.whl", hash = "sha256:4cd246688b20ea398a87915571187429ae5aa97ea8deb8f9acf2e93666814a18"},
-    {file = "flet-0.5.2.tar.gz", hash = "sha256:ebb43fdea582a49decffa550cb804a36fba92fcca54ca121b4f9a96b8cfb8b50"},
+    {file = "flet-0.6.2-py3-none-any.whl", hash = "sha256:c371ea61ad00adcacbe0d5ec9c1d0d60bcdb9d1e42a5006c9026d40996e01729"},
+    {file = "flet-0.6.2-py3-none-macosx_10_14_x86_64.whl", hash = "sha256:d1c696abf67686f61886fb8b743996e00bd84f0b774a4100617132e9e12dd4f0"},
+    {file = "flet-0.6.2-py3-none-macosx_12_0_arm64.whl", hash = "sha256:7d4361d036bae770c73f24bf56f66b74745e240e8a60e95b35a7df75570758b9"},
+    {file = "flet-0.6.2-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:267e5c0f11063ca73b3dd616c741bdeadf00cc3cc835e92c7dc711f2bf265e1f"},
+    {file = "flet-0.6.2-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:6eae6a8d6eec96343eb136a013c9e7d911af3c030cddecb2e5c79c275a8d045f"},
+    {file = "flet-0.6.2-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:899adb549c781a93dc1bf1a4fc339866a1b1100007b4974b51d9de7fa8c39d97"},
+    {file = "flet-0.6.2-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:4860b0d95c18ba1f19f3c6fa243137a05eeb55acc88c1574440abd43c832b862"},
+    {file = "flet-0.6.2-py3-none-win32.whl", hash = "sha256:44ffaa7fb05da3eea8669e47704236c3f562db9b177c63008b83cce675fc137d"},
+    {file = "flet-0.6.2-py3-none-win_amd64.whl", hash = "sha256:94305c9ddd5bb1b277afc7340e8c4c02b199851f726bda3aac36a49b33d07e19"},
+    {file = "flet-0.6.2.tar.gz", hash = "sha256:1033404f03b63788d7542e47d55997a82f571939d0a3cbcbbd3128cd1619ba3e"},
 ]
 
 [package.dependencies]
-flet-core = "0.5.2"
+flet-core = "0.6.2"
 httpx = ">=0.23.3,<0.24.0"
 oauthlib = ">=3.2.2,<4.0.0"
 packaging = ">=23.0,<24.0"
@@ -216,14 +216,14 @@ websockets = ">=10.4,<11.0"
 
 [[package]]
 name = "flet-core"
-version = "0.5.2"
+version = "0.6.2"
 description = "Flet core library"
 category = "main"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "flet_core-0.5.2-py3-none-any.whl", hash = "sha256:40ced96d72eaf9a56f7a12842d88570ee0dccf2d19d98155886d8193f2c5dec0"},
-    {file = "flet_core-0.5.2.tar.gz", hash = "sha256:14bc75711f6a3892f10b6b4458e834baca78a180b8fa399918e211100e9c5b24"},
+    {file = "flet_core-0.6.2-py3-none-any.whl", hash = "sha256:a78023a37dd356bed7900eec1a655c03ae4d6c27a711358ee13d14669408281b"},
+    {file = "flet_core-0.6.2.tar.gz", hash = "sha256:58c926fb8ef186e633d47b223df17b61b38283b5e56e3f681c8f6756dc006ffc"},
 ]
 
 [package.dependencies]
@@ -553,19 +553,19 @@ files = [
 
 [[package]]
 name = "platformdirs"
-version = "3.2.0"
+version = "3.5.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "platformdirs-3.2.0-py3-none-any.whl", hash = "sha256:ebe11c0d7a805086e99506aa331612429a72ca7cd52a1f0d277dc4adc20cb10e"},
-    {file = "platformdirs-3.2.0.tar.gz", hash = "sha256:d5b638ca397f25f979350ff789db335903d7ea010ab28903f57b27e1b16c2b08"},
+    {file = "platformdirs-3.5.0-py3-none-any.whl", hash = "sha256:47692bc24c1958e8b0f13dd727307cff1db103fca36399f457da8e05f222fdc4"},
+    {file = "platformdirs-3.5.0.tar.gz", hash = "sha256:7954a68d0ba23558d753f73437c55f89027cf8f5108c19844d4b82e5af396335"},
 ]
 
 [package.extras]
-docs = ["furo (>=2022.12.7)", "proselint (>=0.13)", "sphinx (>=6.1.3)", "sphinx-autodoc-typehints (>=1.22,!=1.23.4)"]
-test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.2.2)", "pytest-cov (>=4)", "pytest-mock (>=3.10)"]
+docs = ["furo (>=2023.3.27)", "proselint (>=0.13)", "sphinx (>=6.1.3)", "sphinx-autodoc-typehints (>=1.23,!=1.23.4)"]
+test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.3.1)", "pytest-cov (>=4)", "pytest-mock (>=3.10)"]
 
 [[package]]
 name = "pyinstaller"
@@ -721,14 +721,14 @@ six = ">=1.9.0"
 
 [[package]]
 name = "requests"
-version = "2.28.2"
+version = "2.29.0"
 description = "Python HTTP for Humans."
 category = "main"
 optional = false
-python-versions = ">=3.7, <4"
+python-versions = ">=3.7"
 files = [
-    {file = "requests-2.28.2-py3-none-any.whl", hash = "sha256:64299f4909223da747622c030b781c0d7811e359c37124b4bd368fb8c6518baa"},
-    {file = "requests-2.28.2.tar.gz", hash = "sha256:98b1b2782e3c6c4904938b84c0eb932721069dfdb9134313beff7c83c2df24bf"},
+    {file = "requests-2.29.0-py3-none-any.whl", hash = "sha256:e8f3c9be120d3333921d213eef078af392fba3933ab7ed2d1cba3b56f2568c3b"},
+    {file = "requests-2.29.0.tar.gz", hash = "sha256:f2e34a75f4749019bb0e3effb66683630e4ffeaf75819fb51bebef1bf5aef059"},
 ]
 
 [package.dependencies]
@@ -802,14 +802,14 @@ files = [
 
 [[package]]
 name = "tomlkit"
-version = "0.11.7"
+version = "0.11.8"
 description = "Style preserving TOML library"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "tomlkit-0.11.7-py3-none-any.whl", hash = "sha256:5325463a7da2ef0c6bbfefb62a3dc883aebe679984709aee32a317907d0a8d3c"},
-    {file = "tomlkit-0.11.7.tar.gz", hash = "sha256:f392ef70ad87a672f02519f99967d28a4d3047133e2d1df936511465fbb3791d"},
+    {file = "tomlkit-0.11.8-py3-none-any.whl", hash = "sha256:8c726c4c202bdb148667835f68d68780b9a003a9ec34167b6c673b38eff2a171"},
+    {file = "tomlkit-0.11.8.tar.gz", hash = "sha256:9330fc7faa1db67b541b28e62018c17d20be733177d290a13b24c62d1614e0c3"},
 ]
 
 [[package]]
@@ -1066,4 +1066,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11.3, <3.12"
-content-hash = "7bf5a911b3c40fd2aec3820a9c38c22c5aee35691af4a5e13fa9f55027bb29c4"
+content-hash = "6d4452100309c7a6a358943a901f842af9ff3ad56185a8f83bb6fca1cdad8fbd"
