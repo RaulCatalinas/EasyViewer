@@ -4,31 +4,27 @@ Control the closing of the app
 
 from flet import MainAxisAlignment
 
-from client.app_settings import AppSettings
-from client.create_buttons import CreateElevatedButton, CreateOutlinedButton
-from client.create_dialog import CreateDialog
+from config import GetConfigExcel
+from control import WriteControlVariables
+from frontend import CreateElevatedButton, CreateOutlinedButton, CreateDialog
 
 
-class ConfirmClose(AppSettings, CreateDialog):
+class ShutdownHandler(CreateDialog):
     """
     Control the closing of the app
     """
 
-    def __init__(self, page, save_to_local_storage):
-        AppSettings.__init__(self)
-
+    def __init__(self, page):
         self.button_exit_the_app = CreateElevatedButton(
-            text_button=self.get_config_excel(4),
-            function=lambda e: self.__exit(
-                page=page, save_to_local_storage=save_to_local_storage
-            ),
+            text_button=GetConfigExcel.get_config_excel(4),
+            function=lambda e: self.__exit(page=page),
         )
         self.button_cancel_exit_the_app = CreateOutlinedButton(
             text_button="No", function=lambda e: self.__cancel(page)
         )
 
-        self.title_dialog = self.get_config_excel(12)
-        self.content_dialog = self.get_config_excel(3)
+        self.title_dialog = GetConfigExcel.get_config_excel(12)
+        self.content_dialog = GetConfigExcel.get_config_excel(3)
 
         CreateDialog.__init__(
             self,
@@ -41,20 +37,20 @@ class ConfirmClose(AppSettings, CreateDialog):
             actions_alignment_dialog=MainAxisAlignment.END,
         )
 
-    def __exit(self, page, save_to_local_storage):
+    def __exit(self, page):
         """
         Exits the program and saves the location selected by the user to your local storage
         """
 
         self.change_state(page)
 
-        save_to_local_storage(page)
+        WriteControlVariables.save_to_local_storage(page)
 
         page.window_destroy()
 
     def __cancel(self, page):
         """
-        Close the app exit confirmation dialog
+        Close the app shutdown_handler confirmation dialog
 
         :param page: Is a reference to the app window
         """

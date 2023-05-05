@@ -5,19 +5,19 @@ Validating various aspects of a YouTube video download request
 from pytube import YouTube
 from requests import get, ConnectionError, Timeout
 
-from client.app_settings import AppSettings
-from client.get_paths import get_desktop_path
-from client.logging_management import LoggingManagement
+from config import GetConfigExcel
+from control import WriteControlVariables
+from osutils import GetPaths
+from utils import check_type, LoggingManagement
 
 
-class Validations(LoggingManagement, AppSettings):
+class Validations(LoggingManagement):
     """
     Validating various aspects of a YouTube video download request
     """
 
     def __init__(self):
-        LoggingManagement.__init__(self)
-        AppSettings.__init__(self)
+        super().__init__()
 
     def check_if_a_url_has_been_entered(self, url: str) -> bool:
         """
@@ -30,9 +30,11 @@ class Validations(LoggingManagement, AppSettings):
         :return: A boolean value indicating whether a URL has been entered or not.
         """
 
+        check_type(url, str)
+
         if not url:
             self.write_error("No URL entered")
-            raise ValueError(self.get_config_excel(9))
+            raise ValueError(GetConfigExcel.get_config_excel(9))
 
         self.write_log("A URL has been entered")
         return True
@@ -41,51 +43,48 @@ class Validations(LoggingManagement, AppSettings):
         """
         This function checks if a given URL is from YouTube.
 
-        :param url: A string representing a URL that needs to be checked if it is from YouTube or not
+        :param url: A string representing a URL that needs to be checked if it's from YouTube or not
 
         :type url: str
 
         :return: If the URL is from YouTube, the function returns True. If the URL is not from YouTube, the function raises a ValueError.
         """
 
+        check_type(url, str)
+
         if "https://www.youtube.com" in url or "https://youtu.be/" in url:
             self.write_log("The URL is from YouTube")
             return True
 
         self.write_error("The URL is not from YouTube")
-        raise ValueError(self.get_config_excel(11))
+        raise ValueError(GetConfigExcel.get_config_excel(11))
 
     def check_if_directory_is_selected(
         self,
         input_directory: str,
         page: object,
         video_location: str,
-        set_control_variable_in_ini,
     ) -> bool:
         """
         Checks if a directory is selected
 
         :param input_directory: a string representing the path of the selected directory
-
         :param page: Is a reference to the app window
-
         :param set_control_variable_in_ini: A function that sets a value for a specific key in an INI configuration file
-
         :param video_location: A string representing the directory where the video will be saved. If no directory has been selected, it will be set to "None"
 
         :type input_directory: str
-
         :type page: object
-
         :type video_location: str
 
         :return: A boolean value.
         """
 
-        if not video_location or video_location == "None":
-            DEFAULT_DIRECTORY = get_desktop_path()
+        if video_location == "None":
+            DEFAULT_DIRECTORY = GetPaths.get_desktop_path()
+
             input_directory.set_value(DEFAULT_DIRECTORY)
-            set_control_variable_in_ini("VIDEO_LOCATION", DEFAULT_DIRECTORY)
+            WriteControlVariables.set("VIDEO_LOCATION", DEFAULT_DIRECTORY)
 
             self.write_log("Default directory set")
             page.update(input_directory)
@@ -106,7 +105,7 @@ class Validations(LoggingManagement, AppSettings):
             get("https://www.google.com", timeout=5)
         except (ConnectionError, Timeout) as exc:
             self.write_error("No internet connection")
-            raise ConnectionError(self.get_config_excel(10)) from exc
+            raise ConnectionError(GetConfigExcel.get_config_excel(10)) from exc
 
         self.write_log("Internet connection is available")
         return True
@@ -121,6 +120,8 @@ class Validations(LoggingManagement, AppSettings):
 
         :return: A boolean value indicating whether the video is available or not.
         """
+
+        check_type(url, str)
 
         try:
             YouTube(url).check_availability()

@@ -14,50 +14,44 @@ from flet import (
     MainAxisAlignment,
 )
 
-from app_logic.confirm_close import ConfirmClose
-from app_logic.control_variables import ControlVariables
-from app_logic.delete_file import delete_file
-from app_logic.download import Download
-from app_logic.select_directory import SelectDirectory
-from app_logic.validations import Validations
-from app_settings import AppSettings
-from change_theme import ChangeTheme
-from create_buttons import CreateIconButton, CreateElevatedButton
-from create_dialog import CreateDialog
-from create_inputs import CreateInputs
-from progress_bar import CreateProgressBar
-from taskbar import TaskBar
+from backend import SelectDirectory, Download, Validations
+from config import GetConfigJson, GetConfigExcel, EnvironmentVariables
+from control import ReadControlVariables, WriteControlVariables
+from create_widgets import (
+    CreateDialog,
+    CreateIconButton,
+    CreateElevatedButton,
+    CreateInputs,
+    CreateProgressBar,
+    TaskBar,
+)
+from modify_gui import ChangeTheme
+from osutils import FileHandler
+from shutdown_handler import ShutdownHandler
 
 
-class Main(AppSettings, Validations, ControlVariables):
+class Main(Validations):
     """
     Start the app
     """
 
     def __init__(self, page: Page):
-        AppSettings.__init__(self)
-        Validations.__init__(self)
-        ControlVariables.__init__(self)
+        super().__init__()
 
-        self.change_theme = ChangeTheme()
+        EnvironmentVariables.set_initial_language(page)
+        WriteControlVariables.set_initial_values(page)
 
-        self.set_environment_variable(page)
-        self.set_in_ini(page)
+        self.shutdown_handler = ShutdownHandler(page)
 
-        self.confirm_dialog = ConfirmClose(
-            page=page,
-            save_to_local_storage=self.save_to_local_storage,
-        )
+        if ChangeTheme.get_theme(page) is None:
+            ChangeTheme.set_default_theme(page)
 
-        if self.change_theme.get_theme(page) is None:
-            self.change_theme.set_default_theme(page)
-
-        VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
+        VIDEO_LOCATION = ReadControlVariables.get("VIDEO_LOCATION")
 
         # Set the window title and resize it
-        page.title = self.get_config_json("WINDOW", "TITLE")
-        page.window_width = self.get_config_json("WINDOW", "WIDTH")
-        page.window_height = self.get_config_json("WINDOW", "HIGH")
+        page.title = GetConfigJson.get_config_json("WINDOW", "TITLE")
+        page.window_width = GetConfigJson.get_config_json("WINDOW", "WIDTH")
+        page.window_height = GetConfigJson.get_config_json("WINDOW", "HIGH")
 
         # Center window
         page.window_center()
@@ -71,7 +65,7 @@ class Main(AppSettings, Validations, ControlVariables):
         page.window_maximizable = False
 
         # Set user selected color theme
-        page.theme_mode = self.change_theme.get_theme(page)
+        page.theme_mode = ChangeTheme.get_theme(page)
 
         # Window close confirmation
         page.window_prevent_close = True
@@ -79,12 +73,12 @@ class Main(AppSettings, Validations, ControlVariables):
         def __event_close_window(event):
             if event.data == "close":
                 self.__overlay(page)
-                page.dialog = self.confirm_dialog
+                page.dialog = self.shutdown_handler
 
                 if self.error_dialog.open:
                     self.error_dialog.change_state(page)
 
-                self.confirm_dialog.change_state(page)
+                self.shutdown_handler.change_state(page)
 
         page.on_window_event = __event_close_window
 
@@ -104,7 +98,7 @@ class Main(AppSettings, Validations, ControlVariables):
         )
 
         self.input_url = CreateInputs(
-            placeholder_input=self.get_config_excel(14),
+            placeholder_input=GetConfigExcel.get_config_excel(14),
             text_size_input=20,
             keyboard_type_input=KeyboardType.URL,
             text_align_input=TextAlign.CENTER,
@@ -112,7 +106,7 @@ class Main(AppSettings, Validations, ControlVariables):
         )
 
         self.input_directory = CreateInputs(
-            placeholder_input=self.get_config_excel(15),
+            placeholder_input=GetConfigExcel.get_config_excel(15),
             text_size_input=20,
             text_align_input=TextAlign.CENTER,
             read_only_input=True,
@@ -123,7 +117,7 @@ class Main(AppSettings, Validations, ControlVariables):
         self.select_directory = SelectDirectory(
             page=page,
             input_directory=self.input_directory,
-            set_control_variable_in_ini=self.set_control_variable_in_ini,
+            set_control_variable_in_ini=WriteControlVariables.set,
         )
 
         self.button_directory = CreateIconButton(
@@ -154,7 +148,7 @@ class Main(AppSettings, Validations, ControlVariables):
         )
 
         self.progress_bar = CreateProgressBar(
-            color_progressbar=self.get_config_json("COLORS", "GREEN"),
+            color_progressbar=GetConfigJson.get_config_json("COLORS", "GREEN"),
             value_progressbar=0,
             offset_y=23,
         )
@@ -163,8 +157,8 @@ class Main(AppSettings, Validations, ControlVariables):
             page=page,
             input_url=self.input_url,
             input_directory=self.input_directory,
-            close_dialog=self.confirm_dialog,
-            button_exit_the_app=self.confirm_dialog.button_exit_the_app,
+            close_dialog=self.shutdown_handler,
+            button_exit_the_app=self.shutdown_handler.button_exit_the_app,
         )
 
         Thread(target=self.__add, args=[page], daemon=False).start()
@@ -179,10 +173,10 @@ class Main(AppSettings, Validations, ControlVariables):
         :param download_video: boolean, if it's true it'll download the video, if it's false it'll download the audio of the video
         """
 
-        self.set_control_variable_in_ini("URL_VIDEO", self.input_url.value)
+        WriteControlVariables.set("URL_VIDEO", self.input_url.get_value())
 
-        URL = self.get_control_variables("URL_VIDEO")
-        VIDEO_LOCATION = self.get_control_variables("VIDEO_LOCATION")
+        URL = ReadControlVariables.get("URL_VIDEO")
+        VIDEO_LOCATION = ReadControlVariables.get("VIDEO_LOCATION")
 
         try:
             if (
@@ -192,7 +186,6 @@ class Main(AppSettings, Validations, ControlVariables):
                     input_directory=self.input_directory,
                     page=page,
                     video_location=VIDEO_LOCATION,
-                    set_control_variable_in_ini=self.set_control_variable_in_ini,
                 )
                 and self.check_internet_connection()
                 and self.check_if_the_video_is_available(URL)
@@ -204,8 +197,6 @@ class Main(AppSettings, Validations, ControlVariables):
                     input_url=self.input_url,
                     download_video=download_video,
                     page=page,
-                    set_control_variable_in_ini=self.set_control_variable_in_ini,
-                    get_control_variables=self.get_control_variables,
                     change_state_widgets=self.__change_state_widgets,
                     reset_control_variables=self.reset,
                     update_progressbar=self.progress_bar.update_progress_bar,
@@ -214,10 +205,9 @@ class Main(AppSettings, Validations, ControlVariables):
         except Exception as exception:
             self.__show_dialog_error(error=exception, page=page)
 
-            delete_file(
-                path_to_the_file=self.get_control_variables("VIDEO_LOCATION"),
-                download_name=self.get_control_variables("DOWNLOAD_NAME"),
-                reset=self.reset,
+            FileHandler.delete_file(
+                path_to_the_file=ReadControlVariables.get("VIDEO_LOCATION"),
+                download_name=ReadControlVariables.get("DOWNLOAD_NAME"),
             )
 
             self.__change_state_widgets(page)
@@ -268,7 +258,7 @@ class Main(AppSettings, Validations, ControlVariables):
         """
 
         TO_ADD_TO_THE_OVERLAY_OF_THE_PAGE = [
-            self.confirm_dialog,
+            self.shutdown_handler,
             self.error_dialog,
         ]
 

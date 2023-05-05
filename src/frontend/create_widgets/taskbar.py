@@ -4,14 +4,12 @@ Control the logic of the taskbar
 
 from flet import AppBar, icons, Column
 
-from app_settings import AppSettings
-from change_language import ChangeLanguage
-from change_theme import ChangeTheme
 from contact import Contact
-from create_buttons import CreateIconButton
+from modify_gui import ChangeLanguage, ChangeTheme
+from . import CreateIconButton
 
 
-class TaskBar(AppBar, AppSettings):
+class TaskBar(AppBar):
     """
     Create a taskbar
     """
@@ -30,9 +28,6 @@ class TaskBar(AppBar, AppSettings):
         self.close_dialog = close_dialog
         self.button_exit_the_app = button_exit_the_app
 
-        AppSettings.__init__(self)
-        self.change_theme = ChangeTheme()
-
         self.icon_language = CreateIconButton(
             icon_button=icons.LANGUAGE,
             function=lambda e: self.dropdown_language.change_visibility_dropdown_language(),
@@ -46,8 +41,8 @@ class TaskBar(AppBar, AppSettings):
         )
 
         self.icon_theme = CreateIconButton(
-            icon_button=self.change_theme.set_initial_icon_theme(self.page),
-            function=lambda e: self.change_theme.change_theme(
+            icon_button=ChangeTheme.set_initial_icon_theme(self.page),
+            function=lambda e: ChangeTheme.change_theme(
                 page=self.page, icon_theme=self.icon_theme
             ),
         )

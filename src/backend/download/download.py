@@ -4,8 +4,9 @@ Downloads a video or audio from a YouTube video and saves it to a specific locat
 
 from os import startfile
 
-from client.logging_management import LoggingManagement
-from interact_api_pytube import InteractAPIPytube
+from control import ReadControlVariables, WriteControlVariables
+from utils import LoggingManagement
+from .interact_api_pytube import InteractAPIPytube
 
 
 class Download(InteractAPIPytube, LoggingManagement):
@@ -21,8 +22,6 @@ class Download(InteractAPIPytube, LoggingManagement):
         input_url,
         download_video,
         page,
-        set_control_variable_in_ini,
-        get_control_variables,
         change_state_widgets,
         reset_control_variables,
         update_progressbar,
@@ -33,16 +32,10 @@ class Download(InteractAPIPytube, LoggingManagement):
         self.input_url = input_url
         self.download_video = download_video
         self.page = page
-        self.set_control_variable_in_ini = set_control_variable_in_ini
-        self.get_control_variables = get_control_variables
         self.change_state_widgets = change_state_widgets
         self.reset_control_variables = reset_control_variables
         self.update_progressbar = update_progressbar
 
-        InteractAPIPytube.__init__(
-            self,
-            set_control_variable_in_ini,
-        )
         LoggingManagement.__init__(self)
 
         try:
@@ -51,13 +44,13 @@ class Download(InteractAPIPytube, LoggingManagement):
             self.change_state_widgets(self.page)
 
             if self.download_video:
-                self.download = self.get_video(True)
+                self.download = InteractAPIPytube.get_video(True)
             else:
-                self.download = self.get_video(False)
+                self.download = InteractAPIPytube.get_video(False)
 
             self.download.download(
-                output_path=self.get_control_variables("VIDEO_LOCATION"),
-                filename=self.get_control_variables("DOWNLOAD_NAME"),
+                output_path=ReadControlVariables.get("VIDEO_LOCATION"),
+                filename=ReadControlVariables.get("DOWNLOAD_NAME"),
             )
 
         except Exception as exception:
@@ -69,12 +62,12 @@ class Download(InteractAPIPytube, LoggingManagement):
 
             raise Exception(exception) from exception
 
-        startfile(self.get_control_variables("VIDEO_LOCATION"))
+        startfile(ReadControlVariables.get("VIDEO_LOCATION"))
 
         self.update_progressbar(new_value=0, page=self.page)
 
         self.change_state_widgets(self.page)
 
-        self.reset_control_variables()
+        WriteControlVariables.reset()
 
         self.write_log("Download completed successfully")

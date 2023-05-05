@@ -2,12 +2,12 @@
 Control the logic to be able to change the language of the app
 """
 
-from flet import Dropdown, dropdown, alignment, Offset
+from flet import Dropdown, dropdown, alignment
 
-from app_settings import AppSettings
+from config import GetConfigExcel, EnvironmentVariables
 
 
-class ChangeLanguage(Dropdown, AppSettings):
+class ChangeLanguage(Dropdown):
     """
     Allows the user to change the language of the app
     """
@@ -34,15 +34,13 @@ class ChangeLanguage(Dropdown, AppSettings):
         self.icon_theme = icon_theme
         self.button_exit_the_app = button_exit_the_app
 
-        AppSettings.__init__(self)
-
         Dropdown.__init__(
             self,
             options=[
-                dropdown.Option(self.get_config_excel(7)),
-                dropdown.Option(self.get_config_excel(8)),
+                dropdown.Option(GetConfigExcel.get_config_excel(7)),
+                dropdown.Option(GetConfigExcel.get_config_excel(8)),
             ],
-            value=self.get_language(),
+            value=EnvironmentVariables.get_language(),
             visible=False,
             alignment=alignment.center,
             on_change=lambda e: self.__change_language(page),
@@ -78,31 +76,31 @@ class ChangeLanguage(Dropdown, AppSettings):
         """
 
         if self.value in ["Spanish", "Español"]:
-            self.set_language(language="Español", page=page)
+            EnvironmentVariables.set_language(language="Español", page=page)
 
         else:
-            self.set_language(language="English", page=page)
+            EnvironmentVariables.set_language(language="English", page=page)
 
         self.visible = False
 
         self.options = [
-            dropdown.Option(self.get_config_excel(7)),
-            dropdown.Option(self.get_config_excel(8)),
+            dropdown.Option(GetConfigExcel.get_config_excel(7)),
+            dropdown.Option(GetConfigExcel.get_config_excel(8)),
         ]
-        self.value = self.get_language()
+        self.value = EnvironmentVariables.get_language()
 
-        self.input_url.change_placeholder(self.get_config_excel(14))
-        self.input_directory.change_placeholder(self.get_config_excel(15))
+        self.input_url.change_placeholder(GetConfigExcel.get_config_excel(14))
+        self.input_directory.change_placeholder(GetConfigExcel.get_config_excel(15))
 
-        self.close_dialog.update_title_dialog(self.get_config_excel(12))
+        self.close_dialog.update_title_dialog(GetConfigExcel.get_config_excel(12))
 
-        self.close_dialog.update_content_dialog(self.get_config_excel(3))
+        self.close_dialog.update_content_dialog(GetConfigExcel.get_config_excel(3))
 
-        self.button_exit_the_app.change_text_button(self.get_config_excel(4))
+        self.button_exit_the_app.change_text_button(GetConfigExcel.get_config_excel(4))
 
-        self.dropdown_contact.change_placeholder(self.get_config_excel(16))
+        self.dropdown_contact.change_placeholder(GetConfigExcel.get_config_excel(16))
 
-        self.icon_language.offset = Offset(0, 0.3)
+        self.icon_language.change_offset(0, 0.3)
 
         if not self.dropdown_contact.get_visibility():
             self.appbar.change_height(63)

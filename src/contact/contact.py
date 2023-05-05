@@ -6,10 +6,10 @@ from webbrowser import open_new_tab
 
 from flet import Dropdown, dropdown, alignment
 
-from app_settings import AppSettings
+from config import GetConfigExcel
 
 
-class Contact(Dropdown, AppSettings):
+class Contact(Dropdown):
     """
     Control the logic to be able to contact the developer
     """
@@ -20,8 +20,6 @@ class Contact(Dropdown, AppSettings):
         self.appbar = appbar
         self.icon_contact = icon_contact
         self.icon_theme = icon_theme
-
-        AppSettings.__init__(self)
 
         self.social_networks = {
             "Facebook": "https://www.facebook.com/profile.php?id=100063559000286",
@@ -39,7 +37,7 @@ class Contact(Dropdown, AppSettings):
                 dropdown.Option("Twitter"),
                 dropdown.Option("GitHub"),
             ],
-            hint_text=self.get_config_excel(16),
+            hint_text=GetConfigExcel.get_config_excel(16),
             visible=False,
             alignment=alignment.center,
             on_change=lambda e: self.__contact(),

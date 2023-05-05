@@ -4,10 +4,11 @@ Prompts the user to select a directory for the downloaded file
 
 from flet import FilePicker, FilePickerResultEvent
 
-from client.app_settings import AppSettings
+from config import GetConfigExcel
+from control import WriteControlVariables
 
 
-class SelectDirectory(FilePicker, AppSettings):
+class SelectDirectory(FilePicker):
     """
     Controls the logic that selects a directory for the video
     """
@@ -16,9 +17,8 @@ class SelectDirectory(FilePicker, AppSettings):
         self.page = page
         self.input_directory = input_directory
         self.set_control_variable_in_ini = set_control_variable_in_ini
-        AppSettings.__init__(self)
 
-        FilePicker.__init__(self, on_result=self.__on_result)
+        super().__init__(on_result=self.__on_result)
 
     def __on_result(self, event: FilePickerResultEvent):
         """
@@ -30,7 +30,7 @@ class SelectDirectory(FilePicker, AppSettings):
         """
 
         self.input_directory.set_value(event.path)
-        self.set_control_variable_in_ini("VIDEO_LOCATION", event.path)
+        WriteControlVariables.set("VIDEO_LOCATION", event.path)
         self.page.update(self.input_directory)
 
     def select_directory(self):
@@ -38,4 +38,4 @@ class SelectDirectory(FilePicker, AppSettings):
         Selects a directory using a dialog box
         """
 
-        self.get_directory_path(dialog_title=self.get_config_excel(13))
+        self.get_directory_path(dialog_title=GetConfigExcel.get_config_excel(13))

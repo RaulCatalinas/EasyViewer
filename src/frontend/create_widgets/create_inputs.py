@@ -78,3 +78,6 @@ class CreateInputs(TextField):
         """
 
         self.value = new_value
+
+    def get_value(self):
+        return self.value

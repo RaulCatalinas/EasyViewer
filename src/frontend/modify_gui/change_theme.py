@@ -12,10 +12,10 @@ class ChangeTheme:
     Controls theme change logic
     """
 
-    def __init__(self):
-        self.lock = Lock()
+    LOCK = Lock()
 
-    def change_theme(self, page, icon_theme):
+    @classmethod
+    def change_theme(cls, page, icon_theme):
         """
         If the theme is dark, change it to light and vice versa
 
@@ -27,16 +27,17 @@ class ChangeTheme:
         if page.theme_mode == "dark":
             page.theme_mode = "light"
             icon_theme.icon = icons.DARK_MODE
-            self.__save_theme(page=page, theme="light")
+            cls.__save_theme(page=page, theme="light")
 
         else:
             page.theme_mode = "dark"
             icon_theme.icon = icons.LIGHT_MODE
-            self.__save_theme(page=page, theme="dark")
+            cls.__save_theme(page=page, theme="dark")
 
         return page.update()
 
-    def set_initial_icon_theme(self, page):
+    @classmethod
+    def set_initial_icon_theme(cls, page):
         """
         Sets the button's initial icon based on the app's theme
         """
@@ -46,28 +47,31 @@ class ChangeTheme:
 
         return icons.LIGHT_MODE
 
-    def __save_theme(self, page, theme: str) -> None:
+    @classmethod
+    def __save_theme(cls, page, theme: str) -> None:
         """
         Saves the theme selected by the user
         """
 
-        with self.lock:
+        with cls.LOCK:
             Thread(
                 target=page.client_storage.set, args=["theme", theme], daemon=False
             ).start()
 
-    def get_theme(self, page):
+    @classmethod
+    def get_theme(cls, page):
         """
-        Returns the theme saved in the client storage.
+        Returns the theme saved in the frontend storage.
 
         :param page: Is a reference to the app window
 
-        :return: The value of the "theme" key from the client storage.
+        :return: The value of the "theme" key from the frontend storage.
         """
 
         return page.client_storage.get("theme")
 
-    def set_default_theme(self, page):
+    @classmethod
+    def set_default_theme(cls, page):
         """
         Sets the default theme and saves it.
 
