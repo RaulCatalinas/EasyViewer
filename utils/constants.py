@@ -5,8 +5,8 @@ from platform import system
 
 class Paths(Enum):
     DESKTOP = Path.home().joinpath("Desktop")
-    CONFIG_FOLDER = Path("../../config").resolve()
-    ICON_FOLDER = Path("../../icon").resolve()
+    CONFIG_FOLDER = Path("../config").resolve()
+    ICON_FOLDER = Path("../icon").resolve()
 
 
 class ConfigFiles(Enum):
