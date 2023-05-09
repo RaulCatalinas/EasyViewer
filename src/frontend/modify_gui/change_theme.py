@@ -4,7 +4,9 @@ Controls theme change logic
 
 from threading import Thread, Lock
 
-from flet import icons
+from flet import icons, Page, IconButton
+
+from utils import check_type
 
 
 class ChangeTheme:
@@ -15,7 +17,8 @@ class ChangeTheme:
     LOCK = Lock()
 
     @classmethod
-    def change_theme(cls, page, icon_theme):
+    @check_type
+    def change_theme(cls, page: Page, icon_theme: IconButton):
         """
         If the theme is dark, change it to light and vice versa
 
@@ -37,7 +40,8 @@ class ChangeTheme:
         return page.update()
 
     @classmethod
-    def set_initial_icon_theme(cls, page):
+    @check_type
+    def set_initial_icon_theme(cls, page: Page):
         """
         Sets the button's initial icon based on the app's theme
         """
@@ -48,18 +52,22 @@ class ChangeTheme:
         return icons.LIGHT_MODE
 
     @classmethod
-    def __save_theme(cls, page, theme: str) -> None:
+    @check_type
+    def __save_theme(cls, page: Page, theme: str) -> None:
         """
         Saves the theme selected by the user
         """
 
         with cls.LOCK:
             Thread(
-                target=page.client_storage.set, args=["theme", theme], daemon=False
+                target=page.client_storage.set,
+                args=["theme", theme],
+                daemon=False,
             ).start()
 
     @classmethod
-    def get_theme(cls, page):
+    @check_type
+    def get_theme(cls, page: Page):
         """
         Returns the theme saved in the frontend storage.
 
@@ -71,11 +79,14 @@ class ChangeTheme:
         return page.client_storage.get("theme")
 
     @classmethod
-    def set_default_theme(cls, page):
+    @check_type
+    def set_initial_theme(cls, page: Page):
         """
         Sets the default theme and saves it.
 
         :param page: It's a reference to the application window, for which the default theme is set (light theme).
         """
 
-        self.__save_theme(page=page, theme="light")
+        theme_for_the_app = cls.get_theme(page) or "light"
+
+        cls.__save_theme(page=page, theme=theme_for_the_app)

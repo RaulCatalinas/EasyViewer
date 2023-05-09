@@ -1,17 +1,30 @@
+"""
+Reads control variables from an INI file
+"""
+
 from configparser import ConfigParser
 
-from utils import ConfigFiles, check_type
+from osutils import FileHandler
+from utils import CONFIG_FILES
 
 
 class ReadControlVariables(ConfigParser):
+    """
+    Reads control variables from an INI file
+    """
+
     def __init__(self):
+        INI_FILE_PATH = CONFIG_FILES["INI"]
+
         super().__init__()
 
-        self.read(ConfigFiles.INI.value, encoding="utf-8")
+        FileHandler.check_file_exists(INI_FILE_PATH)
 
-    @classmethod
-    def get(
-        cls, control_variable: str, get_bool: bool = False, raw: bool = True
+        self.read(INI_FILE_PATH, encoding="utf-8")
+
+    @check_type
+    def get_control_variable(
+        self, control_variable: str, get_bool: bool = False
     ) -> str | bool:
         """
         Gets the value of the control variable
@@ -20,14 +33,7 @@ class ReadControlVariables(ConfigParser):
         :param get_bool: If true it returns a boolean, if false it returns a str
         """
 
-        check_type(control_variable, str)
-        check_type(get_bool, bool)
-
         if not get_bool:
-            return ConfigParser.get(
-                cls(), "ControlVariables", option=control_variable.lower(), raw=raw
-            )
+            return self.get("ControlVariables", option=control_variable.lower())
 
-        return ConfigParser.getboolean(
-            cls(), "ControlVariables", option=control_variable.lower(), raw=raw
-        )
+        return self.getboolean("ControlVariables", option=control_variable.lower())

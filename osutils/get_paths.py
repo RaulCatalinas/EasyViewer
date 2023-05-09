@@ -1,11 +1,15 @@
 """
-Gets the path to a directory or file
+Gets the path to a directory or to a file
 """
 
-from utils import Paths, Icons, System
+from utils import PATHS, SYSTEM_NAME, ICONS
 
 
 class GetPaths:
+    """
+    Gets the path to a directory or to a file
+    """
+
     @classmethod
     def get_desktop_path(cls):
         """
@@ -14,7 +18,7 @@ class GetPaths:
         :return: The path to the user's desktop.
         """
 
-        return Paths.DESKTOP.value
+        return PATHS["DESKTOP"]
 
     @classmethod
     def get_icon_path(cls):
@@ -26,15 +30,7 @@ class GetPaths:
         :return: The path to the icon is returned in the appropriate format depending on the operating system. On macOS, the icon is returned in ICNS format; on Windows, in ICO format; and on Linux, in the original format (PNG).
         """
 
-        system_name = System.NAME.value
-
-        icons_dict = {
-            "Windows": Icons.WINDOWS.value,
-            "Darwin": Icons.MACOS.value,
-            "Linux": Icons.LINUX.value,
-        }
-
-        if system_name not in icons_dict:
+        if SYSTEM_NAME not in ICONS:
             raise ValueError("Unsupported operating system")
 
-        return icons_dict[system_name]
+        return ICONS[SYSTEM_NAME]

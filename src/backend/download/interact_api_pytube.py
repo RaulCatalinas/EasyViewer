@@ -1,33 +1,37 @@
+"""
+Interact with the Pytube API.
+"""
+
 from pytube import YouTube
 
-from config import GetConfigExcel
+from config import ExcelTextLoader
 from control import ReadControlVariables, WriteControlVariables
 from osutils import FileHandler
 from utils import LoggingManagement, check_type
 
 
-class InteractAPIPytube(LoggingManagement):
+class InteractAPIPytube:
     """
-    Class to interact with the Pytube API.
+    Interact with the Pytube API.
     """
 
     def __init__(self):
-        super().__init__()
+        self.write_control_variables = WriteControlVariables()
+        self.read_control_variables = ReadControlVariables()
 
-    @classmethod
-    def get_video(cls, download_video):
+    @check_type
+    def get_video(self, download_video: bool):
         """
         Takes a URL from a YouTube video and returns the highest resolution video or audio.
 
         :param url: URL of the YouTube video.
-        :param download_video: If True, download the video. If it is False, download only the audio.
+
+        :param download_video: If True, download the video. If it's False, download only the audio.
 
         :return: The video or audio.
         """
 
-        check_type(download_video, bool)
-
-        url = ReadControlVariables.get("URL_VIDEO")
+        url = self.read_control_variables.get_control_variable("URL_VIDEO")
 
         try:
             video_id = YouTube(url)
@@ -35,20 +39,24 @@ class InteractAPIPytube(LoggingManagement):
 
             title_for_the_file = FileHandler.clean_invalid_chars(title)
 
+            extension_file = "mp3" if not download_video else "mp4"
+            downloaded_file_type = "audio" if not download_video else "video"
+
+            self.write_control_variables.set_control_variable_in_ini(
+                option="DOWNLOAD_NAME",
+                value=f"{title_for_the_file}.{extension_file}",
+            )
+
+            LoggingManagement.write_log(
+                f"The {downloaded_file_type} will be downloaded."
+            )
+
             if download_video:
-                WriteControlVariables.set("DOWNLOAD_NAME", f"{title_for_the_file}.mp4")
-
-                cls.write_log("The video will be downloaded.")
-
                 return video_id.streams.get_highest_resolution()
-
-            WriteControlVariables.set("DOWNLOAD_NAME", f"{title_for_the_file}.mp3")
-
-            cls.write_log("The audio will be downloaded.")
 
             return video_id.streams.get_audio_only()
 
         except Exception as exception:
-            cls.write_error(exception)
+            LoggingManagement.write_error(exception)
 
-            raise Exception(GetConfigExcel.get_config_excel(17)) from exception
+            raise Exception(ExcelTextLoader.get_text(17)) from exception

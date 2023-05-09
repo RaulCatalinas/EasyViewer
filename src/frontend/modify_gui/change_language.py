@@ -4,7 +4,7 @@ Control the logic to be able to change the language of the app
 
 from flet import Dropdown, dropdown, alignment
 
-from config import GetConfigExcel, EnvironmentVariables
+from config import ExcelTextLoader, EnvironmentVariables
 
 
 class ChangeLanguage(Dropdown):
@@ -37,8 +37,8 @@ class ChangeLanguage(Dropdown):
         Dropdown.__init__(
             self,
             options=[
-                dropdown.Option(GetConfigExcel.get_config_excel(7)),
-                dropdown.Option(GetConfigExcel.get_config_excel(8)),
+                dropdown.Option(ExcelTextLoader.get_text(7)),
+                dropdown.Option(ExcelTextLoader.get_text(8)),
             ],
             value=EnvironmentVariables.get_language(),
             visible=False,
@@ -55,18 +55,18 @@ class ChangeLanguage(Dropdown):
             self.visible = True
             self.appbar.change_height(114)
 
-            self.icon_language.change_offset(6.50, 0.3)
-            self.icon_theme.change_offset(0, -0.65)
+            self.icon_language.change_offset(offset_x=6.50, offset_y=0.3)
+            self.icon_theme.change_offset(offset_x=0, offset_y=-0.65)
 
             return self.page.update(self, self.appbar)
 
         self.visible = False
-        self.icon_language.change_offset(0, 0.3)
+        self.icon_language.change_offset(offset_x=0, offset_y=0.3)
 
         if not self.dropdown_contact.get_visibility():
             self.appbar.change_height(63)
 
-            self.icon_theme.change_offset(0, 0)
+            self.icon_theme.change_offset(offset_x=0, offset_y=0)
 
         return self.page.update(self, self.appbar)
 
@@ -84,28 +84,28 @@ class ChangeLanguage(Dropdown):
         self.visible = False
 
         self.options = [
-            dropdown.Option(GetConfigExcel.get_config_excel(7)),
-            dropdown.Option(GetConfigExcel.get_config_excel(8)),
+            dropdown.Option(ExcelTextLoader.get_text(7)),
+            dropdown.Option(ExcelTextLoader.get_text(8)),
         ]
         self.value = EnvironmentVariables.get_language()
 
-        self.input_url.change_placeholder(GetConfigExcel.get_config_excel(14))
-        self.input_directory.change_placeholder(GetConfigExcel.get_config_excel(15))
+        self.input_url.change_placeholder(ExcelTextLoader.get_text(14))
+        self.input_directory.change_placeholder(ExcelTextLoader.get_text(15))
 
-        self.close_dialog.update_title_dialog(GetConfigExcel.get_config_excel(12))
+        self.close_dialog.update_title_dialog(ExcelTextLoader.get_text(12))
 
-        self.close_dialog.update_content_dialog(GetConfigExcel.get_config_excel(3))
+        self.close_dialog.update_content_dialog(ExcelTextLoader.get_text(3))
 
-        self.button_exit_the_app.change_text_button(GetConfigExcel.get_config_excel(4))
+        self.button_exit_the_app.change_text_button(ExcelTextLoader.get_text(4))
 
-        self.dropdown_contact.change_placeholder(GetConfigExcel.get_config_excel(16))
+        self.dropdown_contact.change_placeholder(ExcelTextLoader.get_text(16))
 
-        self.icon_language.change_offset(0, 0.3)
+        self.icon_language.change_offset(offset_x=0, offset_y=0.3)
 
         if not self.dropdown_contact.get_visibility():
             self.appbar.change_height(63)
 
-            self.icon_theme.change_offset(0, 0)
+            self.icon_theme.change_offset(offset_x=0, offset_y=0)
 
         return self.page.update(
             self.appbar,

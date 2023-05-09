@@ -3,71 +3,73 @@ Downloads a video or audio from a YouTube video and saves it to a specific locat
 """
 
 from os import startfile
+from typing import Callable
+
+from flet import Page, IconButton, TextField
 
 from control import ReadControlVariables, WriteControlVariables
 from utils import LoggingManagement
+from utils import check_type
 from .interact_api_pytube import InteractAPIPytube
 
 
-class Download(InteractAPIPytube, LoggingManagement):
+class Download:
     """
     Downloads a video or audio from a YouTube video and saves it to a specific location
     """
 
+    @check_type
     def __init__(
         self,
-        button_select_location,
-        button_download_video,
-        button_download_audio,
-        input_url,
-        download_video,
-        page,
-        change_state_widgets,
-        reset_control_variables,
-        update_progressbar,
+        page: Page,
+        change_state_widgets: Callable,
+        update_progressbar: Callable,
     ):
-        self.button_select_location = button_select_location
-        self.button_download_video = button_download_video
-        self.button_download_audio = button_download_audio
-        self.input_url = input_url
-        self.download_video = download_video
         self.page = page
         self.change_state_widgets = change_state_widgets
-        self.reset_control_variables = reset_control_variables
         self.update_progressbar = update_progressbar
 
-        LoggingManagement.__init__(self)
+        self.interact_api_pytube = InteractAPIPytube()
+        self.write_control_variables = WriteControlVariables()
+        self.read_control_variables = ReadControlVariables()
+
+    @check_type
+    def download(self, download_video: bool):
+        """
+        Downloads a video or audio from a YouTube video and saves it to a specific location
+        """
 
         try:
             self.update_progressbar(new_value=None, page=self.page)
 
             self.change_state_widgets(self.page)
 
-            if self.download_video:
-                self.download = InteractAPIPytube.get_video(True)
-            else:
-                self.download = InteractAPIPytube.get_video(False)
+            stream = self.interact_api_pytube.get_video(download_video)
 
-            self.download.download(
-                output_path=ReadControlVariables.get("VIDEO_LOCATION"),
-                filename=ReadControlVariables.get("DOWNLOAD_NAME"),
+            stream.download(
+                output_path=self.read_control_variables.get_control_variable(
+                    "VIDEO_LOCATION"
+                ),
+                filename=self.read_control_variables.get_control_variable(
+                    "DOWNLOAD_NAME"
+                ),
             )
 
         except Exception as exception:
             self.change_state_widgets(self.page)
 
-            self.write_error(exception)
+            LoggingManagement.write_error(exception)
 
             self.update_progressbar(new_value=0, page=self.page)
 
             raise Exception(exception) from exception
 
-        startfile(ReadControlVariables.get("VIDEO_LOCATION"))
+        startfile(self.read_control_variables.get_control_variable("VIDEO_LOCATION"))
 
         self.update_progressbar(new_value=0, page=self.page)
 
         self.change_state_widgets(self.page)
 
-        WriteControlVariables.reset()
+        self.write_control_variables.reset()
 
-        self.write_log("Download completed successfully")
+        LoggingManagement.write_log("Download completed successfully")

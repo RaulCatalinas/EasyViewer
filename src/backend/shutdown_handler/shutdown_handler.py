@@ -4,7 +4,7 @@ Control the closing of the app
 
 from flet import MainAxisAlignment
 
-from config import GetConfigExcel
+from config import ExcelTextLoader
 from control import WriteControlVariables
 from frontend import CreateElevatedButton, CreateOutlinedButton, CreateDialog
 
@@ -15,16 +15,18 @@ class ShutdownHandler(CreateDialog):
     """
 
     def __init__(self, page):
+        self.write_control_variables = WriteControlVariables()
+
         self.button_exit_the_app = CreateElevatedButton(
-            text_button=GetConfigExcel.get_config_excel(4),
+            text_button=ExcelTextLoader.get_text(4),
             function=lambda e: self.__exit(page=page),
         )
         self.button_cancel_exit_the_app = CreateOutlinedButton(
             text_button="No", function=lambda e: self.__cancel(page)
         )
 
-        self.title_dialog = GetConfigExcel.get_config_excel(12)
-        self.content_dialog = GetConfigExcel.get_config_excel(3)
+        self.title_dialog = ExcelTextLoader.get_text(12)
+        self.content_dialog = ExcelTextLoader.get_text(3)
 
         CreateDialog.__init__(
             self,
@@ -44,7 +46,7 @@ class ShutdownHandler(CreateDialog):
 
         self.change_state(page)
 
-        WriteControlVariables.save_to_local_storage(page)
+        self.write_control_variables.save_to_local_storage(page)
 
         page.window_destroy()
 

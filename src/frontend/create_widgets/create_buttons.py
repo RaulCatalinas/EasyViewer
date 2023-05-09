@@ -2,7 +2,11 @@
 Create three types of buttons
 """
 
-from flet import IconButton, ElevatedButton, OutlinedButton, Offset
+from typing import Callable
+
+from flet import IconButton, ElevatedButton, OutlinedButton, Offset, Icon, Page
+
+from utils import check_type
 
 
 class CreateIconButton(IconButton):
@@ -10,36 +14,42 @@ class CreateIconButton(IconButton):
     Create a button of type IconButton
     """
 
-    def __init__(self, icon_button, function, offset_x=0, offset_y=0, scale_button=1):
-        self.icon_button = icon_button
+    @check_type
+    def __init__(
+        self,
+        icon: Icon,
+        function: Callable,
+        offset_x: int = 0,
+        offset_y: int = 0,
+        scale: int = 1,
+    ):
+        self.icon_for_the_button = icon
         self.function = function
         self.offset_x = offset_x
         self.offset_y = offset_y
-        self.scale_button = scale_button
+        self.scale_button = scale
 
         super().__init__(
-            icon=self.icon_button,
+            icon=self.icon_for_the_button,
             on_click=self.function,
             scale=self.scale_button,
             offset=Offset(self.offset_x, self.offset_y),
         )
 
-    def change_state(self, page):
+    @check_type
+    def toggle_state(self, page: Page):
         """
         If the button is activated, it deactivates it and vice versa
 
         :param page: Is a reference to the app window
         """
 
-        if not self.disabled:
-            self.disabled = True
-
-        else:
-            self.disabled = False
+        self.disabled = not self.disabled
 
         return page.update(self)
 
-    def change_offset(self, offset_x, offset_y):
+    @check_type
+    def change_offset(self, offset_x: int, offset_y: int):
         """
         Changes the offset of the button using the given x and y values.
 
@@ -56,13 +66,15 @@ class CreateElevatedButton(ElevatedButton):
     Create a button of type ElevatedButton
     """
 
-    def __init__(self, text_button, function):
+    @check_type
+    def __init__(self, text_button: str, function: Callable):
         self.text_button = text_button
         self.function = function
 
         super().__init__(text=self.text_button, on_click=self.function)
 
-    def change_text_button(self, new_text):
+    @check_type
+    def change_text_button(self, new_text: str):
         """
         Changes the text of the button.
 
@@ -71,7 +83,8 @@ class CreateElevatedButton(ElevatedButton):
 
         self.text = new_text
 
-    def change_function(self, new_function, *args):
+    @check_type
+    def change_function(self, new_function: Callable, *args):
         """
         Takes a new function and its arguments, and sets it as the on_click event.
 
@@ -86,13 +99,15 @@ class CreateOutlinedButton(OutlinedButton):
     Create a button of type OutlinedButton
     """
 
-    def __init__(self, text_button, function):
+    @check_type
+    def __init__(self, text_button: str, function: Callable):
         self.text_button = text_button
         self.function = function
 
         super().__init__(text=self.text_button, on_click=self.function)
 
-    def change_function(self, new_function, *args):
+    @check_type
+    def change_function(self, new_function: Callable, *args):
         """
         Takes a new function and its arguments, and sets it as the on_click event.
 

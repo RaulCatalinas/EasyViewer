@@ -1,32 +1,29 @@
-from enum import Enum
+"""
+Constants needed for the application
+"""
+
 from pathlib import Path
 from platform import system
 
+PATHS = {
+    "DESKTOP": Path().home().joinpath("Desktop"),
+    "CONFIG_FOLDER": Path("../config").resolve(),
+    "ICON_FOLDER": Path("./icon").resolve(),
+}
 
-class Paths(Enum):
-    DESKTOP = Path.home().joinpath("Desktop")
-    CONFIG_FOLDER = Path("../config").resolve()
-    ICON_FOLDER = Path("../icon").resolve()
+CONFIG_FILES = {
+    "INI": PATHS["CONFIG_FOLDER"].joinpath("control_variables.ini"),
+    "JSON": PATHS["CONFIG_FOLDER"].joinpath("config.json"),
+    "EXCEL": PATHS["CONFIG_FOLDER"].joinpath("languages.xlsx"),
+    "ENV": PATHS["CONFIG_FOLDER"].joinpath(".env"),
+}
 
+ICONS = {
+    "Windows": PATHS["ICON_FOLDER"].joinpath("icon-Windows.ico"),
+    "Darwin": PATHS["ICON_FOLDER"].joinpath("icon-macOS.icns"),
+    "Linux": PATHS["ICON_FOLDER"].joinpath("icon-Linux.png"),
+}
 
-class ConfigFiles(Enum):
-    INI = Paths.CONFIG_FOLDER.value.joinpath("control_variables.ini")
-    JSON = Paths.CONFIG_FOLDER.value.joinpath("config.json")
-    EXCEL = Paths.CONFIG_FOLDER.value.joinpath("languages.xlsx")
-    ENV = Paths.CONFIG_FOLDER.value.joinpath(".env")
+INVALID_CHARS = {"Windows": r'[<>:/\\"|?*]', "Darwin": r"[:/]", "Linux": r"[/]"}
 
-
-class Icons(Enum):
-    WINDOWS = Paths.ICON_FOLDER.value.joinpath("icon-Windows.ico")
-    MACOS = Paths.ICON_FOLDER.value.joinpath("icon-macOS.icns")
-    LINUX = Paths.ICON_FOLDER.value.joinpath("icon-Linux.png")
-
-
-class InvalidChars(Enum):
-    WINDOWS = r'[<>:/\\"|?*]'
-    MACOS = r"[:/]"
-    LINUX = r"[/]"
-
-
-class System(Enum):
-    NAME = system()
+SYSTEM_NAME = system()

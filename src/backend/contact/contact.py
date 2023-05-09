@@ -4,9 +4,10 @@ Control the logic to be able to contact the developer
 
 from webbrowser import open_new_tab
 
-from flet import Dropdown, dropdown, alignment
+from flet import Dropdown, dropdown, alignment, Page, IconButton, AppBar
 
-from config import GetConfigExcel
+from config import ExcelTextLoader
+from utils import check_type
 
 
 class Contact(Dropdown):
@@ -14,7 +15,15 @@ class Contact(Dropdown):
     Control the logic to be able to contact the developer
     """
 
-    def __init__(self, dropdown_language, page, appbar, icon_contact, icon_theme):
+    @check_type
+    def __init__(
+        self,
+        dropdown_language: Dropdown,
+        page: Page,
+        appbar: AppBar,
+        icon_contact: IconButton,
+        icon_theme: IconButton,
+    ):
         self.dropdown_language = dropdown_language
         self.page = page
         self.appbar = appbar
@@ -37,7 +46,7 @@ class Contact(Dropdown):
                 dropdown.Option("Twitter"),
                 dropdown.Option("GitHub"),
             ],
-            hint_text=GetConfigExcel.get_config_excel(16),
+            hint_text=ExcelTextLoader.get_text(16),
             visible=False,
             alignment=alignment.center,
             on_change=lambda e: self.__contact(),
@@ -53,18 +62,18 @@ class Contact(Dropdown):
 
             self.appbar.change_height(114)
 
-            self.icon_contact.change_offset(6.50, 0.3)
-            self.icon_theme.change_offset(0, -0.65)
+            self.icon_contact.change_offset(offset_x=6.50, offset_y=0.3)
+            self.icon_theme.change_offset(offset_x=0, offset_y=-0.65)
 
             return self.page.update(self, self.appbar)
 
         self.visible = False
-        self.icon_contact.change_offset(0, 0.3)
+        self.icon_contact.change_offset(offset_x=0, offset_y=0.3)
 
         if not self.dropdown_language.get_visibility():
             self.appbar.change_height(63)
 
-            self.icon_theme.change_offset(0, 0)
+            self.icon_theme.change_offset(offset_x=0, offset_y=0)
 
         return self.page.update(self, self.appbar)
 
@@ -78,16 +87,17 @@ class Contact(Dropdown):
 
         self.visible = False
 
-        self.icon_contact.change_offset(0, 0.3)
+        self.icon_contact.change_offset(offset_x=0, offset_y=0.3)
 
         if not self.dropdown_language.get_visibility():
             self.appbar.change_height(63)
 
-            self.icon_theme.change_offset(0, 0)
+            self.icon_theme.change_offset(offset_x=0, offset_y=0)
 
         return self.page.update(self, self.appbar)
 
-    def change_placeholder(self, new_placeholder):
+    @check_type
+    def change_placeholder(self, new_placeholder: str):
         """
         Changes the placeholder text.
 

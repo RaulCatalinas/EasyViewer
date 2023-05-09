@@ -1,12 +1,21 @@
 """Create a progress bar"""
 
-from flet import ProgressBar, Offset
+from flet import ProgressBar, Offset, Page
+
+from utils import check_type
 
 
 class CreateProgressBar(ProgressBar):
     """Create a progress bar"""
 
-    def __init__(self, color_progressbar, value_progressbar, offset_x=0, offset_y=0):
+    @check_type
+    def __init__(
+        self,
+        color_progressbar: str,
+        value_progressbar: int | None,
+        offset_x: int = 0,
+        offset_y: int = 0,
+    ):
         self.color_progressbar = color_progressbar
         self.value_progressbar = value_progressbar
         self.offset_x = offset_x
@@ -19,7 +28,8 @@ class CreateProgressBar(ProgressBar):
             offset=Offset(self.offset_x, self.offset_y),
         )
 
-    def update_progress_bar(self, new_value, page):
+    @check_type
+    def update_progress_bar(self, new_value: int | None, page: Page):
         """
         Updates the progress bar
 

@@ -2,9 +2,10 @@
 Create a dialog to communicate something to the user
 """
 
-from flet import Icon, AlertDialog
+from flet import Icon, AlertDialog, MainAxisAlignment, Page
 
 from create_text import CreateText
+from utils import check_type
 
 
 class CreateDialog(AlertDialog):
@@ -12,6 +13,7 @@ class CreateDialog(AlertDialog):
     Create a dialog to communicate something to the user
     """
 
+    @check_type
     def __init__(
         self,
         title_dialog: str | Icon,
@@ -19,7 +21,7 @@ class CreateDialog(AlertDialog):
         title_size: float,
         content_size: float,
         actions_dialog: list,
-        actions_alignment_dialog,
+        actions_alignment_dialog: MainAxisAlignment,
         icon: bool = False,
     ) -> None:
         self.title_dialog = title_dialog
@@ -47,7 +49,7 @@ class CreateDialog(AlertDialog):
             actions_alignment=self.actions_alignment_dialog,
         )
 
-    def change_state(self, page) -> None:
+    def change_state(self, page: Page) -> None:
         """
         If the dialog is not open, it opens it and updates the window, if it's open, it closes it and updates the window
 
@@ -62,7 +64,8 @@ class CreateDialog(AlertDialog):
 
         page.update()
 
-    def update_title_dialog(self, new_title):
+    @check_type
+    def update_title_dialog(self, new_title: str):
         """
         Updates the title of the dialog.
 
@@ -71,7 +74,8 @@ class CreateDialog(AlertDialog):
 
         self.title_text.change_text(new_title)
 
-    def update_content_dialog(self, new_content):
+    @check_type
+    def update_content_dialog(self, new_content: str):
         """
         Updates the content of the dialog.
 

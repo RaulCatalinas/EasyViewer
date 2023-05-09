@@ -1,22 +1,33 @@
+"""
+Gets the app texts from the JSON file
+"""
+
 from json import load
 
-from utils import ConfigFiles
+from utils import CONFIG_FILES, check_type
 
 
 class GetConfigJson:
-    def __init__(self):
-        pass
+    """
+    Gets the app texts from the JSON file
+    """
 
     @classmethod
+    @check_type
     def get_config_json(cls, section: str, data: str) -> str | int:
         """
-        Returns the value of a key in a dictionary, which is inside another dictionary
+        Reads a JSON file and returns a value from a specified section and
+        data key.
 
-        :param section: is the section of the json file
+        :param section: A string representing the section of the JSON configuration file to retrieve data from
 
-        :param data: is the name of the parameter you want to get from the json file
+        :type section: str
 
-        :return: The value of the "data" key in the "section" section of the json file.
+        :param data: The `data` parameter is a string that represents the key for the value that needs to be retrieved from the JSON configuration file
+
+        :type data: str
+
+        :return: Returns a value of type `str` or `int`, depending on the value stored in the JSON file for the given `section` and `data`.
         """
 
         cls.config_json = cls._read_json()
@@ -25,8 +36,14 @@ class GetConfigJson:
 
     @classmethod
     def _read_json(cls):
+        """
+        Reads a JSON file and returns its contents as a dictionary.
+
+        :return: Returns the contents of a JSON file as a dictionary.
+        """
+
         with open(
-            ConfigFiles.JSON.value,
+            CONFIG_FILES["JSON"],
             encoding="utf-8",
             mode="r",
         ) as f:

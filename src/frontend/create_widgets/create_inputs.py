@@ -2,7 +2,9 @@
 Create the inputs
 """
 
-from flet import TextField, KeyboardType, Offset
+from flet import TextField, KeyboardType, Offset, MainAxisAlignment
+
+from utils import check_type
 
 
 class CreateInputs(TextField):
@@ -10,26 +12,25 @@ class CreateInputs(TextField):
     Create the inputs
     """
 
+    @check_type
     def __init__(
         self,
-        placeholder_input,
-        text_size_input,
-        text_align_input,
-        offset_x=0,
-        offset_y=0,
-        offset_input=None,
-        keyboard_type_input=KeyboardType.TEXT,
-        autofocus_input=False,
-        read_only_input=False,
-        value_input=None,
+        placeholder: str,
+        text_size: int,
+        text_align: MainAxisAlignment,
+        offset_x: int = 0,
+        offset_y: int = 0,
+        keyboard_type: KeyboardType = KeyboardType.TEXT,
+        autofocus: bool = False,
+        read_only: bool = False,
+        value_input: str | None = None,
     ):
-        self.placeholder_input = placeholder_input
-        self.text_size_input = text_size_input
-        self.keyboard_type_input = keyboard_type_input
-        self.text_align_input = text_align_input
-        self.autofocus_input = autofocus_input
-        self.read_only_input = read_only_input
-        self.offset_input = offset_input
+        self.placeholder_input = placeholder
+        self.text_size_input = text_size
+        self.keyboard_type_input = keyboard_type
+        self.text_align_input = text_align
+        self.autofocus_input = autofocus
+        self.read_only_input = read_only
         self.value_input = value_input
         self.offset_x = offset_x
         self.offset_y = offset_y
@@ -46,18 +47,14 @@ class CreateInputs(TextField):
             value=self.value_input,
         )
 
-    def change_state(self, page):
+    def toggle_state(self, page):
         """
         If the input is activated, it deactivates it and vice versa
 
         :param page: Is a reference to the app window
         """
 
-        if not self.disabled:
-            self.disabled = True
-
-        else:
-            self.disabled = False
+        self.disabled = not self.disabled
 
         return page.update(self)
 

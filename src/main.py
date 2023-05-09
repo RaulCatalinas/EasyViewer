@@ -14,8 +14,8 @@ from flet import (
     MainAxisAlignment,
 )
 
-from backend import SelectDirectory, Download, Validations
-from config import GetConfigJson, GetConfigExcel, EnvironmentVariables
+from backend import SelectDirectory, Download, Validations, ShutdownHandler
+from config import GetConfigJson, ExcelTextLoader, EnvironmentVariables
 from control import ReadControlVariables, WriteControlVariables
 from create_widgets import (
     CreateDialog,
@@ -27,26 +27,28 @@ from create_widgets import (
 )
 from modify_gui import ChangeTheme
 from osutils import FileHandler
-from shutdown_handler import ShutdownHandler
+from utils import LoggingManagement, check_type
 
 
-class Main(Validations):
+class Main:
     """
     Start the app
     """
 
     def __init__(self, page: Page):
-        super().__init__()
+        self.write_control_variables = WriteControlVariables()
+        self.read_control_variables = ReadControlVariables()
+        self.validations = Validations()
 
+        ChangeTheme.set_initial_theme(page)
         EnvironmentVariables.set_initial_language(page)
-        WriteControlVariables.set_initial_values(page)
+        self.write_control_variables.set_initial_values(page)
 
         self.shutdown_handler = ShutdownHandler(page)
 
-        if ChangeTheme.get_theme(page) is None:
-            ChangeTheme.set_default_theme(page)
-
-        VIDEO_LOCATION = ReadControlVariables.get("VIDEO_LOCATION")
+        VIDEO_LOCATION = self.read_control_variables.get_control_variable(
+            "VIDEO_LOCATION"
+        )
 
         # Set the window title and resize it
         page.title = GetConfigJson.get_config_json("WINDOW", "TITLE")
@@ -98,18 +100,18 @@ class Main(Validations):
         )
 
         self.input_url = CreateInputs(
-            placeholder_input=GetConfigExcel.get_config_excel(14),
-            text_size_input=20,
-            keyboard_type_input=KeyboardType.URL,
-            text_align_input=TextAlign.CENTER,
-            autofocus_input=True,
+            placeholder=ExcelTextLoader.get_text(14),
+            text_size=20,
+            keyboard_type=KeyboardType.URL,
+            text_align=TextAlign.CENTER,
+            autofocus=True,
         )
 
         self.input_directory = CreateInputs(
-            placeholder_input=GetConfigExcel.get_config_excel(15),
-            text_size_input=20,
-            text_align_input=TextAlign.CENTER,
-            read_only_input=True,
+            placeholder=ExcelTextLoader.get_text(15),
+            text_size=20,
+            text_align=TextAlign.CENTER,
+            read_only=True,
             offset_y=0.5,
             value_input=VIDEO_LOCATION if VIDEO_LOCATION != "None" else None,
         )
@@ -117,34 +119,33 @@ class Main(Validations):
         self.select_directory = SelectDirectory(
             page=page,
             input_directory=self.input_directory,
-            set_control_variable_in_ini=WriteControlVariables.set,
         )
 
         self.button_directory = CreateIconButton(
-            icon_button=icons.FOLDER,
+            icon=icons.FOLDER,
             function=lambda e: self.select_directory.select_directory(),
             offset_y=1.5,
-            scale_button=2.5,
+            scale=2.5,
         )
 
         self.button_download_video = CreateIconButton(
-            icon_button=icons.VIDEO_FILE,
+            icon=icons.VIDEO_FILE,
             function=lambda e: [
                 Thread(target=self.__download, args=[page, True], daemon=True).start()
             ],
             offset_x=-0.9,
             offset_y=2.5,
-            scale_button=2.5,
+            scale=2.5,
         )
 
         self.button_download_audio = CreateIconButton(
-            icon_button=icons.AUDIO_FILE,
+            icon=icons.AUDIO_FILE,
             function=lambda e: [
                 Thread(target=self.__download, args=[page, False], daemon=True).start()
             ],
             offset_x=1,
             offset_y=1.3,
-            scale_button=2.5,
+            scale=2.5,
         )
 
         self.progress_bar = CreateProgressBar(
@@ -161,10 +162,17 @@ class Main(Validations):
             button_exit_the_app=self.shutdown_handler.button_exit_the_app,
         )
 
+        self.download = Download(
+            page=page,
+            change_state_widgets=self.__change_state_widgets,
+            update_progressbar=self.progress_bar.update_progress_bar,
+        )
+
         Thread(target=self.__add, args=[page], daemon=False).start()
         Thread(target=self.__overlay, args=[page], daemon=False).start()
 
-    def __download(self, page, download_video):
+    @check_type
+    def __download(self, page: Page, download_video: bool):
         """
         Download the video if the parameter "download video" is true, otherwise it'll download the audio of the video
 
@@ -173,46 +181,50 @@ class Main(Validations):
         :param download_video: boolean, if it's true it'll download the video, if it's false it'll download the audio of the video
         """
 
-        WriteControlVariables.set("URL_VIDEO", self.input_url.get_value())
+        url = self.input_url.get_value()
 
-        URL = ReadControlVariables.get("URL_VIDEO")
-        VIDEO_LOCATION = ReadControlVariables.get("VIDEO_LOCATION")
+        print(f"{url = }")
+
+        self.write_control_variables.set_control_variable_in_ini(
+            option="URL_VIDEO", value=url
+        )
+
+        URL = self.read_control_variables.get_control_variable("URL_VIDEO")
+        VIDEO_LOCATION = self.read_control_variables.get_control_variable(
+            "VIDEO_LOCATION"
+        )
 
         try:
             if (
-                self.check_if_a_url_has_been_entered(URL)
-                and self.check_if_is_url_youtube(URL)
-                and self.check_if_directory_is_selected(
+                self.validations.check_if_a_url_has_been_entered(URL)
+                and self.validations.check_if_is_url_youtube(URL)
+                and self.validations.check_if_directory_is_selected(
                     input_directory=self.input_directory,
                     page=page,
                     video_location=VIDEO_LOCATION,
                 )
-                and self.check_internet_connection()
-                and self.check_if_the_video_is_available(URL)
+                and self.validations.check_internet_connection()
+                and self.validations.check_if_the_video_is_available(URL)
             ):
-                Download(
-                    button_select_location=self.button_directory,
-                    button_download_video=self.button_download_video,
-                    button_download_audio=self.button_download_audio,
-                    input_url=self.input_url,
-                    download_video=download_video,
-                    page=page,
-                    change_state_widgets=self.__change_state_widgets,
-                    reset_control_variables=self.reset,
-                    update_progressbar=self.progress_bar.update_progress_bar,
-                )
+                self.download.download(download_video)
 
         except Exception as exception:
-            self.__show_dialog_error(error=exception, page=page)
+            self.__show_dialog_error(error=str(exception), page=page)
 
             FileHandler.delete_file(
-                path_to_the_file=ReadControlVariables.get("VIDEO_LOCATION"),
-                download_name=ReadControlVariables.get("DOWNLOAD_NAME"),
+                path_to_file=self.read_control_variables.get_control_variable(
+                    "VIDEO_LOCATION"
+                ),
+                download_name=self.read_control_variables.get_control_variable(
+                    "DOWNLOAD_NAME"
+                ),
+                callback=self.write_control_variables.reset,
             )
 
             self.__change_state_widgets(page)
 
-    def __show_dialog_error(self, error, page):
+    @check_type
+    def __show_dialog_error(self, error: str, page: Page):
         """
         Displays a dialog with the error occurred
 
@@ -229,7 +241,8 @@ class Main(Validations):
 
         self.error_dialog.change_state(page)
 
-    def __add(self, page):
+    @check_type
+    def __add(self, page: Page):
         """
         Adds a list of items to a given page.
 
@@ -250,7 +263,8 @@ class Main(Validations):
         for item in ITEMS_TO_ADD_TO_THE_PAGE:
             page.add(item)
 
-    def __overlay(self, page):
+    @check_type
+    def __overlay(self, page: Page):
         """
         Adds a list of dialogs to the overlay of a given page.
 
@@ -265,18 +279,21 @@ class Main(Validations):
         for i in TO_ADD_TO_THE_OVERLAY_OF_THE_PAGE:
             page.overlay.append(i)
 
-    def __change_state_widgets(self, page):
+    @check_type
+    def __change_state_widgets(self, page: Page):
         """
         If the widgets are activated they deactivate it and vice versa
 
         :param page: Is a reference to the app window
         """
 
-        self.button_directory.change_state(page)
-        self.button_download_video.change_state(page)
-        self.button_download_audio.change_state(page)
-        self.input_url.change_state(page)
+        self.button_directory.toggle_state(page)
+        self.button_download_video.toggle_state(page)
+        self.button_download_audio.toggle_state(page)
+        self.input_url.toggle_state(page)
 
 
 if __name__ == "__main__":
+    LoggingManagement.initialize_logging()
+
     app(target=Main)
