@@ -2,8 +2,8 @@
 
 from subprocess import run
 
-from osutils import GetPaths
 from control import WriteControlVariables
+from osutils import GetPaths
 
 write_control_variables = WriteControlVariables()
 

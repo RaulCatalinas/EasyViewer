@@ -7,8 +7,7 @@ from threading import Thread, Lock
 
 from flet import Page
 
-from osutils import FileHandler
-from utils import check_type, CONFIG_FILES
+from osutils import FileHandler, GetPaths
 from .read_control_variables import ReadControlVariables
 
 
@@ -18,7 +17,7 @@ class WriteControlVariables(ConfigParser):
     """
 
     LOCK = Lock()
-    INI_FILE_PATH = CONFIG_FILES["INI"]
+    INI_FILE_PATH = GetPaths.get_config_file("ini")
 
     def __init__(self):
         super().__init__()
@@ -29,13 +28,12 @@ class WriteControlVariables(ConfigParser):
 
         self.read(WriteControlVariables.INI_FILE_PATH, encoding="utf-8")
 
-    @check_type
     def set_control_variable_in_ini(self, option: str, value: str | bool) -> None:
         """
         Sets a new value for a control variable
         """
 
-        super().set("ControlVariables", option.lower(), str(value))
+        self.set("ControlVariables", option.lower(), str(value))
 
         self.__save_in_ini()
 
@@ -47,7 +45,6 @@ class WriteControlVariables(ConfigParser):
         except Exception as exception:
             raise Exception(exception) from exception
 
-    @check_type
     def save_to_local_storage(self, page: Page):
         """
         Saves the video location to the user's local storage.
@@ -61,7 +58,6 @@ class WriteControlVariables(ConfigParser):
 
         page.client_storage.set("video_location", video_location)
 
-    @check_type
     def set_initial_values(self, page: Page):
         """
         Sets the initial value of the location for the video in the INI file

@@ -183,8 +183,6 @@ class Main:
 
         url = self.input_url.get_value()
 
-        print(f"{url = }")
-
         self.write_control_variables.set_control_variable_in_ini(
             option="URL_VIDEO", value=url
         )
@@ -193,6 +191,8 @@ class Main:
         VIDEO_LOCATION = self.read_control_variables.get_control_variable(
             "VIDEO_LOCATION"
         )
+
+        print(f"URL en el archivo ini: {URL}")
 
         try:
             if (

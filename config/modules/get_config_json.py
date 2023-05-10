@@ -4,7 +4,8 @@ Gets the app texts from the JSON file
 
 from json import load
 
-from utils import CONFIG_FILES, check_type
+from osutils import GetPaths
+from utils import check_type
 
 
 class GetConfigJson:
@@ -42,8 +43,10 @@ class GetConfigJson:
         :return: Returns the contents of a JSON file as a dictionary.
         """
 
+        json_file_path = GetPaths.get_config_file("json")
+
         with open(
-            CONFIG_FILES["JSON"],
+            json_file_path,
             encoding="utf-8",
             mode="r",
         ) as f:

@@ -5,7 +5,6 @@ Check the types that receive parameters
 from typing import get_type_hints, Callable
 
 from control import ReadControlVariables
-from utils import LoggingManagement
 
 read_control_variables = ReadControlVariables()
 

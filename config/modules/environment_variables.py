@@ -8,7 +8,8 @@ from threading import Thread, Lock
 from dotenv import set_key
 from flet import Page
 
-from utils import CONFIG_FILES, check_type
+from osutils import GetPaths
+from utils import check_type
 
 
 class EnvironmentVariables:
@@ -16,7 +17,7 @@ class EnvironmentVariables:
     Controls the logic of environment variables
     """
 
-    ENVIRONMENT_VARIABLES_FILE = CONFIG_FILES["ENV"]
+    ENVIRONMENT_VARIABLES_FILE = GetPaths.get_config_file("env")
     LOCK = Lock()
 
     @classmethod

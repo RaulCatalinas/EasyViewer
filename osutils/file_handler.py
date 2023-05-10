@@ -7,8 +7,6 @@ from pathlib import Path
 from re import sub
 from typing import Callable
 
-from utils import check_type, SYSTEM_NAME, LoggingManagement, INVALID_CHARS
-
 
 class FileHandler:
     """
@@ -16,7 +14,6 @@ class FileHandler:
     """
 
     @classmethod
-    @check_type
     def delete_file(
         cls,
         path_to_file: str,
@@ -33,6 +30,8 @@ class FileHandler:
         :param callback: Is a function that is executed after the file is successfully deleted. It is an optional parameter and by default, it's set to a lambda function that does nothing. This parameter can be used to perform any additional actions after the file is deleted
         """
 
+        from utils import LoggingManagement
+
         try:
             remove(f"{path_to_file}/{download_name}")
 
@@ -46,7 +45,6 @@ class FileHandler:
             ) from error
 
     @classmethod
-    @check_type
     def clean_invalid_chars(cls, title: str) -> str:
         """
         Removes invalid characters from a given string, with different invalid characters depending on the operating system.
@@ -56,12 +54,13 @@ class FileHandler:
         :return: A string that has been cleaned of any invalid characters based on the operating system.
         """
 
+        from utils import INVALID_CHARS, SYSTEM_NAME
+
         invalid_chars = INVALID_CHARS[SYSTEM_NAME]
 
         return sub(invalid_chars, "", sub(r"\.$", "", title)).strip()
 
     @classmethod
-    @check_type
     def check_file_exists(cls, file_path: str | Path):
         """
         Checks if a file exists at a given file path and raises a FileNotFoundError if it does not.

@@ -5,7 +5,7 @@ Downloads a video or audio from a YouTube video and saves it to a specific locat
 from os import startfile
 from typing import Callable
 
-from flet import Page, IconButton, TextField
+from flet import Page
 
 from control import ReadControlVariables, WriteControlVariables
 from utils import LoggingManagement

@@ -4,7 +4,8 @@ Gets the app texts from the Excel file
 
 from pandas import read_excel
 
-from utils import CONFIG_FILES, check_type
+from osutils import GetPaths
+from utils import check_type
 from .environment_variables import EnvironmentVariables
 
 
@@ -41,6 +42,6 @@ class ExcelTextLoader:
         :return: Returns the data read from an Excel file
         """
 
-        excel_file_path = CONFIG_FILES["EXCEL"]
+        excel_file_path = GetPaths.get_config_file("excel")
 
         return read_excel(excel_file_path)

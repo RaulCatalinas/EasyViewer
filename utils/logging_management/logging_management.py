@@ -6,7 +6,7 @@ from os.path import exists
 
 
 class LoggingManagement:
-    """Create a folder called "Log" if it doesn't exist, then create a log file called "App.log" in that folder and write to that log when the function in charge of it is called"""
+    """Create a folder called "Log" if it doesn't exist, then create a log file called "App.log" in that folder and write to that log when the function in charge of it's called"""
 
     @classmethod
     def write_log(cls, message: str):
