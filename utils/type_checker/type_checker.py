@@ -5,8 +5,7 @@ Check the types that receive parameters
 from typing import get_type_hints, Callable
 
 from control import ReadControlVariables
-
-read_control_variables = ReadControlVariables()
+from utils import LoggingManagement
 
 
 def check_type(func: Callable):
@@ -19,10 +18,10 @@ def check_type(func: Callable):
     """
 
     def validate_type(*args, **kwargs):
-        if not read_control_variables.get_control_variable(
+        if not ReadControlVariables().get_control_variable(
             control_variable="ENABLED_TYPE_CHECKING", get_bool=True
         ):
-            print("Type checking off")
+            LoggingManagement.write_log("Type checking off")
 
             return func(*args, **kwargs)
 
