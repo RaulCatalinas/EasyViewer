@@ -7,7 +7,7 @@ from threading import Thread, Lock
 
 from flet import Page
 
-from osutils import FileHandler, GetPaths
+from utils import CONFIG_FILES
 from .read_control_variables import ReadControlVariables
 
 
@@ -16,17 +16,13 @@ class WriteControlVariables(ConfigParser):
     Save control variables in an INI file and to reset their values.
     """
 
-    LOCK = Lock()
-    INI_FILE_PATH = GetPaths.get_config_file("ini")
-
     def __init__(self):
+        self.lock = Lock()
+        self.ini_file_path = CONFIG_FILES["INI"]
+
         super().__init__()
 
-        self.read_control_variables = ReadControlVariables()
-
-        FileHandler.check_file_exists(WriteControlVariables.INI_FILE_PATH)
-
-        self.read(WriteControlVariables.INI_FILE_PATH, encoding="utf-8")
+        self.read(self.ini_file_path, encoding="utf-8")
 
     def set_control_variable_in_ini(self, option: str, value: str | bool) -> None:
         """
@@ -39,7 +35,7 @@ class WriteControlVariables(ConfigParser):
 
     def __save_in_ini(self):
         try:
-            with self.LOCK, open(self.INI_FILE_PATH, mode="w", encoding="utf-8") as f:
+            with self.lock, open(self.ini_file_path, mode="w", encoding="utf-8") as f:
                 Thread(target=self.write, args=[f], daemon=False).start()
 
         except Exception as exception:
@@ -52,9 +48,7 @@ class WriteControlVariables(ConfigParser):
         :param page: It's a reference to the app window
         """
 
-        video_location = self.read_control_variables.get_control_variable(
-            "VIDEO_LOCATION"
-        )
+        video_location = ReadControlVariables().get_control_variable("VIDEO_LOCATION")
 
         page.client_storage.set("video_location", video_location)
 

@@ -4,7 +4,7 @@ Reads control variables from an INI file
 
 from configparser import ConfigParser
 
-from osutils import FileHandler, GetPaths
+from utils import CONFIG_FILES
 
 
 class ReadControlVariables(ConfigParser):
@@ -13,11 +13,9 @@ class ReadControlVariables(ConfigParser):
     """
 
     def __init__(self):
-        ini_file_path = GetPaths.get_config_file("ini")
+        ini_file_path = CONFIG_FILES["INI"]
 
         super().__init__()
-
-        FileHandler.check_file_exists(ini_file_path)
 
         self.read(ini_file_path, encoding="utf-8")
 
