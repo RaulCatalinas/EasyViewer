@@ -29,10 +29,6 @@ class Download:
         self.change_state_widgets = change_state_widgets
         self.update_progressbar = update_progressbar
 
-        self.interact_api_pytube = InteractAPIPytube()
-        self.write_control_variables = WriteControlVariables()
-        self.read_control_variables = ReadControlVariables()
-
     @check_type
     def download(self, download_video: bool):
         """
@@ -44,15 +40,13 @@ class Download:
 
             self.change_state_widgets(self.page)
 
-            stream = self.interact_api_pytube.get_video(download_video)
+            stream = InteractAPIPytube().get_video(download_video)
 
             stream.download(
-                output_path=self.read_control_variables.get_control_variable(
+                output_path=ReadControlVariables().get_control_variable(
                     "VIDEO_LOCATION"
                 ),
-                filename=self.read_control_variables.get_control_variable(
-                    "DOWNLOAD_NAME"
-                ),
+                filename=ReadControlVariables().get_control_variable("DOWNLOAD_NAME"),
             )
 
         except Exception as exception:
@@ -64,12 +58,12 @@ class Download:
 
             raise Exception(exception) from exception
 
-        startfile(self.read_control_variables.get_control_variable("VIDEO_LOCATION"))
+        startfile(ReadControlVariables().get_control_variable("VIDEO_LOCATION"))
 
         self.update_progressbar(new_value=0, page=self.page)
 
         self.change_state_widgets(self.page)
 
-        self.write_control_variables.reset()
+        WriteControlVariables().reset()
 
         LoggingManagement.write_log("Download completed successfully")

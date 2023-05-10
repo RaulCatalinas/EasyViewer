@@ -15,10 +15,6 @@ class InteractAPIPytube:
     Interact with the Pytube API.
     """
 
-    def __init__(self):
-        self.write_control_variables = WriteControlVariables()
-        self.read_control_variables = ReadControlVariables()
-
     @check_type
     def get_video(self, download_video: bool):
         """
@@ -31,7 +27,7 @@ class InteractAPIPytube:
         :return: The video or audio.
         """
 
-        url = self.read_control_variables.get_control_variable("URL_VIDEO")
+        url = ReadControlVariables().get_control_variable("URL_VIDEO")
 
         try:
             video_id = YouTube(url)
@@ -42,7 +38,7 @@ class InteractAPIPytube:
             extension_file = "mp3" if not download_video else "mp4"
             downloaded_file_type = "audio" if not download_video else "video"
 
-            self.write_control_variables.set_control_variable_in_ini(
+            WriteControlVariables().set_control_variable_in_ini(
                 option="DOWNLOAD_NAME",
                 value=f"{title_for_the_file}.{extension_file}",
             )

@@ -17,9 +17,6 @@ class Validations:
     Validating various aspects of a YouTube video download request
     """
 
-    def __init__(self):
-        self.write_control_variables = WriteControlVariables()
-
     @check_type
     def check_if_a_url_has_been_entered(self, url: str) -> bool:
         """
@@ -84,7 +81,7 @@ class Validations:
             DEFAULT_DIRECTORY = GetPaths.get_desktop_path()
 
             input_directory.set_value(DEFAULT_DIRECTORY)
-            self.write_control_variables.set_control_variable_in_ini(
+            WriteControlVariables().set_control_variable_in_ini(
                 option="VIDEO_LOCATION", value=DEFAULT_DIRECTORY
             )
 
