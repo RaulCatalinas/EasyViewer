@@ -8,7 +8,7 @@ from threading import Thread, Lock
 from flet import Page
 
 from utils import CONFIG_FILES
-from .read_control_variables import ReadControlVariables
+from .read_control_variables import get_control_variable
 
 
 class WriteControlVariables(ConfigParser):
@@ -48,7 +48,7 @@ class WriteControlVariables(ConfigParser):
         :param page: It's a reference to the app window
         """
 
-        video_location = ReadControlVariables().get_control_variable("VIDEO_LOCATION")
+        video_location = get_control_variable("VIDEO_LOCATION")
 
         page.client_storage.set("video_location", video_location)
 

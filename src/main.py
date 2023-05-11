@@ -16,7 +16,7 @@ from flet import (
 
 from backend import SelectDirectory, Download, Validations, ShutdownHandler
 from config import GetConfigJson, ExcelTextLoader, EnvironmentVariables
-from control import ReadControlVariables, WriteControlVariables
+from control import get_control_variable, WriteControlVariables
 from create_widgets import (
     CreateDialog,
     CreateIconButton,
@@ -37,7 +37,6 @@ class Main:
 
     def __init__(self, page: Page):
         self.write_control_variables = WriteControlVariables()
-        self.read_control_variables = ReadControlVariables()
         self.validations = Validations()
 
         ChangeTheme.set_initial_theme(page)
@@ -46,7 +45,7 @@ class Main:
 
         self.shutdown_handler = ShutdownHandler(page)
 
-        VIDEO_LOCATION = ReadControlVariables().get_control_variable("VIDEO_LOCATION")
+        VIDEO_LOCATION = get_control_variable("VIDEO_LOCATION")
 
         # Set the window title and resize it
         page.title = GetConfigJson.get_config_json("WINDOW", "TITLE")
@@ -185,8 +184,8 @@ class Main:
             option="URL_VIDEO", value=url
         )
 
-        URL = ReadControlVariables().get_control_variable("URL_VIDEO")
-        VIDEO_LOCATION = ReadControlVariables().get_control_variable("VIDEO_LOCATION")
+        URL = get_control_variable("URL_VIDEO")
+        VIDEO_LOCATION = get_control_variable("VIDEO_LOCATION")
 
         try:
             if (
@@ -206,12 +205,8 @@ class Main:
             self.__show_dialog_error(error=str(exception), page=page)
 
             FileHandler.delete_file(
-                path_to_file=self.read_control_variables.get_control_variable(
-                    "VIDEO_LOCATION"
-                ),
-                download_name=self.read_control_variables.get_control_variable(
-                    "DOWNLOAD_NAME"
-                ),
+                path_to_file=get_control_variable("VIDEO_LOCATION"),
+                download_name=get_control_variable("DOWNLOAD_NAME"),
                 callback=self.write_control_variables.reset,
             )
 

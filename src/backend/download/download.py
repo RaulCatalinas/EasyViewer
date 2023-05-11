@@ -7,7 +7,7 @@ from typing import Callable
 
 from flet import Page
 
-from control import ReadControlVariables, WriteControlVariables
+from control import get_control_variable, WriteControlVariables
 from utils import LoggingManagement
 from utils import check_type
 from .interact_api_pytube import InteractAPIPytube
@@ -43,10 +43,8 @@ class Download:
             stream = InteractAPIPytube().get_video(download_video)
 
             stream.download(
-                output_path=ReadControlVariables().get_control_variable(
-                    "VIDEO_LOCATION"
-                ),
-                filename=ReadControlVariables().get_control_variable("DOWNLOAD_NAME"),
+                output_path=get_control_variable("VIDEO_LOCATION"),
+                filename=get_control_variable("DOWNLOAD_NAME"),
             )
 
         except Exception as exception:
@@ -58,7 +56,7 @@ class Download:
 
             raise Exception(exception) from exception
 
-        startfile(ReadControlVariables().get_control_variable("VIDEO_LOCATION"))
+        startfile(get_control_variable("VIDEO_LOCATION"))
 
         self.update_progressbar(new_value=0, page=self.page)
 

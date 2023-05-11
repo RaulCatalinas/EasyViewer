@@ -5,7 +5,7 @@ Interact with the Pytube API.
 from pytube import YouTube
 
 from config import ExcelTextLoader
-from control import ReadControlVariables, WriteControlVariables
+from control import get_control_variable, WriteControlVariables
 from osutils import FileHandler
 from utils import LoggingManagement, check_type
 
@@ -27,7 +27,7 @@ class InteractAPIPytube:
         :return: The video or audio.
         """
 
-        url = ReadControlVariables().get_control_variable("URL_VIDEO")
+        url = get_control_variable("URL_VIDEO")
 
         try:
             video_id = YouTube(url)
