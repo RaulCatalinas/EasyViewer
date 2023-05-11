@@ -7,9 +7,8 @@ from typing import Callable
 
 from flet import Page
 
-from control import get_control_variable, WriteControlVariables
-from utils import LoggingManagement
-from utils import check_type
+from control import ControlVariables
+from utils import LoggingManagement, check_type
 from .interact_api_pytube import InteractAPIPytube
 
 
@@ -22,11 +21,11 @@ class Download:
     def __init__(
         self,
         page: Page,
-        change_state_widgets: Callable,
+        toggle_state_widgets: Callable,
         update_progressbar: Callable,
     ):
         self.page = page
-        self.change_state_widgets = change_state_widgets
+        self.toggle_state_widgets = toggle_state_widgets
         self.update_progressbar = update_progressbar
 
     @check_type
@@ -38,17 +37,17 @@ class Download:
         try:
             self.update_progressbar(new_value=None, page=self.page)
 
-            self.change_state_widgets(self.page)
+            self.toggle_state_widgets(self.page)
 
             stream = InteractAPIPytube().get_video(download_video)
 
             stream.download(
-                output_path=get_control_variable("VIDEO_LOCATION"),
-                filename=get_control_variable("DOWNLOAD_NAME"),
+                output_path=ControlVariables().get_control_variable("VIDEO_LOCATION"),
+                filename=ControlVariables().get_control_variable("DOWNLOAD_NAME"),
             )
 
         except Exception as exception:
-            self.change_state_widgets(self.page)
+            self.toggle_state_widgets(self.page)
 
             LoggingManagement.write_error(exception)
 
@@ -56,12 +55,12 @@ class Download:
 
             raise Exception(exception) from exception
 
-        startfile(get_control_variable("VIDEO_LOCATION"))
+        startfile(ControlVariables().get_control_variable("VIDEO_LOCATION"))
 
         self.update_progressbar(new_value=0, page=self.page)
 
-        self.change_state_widgets(self.page)
+        self.toggle_state_widgets(self.page)
 
-        WriteControlVariables().reset()
+        ControlVariables().reset()
 
         LoggingManagement.write_log("Download completed successfully")

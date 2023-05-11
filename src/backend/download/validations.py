@@ -7,7 +7,7 @@ from pytube import YouTube
 from requests import get, ConnectionError, Timeout
 
 from config import ExcelTextLoader
-from control import WriteControlVariables
+from control import ControlVariables
 from osutils import GetPaths
 from utils import check_type, LoggingManagement
 
@@ -81,7 +81,7 @@ class Validations:
             DEFAULT_DIRECTORY = GetPaths.get_desktop_path()
 
             input_directory.set_value(DEFAULT_DIRECTORY)
-            WriteControlVariables().set_control_variable_in_ini(
+            ControlVariables().set_control_variable_in_ini(
                 option="VIDEO_LOCATION", value=DEFAULT_DIRECTORY
             )
 

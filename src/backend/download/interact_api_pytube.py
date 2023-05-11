@@ -5,7 +5,7 @@ Interact with the Pytube API.
 from pytube import YouTube
 
 from config import ExcelTextLoader
-from control import get_control_variable, WriteControlVariables
+from control import ControlVariables
 from osutils import FileHandler
 from utils import LoggingManagement, check_type
 
@@ -14,6 +14,9 @@ class InteractAPIPytube:
     """
     Interact with the Pytube API.
     """
+
+    def __init__(self):
+        self.control_variables = ControlVariables()
 
     @check_type
     def get_video(self, download_video: bool):
@@ -27,7 +30,7 @@ class InteractAPIPytube:
         :return: The video or audio.
         """
 
-        url = get_control_variable("URL_VIDEO")
+        url = self.control_variables.get_control_variable("URL_VIDEO")
 
         try:
             video_id = YouTube(url)
@@ -38,7 +41,7 @@ class InteractAPIPytube:
             extension_file = "mp3" if not download_video else "mp4"
             downloaded_file_type = "audio" if not download_video else "video"
 
-            WriteControlVariables().set_control_variable_in_ini(
+            self.control_variables.set_control_variable_in_ini(
                 option="DOWNLOAD_NAME",
                 value=f"{title_for_the_file}.{extension_file}",
             )

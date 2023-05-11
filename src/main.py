@@ -16,7 +16,7 @@ from flet import (
 
 from backend import SelectDirectory, Download, Validations, ShutdownHandler
 from config import GetConfigJson, ExcelTextLoader, EnvironmentVariables
-from control import get_control_variable, WriteControlVariables
+from control import ControlVariables
 from create_widgets import (
     CreateDialog,
     CreateIconButton,
@@ -36,16 +36,18 @@ class Main:
     """
 
     def __init__(self, page: Page):
-        self.write_control_variables = WriteControlVariables()
+        # page.client_storage.clear()
+
+        self.control_variables = ControlVariables()
         self.validations = Validations()
 
         ChangeTheme.set_initial_theme(page)
         EnvironmentVariables.set_initial_language(page)
-        self.write_control_variables.set_initial_values(page)
+        self.control_variables.set_initial_values(page)
 
         self.shutdown_handler = ShutdownHandler(page)
 
-        VIDEO_LOCATION = get_control_variable("VIDEO_LOCATION")
+        video_location = ControlVariables().get_control_variable("VIDEO_LOCATION")
 
         # Set the window title and resize it
         page.title = GetConfigJson.get_config_json("WINDOW", "TITLE")
@@ -110,7 +112,7 @@ class Main:
             text_align=TextAlign.CENTER,
             read_only=True,
             offset_y=0.5,
-            value_input=VIDEO_LOCATION if VIDEO_LOCATION != "None" else None,
+            value_input=video_location if video_location != "None" else None,
         )
 
         self.select_directory = SelectDirectory(
@@ -161,7 +163,7 @@ class Main:
 
         self.download = Download(
             page=page,
-            change_state_widgets=self.__change_state_widgets,
+            toggle_state_widgets=self.__toggle_state_widgets,
             update_progressbar=self.progress_bar.update_progress_bar,
         )
 
@@ -180,12 +182,12 @@ class Main:
 
         url = self.input_url.get_value()
 
-        WriteControlVariables().set_control_variable_in_ini(
+        self.control_variables.set_control_variable_in_ini(
             option="URL_VIDEO", value=url
         )
 
-        URL = get_control_variable("URL_VIDEO")
-        VIDEO_LOCATION = get_control_variable("VIDEO_LOCATION")
+        URL = self.control_variables.get_control_variable("URL_VIDEO")
+        VIDEO_LOCATION = self.control_variables.get_control_variable("VIDEO_LOCATION")
 
         try:
             if (
@@ -205,14 +207,18 @@ class Main:
             self.__show_dialog_error(error=str(exception), page=page)
 
             FileHandler.delete_file(
-                path_to_file=get_control_variable("VIDEO_LOCATION"),
-                download_name=get_control_variable("DOWNLOAD_NAME"),
-                callback=self.write_control_variables.reset,
+                path_to_file=self.control_variables.get_control_variable(
+                    "VIDEO_LOCATION"
+                ),
+                download_name=self.control_variables.get_control_variable(
+                    "DOWNLOAD_NAME"
+                ),
+                callback=self.control_variables.reset,
             )
 
-            self.__change_state_widgets(page)
+            self.__toggle_state_widgets(page)
 
-            self.write_control_variables.reset()
+            self.control_variables.reset()
 
     @check_type
     def __show_dialog_error(self, error: str, page: Page):
@@ -271,7 +277,7 @@ class Main:
             page.overlay.append(i)
 
     @check_type
-    def __change_state_widgets(self, page: Page):
+    def __toggle_state_widgets(self, page: Page):
         """
         If the widgets are activated they deactivate it and vice versa
 

@@ -5,7 +5,7 @@ Prompts the user to select a directory for the downloaded file
 from flet import FilePicker, FilePickerResultEvent, Page, TextField
 
 from config import ExcelTextLoader
-from control import WriteControlVariables
+from control import ControlVariables
 from utils import check_type
 
 
@@ -19,7 +19,7 @@ class SelectDirectory(FilePicker):
         self.page = page
         self.input_directory = input_directory
 
-        self.write_control_variables = WriteControlVariables()
+        self.control_variables = ControlVariables()
 
         super().__init__(on_result=self.__on_result)
 
@@ -34,9 +34,7 @@ class SelectDirectory(FilePicker):
         """
 
         self.input_directory.set_value(event.path)
-        self.write_control_variables.set_control_variable_in_ini(
-            "VIDEO_LOCATION", event.path
-        )
+        self.control_variables.set_control_variable_in_ini("VIDEO_LOCATION", event.path)
         self.page.update(self.input_directory)
 
     def select_directory(self):

@@ -1,13 +1,21 @@
-from .constants.constants import PATHS, CONFIG_FILES, INVALID_CHARS, ICONS, SYSTEM_NAME
-from .logging_management.logging_management import LoggingManagement
-from .type_checker.type_checker import check_type
+from .constants import (
+    DESKTOP_PATH,
+    ICONS,
+    INVALID_CHARS,
+    CONFIG_FILES,
+    SYSTEM_NAME,
+    ENABLED_TYPE_CHECKING,
+)
+from .logging_management import LoggingManagement
+from .type_checker import check_type
 
 __all__ = [
     "check_type",
     "LoggingManagement",
-    "PATHS",
+    "DESKTOP_PATH",
     "ICONS",
     "INVALID_CHARS",
     "SYSTEM_NAME",
     "CONFIG_FILES",
+    "ENABLED_TYPE_CHECKING",
 ]
