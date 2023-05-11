@@ -4,7 +4,7 @@ Check the types that receive parameters
 
 from typing import get_type_hints, Callable
 
-from control import get_control_variable
+from utils import ENABLED_TYPE_CHECKING
 
 
 def check_type(func: Callable):
@@ -17,9 +17,7 @@ def check_type(func: Callable):
     """
 
     def validate_type(*args, **kwargs):
-        if not get_control_variable(
-            control_variable="ENABLED_TYPE_CHECKING", get_bool=True
-        ):
+        if not ENABLED_TYPE_CHECKING:
             return func(*args, **kwargs)
 
         hints = get_type_hints(func)

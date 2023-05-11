@@ -2,8 +2,8 @@
 
 from subprocess import run
 
-from control import get_control_variable
 from osutils import GetPaths
+from utils import ENABLED_TYPE_CHECKING
 
 __version__ = "2.0.0"
 
@@ -11,9 +11,7 @@ __version__ = "2.0.0"
 def compile_app():
     """Compile the app to generate the executable file"""
 
-    if not get_control_variable(
-        control_variable="ENABLED_TYPE_CHECKING", get_bool=True
-    ):
+    if not ENABLED_TYPE_CHECKING:
         print("Type checking off")
 
     icon = GetPaths.get_icon_path()

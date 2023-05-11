@@ -31,6 +31,7 @@ To download the latest version of Python, visit the [official website](https://w
 * flet (Graphical interface)
 * pytube (To download the video/audio of the YouTube video)
 * requests (Checking if the user has internet)
+* from-root (Get the path to the root of the project)
 
   To install these dependencies execute in a terminal with the virtual environment activated this command: `poetry install`.
 

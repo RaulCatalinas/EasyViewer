@@ -2,7 +2,7 @@
 Gets the path to a directory or to a file
 """
 
-import utils
+from utils import CONFIG_FILES, SYSTEM_NAME, ICONS, DESKTOP_PATH
 
 
 class GetPaths:
@@ -18,7 +18,7 @@ class GetPaths:
         :return: The path to the user's desktop.
         """
 
-        return utils.PATHS["DESKTOP"]
+        return DESKTOP_PATH
 
     @classmethod
     def get_icon_path(cls):
@@ -30,10 +30,10 @@ class GetPaths:
         :return: The path to the icon is returned in the appropriate format depending on the operating system. On macOS, the icon is returned in ICNS format; on Windows, in ICO format; and on Linux, in the original format (PNG).
         """
 
-        if utils.SYSTEM_NAME not in utils.ICONS:
+        if SYSTEM_NAME not in ICONS:
             raise ValueError("Unsupported operating system")
 
-        return utils.ICONS[utils.SYSTEM_NAME]
+        return ICONS[SYSTEM_NAME]
 
     @classmethod
     def get_config_file(cls, config_file: str):
@@ -45,4 +45,4 @@ class GetPaths:
         :return: The path to the configuration file
         """
 
-        return utils.CONFIG_FILES[config_file.upper()]
+        return CONFIG_FILES[config_file.upper()]
