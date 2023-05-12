@@ -63,7 +63,7 @@ class EnvironmentVariables:
 
         with cls.LOCK:
             Thread(
-                target=page.client_storage.set_control_variable_in_ini,
+                target=page.client_storage.set,
                 args=["language", language_to_save],
                 daemon=False,
             ).start()
