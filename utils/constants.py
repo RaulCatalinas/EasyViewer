@@ -5,21 +5,23 @@ Constants needed for the application
 from pathlib import Path
 from platform import system
 
-from from_root import from_root
+from osutils import GetPaths
+
+ROOT_PATH = GetPaths.get_project_root_path()
 
 DESKTOP_PATH = Path.home().joinpath("Desktop")
 
 CONFIG_FILES = {
-    "INI": from_root("config/control_variables.ini"),
-    "JSON": from_root("config/config.json"),
-    "EXCEL": from_root("config/languages.xlsx"),
-    "ENV": from_root("config/.env"),
+    "INI": ROOT_PATH.joinpath("config/control_variables.ini"),
+    "JSON": ROOT_PATH.joinpath("config/config.json"),
+    "EXCEL": ROOT_PATH.joinpath("config/languages.xlsx"),
+    "ENV": ROOT_PATH.joinpath("config/.env"),
 }
 
 ICONS = {
-    "Windows": from_root("icon/icon-Windows.ico"),
-    "Darwin": from_root("icon/icon-macOS.icns"),
-    "Linux": from_root("icon/icon-Linux.png"),
+    "Windows": ROOT_PATH.joinpath("icon/icon-Windows.ico"),
+    "Darwin": ROOT_PATH.joinpath("icon/icon-macOS.icns"),
+    "Linux": ROOT_PATH.joinpath("icon/icon-Linux.png"),
 }
 
 INVALID_CHARS = {"Windows": r'[<>:/\\"|?*]', "Darwin": r"[:/]", "Linux": r"[/]"}

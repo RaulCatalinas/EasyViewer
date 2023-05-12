@@ -2,7 +2,7 @@
 Gets the path to a directory or to a file
 """
 
-from utils import CONFIG_FILES, SYSTEM_NAME, ICONS, DESKTOP_PATH
+from pathlib import Path
 
 
 class GetPaths:
@@ -18,6 +18,8 @@ class GetPaths:
         :return: The path to the user's desktop.
         """
 
+        from utils import DESKTOP_PATH
+
         return DESKTOP_PATH
 
     @classmethod
@@ -29,6 +31,8 @@ class GetPaths:
 
         :return: The path to the icon is returned in the appropriate format depending on the operating system. On macOS, the icon is returned in ICNS format; on Windows, in ICO format; and on Linux, in the original format (PNG).
         """
+
+        from utils import SYSTEM_NAME, ICONS
 
         if SYSTEM_NAME not in ICONS:
             raise ValueError("Unsupported operating system")
@@ -45,4 +49,21 @@ class GetPaths:
         :return: The path to the configuration file
         """
 
+        from utils import CONFIG_FILES
+
+        if config_file.upper() not in CONFIG_FILES:
+            raise ValueError("Configuration file doesn't exist")
+
         return CONFIG_FILES[config_file.upper()]
+
+    @classmethod
+    def get_project_root_path(cls):
+        """
+        Gets the path to the root of the project.
+        
+        :return: The path to the root of the project.
+        """
+
+        current_dir = Path(__file__).resolve()
+
+        return current_dir.parent.parent

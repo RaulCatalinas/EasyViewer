@@ -36,8 +36,6 @@ class Main:
     """
 
     def __init__(self, page: Page):
-        # page.client_storage.clear()
-
         self.control_variables = ControlVariables()
         self.validations = Validations()
 
