@@ -8,8 +8,8 @@ from utils import ENABLED_TYPE_CHECKING
 __version__ = "2.0.0"
 
 
-def compile_app():
-    """Compile the app to generate the executable file"""
+def build():
+    """Generate the application executable"""
 
     if not ENABLED_TYPE_CHECKING:
         print("Type checking off")
@@ -26,4 +26,4 @@ def compile_app():
     return print(f"Could not compile, this is the reason: {execute.stderr}")
 
 
-compile_app()
+build()
