@@ -6,6 +6,7 @@ from .constants import (
     SYSTEM_NAME,
     ENABLED_TYPE_CHECKING,
 )
+from .interfaces import InterfaceTextButton, InterfaceIconButton
 from .logging_management import LoggingManagement
 from .type_checker import check_type
 
@@ -18,4 +19,6 @@ __all__ = [
     "SYSTEM_NAME",
     "CONFIG_FILES",
     "ENABLED_TYPE_CHECKING",
+    "InterfaceTextButton",
+    "InterfaceIconButton",
 ]

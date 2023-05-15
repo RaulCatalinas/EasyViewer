@@ -96,7 +96,7 @@ class ChangeLanguage(Dropdown):
 
         self.close_dialog.update_content_dialog(ExcelTextLoader.get_text(3))
 
-        self.button_exit_the_app.change_text_button(ExcelTextLoader.get_text(4))
+        self.button_exit_the_app.change_text(ExcelTextLoader.get_text(4))
 
         self.dropdown_contact.change_placeholder(ExcelTextLoader.get_text(16))
 
