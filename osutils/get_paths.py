@@ -60,10 +60,19 @@ class GetPaths:
     def get_project_root_path(cls):
         """
         Gets the path to the root of the project.
-        
+
         :return: The path to the root of the project.
         """
 
         current_dir = Path(__file__).resolve()
 
         return current_dir.parent.parent
+
+    @classmethod
+    def get_user_home_path(cls):
+        """
+        Get the home directory path of the user.
+
+        :return: The home directory path of the user.
+        """
+        return Path.home()

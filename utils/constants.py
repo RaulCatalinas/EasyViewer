@@ -2,14 +2,15 @@
 Constants needed for the application
 """
 
-from pathlib import Path
 from platform import system
 
 from osutils import GetPaths
 
 ROOT_PATH = GetPaths.get_project_root_path()
 
-DESKTOP_PATH = Path.home().joinpath("Desktop")
+USER_HOME = GetPaths.get_user_home_path()
+
+DESKTOP_PATH = USER_HOME.joinpath("Desktop")
 
 CONFIG_FILES = {
     "INI": ROOT_PATH.joinpath("config/control_variables.ini"),
