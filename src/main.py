@@ -27,7 +27,7 @@ from create_widgets import (
 )
 from modify_gui import ChangeTheme
 from osutils import FileHandler
-from utils import LoggingManagement, check_type
+from utils import LoggingManagement, check_type, ENABLED_TYPE_CHECKING
 
 
 class Main:
@@ -289,6 +289,7 @@ class Main:
 
 
 if __name__ == "__main__":
-    LoggingManagement.initialize_logging()
+    if ENABLED_TYPE_CHECKING:
+        LoggingManagement.initialize_logging()
 
     app(target=Main)
