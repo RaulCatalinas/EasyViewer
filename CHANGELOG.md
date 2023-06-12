@@ -21,3 +21,9 @@
 ## Fixed
 
 - Fixed issue where contact icon disappeared from window after taskbar resize
+
+# 2.0 - 12-05-2023
+
+## Fixsed
+
+* Resolve pytube error in video title retrieval
