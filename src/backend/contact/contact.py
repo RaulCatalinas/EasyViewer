@@ -38,6 +38,7 @@ class Contact(ContactUI):
         }
 
         super().__init__(
+            appbar=self.appbar,
             dropdown_language=self.dropdown_language,
             page=page,
             icon_theme=self.icon_theme,
