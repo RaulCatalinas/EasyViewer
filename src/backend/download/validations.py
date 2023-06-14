@@ -24,18 +24,14 @@ class Validations:
 
         :param url: a string representing a URL that needs to be checked if it has been entered or not
 
-        :type url: str
-
         :return: A boolean value indicating whether a URL has been entered or not.
         """
 
         if not url:
             LoggingManagement.write_error("No URL entered")
-
             raise ValueError(ExcelTextLoader.get_text(9))
 
         LoggingManagement.write_log("A URL has been entered")
-
         return True
 
     @check_type
@@ -45,18 +41,14 @@ class Validations:
 
         :param url: A string representing a URL that needs to be checked if it's from YouTube or not
 
-        :type url: str
-
         :return: If the URL is from YouTube, the function returns True. If the URL is not from YouTube, the function raises a ValueError.
         """
 
-        if "https://www.youtube.com" in url or "https://youtu.be/" in url:
+        if "youtube.com" in url or "youtu.be" in url:
             LoggingManagement.write_log("The URL is from YouTube")
-
             return True
 
         LoggingManagement.write_error("The URL is not from YouTube")
-
         raise ValueError(ExcelTextLoader.get_text(11))
 
     @check_type
@@ -71,22 +63,20 @@ class Validations:
 
         :param input_directory: a string representing the path of the selected directory
         :param page: Is a reference to the app window
-        :param set_control_variable_in_ini: A function that sets a value for a specific key in an INI configuration file
         :param video_location: A string representing the directory where the video will be saved. If no directory has been selected, it will be set to "None"
 
         :return: A boolean value.
         """
 
         if not video_location or video_location == "None":
-            DEFAULT_DIRECTORY = GetPaths.get_desktop_path()
+            default_directory = GetPaths.get_desktop_path()
 
-            input_directory.set_value(DEFAULT_DIRECTORY)
+            input_directory.set_value(default_directory)
             ControlVariables().set_control_variable_in_ini(
-                option="VIDEO_LOCATION", value=DEFAULT_DIRECTORY
+                option="VIDEO_LOCATION", value=default_directory
             )
 
             LoggingManagement.write_log("Default directory set")
-
             page.update(input_directory)
 
         else:
@@ -108,11 +98,9 @@ class Validations:
 
         except (ConnectionError, Timeout) as exc:
             LoggingManagement.write_error("No internet connection")
-
             raise ConnectionError(ExcelTextLoader.get_text(10)) from exc
 
         LoggingManagement.write_log("Internet connection is available")
-
         return True
 
     @check_type
@@ -122,8 +110,6 @@ class Validations:
 
         :param url: A string representing the URL of a YouTube video
 
-        :type url: str
-
         :return: A boolean value indicating whether the video is available or not.
         """
 
@@ -131,10 +117,8 @@ class Validations:
             YouTube(url).check_availability()
 
             LoggingManagement.write_log("The video is available")
-
             return True
 
         except Exception as exception:
-            LoggingManagement.write_error(exception)
-
-            raise ValueError(exception) from exception
+            LoggingManagement.write_error(str(exception))
+            raise ValueError(str(exception)) from exception

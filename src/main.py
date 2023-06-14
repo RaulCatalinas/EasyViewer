@@ -1,291 +1,217 @@
-"""
-Start the app
-"""
+"""Start the app"""
 
 from threading import Thread
 
-from flet import (
-    Page,
-    icons,
-    CrossAxisAlignment,
-    KeyboardType,
-    TextAlign,
-    app,
-    MainAxisAlignment,
-)
+from flet import Page, icons, CrossAxisAlignment, app
 
-from backend import SelectDirectory, Download, Validations, ShutdownHandler
-from config import GetConfigJson, ExcelTextLoader, EnvironmentVariables
+from backend import Download, Validations, ShutdownHandler
+from components import IndexUI
+from config import GetConfigJson, EnvironmentVariables
 from control import ControlVariables
-from create_widgets import (
-    CreateDialog,
-    CreateIconButton,
-    CreateElevatedButton,
-    CreateInputs,
-    CreateProgressBar,
-    TaskBar,
-)
+from create_widgets import CreateDialog, CreateElevatedButton
 from modify_gui import ChangeTheme
 from osutils import FileHandler
 from utils import LoggingManagement, check_type, ENABLED_TYPE_CHECKING
 
 
 class Main:
-    """
-    Start the app
-    """
-
-    def __init__(self, page: Page):
+    def __init__(self, app_page: Page):
         self.control_variables = ControlVariables()
         self.validations = Validations()
 
-        ChangeTheme.set_initial_theme(page)
-        EnvironmentVariables.set_initial_language(page)
-        self.control_variables.set_initial_values(page)
+        # Set initial theme and language
+        ChangeTheme.set_initial_theme(app_page)
+        EnvironmentVariables.set_initial_language(app_page)
 
-        self.shutdown_handler = ShutdownHandler(page)
+        # Set initial values
+        self.control_variables.set_initial_values(app_page)
 
-        video_location = ControlVariables().get_control_variable("VIDEO_LOCATION")
+        # Shutdown handler
+        self.shutdown_handler = ShutdownHandler(app_page)
 
-        # Set the window title and resize it
-        page.title = GetConfigJson.get_config_json("WINDOW", "TITLE")
-        page.window_width = GetConfigJson.get_config_json("WINDOW", "WIDTH")
-        page.window_height = GetConfigJson.get_config_json("WINDOW", "HIGH")
-
-        # Center window
-        page.window_center()
-
-        # Center elements
-        page.horizontal_alignment = CrossAxisAlignment.CENTER
-        page.vertical_alignment = CrossAxisAlignment.CENTER
-
-        # Set window size
-        page.window_resizable = False
-        page.window_maximizable = False
-
-        # Set user selected color theme
-        page.theme_mode = ChangeTheme.get_theme(page)
-
-        # Window close confirmation
-        page.window_prevent_close = True
-
-        def __event_close_window(event):
-            if event.data == "close":
-                self.__overlay(page)
-                page.dialog = self.shutdown_handler
-
-                if self.error_dialog.open:
-                    self.error_dialog.change_state(page)
-
-                self.shutdown_handler.change_state(page)
-
-        page.on_window_event = __event_close_window
+        # Set window properties
+        self.__configure_window(app_page)
 
         # Error dialog
         self.button_close_dialog = CreateElevatedButton(
             text_button="Ok", function=lambda e: None
         )
-
         self.error_dialog = CreateDialog(
             icon=True,
-            title_dialog=icons.ERROR,
+            title=icons.ERROR,
             title_size=1.3,
-            content_dialog="",
+            content="",
             content_size=23,
-            actions_dialog=[self.button_close_dialog],
-            actions_alignment_dialog=MainAxisAlignment.END,
+            actions=[self.button_close_dialog],
+            actions_alignment=CrossAxisAlignment.END,
         )
 
-        self.input_url = CreateInputs(
-            placeholder=ExcelTextLoader.get_text(14),
-            text_size=20,
-            keyboard_type=KeyboardType.URL,
-            text_align=TextAlign.CENTER,
-            autofocus=True,
+        # Create index items
+        index_ui = IndexUI(
+            page=app_page,
+            download=self.__download,
+            video_location=self.control_variables.get_control_variable(
+                "VIDEO_LOCATION"
+            ),
+            shutdown_handler=self.shutdown_handler,
         )
 
-        self.input_directory = CreateInputs(
-            placeholder=ExcelTextLoader.get_text(15),
-            text_size=20,
-            text_align=TextAlign.CENTER,
-            read_only=True,
-            offset_y=0.5,
-            value_input=video_location if video_location != "None" else None,
-        )
-
-        self.select_directory = SelectDirectory(
-            page=page,
-            input_directory=self.input_directory,
-        )
-
-        self.button_directory = CreateIconButton(
-            icon=icons.FOLDER,
-            function=lambda e: self.select_directory.select_directory(),
-            offset_y=1.5,
-            scale=2.5,
-        )
-
-        self.button_download_video = CreateIconButton(
-            icon=icons.VIDEO_FILE,
-            function=lambda e: [
-                Thread(target=self.__download, args=[page, True], daemon=True).start()
-            ],
-            offset_x=-0.9,
-            offset_y=2.5,
-            scale=2.5,
-        )
-
-        self.button_download_audio = CreateIconButton(
-            icon=icons.AUDIO_FILE,
-            function=lambda e: [
-                Thread(target=self.__download, args=[page, False], daemon=True).start()
-            ],
-            offset_x=1,
-            offset_y=1.3,
-            scale=2.5,
-        )
-
-        self.progress_bar = CreateProgressBar(
-            color_progressbar=GetConfigJson.get_config_json("COLORS", "GREEN"),
-            value_progressbar=0,
-            offset_y=23,
-        )
-
-        self.taskbar = TaskBar(
-            page=page,
-            input_url=self.input_url,
-            input_directory=self.input_directory,
-            close_dialog=self.shutdown_handler,
-            button_exit_the_app=self.shutdown_handler.button_exit_the_app,
-        )
+        (
+            self.input_url,
+            self.input_directory,
+            self.button_directory,
+            self.button_download_video,
+            self.button_download_audio,
+            progress_bar,
+            _,
+            _,
+        ) = index_ui.get_elements()
 
         self.download = Download(
-            page=page,
+            page=app_page,
             toggle_state_widgets=self.__toggle_state_widgets,
-            update_progressbar=self.progress_bar.update_progress_bar,
+            update_progressbar=progress_bar.update_value,
         )
 
-        Thread(target=self.__add, args=[page], daemon=False).start()
-        Thread(target=self.__overlay, args=[page], daemon=False).start()
+        # Add items to the page in a separate thread
+        Thread(
+            target=app_page.add, args=[*index_ui.get_elements()], daemon=False
+        ).start()
+
+        # Overlay dialogs
+        Thread(target=self.__overlay, args=[app_page], daemon=False).start()
 
     @check_type
-    def __download(self, page: Page, download_video: bool):
+    def __configure_window(self, app_page: Page):
+        """
+        Configures the window properties of the app page.
+
+        :param app_page: Reference to the app window
+        """
+        app_page.title = GetConfigJson.get_config_json("WINDOW", "TITLE")
+        app_page.window_width = GetConfigJson.get_config_json("WINDOW", "WIDTH")
+        app_page.window_height = GetConfigJson.get_config_json("WINDOW", "HIGH")
+        app_page.window_center()
+        app_page.horizontal_alignment = CrossAxisAlignment.CENTER
+        app_page.vertical_alignment = CrossAxisAlignment.CENTER
+        app_page.window_resizable = False
+        app_page.window_maximizable = False
+        app_page.theme_mode = ChangeTheme.get_theme(app_page)
+        app_page.window_prevent_close = True
+        app_page.on_window_event = lambda e: self.__event_close_window(
+            event=e, app_page=app_page
+        )
+
+    def __event_close_window(self, event, app_page):
+        """
+        Event handler for the window close event.
+
+        :param event: Window event data
+        """
+        if event.data == "close":
+            self.__overlay(app_page)
+            app_page.dialog = self.shutdown_handler
+
+            if self.error_dialog.is_open():
+                self.error_dialog.change_state(app_page)
+
+            self.shutdown_handler.change_state(app_page)
+
+    @check_type
+    def __download(self, app_page: Page, download_video: bool):
         """
         Download the video if the parameter "download video" is true, otherwise it'll download the audio of the video
 
-        :param page: Is a reference to the app window
+        :param app_page: Is a reference to the app window
 
         :param download_video: boolean, if it's true it'll download the video, if it's false it'll download the audio of the video
         """
 
         url = self.input_url.get_value()
 
-        self.control_variables.set_control_variable_in_ini(
-            option="URL_VIDEO", value=url
-        )
-
-        URL = self.control_variables.get_control_variable("URL_VIDEO")
-        VIDEO_LOCATION = self.control_variables.get_control_variable("VIDEO_LOCATION")
+        self.control_variables.set_control_variable(option="URL_VIDEO", value=url)
 
         try:
-            if (
-                self.validations.check_if_a_url_has_been_entered(URL)
-                and self.validations.check_if_is_url_youtube(URL)
+            url = self.control_variables.get_control_variable("URL_VIDEO")
+            video_location = self.control_variables.get_control_variable(
+                "VIDEO_LOCATION"
+            )
+
+            validations_passed = (
+                self.validations.check_if_a_url_has_been_entered(url)
+                and self.validations.check_if_is_url_youtube(url)
                 and self.validations.check_if_directory_is_selected(
                     input_directory=self.input_directory,
-                    page=page,
-                    video_location=VIDEO_LOCATION,
+                    page=app_page,
+                    video_location=video_location,
                 )
                 and self.validations.check_internet_connection()
-                and self.validations.check_if_the_video_is_available(URL)
-            ):
+                and self.validations.check_if_the_video_is_available(url)
+            )
+
+            if validations_passed:
                 self.download.download(download_video)
 
         except Exception as exception:
-            self.__show_dialog_error(error=str(exception), page=page)
+            self.__show_dialog_error(error=str(exception), app_page=app_page)
+
+            video_location = self.control_variables.get_control_variable(
+                "VIDEO_LOCATION"
+            )
+            download_name = self.control_variables.get_control_variable("DOWNLOAD_NAME")
 
             FileHandler.delete_file(
-                path_to_file=self.control_variables.get_control_variable(
-                    "VIDEO_LOCATION"
-                ),
-                download_name=self.control_variables.get_control_variable(
-                    "DOWNLOAD_NAME"
-                ),
+                path_to_file=video_location,
+                download_name=download_name,
                 callback=self.control_variables.reset,
             )
 
-            self.__toggle_state_widgets(page)
+            self.__toggle_state_widgets(app_page)
 
             self.control_variables.reset()
 
     @check_type
-    def __show_dialog_error(self, error: str, page: Page):
+    def __show_dialog_error(self, error: str, app_page: Page):
         """
-        Displays a dialog with the error occurred
+        Show a dialog with the specified error.
 
-        :param page: Is a reference to the app window
-
-        :param error: Error that has occurred
+        :param error: Error message
+        :param app_page: Reference to the app window
         """
-
-        self.button_close_dialog.change_function(self.error_dialog.change_state, page)
-        self.error_dialog.content_text.change_text(error)
-
-        self.__overlay(page)
-        page.dialog = self.error_dialog
-
-        self.error_dialog.change_state(page)
+        self.button_close_dialog.change_function(
+            self.error_dialog.change_state, app_page
+        )
+        self.error_dialog.content_text.set_text(error)
+        self.__overlay(app_page)
+        app_page.dialog = self.error_dialog
+        self.error_dialog.change_state(app_page)
 
     @check_type
-    def __add(self, page: Page):
+    def __overlay(self, app_page: Page):
         """
-        Adds a list of items to a given page.
+        Add dialogs to the overlay of the specified page.
 
-        :param page: Is a reference to the app window
+        :param app_page: Reference to the app window
         """
-
-        ITEMS_TO_ADD_TO_THE_PAGE = [
-            self.input_url,
-            self.input_directory,
-            self.button_directory,
-            self.button_download_video,
-            self.button_download_audio,
-            self.progress_bar,
-            self.taskbar,
-            self.select_directory,
-        ]
-
-        for item in ITEMS_TO_ADD_TO_THE_PAGE:
-            page.add(item)
-
-    @check_type
-    def __overlay(self, page: Page):
-        """
-        Adds a list of dialogs to the overlay of a given page.
-
-        :param page: Is a reference to the app window
-        """
-
-        TO_ADD_TO_THE_OVERLAY_OF_THE_PAGE = [
+        to_add_to_the_overlay_of_the_page = [
             self.shutdown_handler,
             self.error_dialog,
         ]
 
-        for i in TO_ADD_TO_THE_OVERLAY_OF_THE_PAGE:
-            page.overlay.append(i)
+        for dialog in to_add_to_the_overlay_of_the_page:
+            app_page.overlay.append(dialog)
 
     @check_type
-    def __toggle_state_widgets(self, page: Page):
+    def __toggle_state_widgets(self, app_page: Page):
         """
-        If the widgets are activated they deactivate it and vice versa
+        Toggle the state of various widgets.
 
-        :param page: Is a reference to the app window
+        :param app_page: Reference to the app window
         """
-
-        self.button_directory.toggle_state(page)
-        self.button_download_video.toggle_state(page)
-        self.button_download_audio.toggle_state(page)
-        self.input_url.toggle_state(page)
+        self.button_directory.toggle_state(app_page)
+        self.button_download_video.toggle_state(app_page)
+        self.button_download_audio.toggle_state(app_page)
+        self.input_url.toggle_state(app_page)
 
 
 if __name__ == "__main__":

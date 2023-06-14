@@ -49,7 +49,7 @@ class Download:
         except Exception as exception:
             self.toggle_state_widgets(self.page)
 
-            LoggingManagement.write_error(exception)
+            LoggingManagement.write_error(str(exception))
 
             self.update_progressbar(new_value=0, page=self.page)
 

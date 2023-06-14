@@ -77,4 +77,10 @@ class CreateInputs(TextField):
         self.value = new_value
 
     def get_value(self):
+        """
+        Get the current value of the input.
+
+        :return: The current value of the input.
+        """
+
         return self.value

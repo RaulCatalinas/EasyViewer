@@ -1,17 +1,14 @@
-"""
-Control the logic to be able to change the language of the app
-"""
+from flet import dropdown
 
-from flet import Dropdown, dropdown, alignment
-
-from config import ExcelTextLoader, EnvironmentVariables
+from utils import check_type, ExcelTextLoader, EnvironmentVariables
 
 
-class ChangeLanguage(Dropdown):
+class ChangeLanguage(LanguageUI):
     """
     Allows the user to change the language of the app
     """
 
+    @check_type
     def __init__(
         self,
         appbar,
@@ -34,50 +31,29 @@ class ChangeLanguage(Dropdown):
         self.icon_theme = icon_theme
         self.button_exit_the_app = button_exit_the_app
 
-        Dropdown.__init__(
-            self,
-            options=[
-                dropdown.Option(ExcelTextLoader.get_text(7)),
-                dropdown.Option(ExcelTextLoader.get_text(8)),
-            ],
-            value=EnvironmentVariables.get_language(),
-            visible=False,
-            alignment=alignment.center,
-            on_change=lambda e: self.__change_language(page),
+        super().__init__(
+            appbar=self.appbar,
+            page=page,
+            input_url=self.input_url,
+            input_directory=self.input_directory,
+            close_dialog=self.close_dialog,
+            dropdown_contact=self.dropdown_contact,
+            icon_language=self.icon_language,
+            icon_theme=self.icon_theme,
+            button_exit_the_app=self.button_exit_the_app,
+            callback=self.__change_language,
         )
 
-    def change_visibility_dropdown_language(self):
-        """
-        Show or hide the dropdown if it's hidden or not respectively
-        """
-
-        if not self.visible:
-            self.visible = True
-            self.appbar.change_height(114)
-
-            self.icon_language.change_offset(offset_x=6.50, offset_y=0.3)
-            self.icon_theme.change_offset(offset_x=0, offset_y=-0.65)
-
-            return self.page.update(self, self.appbar)
-
-        self.visible = False
-        self.icon_language.change_offset(offset_x=0, offset_y=0.3)
-
-        if not self.dropdown_contact.get_visibility():
-            self.appbar.change_height(63)
-
-            self.icon_theme.change_offset(offset_x=0, offset_y=0)
-
-        return self.page.update(self, self.appbar)
-
+    @check_type
     def __change_language(self, page):
         """
-        Change the language of the app, update the texts of the app and update the environment variable to the chosen language
+        Change the language of the app, update the texts of the app, and update the environment variable to the chosen language.
+
+        :param page: A reference to the app window.
         """
 
         if self.value in ["Spanish", "Español"]:
             EnvironmentVariables.set_language(language="Español", page=page)
-
         else:
             EnvironmentVariables.set_language(language="English", page=page)
 
@@ -92,9 +68,9 @@ class ChangeLanguage(Dropdown):
         self.input_url.change_placeholder(ExcelTextLoader.get_text(14))
         self.input_directory.change_placeholder(ExcelTextLoader.get_text(15))
 
-        self.close_dialog.update_title_dialog(ExcelTextLoader.get_text(12))
+        self.close_dialog.update_title(ExcelTextLoader.get_text(12))
 
-        self.close_dialog.update_content_dialog(ExcelTextLoader.get_text(3))
+        self.close_dialog.update_content(ExcelTextLoader.get_text(3))
 
         self.button_exit_the_app.change_text(ExcelTextLoader.get_text(4))
 
@@ -102,7 +78,7 @@ class ChangeLanguage(Dropdown):
 
         self.icon_language.change_offset(offset_x=0, offset_y=0.3)
 
-        if not self.dropdown_contact.get_visibility():
+        if not self.dropdown_contact.is_visible():
             self.appbar.change_height(63)
 
             self.icon_theme.change_offset(offset_x=0, offset_y=0)
@@ -116,12 +92,3 @@ class ChangeLanguage(Dropdown):
             self.button_exit_the_app,
             self.close_dialog,
         )
-
-    def get_visibility(self):
-        """
-        Returns the visibility state of the dropdown.
-
-        :return: Returns the value of the attribute `visible`.
-        """
-
-        return self.visible

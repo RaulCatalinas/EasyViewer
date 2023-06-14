@@ -1,7 +1,3 @@
-"""
-Create three types of buttons
-"""
-
 from typing import Callable
 
 from flet import IconButton, ElevatedButton, OutlinedButton, Offset, Icon, Page
@@ -11,7 +7,7 @@ from utils import check_type, InterfaceIconButton, InterfaceTextButton
 
 class CreateIconButton(InterfaceIconButton, IconButton):
     """
-    Create a button of type IconButton
+    Creates a button of type IconButton
     """
 
     @check_type
@@ -29,8 +25,7 @@ class CreateIconButton(InterfaceIconButton, IconButton):
         self.offset_y = offset_y
         self.scale_button = scale
 
-        IconButton.__init__(
-            self,
+        super().__init__(
             icon=self.icon_for_the_button,
             on_click=self.function,
             scale=self.scale_button,
@@ -38,9 +33,8 @@ class CreateIconButton(InterfaceIconButton, IconButton):
         )
 
     @check_type
-    def toggle_state(self, page: Page):
+    def toggle_state(self, page: Page) -> Page:
         self.disabled = not self.disabled
-
         return page.update(self)
 
     @check_type
@@ -50,7 +44,7 @@ class CreateIconButton(InterfaceIconButton, IconButton):
 
 class CreateElevatedButton(InterfaceTextButton, ElevatedButton):
     """
-    Create a button of type ElevatedButton
+    Creates a button of type ElevatedButton
     """
 
     @check_type
@@ -58,7 +52,7 @@ class CreateElevatedButton(InterfaceTextButton, ElevatedButton):
         self.text_button = text_button
         self.function = function
 
-        ElevatedButton.__init__(self, text=self.text_button, on_click=self.function)
+        super().__init__(text=self.text_button, on_click=self.function)
 
     @check_type
     def change_text(self, new_text: str):
@@ -71,7 +65,7 @@ class CreateElevatedButton(InterfaceTextButton, ElevatedButton):
 
 class CreateOutlinedButton(InterfaceTextButton, OutlinedButton):
     """
-    Create a button of type OutlinedButton
+    Creates a button of type OutlinedButton
     """
 
     @check_type
@@ -79,7 +73,7 @@ class CreateOutlinedButton(InterfaceTextButton, OutlinedButton):
         self.text_button = text_button
         self.function = function
 
-        OutlinedButton.__init__(self, text=self.text_button, on_click=self.function)
+        super().__init__(text=self.text_button, on_click=self.function)
 
     @check_type
     def change_function(self, new_function: Callable, *args, **kwargs):

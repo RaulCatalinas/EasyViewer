@@ -1,19 +1,19 @@
-"""Manage app logs"""
-
 from logging import info, basicConfig, error, DEBUG
 from os import mkdir
 from os.path import exists
 
 
 class LoggingManagement:
-    """Create a folder called "Log" if it doesn't exist, then create a log file called "App.log" in that folder and write to that log when the function in charge of it's called"""
+    """
+    Manage app logs
+    """
 
     @classmethod
     def write_log(cls, message: str):
         """
         Writes a log message to the log file.
 
-        :param message: The message to write to the log file
+        :param message: The message to write to the log file.
         """
 
         info(message)
@@ -23,14 +23,19 @@ class LoggingManagement:
         """
         Write an error message to the log file.
 
-        :param message: The message to write to the log file
+        :param message: The message to write to the log file.
         """
 
         error(message)
 
     @classmethod
     def initialize_logging(cls):
-        """Initializes the registry configuration"""
+        """
+        Initializes the logging configuration.
+
+        It creates a folder called "Log" if it doesn't exist, then creates a log file called "App.log" in that folder
+        and configures the logging module to write logs to that file.
+        """
 
         if not exists("Log"):
             mkdir("Log")

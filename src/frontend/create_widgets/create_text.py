@@ -1,7 +1,3 @@
-"""
-Create the texts of the app
-"""
-
 from flet import Text
 
 from utils import check_type
@@ -9,7 +5,7 @@ from utils import check_type
 
 class CreateText(Text):
     """
-    Create the texts of the app
+    Create the text content for the app
     """
 
     @check_type
@@ -20,11 +16,11 @@ class CreateText(Text):
         super().__init__(value=self.text, font_family="Arial", size=self.text_size)
 
     @check_type
-    def change_text(self, new_text: str):
+    def set_text(self, new_text: str):
         """
-        Changes the text
+        Set a new text content.
 
-        :param new_text: The new text that will replace the current text
+        :param new_text: The new text content.
         """
 
         self.value = new_text

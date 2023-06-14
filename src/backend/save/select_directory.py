@@ -30,7 +30,7 @@ class SelectDirectory(FilePicker):
 
         :param event: FilePickerResultEvent, is an event object containing the path of the selected directory
 
-        :type event: FilePickerResultEvent
+        :return: None
         """
 
         self.input_directory.set_value(event.path)

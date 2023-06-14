@@ -26,7 +26,7 @@ class EnvironmentVariables:
         """
         Sets the value of the "LANGUAGE" environment variable
 
-        :param page: Is a reference to the app window
+        :param page: A reference to the app window
         :param language: The language to set
         """
 
@@ -50,7 +50,7 @@ class EnvironmentVariables:
         """
         Saves the language of the app in a frontend storage using a separate thread.
 
-        :param page: Is a reference to the app window
+        :param page: A reference to the app window
         :param language_to_save: Language of the app being saved. It's used as a key to store it in the user's storage.
         """
 
@@ -76,7 +76,7 @@ class EnvironmentVariables:
         """
         Sets the "LANGUAGE" environment variable to the value saved in frontend storage. Defaults to "English" if nothing is saved.
 
-        :param page: Is a reference to the app window
+        :param page: A reference to the app window
         """
 
         language_for_the_app = page.client_storage.get("language") or "English"

@@ -1,19 +1,15 @@
-"""
-Check the types that receive parameters
-"""
-
 from typing import get_type_hints, Callable
 
 from utils import ENABLED_TYPE_CHECKING
 
 
-def check_type(func: Callable):
+def check_type(func: Callable) -> Callable:
     """
     Takes a function and returns a wrapper function that validates the types of the arguments passed to the original function.
 
-    :param func: A callable object (function, method, etc.) that we want to validate the input types for parameters
+    :param func: A callable object (function, method, etc.) that we want to validate the input types for parameters.
 
-    :return: Returns a new function `validate_type` that wraps the original function passed as an argument. The new function performs type checking on the arguments passed to the original function using the type hints specified in the function signature. If any argument does not match its expected type, a `TypeError` is raised. If all arguments pass the type check, the original function is called with the
+    :return: Returns a new function `validate_type` that wraps the original function passed as an argument. The new function performs type checking on the arguments passed to the original function using the type hints specified in the function signature. If any argument does not match its expected type, a `TypeError` is raised. If all arguments pass the type check, the original function is called.
     """
 
     def validate_type(*args, **kwargs):

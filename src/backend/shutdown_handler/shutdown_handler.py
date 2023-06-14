@@ -26,8 +26,7 @@ class ShutdownHandler(CreateDialog):
         self.title_dialog = ExcelTextLoader.get_text(12)
         self.content_dialog = ExcelTextLoader.get_text(3)
 
-        CreateDialog.__init__(
-            self,
+        super().__init__(
             icon=False,
             title_dialog=self.title_dialog,
             title_size=25,
@@ -40,6 +39,9 @@ class ShutdownHandler(CreateDialog):
     def __exit(self, page):
         """
         Exits the program and saves the location selected by the user to your local storage
+
+        :param page: Is a reference to the app window
+        :return: None
         """
 
         self.change_state(page)
@@ -53,6 +55,7 @@ class ShutdownHandler(CreateDialog):
         Close the app shutdown_handler confirmation dialog
 
         :param page: Is a reference to the app window
+        :return: None
         """
 
         return self.change_state(page)

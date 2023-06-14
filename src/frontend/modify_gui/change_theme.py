@@ -1,7 +1,3 @@
-"""
-Controls theme change logic
-"""
-
 from threading import Thread, Lock
 
 from flet import icons, Page, IconButton
@@ -20,11 +16,10 @@ class ChangeTheme:
     @check_type
     def change_theme(cls, page: Page, icon_theme: IconButton):
         """
-        If the theme is dark, change it to light and vice versa
+        Changes the app's theme between dark and light mode.
 
-        :param page: Is a reference to the app window
-
-        :param icon_theme: The icon that will be changed when the theme is changed
+        :param page: A reference to the app window.
+        :param icon_theme: The icon that will be updated when the theme is changed.
         """
 
         if page.theme_mode == "dark":
@@ -43,19 +38,22 @@ class ChangeTheme:
     @check_type
     def set_initial_icon_theme(cls, page: Page):
         """
-        Sets the button's initial icon based on the app's theme
+        Sets the initial icon theme based on the app's current theme mode.
+
+        :param page: A reference to the app window.
+        :return: The icon representing the initial theme.
         """
 
-        if page.theme_mode == "light":
-            return icons.DARK_MODE
-
-        return icons.LIGHT_MODE
+        return icons.DARK_MODE if page.theme_mode == "light" else icons.LIGHT_MODE
 
     @classmethod
     @check_type
     def __save_theme(cls, page: Page, theme: str) -> None:
         """
-        Saves the theme selected by the user
+        Saves the selected theme to the frontend storage.
+
+        :param page: A reference to the app window.
+        :param theme: The theme to be saved.
         """
 
         with cls.LOCK:
@@ -69,10 +67,9 @@ class ChangeTheme:
     @check_type
     def get_theme(cls, page: Page):
         """
-        Returns the theme saved in the frontend storage.
+        Retrieves the saved theme from the frontend storage.
 
-        :param page: Is a reference to the app window
-
+        :param page: A reference to the app window.
         :return: The value of the "theme" key from the frontend storage.
         """
 
@@ -82,11 +79,10 @@ class ChangeTheme:
     @check_type
     def set_initial_theme(cls, page: Page):
         """
-        Sets the default theme and saves it.
+        Sets the initial theme for the app and saves it.
 
-        :param page: It's a reference to the application window, for which the default theme is set (light theme).
+        :param page: A reference to the app window.
         """
 
         theme_for_the_app = cls.get_theme(page) or "light"
-
         cls.__save_theme(page=page, theme=theme_for_the_app)

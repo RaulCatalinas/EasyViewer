@@ -21,22 +21,17 @@ class GetConfigJson:
         data key.
 
         :param section: A string representing the section of the JSON configuration file to retrieve data from
-
-        :type section: str
-
-        :param data: The `data` parameter is a string that represents the key for the value that needs to be retrieved from the JSON configuration file
-
-        :type data: str
+        :param data: The key for the value that needs to be retrieved from the JSON configuration file
 
         :return: Returns a value of type `str` or `int`, depending on the value stored in the JSON file for the given `section` and `data`.
         """
 
-        cls.config_json = cls._read_json()
+        config_json = cls._read_json()
 
-        return cls.config_json[section][data]
+        return config_json[section][data]
 
-    @classmethod
-    def _read_json(cls):
+    @staticmethod
+    def _read_json() -> dict:
         """
         Reads a JSON file and returns its contents as a dictionary.
 
@@ -45,9 +40,5 @@ class GetConfigJson:
 
         json_file_path = GetPaths.get_config_file("json")
 
-        with open(
-            json_file_path,
-            encoding="utf-8",
-            mode="r",
-        ) as f:
+        with open(json_file_path, encoding="utf-8") as f:
             return load(f)

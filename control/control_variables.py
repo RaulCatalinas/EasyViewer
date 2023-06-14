@@ -1,5 +1,5 @@
 """
-Save control variables in an INI file and to reset their values.
+Save control variables in an INI file and reset their values.
 """
 
 from configparser import ConfigParser
@@ -11,9 +11,9 @@ from osutils import FileHandler, GetPaths
 from utils import check_type
 
 
-class ControlVariables(ConfigParser):
+class ControlVariables:
     """
-    Save control variables in an INI file and to reset their values.
+    Save control variables in an INI file and reset their values.
     """
 
     def __init__(self):
@@ -22,9 +22,8 @@ class ControlVariables(ConfigParser):
 
         FileHandler.check_file_exists(self.ini_file_path)
 
-        super().__init__()
-
-        self.read(self.ini_file_path, encoding="utf-8")
+        self.config_parser = ConfigParser()
+        self.config_parser.read(self.ini_file_path, encoding="utf-8")
 
     @check_type
     def get_control_variable(
@@ -33,30 +32,41 @@ class ControlVariables(ConfigParser):
         """
         Gets the value of the control variable
 
-        :param control_variable: Control variable to set
-        :param get_bool: If true it returns a boolean, if false it returns a str
+        :param control_variable: Control variable to get
+        :param get_bool: If True, returns a boolean; if False, returns a string
         """
 
-        if not get_bool:
-            return self.get("ControlVariables", option=control_variable.lower())
+        section = "ControlVariables"
+        option = control_variable.lower()
 
-        return self.getboolean("ControlVariables", option=control_variable.lower())
+        return (
+            self.config_parser.getboolean(section, option)
+            if get_bool
+            else self.config_parser.get(section, option)
+        )
 
     @check_type
-    def set_control_variable_in_ini(self, option: str, value: str | bool) -> None:
+    def set_control_variable(self, control_variable: str, value: str | bool) -> None:
         """
         Sets a new value for a control variable
+
+        :param control_variable: Control variable to set
+        :param value: Value to set for the control variable
         """
 
-        self.set("ControlVariables", option.lower(), str(value))
+        section = "ControlVariables"
+        option = control_variable.lower()
+        value = str(value)
 
-        self.__save_in_ini()
+        self.config_parser.set(section, option, value)
+
+        self.__save_to_ini()
 
     @check_type
-    def __save_in_ini(self):
+    def __save_to_ini(self):
         try:
             with self.lock, open(self.ini_file_path, mode="w", encoding="utf-8") as f:
-                Thread(target=self.write, args=[f], daemon=False).start()
+                Thread(target=self.config_parser.write, args=[f], daemon=False).start()
 
         except Exception as exception:
             raise Exception(exception) from exception
@@ -66,11 +76,10 @@ class ControlVariables(ConfigParser):
         """
         Saves the video location to the user's local storage.
 
-        :param page: It's a reference to the app window
+        :param page: A reference to the app window
         """
 
         video_location = self.get_control_variable("VIDEO_LOCATION")
-
         page.client_storage.set("video_location", video_location)
 
     @check_type
@@ -78,17 +87,16 @@ class ControlVariables(ConfigParser):
         """
         Sets the initial value of the location for the video in the INI file
 
-        :param page: It's a reference to the app window
+        :param page: A reference to the app window
         """
 
         video_location = page.client_storage.get("video_location")
-
-        self.set_control_variable_in_ini(option="VIDEO_LOCATION", value=video_location)
+        self.set_control_variable("VIDEO_LOCATION", video_location)
 
     def reset(self):
         """
         Resets the value of the control variables
         """
 
-        self.set_control_variable_in_ini(option="DOWNLOAD_NAME", value="")
-        self.set_control_variable_in_ini(option="URL_VIDEO", value="")
+        self.set_control_variable("DOWNLOAD_NAME", "")
+        self.set_control_variable("URL_VIDEO", "")
