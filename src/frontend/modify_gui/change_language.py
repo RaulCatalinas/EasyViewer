@@ -1,6 +1,8 @@
 from flet import dropdown
 
-from utils import check_type, ExcelTextLoader, EnvironmentVariables
+from components import LanguageUI
+from config import ExcelTextLoader, EnvironmentVariables
+from utils import check_type
 
 
 class ChangeLanguage(LanguageUI):
