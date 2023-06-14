@@ -28,12 +28,12 @@ class ShutdownHandler(CreateDialog):
 
         super().__init__(
             icon=False,
-            title_dialog=self.title_dialog,
+            title=self.title_dialog,
             title_size=25,
-            content_dialog=self.content_dialog,
+            content=self.content_dialog,
             content_size=19,
-            actions_dialog=[self.button_exit_the_app, self.button_cancel_exit_the_app],
-            actions_alignment_dialog=MainAxisAlignment.END,
+            actions=[self.button_exit_the_app, self.button_cancel_exit_the_app],
+            actions_alignment=MainAxisAlignment.END,
         )
 
     def __exit(self, page):
