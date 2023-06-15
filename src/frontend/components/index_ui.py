@@ -2,7 +2,6 @@ from threading import Thread
 
 from flet import icons, KeyboardType, TextAlign
 
-from backend import SelectDirectory
 from config import ExcelTextLoader, GetConfigJson
 from create_widgets import CreateInputs, CreateIconButton, CreateProgressBar, TaskBar
 from .taskbar_ui import TaskBarUI
@@ -10,6 +9,8 @@ from .taskbar_ui import TaskBarUI
 
 class IndexUI:
     def __init__(self, page, download, video_location, shutdown_handler):
+        from backend import SelectDirectory
+
         self.input_url = CreateInputs(
             placeholder=ExcelTextLoader.get_text(14),
             text_size=20,
@@ -60,8 +61,8 @@ class IndexUI:
         )
 
         self.progress_bar = CreateProgressBar(
-            color_progressbar=GetConfigJson.get_config_json("COLORS", "GREEN"),
-            value_progressbar=0,
+            color=GetConfigJson.get_config_json("COLORS", "GREEN"),
+            value=0,
             offset_y=23,
         )
 

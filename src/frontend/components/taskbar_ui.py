@@ -1,8 +1,6 @@
 from flet import icons, Column, Page, TextField, AlertDialog, ElevatedButton
 
-from backend import Contact
 from create_buttons import CreateIconButton
-from modify_gui import ChangeLanguage, ChangeTheme
 from utils import check_type
 
 
@@ -16,6 +14,9 @@ class TaskBarUI:
         close_dialog: AlertDialog,
         button_exit_the_app: ElevatedButton,
     ):
+        from modify_gui import ChangeLanguage, ChangeTheme
+        from backend import Contact
+
         self.page = page
         self.input_url = input_url
         self.input_directory = input_directory
