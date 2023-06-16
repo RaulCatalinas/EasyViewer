@@ -1,5 +1,6 @@
+from .error_dialog import ErrorDialog
 from .index_ui import IndexUI
 from .language_ui import LanguageUI
 from .taskbar_ui import TaskBarUI
 
-__all__ = ["TaskBarUI", "IndexUI", "LanguageUI"]
+__all__ = ["TaskBarUI", "IndexUI", "LanguageUI", "ErrorDialog"]

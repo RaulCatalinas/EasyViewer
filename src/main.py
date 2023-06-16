@@ -2,13 +2,12 @@
 
 from threading import Thread
 
-from flet import Page, icons, CrossAxisAlignment, app
+from flet import Page, CrossAxisAlignment, app
 
 from backend import Download, Validations, ShutdownHandler
-from components import IndexUI
+from components import IndexUI, ErrorDialog
 from config import GetConfigJson, EnvironmentVariables
 from control import ControlVariables
-from create_widgets import CreateDialog, CreateElevatedButton
 from modify_gui import ChangeTheme
 from osutils import FileHandler
 from utils import LoggingManagement, check_type, ENABLED_TYPE_CHECKING
@@ -16,6 +15,7 @@ from utils import LoggingManagement, check_type, ENABLED_TYPE_CHECKING
 
 class Main:
     def __init__(self, app_page: Page):
+        # Class instantiation
         self.control_variables = ControlVariables()
         self.validations = Validations()
 
@@ -23,28 +23,15 @@ class Main:
         ChangeTheme.set_initial_theme(app_page)
         EnvironmentVariables.set_initial_language(app_page)
 
+        # Instantiation of classes that depend on the window to start
+        self.error_dialog = ErrorDialog(app_page=app_page, overlay=self.__overlay)
+        self.shutdown_handler = ShutdownHandler(app_page)
+
         # Set initial values
         self.control_variables.set_initial_values(app_page)
 
-        # Shutdown handler
-        self.shutdown_handler = ShutdownHandler(app_page)
-
         # Set window properties
         self.__configure_window(app_page)
-
-        # Error dialog
-        self.button_close_dialog = CreateElevatedButton(
-            text_button="Ok", function=lambda e: None
-        )
-        self.error_dialog = CreateDialog(
-            icon=True,
-            title=icons.ERROR,
-            title_size=1.3,
-            content="",
-            content_size=23,
-            actions=[self.button_close_dialog],
-            actions_alignment=CrossAxisAlignment.END,
-        )
 
         # Create index items
         index_ui = IndexUI(
@@ -75,7 +62,9 @@ class Main:
 
         # Add items to the page in a separate thread
         Thread(
-            target=app_page.add, args=[*index_ui.get_elements()], daemon=False
+            target=app_page.add,
+            args=[*index_ui.get_elements(), self.error_dialog, self.shutdown_handler],
+            daemon=False,
         ).start()
 
         # Overlay dialogs
@@ -129,7 +118,9 @@ class Main:
 
         url = self.input_url.get_value()
 
-        self.control_variables.set_control_variable(option="URL_VIDEO", value=url)
+        self.control_variables.set_control_variable(
+            control_variable="URL_VIDEO", value=url
+        )
 
         try:
             url = self.control_variables.get_control_variable("URL_VIDEO")
@@ -153,7 +144,7 @@ class Main:
                 self.download.download(download_video)
 
         except Exception as exception:
-            self.__show_dialog_error(error=str(exception), app_page=app_page)
+            self.error_dialog.show_error_dialog(str(exception))
 
             video_location = self.control_variables.get_control_variable(
                 "VIDEO_LOCATION"
@@ -169,22 +160,6 @@ class Main:
             self.__toggle_state_widgets(app_page)
 
             self.control_variables.reset()
-
-    @check_type
-    def __show_dialog_error(self, error: str, app_page: Page):
-        """
-        Show a dialog with the specified error.
-
-        :param error: Error message
-        :param app_page: Reference to the app window
-        """
-        self.button_close_dialog.change_function(
-            self.error_dialog.change_state, app_page
-        )
-        self.error_dialog.content_text.set_text(error)
-        self.__overlay(app_page)
-        app_page.dialog = self.error_dialog
-        self.error_dialog.change_state(app_page)
 
     @check_type
     def __overlay(self, app_page: Page):
