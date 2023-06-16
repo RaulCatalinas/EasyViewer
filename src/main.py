@@ -4,8 +4,8 @@ from threading import Thread
 
 from flet import Page, CrossAxisAlignment, app
 
-from backend import Download, Validations, ShutdownHandler
-from components import IndexUI, ErrorDialog
+from backend import Download, Validations, ShutdownHandler, Update
+from components import IndexUI, ErrorDialog, UpdateDialog
 from config import GetConfigJson, EnvironmentVariables
 from control import ControlVariables
 from modify_gui import ChangeTheme
@@ -18,6 +18,7 @@ class Main:
         # Class instantiation
         self.control_variables = ControlVariables()
         self.validations = Validations()
+        self.updater = Update()
 
         # Set initial theme and language
         ChangeTheme.set_initial_theme(app_page)
@@ -26,6 +27,9 @@ class Main:
         # Instantiation of classes that depend on the window to start
         self.error_dialog = ErrorDialog(app_page=app_page, overlay=self.__overlay)
         self.shutdown_handler = ShutdownHandler(app_page)
+        self.update_dialog = UpdateDialog(
+            app_page=app_page, overlay=self.__overlay, update=self.updater.update
+        )
 
         # Set initial values
         self.control_variables.set_initial_values(app_page)
@@ -63,12 +67,20 @@ class Main:
         # Add items to the page in a separate thread
         Thread(
             target=app_page.add,
-            args=[*index_ui.get_elements(), self.error_dialog, self.shutdown_handler],
+            args=[
+                *index_ui.get_elements(),
+                self.error_dialog,
+                self.shutdown_handler,
+                self.update_dialog,
+            ],
             daemon=False,
         ).start()
 
         # Overlay dialogs
         Thread(target=self.__overlay, args=[app_page], daemon=False).start()
+
+        # Run the check for available updates in a separate thread
+        Thread(target=self.__check_updates, daemon=False).start()
 
     @check_type
     def __configure_window(self, app_page: Page):
@@ -187,6 +199,18 @@ class Main:
         self.button_download_video.toggle_state(app_page)
         self.button_download_audio.toggle_state(app_page)
         self.input_url.toggle_state(app_page)
+
+    def __check_updates(self):
+        """
+        Checks for updates and shows a dialog if a new release is available.
+
+        Retrieves the latest version information using the `is_new_release_available` method of the `updater` instance.
+
+        If a new release is available, it shows the update dialog.
+        """
+
+        if self.updater.is_new_release_available():
+            self.update_dialog.show_update_dialog()
 
 
 if __name__ == "__main__":
