@@ -41,7 +41,7 @@ class InteractAPIPytube:
             downloaded_file_type = "audio" if not download_video else "video"
 
             self.control_variables.set_control_variable(
-                option="DOWNLOAD_NAME",
+                control_variable="DOWNLOAD_NAME",
                 value=f"{title_for_the_file}.{extension_file}",
             )
 
