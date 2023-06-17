@@ -43,6 +43,10 @@ def build():
         "osutils;osutils",
         "--add-data",
         "utils;utils",
+        "--add-data",
+        "pyproject.toml;pyproject.toml",
+        "--add-data",
+        "github_credentials.py;github_credentials.py",
     ]
 
     try:
