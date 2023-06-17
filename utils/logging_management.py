@@ -1,4 +1,4 @@
-from logging import info, basicConfig, error, DEBUG
+from logging import info, basicConfig, error
 from os import mkdir
 from os.path import exists
 
@@ -44,5 +44,4 @@ class LoggingManagement:
             filemode="w+",
             filename="Log/App.log",
             format="%(asctime)s -> %(levelname)s: %(message)s",
-            level=DEBUG,
         )
