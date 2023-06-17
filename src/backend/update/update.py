@@ -7,6 +7,7 @@ from tomllib import load
 from github import Github
 
 from github_credentials import Email, PASSWORD
+from webbrowser import open_new_tab
 
 
 class Update(Github):
@@ -107,9 +108,11 @@ class Update(Github):
 
     def update(self):
         """
-        Updates the application to the latest available version.
+        Opens the browser to the latest release page on GitHub.
 
-        Downloads the latest version from GitHub, extracts the files, replaces the previous version, and executes the new version of the application.
+        This method opens the user's default web browser and navigates to the latest release page of the application's repository on GitHub.
+
+        Users can manually download the latest version from the release page.
         """
 
-        print("Update")
+        open_new_tab("https://github.com/RaulCatalinas/EasyViewer/releases/latest")
