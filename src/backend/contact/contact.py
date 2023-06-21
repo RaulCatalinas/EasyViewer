@@ -4,7 +4,7 @@ Control the logic to be able to contact the developer
 
 from webbrowser import open_new_tab
 
-from flet import Dropdown, Page, IconButton, AppBar
+from flet import Dropdown, Page, IconButton, AppBar, Checkbox
 
 from frontend import ContactUI
 from utils import check_type
@@ -23,12 +23,16 @@ class Contact(ContactUI):
         appbar: AppBar,
         icon_contact: IconButton,
         icon_theme: IconButton,
+        icon_update: IconButton,
+        checkbox: Checkbox,
     ):
         self.dropdown_language = dropdown_language
         self.page = page
         self.appbar = appbar
         self.icon_contact = icon_contact
         self.icon_theme = icon_theme
+        self.icon_update = icon_update
+        self.checkbox = checkbox
 
         self.social_networks = {
             "Facebook": "https://www.facebook.com/profile.php?id=100063559000286",
@@ -44,6 +48,8 @@ class Contact(ContactUI):
             icon_theme=self.icon_theme,
             icon_contact=self.icon_contact,
             callback=self.__contact,
+            checkbox=self.checkbox,
+            icon_update=self.icon_update,
         )
 
     def __contact(self):
@@ -62,5 +68,7 @@ class Contact(ContactUI):
             self.appbar.change_height(63)
 
             self.icon_theme.change_offset(offset_x=0, offset_y=0)
+            self.icon_update.change_offset(offset_x=0, offset_y=0)
+            self.checkbox.change_offset(offset_x=0, offset_y=0)
 
         return self.page.update(self, self.appbar)

@@ -8,7 +8,7 @@ from .taskbar_ui import TaskBarUI
 
 
 class IndexUI:
-    def __init__(self, page, download, video_location, shutdown_handler):
+    def __init__(self, page, download, video_location, shutdown_handler, check_updates):
         from backend import SelectDirectory
 
         self.input_url = CreateInputs(
@@ -66,18 +66,19 @@ class IndexUI:
             offset_y=23,
         )
 
-        taskbar_ui = TaskBarUI(
+        self.taskbar_ui = TaskBarUI(
             page=page,
             input_url=self.input_url,
             input_directory=self.input_directory,
             close_dialog=shutdown_handler,
             button_exit_the_app=shutdown_handler.button_exit_the_app,
+            check_updates=check_updates,
         )
 
-        self.taskbar = TaskBar(taskbar_ui.get_elements())
+        self.taskbar = TaskBar(self.taskbar_ui.get_elements())
 
-        taskbar_ui.dropdown_contact.appbar = self.taskbar
-        taskbar_ui.dropdown_language.appbar = self.taskbar
+        self.taskbar_ui.dropdown_contact.appbar = self.taskbar
+        self.taskbar_ui.dropdown_language.appbar = self.taskbar
 
     def get_elements(self):
         return [
@@ -90,3 +91,9 @@ class IndexUI:
             self.taskbar,
             self.select_directory,
         ]
+
+    def get_checkbox(self):
+        return self.taskbar_ui.checkbox
+
+    def get_icon_update(self):
+        return self.taskbar_ui.icon_update

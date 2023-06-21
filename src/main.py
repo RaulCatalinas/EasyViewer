@@ -6,7 +6,7 @@ from flet import Page, CrossAxisAlignment, app
 
 from backend import Download, Validations, ShutdownHandler, Update
 from components import IndexUI, ErrorDialog, UpdateDialog
-from config import GetConfigJson, EnvironmentVariables
+from config import GetConfigJson, EnvironmentVariables, ExcelTextLoader
 from control import ControlVariables
 from modify_gui import ChangeTheme
 from osutils import FileHandler
@@ -18,7 +18,7 @@ class Main:
         # Class instantiation
         self.control_variables = ControlVariables()
         self.validations = Validations()
-        self.updater = Update()
+        self.updater = Update(page=app_page, update_dialog=None)
 
         # Set initial theme and language
         ChangeTheme.set_initial_theme(app_page)
@@ -30,6 +30,7 @@ class Main:
         self.update_dialog = UpdateDialog(
             app_page=app_page, overlay=self.__overlay, update=self.updater.update
         )
+        self.updater.update_dialog = self.update_dialog
 
         # Set initial values
         self.control_variables.set_initial_values(app_page)
@@ -45,6 +46,7 @@ class Main:
                 "VIDEO_LOCATION"
             ),
             shutdown_handler=self.shutdown_handler,
+            check_updates=self.__check_updates,
         )
 
         (
@@ -57,6 +59,8 @@ class Main:
             _,
             _,
         ) = index_ui.get_elements()
+
+        self.checkbox = index_ui.get_checkbox()
 
         self.download = Download(
             page=app_page,
@@ -80,7 +84,8 @@ class Main:
         Thread(target=self.__overlay, args=[app_page], daemon=False).start()
 
         # Run the check for available updates in a separate thread
-        Thread(target=self.__check_updates, daemon=False).start()
+        if self.checkbox.get_value():
+            Thread(target=self.__check_updates, args=[app_page], daemon=False).start()
 
     @check_type
     def __configure_window(self, app_page: Page):
@@ -200,7 +205,8 @@ class Main:
         self.button_download_audio.toggle_state(app_page)
         self.input_url.toggle_state(app_page)
 
-    def __check_updates(self):
+    @check_type
+    def __check_updates(self, app_page: Page, is_main: bool = True):
         """
         Checks for updates and shows a dialog if a new release is available.
 
@@ -209,7 +215,20 @@ class Main:
         If a new release is available, it shows the update dialog.
         """
 
-        if self.updater.is_new_release_available():
+        is_new_release_available = self.updater.is_new_release_available()
+
+        if is_new_release_available:
+            self.update_dialog.show_update_dialog()
+
+        elif not is_new_release_available and not is_main:
+            self.update_dialog.update_title(ExcelTextLoader.get_text(21))
+            self.update_dialog.update_content(ExcelTextLoader.get_text(22))
+            self.update_dialog.button_update.change_text("Ok")
+            self.update_dialog.button_update.change_function(
+                self.update_dialog.change_state, app_page
+            )
+            self.update_dialog.actions = [self.update_dialog.button_update]
+
             self.update_dialog.show_update_dialog()
 
 

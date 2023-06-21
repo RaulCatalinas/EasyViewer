@@ -3,6 +3,7 @@ from .create_buttons import (
     CreateOutlinedButton,
     CreateIconButton,
 )
+from .create_checkbox import CreateCheckbox
 from .create_dialog import CreateDialog
 from .create_inputs import CreateInputs
 from .create_text import CreateText
@@ -19,4 +20,5 @@ __all__ = [
     "CreateInputs",
     "CreateText",
     "CreateButton",
+    "CreateCheckbox",
 ]

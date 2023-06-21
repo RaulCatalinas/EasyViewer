@@ -3,11 +3,11 @@ Handles application updates through GitHub.
 """
 
 from tomllib import load
+from webbrowser import open_new_tab
 
 from github import Github
 
 from github_credentials import Email, PASSWORD
-from webbrowser import open_new_tab
 
 
 class Update(Github):
@@ -15,7 +15,10 @@ class Update(Github):
     Handles application updates through GitHub.
     """
 
-    def __init__(self):
+    def __init__(self, page, update_dialog):
+        self.page = page
+        self.update_dialog = update_dialog
+
         super().__init__(login_or_token=Email, password=PASSWORD)
 
     def __get_user(self):
@@ -116,3 +119,5 @@ class Update(Github):
         """
 
         open_new_tab("https://github.com/RaulCatalinas/EasyViewer/releases/latest")
+
+        self.update_dialog.change_state(self.page)

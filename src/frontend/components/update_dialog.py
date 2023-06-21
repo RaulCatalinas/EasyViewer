@@ -18,14 +18,14 @@ class UpdateDialog(CreateDialog):
         )
 
         self.button_later = CreateOutlinedButton(
-            text_button=ExcelTextLoader.get_text(20),
+            text_button=ExcelTextLoader.get_text(19),
             function=lambda e: self.change_state(app_page),
         )
 
         super().__init__(
-            title=ExcelTextLoader.get_text(18),
+            title=ExcelTextLoader.get_text(17),
             title_size=23,
-            content=ExcelTextLoader.get_text(19),
+            content=ExcelTextLoader.get_text(18),
             content_size=23,
             actions=[self.button_update, self.button_later],
             actions_alignment=CrossAxisAlignment.END,

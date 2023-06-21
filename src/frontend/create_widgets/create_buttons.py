@@ -41,6 +41,11 @@ class CreateIconButton(InterfaceIconButton, IconButton):
     def change_offset(self, offset_x: int, offset_y: int):
         self.offset = Offset(offset_x, offset_y)
 
+    @check_type
+    def set_visibility(self, visible: bool, page: Page):
+        self.visible = visible
+        page.update(self)
+
 
 class CreateElevatedButton(InterfaceTextButton, ElevatedButton):
     """

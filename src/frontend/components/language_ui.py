@@ -10,6 +10,7 @@ from flet import (
     TextField,
     AlertDialog,
     ElevatedButton,
+    Checkbox,
 )
 
 from config import ExcelTextLoader, EnvironmentVariables
@@ -30,6 +31,8 @@ class LanguageUI(Dropdown):
         icon_theme: IconButton,
         button_exit_the_app: ElevatedButton,
         callback: Callable,
+        icon_update: IconButton,
+        checkbox: Checkbox,
     ):
         self.appbar = appbar
         self.page = page
@@ -40,6 +43,8 @@ class LanguageUI(Dropdown):
         self.icon_language = icon_language
         self.icon_theme = icon_theme
         self.button_exit_the_app = button_exit_the_app
+        self.icon_update = icon_update
+        self.checkbox = checkbox
 
         super().__init__(
             options=[
@@ -61,18 +66,28 @@ class LanguageUI(Dropdown):
             self.visible = True
             self.appbar.change_height(114)
 
-            self.icon_language.change_offset(offset_x=6.50, offset_y=0.3)
+            self.icon_language.change_offset(offset_x=0, offset_y=0.3)
             self.icon_theme.change_offset(offset_x=0, offset_y=-0.65)
+            self.checkbox.change_offset(offset_x=0, offset_y=-0.79)
+            self.icon_update.change_offset(
+                offset_x=(
+                    -2.61 if self.visible and self.dropdown_contact.is_visible() else 0
+                ),
+                offset_y=-0.62,
+            )
 
             return self.page.update(self, self.appbar)
 
         self.visible = False
         self.icon_language.change_offset(offset_x=0, offset_y=0.3)
+        self.icon_update.change_offset(offset_x=0, offset_y=-0.62)
 
         if not self.dropdown_contact.is_visible():
             self.appbar.change_height(63)
 
             self.icon_theme.change_offset(offset_x=0, offset_y=0)
+            self.icon_update.change_offset(offset_x=0, offset_y=0)
+            self.checkbox.change_offset(offset_x=0, offset_y=0)
 
         return self.page.update(self, self.appbar)
 

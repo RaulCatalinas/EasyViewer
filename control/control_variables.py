@@ -80,7 +80,10 @@ class ControlVariables:
         """
 
         video_location = self.get_control_variable("VIDEO_LOCATION")
+        checkbox_value = self.get_control_variable("checkbox_value")
+
         page.client_storage.set("video_location", video_location)
+        page.client_storage.set("checkbox", checkbox_value)
 
     @check_type
     def set_initial_values(self, page: Page):
@@ -91,7 +94,10 @@ class ControlVariables:
         """
 
         video_location = page.client_storage.get("video_location")
+        checkbox = page.client_storage.get("checkbox")
+
         self.set_control_variable("VIDEO_LOCATION", video_location)
+        self.set_control_variable("checkbox_value", checkbox)
 
     def reset(self):
         """

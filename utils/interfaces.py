@@ -27,6 +27,10 @@ class InterfaceIconButton(ABC):
         :param offset_y: y-coordinate offset
         """
 
+    @abstractmethod
+    def set_visibility(self, visible: bool):
+        """ """
+
 
 class InterfaceTextButton(ABC):
     """

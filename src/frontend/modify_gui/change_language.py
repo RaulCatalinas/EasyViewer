@@ -22,6 +22,8 @@ class ChangeLanguage(LanguageUI):
         icon_language,
         icon_theme,
         button_exit_the_app,
+        icon_update,
+        checkbox,
     ):
         self.appbar = appbar
         self.page = page
@@ -32,6 +34,8 @@ class ChangeLanguage(LanguageUI):
         self.icon_language = icon_language
         self.icon_theme = icon_theme
         self.button_exit_the_app = button_exit_the_app
+        self.icon_update = icon_update
+        self.check_box = checkbox
 
         super().__init__(
             appbar=self.appbar,
@@ -44,6 +48,8 @@ class ChangeLanguage(LanguageUI):
             icon_theme=self.icon_theme,
             button_exit_the_app=self.button_exit_the_app,
             callback=self.__change_language,
+            icon_update=self.icon_update,
+            checkbox=self.check_box,
         )
 
     @check_type
@@ -79,11 +85,14 @@ class ChangeLanguage(LanguageUI):
         self.dropdown_contact.change_placeholder(ExcelTextLoader.get_text(16))
 
         self.icon_language.change_offset(offset_x=0, offset_y=0.3)
+        self.check_box.set_label(ExcelTextLoader.get_text(20))
 
         if not self.dropdown_contact.is_visible():
             self.appbar.change_height(63)
 
             self.icon_theme.change_offset(offset_x=0, offset_y=0)
+            self.icon_update.change_offset(offset_x=0, offset_y=0)
+            self.check_box.change_offset(offset_x=0, offset_y=0)
 
         return self.page.update(
             self.appbar,
@@ -93,4 +102,5 @@ class ChangeLanguage(LanguageUI):
             self.dropdown_contact,
             self.button_exit_the_app,
             self.close_dialog,
+            self.check_box,
         )
