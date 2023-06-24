@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "EasyViewer"
-version = "2.0.0"
+version = "2.0"
 description = "App to download youtube videos"
 authors = ["Raul Catalinas <105791463+RaulCatalinas@users.noreply.github.com>"]
 readme = "README.md"
@@ -13,7 +13,7 @@ pandas = ">=2.0.2"
 openpyxl = ">=3.1.2"
 pytube = ">=15.0.0"
 flet = ">=0.7.4"
-pygithub = ">=1.58.2"
+pygithub = ">=1.59.0"
 
 
 [tool.poetry.group.dev.dependencies]

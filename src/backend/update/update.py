@@ -7,6 +7,7 @@ from webbrowser import open_new_tab
 
 from github import Github
 
+from cache import CacheManager
 from github_credentials import Email, PASSWORD
 
 
@@ -19,7 +20,16 @@ class Update(Github):
         self.page = page
         self.update_dialog = update_dialog
 
-        super().__init__(login_or_token=Email, password=PASSWORD)
+        array_versions = CacheManager.read_cache()
+
+        self.length_array_versions = len(array_versions)
+
+        if self.length_array_versions != 0:
+            self.release_version = array_versions[0]["release_version"]
+            self.user_version = array_versions[1]["user_version"]
+
+        elif self.length_array_versions == 0:
+            super().__init__(login_or_token=Email, password=PASSWORD)
 
     def __get_user(self):
         """
@@ -77,9 +87,15 @@ class Update(Github):
             str: The version number of the latest release.
         """
 
-        download_url = self.__get_download_url()
+        if self.length_array_versions != 0:
+            return self.release_version
 
-        return download_url.split("/")[-2].replace("v", "")
+        download_url = self.__get_download_url()
+        release_version = download_url.split("/")[-2].replace("v", "")
+
+        CacheManager.write_cache("release_version", release_version)
+
+        return release_version
 
     def __get_user_version(self):
         """
@@ -89,10 +105,17 @@ class Update(Github):
             str: The version number of the user's current application.
         """
 
+        if self.length_array_versions != 0:
+            return self.user_version
+
         with open("../pyproject.toml", mode="rb") as f:
             data = load(f, parse_float=float)
 
-        return data["tool"]["poetry"]["version"]
+        user_version = data["tool"]["poetry"]["version"]
+
+        CacheManager.write_cache("user_version", user_version)
+
+        return user_version
 
     def is_new_release_available(self):
         """

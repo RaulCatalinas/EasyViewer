@@ -30,3 +30,5 @@ INVALID_CHARS = {"Windows": r'[<>:/\\"|?*]', "Darwin": r"[:/]", "Linux": r"[/]"}
 SYSTEM_NAME = system()
 
 ENABLED_TYPE_CHECKING = True
+
+CACHE_FILE = "github_cache.json"

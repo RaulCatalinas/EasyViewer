@@ -5,6 +5,7 @@ from .constants import (
     CONFIG_FILES,
     SYSTEM_NAME,
     ENABLED_TYPE_CHECKING,
+    CACHE_FILE,
 )
 from .interfaces import InterfaceTextButton, InterfaceIconButton
 from .logging_management import LoggingManagement
@@ -21,4 +22,5 @@ __all__ = [
     "ENABLED_TYPE_CHECKING",
     "InterfaceTextButton",
     "InterfaceIconButton",
+    "CACHE_FILE",
 ]
