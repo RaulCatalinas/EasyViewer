@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "EasyViewer"
-version = "2.0"
+version = "2.1.0"
 description = "App to download youtube videos"
 authors = ["Raul Catalinas <105791463+RaulCatalinas@users.noreply.github.com>"]
 readme = "README.md"

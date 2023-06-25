@@ -4,7 +4,7 @@ from subprocess import run, CalledProcessError
 
 from utils import ENABLED_TYPE_CHECKING
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 
 
 def build():
