@@ -20,8 +20,9 @@ class Update(Github):
         self.page = page
         self.update_dialog = update_dialog
 
-        array_versions = CacheManager.read_cache()
+        CacheManager.reset_cache_if_expired()
 
+        array_versions = CacheManager.read_cache()
         self.length_array_versions = len(array_versions)
 
         if self.length_array_versions != 0:

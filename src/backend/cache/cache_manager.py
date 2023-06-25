@@ -1,3 +1,4 @@
+from datetime import timedelta, datetime
 from json import load, dump, JSONDecodeError
 from os.path import exists
 from time import time
@@ -42,3 +43,25 @@ class CacheManager:
 
         except Exception as e:
             LoggingManagement.write_error(str(e))
+
+    @staticmethod
+    def reset_cache_if_expired():
+        with open(CACHE_FILE, mode="r", encoding="utf-8") as file:
+            try:
+                cache_data = load(file)
+
+                if len(cache_data) == 0:
+                    return
+
+                current_time = datetime.now()
+
+                for data in cache_data:
+                    timestamp = data.get("timestamp")
+                    cache_time = datetime.fromtimestamp(timestamp)
+                    expiration_time = cache_time + timedelta(days=30)
+
+                    if current_time > expiration_time:
+                        CacheManager.__create_json_cache()
+
+            except (JSONDecodeError, KeyError) as e:
+                LoggingManagement.write_error(str(e))
