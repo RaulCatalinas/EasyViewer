@@ -58,4 +58,4 @@ class InteractAPIPytube:
         except Exception as exception:
             LoggingManagement.write_error(str(exception))
 
-            raise Exception(ExcelTextLoader.get_text(17)) from exception
+            raise Exception(ExcelTextLoader.get_text(23)) from exception

@@ -7,6 +7,7 @@ from typing import Callable
 
 from flet import Page
 
+from config import ExcelTextLoader
 from control import ControlVariables
 from utils import LoggingManagement, check_type
 from .interact_api_pytube import InteractAPIPytube
@@ -47,13 +48,13 @@ class Download:
             )
 
         except Exception as exception:
-            self.toggle_state_widgets(self.page)
-
             LoggingManagement.write_error(str(exception))
+
+            self.toggle_state_widgets(self.page)
 
             self.update_progressbar(new_value=0, page=self.page)
 
-            raise Exception(exception) from exception
+            raise Exception(ExcelTextLoader.get_text(23)) from exception
 
         startfile(ControlVariables().get_control_variable("VIDEO_LOCATION"))
 
