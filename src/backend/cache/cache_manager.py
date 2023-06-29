@@ -1,16 +1,26 @@
+"""
+Control the application cache
+"""
+
 from datetime import timedelta, datetime
 from json import load, dump, JSONDecodeError
-from os.path import exists
 from time import time
 
 from utils import CACHE_FILE, LoggingManagement
 
 
 class CacheManager:
+    """
+    Reads, writes, and manages the cache file, including handling JSON decoding errors and checking cache expiration.
+    """
+
     @staticmethod
     def read_cache():
-        if not exists(CACHE_FILE):
-            CacheManager.__create_json_cache()
+        """
+        Reads cache data
+
+        :return: Data loaded from the cache
+        """
 
         with open(CACHE_FILE, mode="r", encoding="utf-8") as file:
             try:
@@ -23,6 +33,14 @@ class CacheManager:
 
     @staticmethod
     def write_cache(key, data):
+        """
+        Writes data to the cache, along with a timestamp.
+
+        :param key: It's a unique identifier for the data that is stored in the cache. Used to associate data with a specific key in the cache
+
+        :param data: This is the information you want to cache. It can be any type of data, such as a string, number, list, dictionary, etc.
+        """
+
         try:
             array = CacheManager.read_cache()
             cached_data = {key: data, "timestamp": int(time())}
@@ -36,7 +54,11 @@ class CacheManager:
             LoggingManagement.write_error(str(e))
 
     @staticmethod
-    def __create_json_cache():
+    def create_json_cache():
+        """
+        Creates an empty JSON cache file.
+        """
+
         try:
             with open(CACHE_FILE, mode="w", encoding="utf-8") as file:
                 file.write("[]")
@@ -46,6 +68,10 @@ class CacheManager:
 
     @staticmethod
     def reset_cache_if_expired():
+        """
+        Check if cached data has expired and reset it if necessary
+        """
+
         with open(CACHE_FILE, mode="r", encoding="utf-8") as file:
             try:
                 cache_data = load(file)
@@ -61,7 +87,7 @@ class CacheManager:
                     expiration_time = cache_time + timedelta(days=30)
 
                     if current_time > expiration_time:
-                        CacheManager.__create_json_cache()
+                        CacheManager.create_json_cache()
 
             except (JSONDecodeError, KeyError) as e:
                 LoggingManagement.write_error(str(e))

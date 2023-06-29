@@ -2,6 +2,7 @@
 Handles application updates through GitHub.
 """
 
+from os.path import exists
 from tomllib import load
 from webbrowser import open_new_tab
 
@@ -9,6 +10,7 @@ from github import Github
 
 from cache import CacheManager
 from github_credentials import Email, PASSWORD
+from utils import CACHE_FILE
 
 
 class Update(Github):
@@ -19,6 +21,9 @@ class Update(Github):
     def __init__(self, page, update_dialog):
         self.page = page
         self.update_dialog = update_dialog
+
+        if not exists(CACHE_FILE):
+            CacheManager.create_json_cache()
 
         CacheManager.reset_cache_if_expired()
 
