@@ -17,8 +17,9 @@ class Validations:
     Validating various aspects of a YouTube video download request
     """
 
+    @staticmethod
     @check_type
-    def check_if_a_url_has_been_entered(self, url: str) -> bool:
+    def check_if_a_url_has_been_entered(url: str) -> bool:
         """
         Checks if a URL has been entered.
 
@@ -34,8 +35,9 @@ class Validations:
         LoggingManagement.write_log("A URL has been entered")
         return True
 
+    @staticmethod
     @check_type
-    def check_if_is_url_youtube(self, url: str) -> bool:
+    def check_if_is_url_youtube(url: str) -> bool:
         """
         This function checks if a given URL is from YouTube.
 
@@ -51,9 +53,9 @@ class Validations:
         LoggingManagement.write_error("The URL is not from YouTube")
         raise ValueError(ExcelTextLoader.get_text(11))
 
+    @staticmethod
     @check_type
     def check_if_directory_is_selected(
-        self,
         input_directory: str,
         page: Page,
         video_location: str,
@@ -86,7 +88,8 @@ class Validations:
 
         return True
 
-    def check_internet_connection(self) -> bool:
+    @staticmethod
+    def check_internet_connection() -> bool:
         """
         Checks if there is an internet connection by attempting to connect to Google.
 
@@ -103,8 +106,9 @@ class Validations:
         LoggingManagement.write_log("Internet connection is available")
         return True
 
+    @staticmethod
     @check_type
-    def check_if_the_video_is_available(self, url: str) -> bool:
+    def check_if_the_video_is_available(url: str) -> bool:
         """
         This function checks if a YouTube video is available by attempting to access its URL.
 
