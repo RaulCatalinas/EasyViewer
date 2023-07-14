@@ -15,16 +15,31 @@ from utils import LoggingManagement, check_type, ENABLED_TYPE_CHECKING
 
 class Main:
     def __init__(self, app_page: Page):
-        # Class instantiation
+        """
+        Initializes the Main class.
+
+        Args:
+            app_page (Page): Reference to the app window.
+        """
+
         self.control_variables = ControlVariables()
-        self.validations = Validations()
         self.updater = Update(page=app_page, update_dialog=None)
 
-        # Set initial theme and language
+        self.__initialize_app(app_page)
+        self.__configure_window(app_page)
+        self.__add_items_to_page(app_page)
+
+    def __initialize_app(self, app_page: Page):
+        """
+        Initializes the app by setting up initial values and instantiating necessary classes.
+
+        Args:
+            app_page (Page): Reference to the app window.
+        """
+
         ChangeTheme.set_initial_theme(app_page)
         EnvironmentVariables.set_initial_language(app_page)
 
-        # Instantiation of classes that depend on the window to start
         self.error_dialog = ErrorDialog(app_page=app_page, overlay=self.__overlay)
         self.shutdown_handler = ShutdownHandler(app_page)
         self.update_dialog = UpdateDialog(
@@ -32,13 +47,38 @@ class Main:
         )
         self.updater.update_dialog = self.update_dialog
 
-        # Set initial values
         self.control_variables.set_initial_values(app_page)
 
-        # Set window properties
-        self.__configure_window(app_page)
+    def __configure_window(self, app_page: Page):
+        """
+        Configures the window properties of the app page.
 
-        # Create index items
+        Args:
+            app_page (Page): Reference to the app window.
+        """
+
+        app_page.title = GetConfigJson.get_config_json("WINDOW", "TITLE")
+        app_page.window_width = GetConfigJson.get_config_json("WINDOW", "WIDTH")
+        app_page.window_height = GetConfigJson.get_config_json("WINDOW", "HIGH")
+        app_page.window_center()
+        app_page.horizontal_alignment = CrossAxisAlignment.CENTER
+        app_page.vertical_alignment = CrossAxisAlignment.CENTER
+        app_page.window_resizable = False
+        app_page.window_maximizable = False
+        app_page.theme_mode = ChangeTheme.get_theme(app_page)
+        app_page.window_prevent_close = True
+        app_page.on_window_event = lambda e: self.__event_close_window(
+            event=e, app_page=app_page
+        )
+
+    def __add_items_to_page(self, app_page: Page):
+        """
+        Adds items to the app page.
+
+        Args:
+            app_page (Page): Reference to the app window.
+        """
+
         index_ui = IndexUI(
             page=app_page,
             download=self.__download,
@@ -68,7 +108,6 @@ class Main:
             update_progressbar=progress_bar.update_value,
         )
 
-        # Add items to the page in a separate thread
         Thread(
             target=app_page.add,
             args=[
@@ -80,40 +119,20 @@ class Main:
             daemon=False,
         ).start()
 
-        # Overlay dialogs
         Thread(target=self.__overlay, args=[app_page], daemon=False).start()
 
-        # Run the check for available updates in a separate thread
         if self.checkbox.get_value():
             Thread(target=self.__check_updates, args=[app_page], daemon=False).start()
-
-    @check_type
-    def __configure_window(self, app_page: Page):
-        """
-        Configures the window properties of the app page.
-
-        :param app_page: Reference to the app window
-        """
-        app_page.title = GetConfigJson.get_config_json("WINDOW", "TITLE")
-        app_page.window_width = GetConfigJson.get_config_json("WINDOW", "WIDTH")
-        app_page.window_height = GetConfigJson.get_config_json("WINDOW", "HIGH")
-        app_page.window_center()
-        app_page.horizontal_alignment = CrossAxisAlignment.CENTER
-        app_page.vertical_alignment = CrossAxisAlignment.CENTER
-        app_page.window_resizable = False
-        app_page.window_maximizable = False
-        app_page.theme_mode = ChangeTheme.get_theme(app_page)
-        app_page.window_prevent_close = True
-        app_page.on_window_event = lambda e: self.__event_close_window(
-            event=e, app_page=app_page
-        )
 
     def __event_close_window(self, event, app_page):
         """
         Event handler for the window close event.
 
-        :param event: Window event data
+        Args:
+            event (EventData): Window event data.
+            app_page (Page): Reference to the app window.
         """
+
         if event.data == "close":
             self.__overlay(app_page)
             app_page.dialog = self.shutdown_handler
@@ -126,17 +145,16 @@ class Main:
     @check_type
     def __download(self, app_page: Page, download_video: bool):
         """
-        Download the video if the parameter "download video" is true, otherwise it'll download the audio of the video
+        Download the video if `download_video` is True, otherwise download the audio.
 
-        :param app_page: Is a reference to the app window
-
-        :param download_video: boolean, if it's true it'll download the video, if it's false it'll download the audio of the video
+        Args:
+            app_page (Page): Reference to the app window.
+            download_video (bool): Indicates whether to download the video or audio.
         """
 
-        url = self.input_url.get_value()
-
+        url_to_save = self.input_url.get_value()
         self.control_variables.set_control_variable(
-            control_variable="URL_VIDEO", value=url
+            control_variable="URL_VIDEO", value=url_to_save
         )
 
         try:
@@ -145,37 +163,21 @@ class Main:
                 "VIDEO_LOCATION"
             )
 
-            validations_passed = (
-                self.validations.check_if_a_url_has_been_entered(url)
-                and self.validations.check_if_is_url_youtube(url)
-                and self.validations.check_if_directory_is_selected(
-                    input_directory=self.input_directory,
-                    page=app_page,
-                    video_location=video_location,
-                )
-                and self.validations.check_internet_connection()
-                and self.validations.check_if_the_video_is_available(url)
-            )
-
-            if validations_passed:
+            if self.__validate_download(url, app_page, video_location):
                 self.download.download(download_video)
 
         except Exception as exception:
             self.error_dialog.show_error_dialog(str(exception))
-
             video_location = self.control_variables.get_control_variable(
                 "VIDEO_LOCATION"
             )
             download_name = self.control_variables.get_control_variable("DOWNLOAD_NAME")
-
             FileHandler.delete_file(
                 path_to_file=video_location,
                 download_name=download_name,
                 callback=self.control_variables.reset,
             )
-
             self.__toggle_state_widgets(app_page)
-
             self.control_variables.reset()
 
     @check_type
@@ -183,12 +185,11 @@ class Main:
         """
         Add dialogs to the overlay of the specified page.
 
-        :param app_page: Reference to the app window
+        Args:
+            app_page (Page): Reference to the app window.
         """
-        to_add_to_the_overlay_of_the_page = [
-            self.shutdown_handler,
-            self.error_dialog,
-        ]
+
+        to_add_to_the_overlay_of_the_page = [self.shutdown_handler, self.error_dialog]
 
         for dialog in to_add_to_the_overlay_of_the_page:
             app_page.overlay.append(dialog)
@@ -198,8 +199,10 @@ class Main:
         """
         Toggle the state of various widgets.
 
-        :param app_page: Reference to the app window
+        Args:
+            app_page (Page): Reference to the app window.
         """
+
         self.button_directory.toggle_state(app_page)
         self.button_download_video.toggle_state(app_page)
         self.button_download_audio.toggle_state(app_page)
@@ -210,9 +213,9 @@ class Main:
         """
         Checks for updates and shows a dialog if a new release is available.
 
-        Retrieves the latest version information using the `is_new_release_available` method of the `updater` instance.
-
-        If a new release is available, it shows the update dialog.
+        Args:
+            app_page (Page): Reference to the app window.
+            is_main (bool): Indicates if it's the main update check (default is True).
         """
 
         is_new_release_available = self.updater.is_new_release_available()
@@ -228,8 +231,33 @@ class Main:
                 self.update_dialog.change_state, app_page
             )
             self.update_dialog.actions = [self.update_dialog.button_update]
-
             self.update_dialog.show_update_dialog()
+
+    @check_type
+    def __validate_download(self, url: str, app_page: Page, video_location: str):
+        """
+        Validates the download parameters.
+
+        Args:
+            url (str): The URL of the video.
+            app_page (Page): Reference to the app window.
+            video_location (str): The location to save the video.
+
+        Returns:
+            bool: True if all validations pass, False otherwise.
+        """
+
+        return (
+            Validations.check_if_a_url_has_been_entered(url)
+            and Validations.check_if_is_url_youtube(url)
+            and Validations.check_if_directory_is_selected(
+                input_directory=self.input_directory,
+                page=app_page,
+                video_location=video_location,
+            )
+            and Validations.check_internet_connection()
+            and Validations.check_if_the_video_is_available(url)
+        )
 
 
 if __name__ == "__main__":
