@@ -230,13 +230,13 @@ files = [
 
 [[package]]
 name = "copier"
-version = "8.0.0"
+version = "8.1.0"
 description = "A library for rendering project templates."
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "copier-8.0.0-py3-none-any.whl", hash = "sha256:adad3b4c8101584ea2c2e2580e34f37e791940ae103e2480ae9f509d32e6cb0b"},
-    {file = "copier-8.0.0.tar.gz", hash = "sha256:a204c3aba22fd97ce69220ea378b924e30d516eca0e7885ab1857fde8b8dc5c5"},
+    {file = "copier-8.1.0-py3-none-any.whl", hash = "sha256:56537163b1b24441a63504ebf56b8db588dee20b48ef4fc374a6c5a2b43010c1"},
+    {file = "copier-8.1.0.tar.gz", hash = "sha256:902b4eb65fafe7a1621991234d2ebf3bc3fc9323e64e3a2560a00c05c73f6229"},
 ]
 
 [package.dependencies]
@@ -249,7 +249,7 @@ jinja2-ansible-filters = ">=1.3.1"
 packaging = ">=23.0"
 pathspec = ">=0.9.0"
 plumbum = ">=1.6.9"
-pydantic = ">=1.10.2"
+pydantic = ">=1.10.2,<2"
 pygments = ">=2.7.1"
 pyyaml = ">=5.3.1"
 pyyaml-include = ">=1.2"
@@ -257,30 +257,34 @@ questionary = ">=1.8.1"
 
 [[package]]
 name = "cryptography"
-version = "41.0.1"
+version = "41.0.2"
 description = "cryptography is a package which provides cryptographic recipes and primitives to Python developers."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "cryptography-41.0.1-cp37-abi3-macosx_10_12_universal2.whl", hash = "sha256:f73bff05db2a3e5974a6fd248af2566134d8981fd7ab012e5dd4ddb1d9a70699"},
-    {file = "cryptography-41.0.1-cp37-abi3-macosx_10_12_x86_64.whl", hash = "sha256:1a5472d40c8f8e91ff7a3d8ac6dfa363d8e3138b961529c996f3e2df0c7a411a"},
-    {file = "cryptography-41.0.1-cp37-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:7fa01527046ca5facdf973eef2535a27fec4cb651e4daec4d043ef63f6ecd4ca"},
-    {file = "cryptography-41.0.1-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b46e37db3cc267b4dea1f56da7346c9727e1209aa98487179ee8ebed09d21e43"},
-    {file = "cryptography-41.0.1-cp37-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:d198820aba55660b4d74f7b5fd1f17db3aa5eb3e6893b0a41b75e84e4f9e0e4b"},
-    {file = "cryptography-41.0.1-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:948224d76c4b6457349d47c0c98657557f429b4e93057cf5a2f71d603e2fc3a3"},
-    {file = "cryptography-41.0.1-cp37-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:059e348f9a3c1950937e1b5d7ba1f8e968508ab181e75fc32b879452f08356db"},
-    {file = "cryptography-41.0.1-cp37-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:b4ceb5324b998ce2003bc17d519080b4ec8d5b7b70794cbd2836101406a9be31"},
-    {file = "cryptography-41.0.1-cp37-abi3-win32.whl", hash = "sha256:8f4ab7021127a9b4323537300a2acfb450124b2def3756f64dc3a3d2160ee4b5"},
-    {file = "cryptography-41.0.1-cp37-abi3-win_amd64.whl", hash = "sha256:1fee5aacc7367487b4e22484d3c7e547992ed726d14864ee33c0176ae43b0d7c"},
-    {file = "cryptography-41.0.1-pp38-pypy38_pp73-macosx_10_12_x86_64.whl", hash = "sha256:9a6c7a3c87d595608a39980ebaa04d5a37f94024c9f24eb7d10262b92f739ddb"},
-    {file = "cryptography-41.0.1-pp38-pypy38_pp73-manylinux_2_28_aarch64.whl", hash = "sha256:5d092fdfedaec4cbbffbf98cddc915ba145313a6fdaab83c6e67f4e6c218e6f3"},
-    {file = "cryptography-41.0.1-pp38-pypy38_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:1a8e6c2de6fbbcc5e14fd27fb24414507cb3333198ea9ab1258d916f00bc3039"},
-    {file = "cryptography-41.0.1-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:cb33ccf15e89f7ed89b235cff9d49e2e62c6c981a6061c9c8bb47ed7951190bc"},
-    {file = "cryptography-41.0.1-pp39-pypy39_pp73-macosx_10_12_x86_64.whl", hash = "sha256:5f0ff6e18d13a3de56f609dd1fd11470918f770c6bd5d00d632076c727d35485"},
-    {file = "cryptography-41.0.1-pp39-pypy39_pp73-manylinux_2_28_aarch64.whl", hash = "sha256:7bfc55a5eae8b86a287747053140ba221afc65eb06207bedf6e019b8934b477c"},
-    {file = "cryptography-41.0.1-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:eb8163f5e549a22888c18b0d53d6bb62a20510060a22fd5a995ec8a05268df8a"},
-    {file = "cryptography-41.0.1-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:8dde71c4169ec5ccc1087bb7521d54251c016f126f922ab2dfe6649170a3b8c5"},
-    {file = "cryptography-41.0.1.tar.gz", hash = "sha256:d34579085401d3f49762d2f7d6634d6b6c2ae1242202e860f4d26b046e3a1006"},
+    {file = "cryptography-41.0.2-cp37-abi3-macosx_10_12_universal2.whl", hash = "sha256:01f1d9e537f9a15b037d5d9ee442b8c22e3ae11ce65ea1f3316a41c78756b711"},
+    {file = "cryptography-41.0.2-cp37-abi3-macosx_10_12_x86_64.whl", hash = "sha256:079347de771f9282fbfe0e0236c716686950c19dee1b76240ab09ce1624d76d7"},
+    {file = "cryptography-41.0.2-cp37-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:439c3cc4c0d42fa999b83ded80a9a1fb54d53c58d6e59234cfe97f241e6c781d"},
+    {file = "cryptography-41.0.2-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f14ad275364c8b4e525d018f6716537ae7b6d369c094805cae45300847e0894f"},
+    {file = "cryptography-41.0.2-cp37-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:84609ade00a6ec59a89729e87a503c6e36af98ddcd566d5f3be52e29ba993182"},
+    {file = "cryptography-41.0.2-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:49c3222bb8f8e800aead2e376cbef687bc9e3cb9b58b29a261210456a7783d83"},
+    {file = "cryptography-41.0.2-cp37-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:d73f419a56d74fef257955f51b18d046f3506270a5fd2ac5febbfa259d6c0fa5"},
+    {file = "cryptography-41.0.2-cp37-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:2a034bf7d9ca894720f2ec1d8b7b5832d7e363571828037f9e0c4f18c1b58a58"},
+    {file = "cryptography-41.0.2-cp37-abi3-win32.whl", hash = "sha256:d124682c7a23c9764e54ca9ab5b308b14b18eba02722b8659fb238546de83a76"},
+    {file = "cryptography-41.0.2-cp37-abi3-win_amd64.whl", hash = "sha256:9c3fe6534d59d071ee82081ca3d71eed3210f76ebd0361798c74abc2bcf347d4"},
+    {file = "cryptography-41.0.2-pp310-pypy310_pp73-macosx_10_12_x86_64.whl", hash = "sha256:a719399b99377b218dac6cf547b6ec54e6ef20207b6165126a280b0ce97e0d2a"},
+    {file = "cryptography-41.0.2-pp310-pypy310_pp73-manylinux_2_28_aarch64.whl", hash = "sha256:182be4171f9332b6741ee818ec27daff9fb00349f706629f5cbf417bd50e66fd"},
+    {file = "cryptography-41.0.2-pp310-pypy310_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:7a9a3bced53b7f09da251685224d6a260c3cb291768f54954e28f03ef14e3766"},
+    {file = "cryptography-41.0.2-pp310-pypy310_pp73-win_amd64.whl", hash = "sha256:f0dc40e6f7aa37af01aba07277d3d64d5a03dc66d682097541ec4da03cc140ee"},
+    {file = "cryptography-41.0.2-pp38-pypy38_pp73-macosx_10_12_x86_64.whl", hash = "sha256:674b669d5daa64206c38e507808aae49904c988fa0a71c935e7006a3e1e83831"},
+    {file = "cryptography-41.0.2-pp38-pypy38_pp73-manylinux_2_28_aarch64.whl", hash = "sha256:7af244b012711a26196450d34f483357e42aeddb04128885d95a69bd8b14b69b"},
+    {file = "cryptography-41.0.2-pp38-pypy38_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:9b6d717393dbae53d4e52684ef4f022444fc1cce3c48c38cb74fca29e1f08eaa"},
+    {file = "cryptography-41.0.2-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:192255f539d7a89f2102d07d7375b1e0a81f7478925b3bc2e0549ebf739dae0e"},
+    {file = "cryptography-41.0.2-pp39-pypy39_pp73-macosx_10_12_x86_64.whl", hash = "sha256:f772610fe364372de33d76edcd313636a25684edb94cee53fd790195f5989d14"},
+    {file = "cryptography-41.0.2-pp39-pypy39_pp73-manylinux_2_28_aarch64.whl", hash = "sha256:b332cba64d99a70c1e0836902720887fb4529ea49ea7f5462cf6640e095e11d2"},
+    {file = "cryptography-41.0.2-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:9a6673c1828db6270b76b22cc696f40cde9043eb90373da5c2f8f2158957f42f"},
+    {file = "cryptography-41.0.2-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:342f3767e25876751e14f8459ad85e77e660537ca0a066e10e75df9c9e9099f0"},
+    {file = "cryptography-41.0.2.tar.gz", hash = "sha256:7d230bf856164de164ecb615ccc14c7fc6de6906ddd5b491f3af90d3514c925c"},
 ]
 
 [package.dependencies]
@@ -340,13 +344,13 @@ graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "dunamai"
-version = "1.17.0"
+version = "1.18.0"
 description = "Dynamic version generation"
 optional = false
 python-versions = ">=3.5,<4.0"
 files = [
-    {file = "dunamai-1.17.0-py3-none-any.whl", hash = "sha256:5aa4ac1085de10691269af021b10497261a5dd644f277e2a21822212604d877b"},
-    {file = "dunamai-1.17.0.tar.gz", hash = "sha256:459381b585a1e78e4070f0d38a6afb4d67de2ee95064bf6b0438ec620dde0820"},
+    {file = "dunamai-1.18.0-py3-none-any.whl", hash = "sha256:f9284a9f4048f0b809d11539896e78bde94c05b091b966a04a44ab4c48df03ce"},
+    {file = "dunamai-1.18.0.tar.gz", hash = "sha256:5200598561ea5ba956a6174c36e402e92206c6a6aa4a93a6c5cb8003ee1e0997"},
 ]
 
 [package.dependencies]
@@ -365,26 +369,26 @@ files = [
 
 [[package]]
 name = "flet"
-version = "0.8.1"
+version = "0.8.2"
 description = "Flet for Python - easily build interactive multi-platform apps in Python"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "flet-0.8.1-py3-none-any.whl", hash = "sha256:b67223678b16c247ac7f233205581c67a3f7b8bd4f847b8bdf1b1e6dec51395c"},
-    {file = "flet-0.8.1-py3-none-macosx_10_14_x86_64.whl", hash = "sha256:e1627bb4e2123d146f81552d8363f97055d709931388e05305d8ab38bea144c7"},
-    {file = "flet-0.8.1-py3-none-macosx_12_0_arm64.whl", hash = "sha256:91353d51ef0c469ef0dc4d3d1a50bd9ce0717a9b27b086290fedce47ec649ea8"},
-    {file = "flet-0.8.1-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1022937733cd5c2f687a53b62b305c1bc304554363f72e0ad56342c5205221b4"},
-    {file = "flet-0.8.1-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:260d00093b666b48ec08f37b030409745824ac1cc43225e3515ab718bb3e09cf"},
-    {file = "flet-0.8.1-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7f378b4be02322ef6739cc96bc0c79c639fc23cfefffda6a2eea3cb9a501d725"},
-    {file = "flet-0.8.1-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:dce7781d6ef813f79645d1b6d6318b665d7236d4102223fd933f882092669ef5"},
-    {file = "flet-0.8.1-py3-none-win32.whl", hash = "sha256:7e8f5c262bfd940593fa1ba6c11c08f1f67a0ea17de33c746ea9abd69b8b53fd"},
-    {file = "flet-0.8.1-py3-none-win_amd64.whl", hash = "sha256:4d976e4c7f853659fe02d2628ec3acccf08aa0246d5f6b20e079313a6bd0248d"},
-    {file = "flet-0.8.1.tar.gz", hash = "sha256:61ffb25c8b570853085735afb41c3ffd7d462b38f647560c451ae374749b0b1a"},
+    {file = "flet-0.8.2-py3-none-any.whl", hash = "sha256:3fae8ef87d63eeedeed6eeae1d149d1bdbc10c97b6666b5813246ae77a1d4ad8"},
+    {file = "flet-0.8.2-py3-none-macosx_10_14_x86_64.whl", hash = "sha256:8c862cb34f48e6546c5b411a64be7173181f1e23e70d4a22fc8353277e9f05a6"},
+    {file = "flet-0.8.2-py3-none-macosx_12_0_arm64.whl", hash = "sha256:866c30d8d613c92c729d78fa21fbec51d1a132a1057f64b0dad52eb029ac2294"},
+    {file = "flet-0.8.2-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:038d7652d94a99766cdc38ac02d532ba4fad57c24b7b0025c660f766ff282f05"},
+    {file = "flet-0.8.2-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:0d6c660f8fffaa72734d85e7b3e95de16929f7d67d1f305183bbe8b7e34ec84d"},
+    {file = "flet-0.8.2-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bd259b55ebf80b6ab70dc62588c950a59bf225895a510cdb3cefd2a9de773f60"},
+    {file = "flet-0.8.2-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:8f79a320ad4250b8fd71e10e6c41d247b7f90d3b757bfdcd8b04a2d108d00288"},
+    {file = "flet-0.8.2-py3-none-win32.whl", hash = "sha256:9ecb84a4b445814a997eec72ed6a944495ffb9f65a98d949a142f99b21f1e198"},
+    {file = "flet-0.8.2-py3-none-win_amd64.whl", hash = "sha256:16c5ccc382a47d184998b9f4060f1b87521e51eceb6d130407c5377875258221"},
+    {file = "flet-0.8.2.tar.gz", hash = "sha256:6507857cf622eb4f7a6ad58a0b67d85f7da80a3969e661ab45d24b988c027c3d"},
 ]
 
 [package.dependencies]
 copier = ">=8.0.0,<9.0.0"
-flet-runtime = "0.8.1"
+flet-runtime = "0.8.2"
 packaging = ">=23.1,<24.0"
 pydantic = "<2"
 qrcode = ">=7.4.2,<8.0.0"
@@ -394,13 +398,13 @@ websockets = ">=11.0.3,<12.0.0"
 
 [[package]]
 name = "flet-core"
-version = "0.8.1"
+version = "0.8.2"
 description = "Flet core library"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "flet_core-0.8.1-py3-none-any.whl", hash = "sha256:2f449269a177c6e03db16369ac1ed0115763b6a206c4be368781baccf87e1d56"},
-    {file = "flet_core-0.8.1.tar.gz", hash = "sha256:02061b9f2f90d64db901a2a8fb1d494f940eb6218b1c9858fd4ad158132350b6"},
+    {file = "flet_core-0.8.2-py3-none-any.whl", hash = "sha256:e60dae009d20f3845f5c3c21f20ebf89f48c5105d057e412a5b4338e4f6a7b71"},
+    {file = "flet_core-0.8.2.tar.gz", hash = "sha256:09ae30864025dbbd9b2146c24a86e74d7f242d528ee3ecc7a69e084dd31dc616"},
 ]
 
 [package.dependencies]
@@ -408,17 +412,17 @@ repath = ">=0.9.0,<0.10.0"
 
 [[package]]
 name = "flet-runtime"
-version = "0.8.1"
+version = "0.8.2"
 description = "Flet Runtime - a base package for Flet desktop and Flet mobile."
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "flet_runtime-0.8.1-py3-none-any.whl", hash = "sha256:0bf306f6a169f2d45ab9f590962aeed44f0a84f824c9227433644f7e9450a92c"},
-    {file = "flet_runtime-0.8.1.tar.gz", hash = "sha256:1b011481c92d821a3369fa001061314b58f7cf2ffd18f96ff78cc24974e462f0"},
+    {file = "flet_runtime-0.8.2-py3-none-any.whl", hash = "sha256:56d4d9d0b8d6d67ea7aeb5d19b9956b502eb3a5e51fda9fdeb8fcc12dfe19035"},
+    {file = "flet_runtime-0.8.2.tar.gz", hash = "sha256:f530fdb83131686692eb621a68381d4f4fc8f3fc6cbe7f9ce63255325930a187"},
 ]
 
 [package.dependencies]
-flet-core = "0.8.1"
+flet-core = "0.8.2"
 httpx = ">=0.24.1,<0.25.0"
 oauthlib = ">=3.2.2,<4.0.0"
 
@@ -1722,4 +1726,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11, <3.12"
-content-hash = "312840240af3a39009776d3b7570b9ea149d4d7f21db21f8f67eb0b0dd4619ca"
+content-hash = "4bd7296967c76ac7b66649eb2ca2fdb5b510f75729e553213e0ad9e0d0622207"
