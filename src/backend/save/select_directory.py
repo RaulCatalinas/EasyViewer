@@ -33,8 +33,13 @@ class SelectDirectory(FilePicker):
         :return: None
         """
 
-        self.input_directory.set_value(event.path)
-        self.control_variables.set_control_variable_in_ini("VIDEO_LOCATION", event.path)
+        path = event.path
+
+        if path is None:
+            return
+
+        self.input_directory.set_value(path)
+        self.control_variables.set_control_variable("VIDEO_LOCATION", path)
         self.page.update(self.input_directory)
 
     def select_directory(self):
