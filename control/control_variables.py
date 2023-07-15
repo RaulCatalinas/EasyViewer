@@ -45,7 +45,7 @@ class ControlVariables:
             else self.config_parser.get(section, option)
         )
 
-    @check_type
+    # @check_type
     def set_control_variable(self, control_variable: str, value: str | bool) -> None:
         """
         Sets a new value for a control variable
@@ -80,10 +80,10 @@ class ControlVariables:
         """
 
         video_location = self.get_control_variable("VIDEO_LOCATION")
-        checkbox_value = self.get_control_variable("checkbox_value")
+        checkbox_update = self.get_control_variable("checkbox_update")
 
         page.client_storage.set("video_location", video_location)
-        page.client_storage.set("checkbox", checkbox_value)
+        page.client_storage.set("checkbox_update", checkbox_update)
 
     @check_type
     def set_initial_values(self, page: Page):
@@ -94,10 +94,10 @@ class ControlVariables:
         """
 
         video_location = page.client_storage.get("video_location")
-        checkbox = page.client_storage.get("checkbox")
+        checkbox = page.client_storage.get("checkbox_update")
 
         self.set_control_variable("VIDEO_LOCATION", video_location)
-        self.set_control_variable("checkbox_value", checkbox)
+        self.set_control_variable("checkbox_update", checkbox)
 
     def reset(self):
         """
