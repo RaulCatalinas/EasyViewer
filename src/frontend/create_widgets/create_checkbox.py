@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Any
 
 from flet import Checkbox, Offset, Page
 
@@ -25,13 +25,8 @@ class CreateCheckbox(Checkbox):
             label=label,
             label_position=label_position,
             offset=Offset(offset_x, offset_y),
-            on_change=lambda e: [
-                self.callback(),
-                self.control_variables.set_control_variable(
-                    "checkbox_value", self.value
-                ),
-            ],
-            value=self.control_variables.get_control_variable("checkbox_value"),
+            on_change=lambda e: self.__on_change(),
+            value=self.__get_value_from_ini("checkbox_update", True),
         )
 
     def get_value(self):
@@ -44,3 +39,12 @@ class CreateCheckbox(Checkbox):
     @check_type
     def change_offset(self, offset_x: int, offset_y: int):
         self.offset = Offset(offset_x, offset_y)
+
+    def __on_change(self):
+        self.callback()
+        self.control_variables.set_control_variable("checkbox_update", self.value)
+
+    def __get_value_from_ini(self, key: str, default_value: Any):
+        value = self.control_variables.get_control_variable(key)
+
+        return value if value != "None" else default_value
