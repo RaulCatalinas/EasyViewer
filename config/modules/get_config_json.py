@@ -13,29 +13,31 @@ class GetConfigJson:
     Gets the app texts from the JSON file
     """
 
-    @classmethod
+    @staticmethod
     @check_type
-    def get_config_json(cls, section: str, data: str) -> str | int:
+    def get_config_json(section: str, data: str) -> str | int:
         """
-        Reads a JSON file and returns a value from a specified section and
-        data key.
+        Gets the configuration saved in the JSON
 
-        :param section: A string representing the section of the JSON configuration file to retrieve data from
-        :param data: The key for the value that needs to be retrieved from the JSON configuration file
+        Args:
+            section (str): Section from which you wanna obtain the data
+            data (str): Data that you wanna obtain
 
-        :return: Returns a value of type `str` or `int`, depending on the value stored in the JSON file for the given `section` and `data`.
+        Returns:
+            str | int: The data obtained
         """
 
-        config_json = cls._read_json()
+        config_json = GetConfigJson._read_json()
 
         return config_json[section][data]
 
     @staticmethod
     def _read_json() -> dict:
         """
-        Reads a JSON file and returns its contents as a dictionary.
+        Load the JSON data into a dictionary
 
-        :return: Returns the contents of a JSON file as a dictionary.
+        Returns:
+            dict: The content of the JSON in the form of a dictionary
         """
 
         json_file_path = GetPaths.get_config_file("json")

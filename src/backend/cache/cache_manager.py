@@ -2,24 +2,29 @@
 Control the application cache
 """
 
-from datetime import timedelta, datetime
-from json import load, dump, JSONDecodeError
+from datetime import datetime, timedelta
+from json import JSONDecodeError, dump, load
 from time import time
+from typing import Any
 
 from utils import CACHE_FILE, LoggingManagement
 
 
 class CacheManager:
     """
-    Reads, writes, and manages the cache file, including handling JSON decoding errors and checking cache expiration.
+    Control the application cache
     """
 
     @staticmethod
-    def read_cache():
+    def read_cache() -> Any:
         """
-        Reads cache data
+        Get the data from the cache
 
-        :return: Data loaded from the cache
+        Raises:
+            JSONDecodeError: Error occurred during data collection
+
+        Returns:
+            Any: The cache data
         """
 
         with open(CACHE_FILE, mode="r", encoding="utf-8") as file:
@@ -32,13 +37,13 @@ class CacheManager:
                 raise JSONDecodeError(str(exc), doc=CACHE_FILE) from exc
 
     @staticmethod
-    def write_cache(key, data):
+    def write_cache(key: str, data: Any):
         """
         Writes data to the cache, along with a timestamp.
 
-        :param key: It's a unique identifier for the data that is stored in the cache. Used to associate data with a specific key in the cache
-
-        :param data: This is the information you want to cache. It can be any type of data, such as a string, number, list, dictionary, etc.
+        Args:
+            key (str): Key with which the data will be saved
+            data (Any): Data to save
         """
 
         try:

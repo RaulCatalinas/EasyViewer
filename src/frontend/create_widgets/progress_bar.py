@@ -1,4 +1,4 @@
-from flet import ProgressBar, Offset, Page
+from flet import Offset, Page, ProgressBar
 
 from utils import check_type
 
@@ -25,8 +25,9 @@ class CreateProgressBar(ProgressBar):
         """
         Update the value of the progress bar.
 
-        :param new_value: The new value to set to the progress bar.
-        :param page: A reference to the app window.
+        Args:
+            new_value (int | None): The new value for the progress bar
+            page (flet.Page): Reference to the app window
         """
 
         self.value = new_value

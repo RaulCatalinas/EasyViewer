@@ -2,10 +2,11 @@
 Gets the app texts from the Excel file
 """
 
-from pandas import read_excel, DataFrame
+from pandas import DataFrame, read_excel
 
 from osutils import GetPaths
 from utils import check_type
+
 from .environment_variables import EnvironmentVariables
 
 
@@ -18,12 +19,13 @@ class ExcelTextLoader:
     @check_type
     def get_text(cls, excel_column_number: int) -> str:
         """
-        Returns a string value from a specific column based on the language specified in the environment variables.
+        Returns the text saved in the Excel based on the language of the application
 
-        :param excel_column_number: An integer representing the column number in the Excel file from which to retrieve the configuration value
+        Args:
+            excel_column_number (int): Column of which we wanna obtain the text
 
-        :return: Returns a string value that is located in the specified
-        column number of the `languages_dataframe` dataframe for the language specified in the `language` class variable.
+        Returns:
+            str: The text saved in the Excel
         """
 
         language = EnvironmentVariables.get_language()
@@ -36,7 +38,8 @@ class ExcelTextLoader:
         """
         Reads an Excel file and returns the data as a DataFrame.
 
-        :return: The data read from an Excel file as a DataFrame.
+        Returns:
+            DataFrame: The data read from the Excel as a DataFrame.
         """
 
         excel_file_path = GetPaths.get_config_file("excel")

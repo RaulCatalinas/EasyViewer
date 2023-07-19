@@ -6,10 +6,10 @@ from os.path import exists
 from tomllib import load
 from webbrowser import open_new_tab
 
-from github import Github
-
 from cache import CacheManager
-from github_credentials import Email, PASSWORD
+from github import Github
+from github_credentials import PASSWORD, EMAIL
+
 from utils import CACHE_FILE
 
 
@@ -35,11 +35,11 @@ class Update(Github):
             self.user_version = array_versions[1]["user_version"]
 
         elif self.length_array_versions == 0:
-            super().__init__(login_or_token=Email, password=PASSWORD)
+            super().__init__(login_or_token=EMAIL, password=PASSWORD)
 
     def __get_user(self):
         """
-        Retrieve the GitHub user.
+        Gets the GitHub user.
 
         Returns:
             AuthenticatedUser | NamedUser: The GitHub user object.
@@ -61,7 +61,7 @@ class Update(Github):
 
     def __get_assets(self):
         """
-        Retrieve the assets of the latest release.
+        Gets the assets of the latest release.
 
         Returns:
             GitReleaseAsset: The asset object of the latest release.
@@ -87,7 +87,7 @@ class Update(Github):
 
     def __get_release_version(self):
         """
-        Retrieve the version number of the latest release.
+        Gets the version number of the latest version.
 
         Returns:
             str: The version number of the latest release.
@@ -105,7 +105,7 @@ class Update(Github):
 
     def __get_user_version(self):
         """
-        Retrieve the version number of the user's current application.
+        Gets the version number of the user's current application.
 
         Returns:
             str: The version number of the user's current application.
@@ -123,11 +123,9 @@ class Update(Github):
 
         return user_version
 
-    def is_new_release_available(self):
+    def is_new_release_available(self) -> bool:
         """
         Checks if a new release is available on GitHub.
-
-        Retrieves the latest version from the repository and compares it with the user's current version.
 
         Returns:
             bool: True if a new release is available, False otherwise.
@@ -140,11 +138,7 @@ class Update(Github):
 
     def update(self):
         """
-        Opens the browser to the latest release page on GitHub.
-
-        This method opens the user's default web browser and navigates to the latest release page of the application's repository on GitHub.
-
-        Users can manually download the latest version from the release page.
+        Opens the user's default web browser to the latest version page on GitHub
         """
 
         open_new_tab("https://github.com/RaulCatalinas/EasyViewer/releases/latest")

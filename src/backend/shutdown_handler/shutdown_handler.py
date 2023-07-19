@@ -2,11 +2,11 @@
 Control the closing of the app
 """
 
-from flet import MainAxisAlignment
+from flet import MainAxisAlignment, Page
+from frontend import CreateDialog, CreateElevatedButton, CreateOutlinedButton
 
 from config import ExcelTextLoader
 from control import ControlVariables
-from frontend import CreateElevatedButton, CreateOutlinedButton, CreateDialog
 
 
 class ShutdownHandler(CreateDialog):
@@ -36,12 +36,12 @@ class ShutdownHandler(CreateDialog):
             actions_alignment=MainAxisAlignment.END,
         )
 
-    def __exit(self, page):
+    def __exit(self, page: Page):
         """
-        Exits the program and saves the location selected by the user to your local storage
+        Exits the program and saves the location selected by the user
 
-        :param page: Is a reference to the app window
-        :return: None
+        Args:
+            page (flet.Page): Reference to the app window
         """
 
         self.change_state(page)
@@ -50,12 +50,12 @@ class ShutdownHandler(CreateDialog):
 
         page.window_destroy()
 
-    def __cancel(self, page):
+    def __cancel(self, page: Page):
         """
-        Close the app shutdown_handler confirmation dialog
+        Cancel the exit of the program
 
-        :param page: Is a reference to the app window
-        :return: None
+        Args:
+            page (flet.Page): Reference to the app window
         """
 
-        return self.change_state(page)
+        self.change_state(page)

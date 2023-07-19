@@ -1,9 +1,9 @@
 from typing import Callable
 
-from flet import icons, Column, Page, TextField, AlertDialog, ElevatedButton
+from create_widgets import CreateCheckbox, CreateIconButton
+from flet import AlertDialog, Column, ElevatedButton, Page, TextField, icons
 
 from config import ExcelTextLoader
-from create_widgets import CreateIconButton, CreateCheckbox
 from utils import check_type
 
 
@@ -18,8 +18,8 @@ class TaskBarUI:
         button_exit_the_app: ElevatedButton,
         check_updates: Callable,
     ):
-        from modify_gui import ChangeLanguage, ChangeTheme
         from backend import Contact
+        from modify_gui import ChangeLanguage, ChangeTheme
 
         self.page = page
         self.input_url = input_url
@@ -91,7 +91,14 @@ class TaskBarUI:
 
         self.dropdown_language.dropdown_contact = self.dropdown_contact
 
-    def get_elements(self):
+    def get_elements(self) -> list:
+        """
+        Get all taskbar items
+
+        Returns:
+            list: Taskbar items
+        """
+
         return [
             self.checkbox,
             self.icon_theme,

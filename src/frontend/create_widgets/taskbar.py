@@ -27,7 +27,8 @@ class TaskBar(AppBar):
         """
         Changes the height of the taskbar.
 
-        :param new_height: The new height that will be assigned to the taskbar
+        Args:
+            new_height (int): The new height for the taskbar
         """
 
         self.toolbar_height = new_height

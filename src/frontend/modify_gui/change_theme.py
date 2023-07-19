@@ -1,8 +1,9 @@
-from threading import Thread, Lock
+from threading import Lock, Thread
+from typing import Any, Literal
 
-from flet import icons, Page, IconButton
+from flet import IconButton, Page, icons, ThemeMode
 
-from utils import check_type
+from utils import check_type, EnumHelper
 
 
 class ChangeTheme:
@@ -11,6 +12,8 @@ class ChangeTheme:
     """
 
     LOCK = Lock()
+    DARK_MODE = EnumHelper.get_enum_value(ThemeMode.DARK)
+    LIGHT_MODE = EnumHelper.get_enum_value(ThemeMode.LIGHT)
 
     @classmethod
     @check_type
@@ -18,42 +21,49 @@ class ChangeTheme:
         """
         Changes the app's theme between dark and light mode.
 
-        :param page: A reference to the app window.
-        :param icon_theme: The icon that will be updated when the theme is changed.
+        Args:
+            page (flet.Page): Reference to the app window
+            icon_theme (IconButton): Button icon to change the theme
         """
 
-        if page.theme_mode == "dark":
-            page.theme_mode = "light"
+        if page.theme_mode == cls.DARK_MODE:
+            page.theme_mode = cls.LIGHT_MODE
             icon_theme.icon = icons.DARK_MODE
-            cls.__save_theme(page=page, theme="light")
+            cls.__save_theme(page=page, theme=cls.LIGHT_MODE)
 
         else:
-            page.theme_mode = "dark"
+            page.theme_mode = cls.DARK_MODE
             icon_theme.icon = icons.LIGHT_MODE
-            cls.__save_theme(page=page, theme="dark")
+            cls.__save_theme(page=page, theme=cls.DARK_MODE)
 
-        return page.update()
+        page.update()
 
     @classmethod
     @check_type
-    def set_initial_icon_theme(cls, page: Page):
+    def set_initial_icon_theme(cls, page: Page) -> Literal["dark_mode", "light_mode"]:
         """
         Sets the initial icon theme based on the app's current theme mode.
 
-        :param page: A reference to the app window.
-        :return: The icon representing the initial theme.
+        Args:
+            page(flet.Page): Reference to the app window.
+
+        Returns:
+            Literal['dark_mode', 'light_mode']:  The icon representing the initial theme
         """
 
-        return icons.DARK_MODE if page.theme_mode == "light" else icons.LIGHT_MODE
+        return (
+            icons.DARK_MODE if page.theme_mode == cls.LIGHT_MODE else icons.LIGHT_MODE
+        )
 
     @classmethod
     @check_type
-    def __save_theme(cls, page: Page, theme: str) -> None:
+    def __save_theme(cls, page: Page, theme: str):
         """
-        Saves the selected theme to the frontend storage.
+        Saves the selected theme to the client storage.
 
-        :param page: A reference to the app window.
-        :param theme: The theme to be saved.
+        Args:
+            page (flet.Page): Reference to the app window
+            theme (str): The theme to be saved
         """
 
         with cls.LOCK:
@@ -65,12 +75,15 @@ class ChangeTheme:
 
     @classmethod
     @check_type
-    def get_theme(cls, page: Page):
+    def get_theme(cls, page: Page) -> Any:
         """
-        Retrieves the saved theme from the frontend storage.
+        Gets the saved theme from the client storage
 
-        :param page: A reference to the app window.
-        :return: The value of the "theme" key from the frontend storage.
+        Args:
+            page (flet.Page): Reference to the app window.
+
+        Returns:
+            Any: The theme saved from the client storage
         """
 
         return page.client_storage.get("theme")
@@ -81,8 +94,9 @@ class ChangeTheme:
         """
         Sets the initial theme for the app and saves it.
 
-        :param page: A reference to the app window.
+        Args:
+            page (flet.Page): Reference to the app window.
         """
 
-        theme_for_the_app = cls.get_theme(page) or "light"
+        theme_for_the_app = cls.get_theme(page) or cls.LIGHT_MODE
         cls.__save_theme(page=page, theme=theme_for_the_app)

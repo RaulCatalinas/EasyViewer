@@ -1,8 +1,8 @@
 from typing import Callable
 
-from flet import IconButton, ElevatedButton, OutlinedButton, Offset, Icon, Page
+from flet import ElevatedButton, Icon, IconButton, Offset, OutlinedButton, Page
 
-from utils import check_type, InterfaceIconButton, InterfaceTextButton
+from utils import InterfaceIconButton, InterfaceTextButton, check_type
 
 
 class CreateIconButton(InterfaceIconButton, IconButton):
@@ -33,16 +33,39 @@ class CreateIconButton(InterfaceIconButton, IconButton):
         )
 
     @check_type
-    def toggle_state(self, page: Page) -> Page:
+    def toggle_state(self, page: Page):
+        """
+        If the button is activated, it deactivates it and vice versa
+
+        Args:
+            page (flet.Page): Reference to the app window
+        """
+
         self.disabled = not self.disabled
-        return page.update(self)
+        page.update(self)
 
     @check_type
     def change_offset(self, offset_x: int, offset_y: int):
+        """
+        Change the button offset
+
+        Args:
+            offset_x (int): Offset in x-axis
+            offset_y (int): Offset in the y-axis
+        """
+
         self.offset = Offset(offset_x, offset_y)
 
     @check_type
     def set_visibility(self, visible: bool, page: Page):
+        """
+        Change the visibility of the button
+
+        Args:
+            visible (bool): The new button visibility
+            page (Page): Reference to the app window
+        """
+
         self.visible = visible
         page.update(self)
 
@@ -61,10 +84,24 @@ class CreateElevatedButton(InterfaceTextButton, ElevatedButton):
 
     @check_type
     def change_text(self, new_text: str):
+        """
+        Change the text displayed on the button
+
+        Args:
+            new_text (str): The new text to display on the button
+        """
+
         self.text = new_text
 
     @check_type
     def change_function(self, new_function: Callable, *args, **kwargs):
+        """
+        Change the function that is executed when the button is clicked
+
+        Args:
+            new_function (Callable): The new function that the button will execute
+        """
+
         self.on_click = lambda e: new_function(*args, **kwargs)
 
 
@@ -82,8 +119,22 @@ class CreateOutlinedButton(InterfaceTextButton, OutlinedButton):
 
     @check_type
     def change_function(self, new_function: Callable, *args, **kwargs):
+        """
+        Change the function that is executed when the button is clicked
+
+        Args:
+            new_function (Callable): The new function that the button will execute
+        """
+
         self.on_click = lambda e: new_function(*args, **kwargs)
 
     @check_type
     def change_text(self, new_text: str):
+        """
+        Change the text displayed on the button
+
+        Args:
+            new_text (str): The new text to display on the button
+        """
+
         self.text = new_text

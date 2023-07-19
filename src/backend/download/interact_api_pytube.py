@@ -2,7 +2,7 @@
 Interact with the Pytube API.
 """
 
-from pytube import YouTube
+from pytube import Stream, YouTube
 
 from config import ExcelTextLoader
 from control import ControlVariables
@@ -19,13 +19,18 @@ class InteractAPIPytube:
         self.control_variables = ControlVariables()
 
     @check_type
-    def get_video(self, download_video: bool):
+    def get_video(self, download_video: bool) -> Stream | None:
         """
-        Takes a URL from a YouTube video and returns the highest resolution video or audio.
+        Get the video to download
 
-        :param download_video: If True, download the video. If it's False, download only the audio.
+        Args:
+            download_video (bool): Specify to download the video or only the audio
 
-        :return: The video or audio.
+        Raises:
+            Exception: Error occurred while obtaining the video
+
+        Returns:
+            pytube.Stream | None: The information of the video to download
         """
 
         url = self.control_variables.get_control_variable("URL_VIDEO")

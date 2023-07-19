@@ -4,9 +4,9 @@ Create a dialog to communicate something to the user
 
 from typing import Union
 
-from flet import Icon, AlertDialog, MainAxisAlignment, Page
-
 from create_text import CreateText
+from flet import AlertDialog, Icon, MainAxisAlignment, Page
+
 from utils import check_type
 
 
@@ -36,11 +36,12 @@ class CreateDialog(AlertDialog):
             actions_alignment=actions_alignment,
         )
 
-    def change_state(self, page: Page) -> None:
+    def change_state(self, page: Page):
         """
-        If the dialog is not open, it opens it and updates the window. If it's open, it closes it and updates the window.
+        If the dialog is not open it opens it and vice versa
 
-        :param page: A reference to the app window
+        Args:
+            page (flet.Page): Reference to the app window
         """
 
         self.open = not self.open
@@ -51,7 +52,8 @@ class CreateDialog(AlertDialog):
         """
         Updates the title of the dialog.
 
-        :param new_title: The new title that will replace the current title
+        Args:
+            new_title (str): The new title that will replace the current title
         """
 
         self.title_text.set_text(new_title)
@@ -61,16 +63,18 @@ class CreateDialog(AlertDialog):
         """
         Updates the content of the dialog.
 
-        :param new_content: The new content that will replace the current content of the dialog
+        Args:
+            new_content (str): The new content that will replace the current one
         """
 
         self.content_text.set_text(new_content)
 
-    def is_open(self):
+    def is_open(self) -> bool:
         """
         Checks if the dialog is open.
 
-        :return: True if the dialog is open, False otherwise
+        Returns:
+            bool: True if the dialog is open, False otherwise
         """
 
         return self.open

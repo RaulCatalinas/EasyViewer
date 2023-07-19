@@ -3,7 +3,7 @@ Controls the logic of environment variables
 """
 
 from os import environ
-from threading import Thread, Lock
+from threading import Lock, Thread
 
 from dotenv import set_key
 from flet import Page
@@ -26,8 +26,9 @@ class EnvironmentVariables:
         """
         Sets the value of the "LANGUAGE" environment variable
 
-        :param page: A reference to the app window
-        :param language: The language to set
+        Args:
+            language (str): Language to be set
+            page (flet.Page): Reference to the application window.
         """
 
         environ["LANGUAGE"] = language
@@ -39,19 +40,21 @@ class EnvironmentVariables:
         """
         Gets the language saved in the environment variable
 
-        :return: The value of the environment variable "LANGUAGE"
+        Returns:
+            str: The language saved in the environment variable
         """
 
         return environ.get("LANGUAGE")
 
     @classmethod
     @check_type
-    def save(cls, page: Page, language_to_save: str) -> None:
+    def save(cls, page: Page, language_to_save: str):
         """
-        Saves the language of the app in a frontend storage using a separate thread.
+        Saves the language selected by the user to the client storage.
 
-        :param page: A reference to the app window
-        :param language_to_save: Language of the app being saved. It's used as a key to store it in the user's storage.
+        Args:
+            page (flet.Page): Reference to the application window.
+            language_to_save (str): Language to save in client storage.
         """
 
         def set_key_thread():
@@ -74,11 +77,11 @@ class EnvironmentVariables:
     @check_type
     def set_initial_language(cls, page: Page):
         """
-        Sets the "LANGUAGE" environment variable to the value saved in frontend storage. Defaults to "English" if nothing is saved.
+        Set the environment variable "LANGUAGE"
 
-        :param page: A reference to the app window
+        Args:
+            page (flet.Page): Reference to the application window.
         """
-
         language_for_the_app = page.client_storage.get("language") or "English"
 
         environ["LANGUAGE"] = language_for_the_app

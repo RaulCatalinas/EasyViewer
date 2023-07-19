@@ -2,14 +2,14 @@
 Validating various aspects of a YouTube video download request
 """
 
-from flet import Page
+from flet import Page, TextField
 from pytube import YouTube
-from requests import get, ConnectionError, Timeout
+from requests import ConnectionError, Timeout, get
 
 from config import ExcelTextLoader
 from control import ControlVariables
 from osutils import GetPaths
-from utils import check_type, LoggingManagement
+from utils import LoggingManagement, check_type
 
 
 class Validations:
@@ -19,13 +19,18 @@ class Validations:
 
     @staticmethod
     @check_type
-    def check_if_a_url_has_been_entered(url: str) -> bool:
+    def validate_non_empty_url(url: str) -> bool:
         """
         Checks if a URL has been entered.
 
-        :param url: a string representing a URL that needs to be checked if it has been entered or not
+        Args:
+            url (str): URL to be checked if it's not an empty string
 
-        :return: A boolean value indicating whether a URL has been entered or not.
+        Raises:
+            ValueError: Error thrown if the given url is an empty string
+
+        Returns:
+            bool: True if the given string is not empty
         """
 
         if not url:
@@ -33,41 +38,51 @@ class Validations:
             raise ValueError(ExcelTextLoader.get_text(9))
 
         LoggingManagement.write_log("A URL has been entered")
+
         return True
 
     @staticmethod
     @check_type
-    def check_if_is_url_youtube(url: str) -> bool:
+    def check_if_youtube_url(url: str) -> bool:
         """
-        This function checks if a given URL is from YouTube.
+        Checks if a given URL is from YouTube.
 
-        :param url: A string representing a URL that needs to be checked if it's from YouTube or not
+        Args:
+            url (str): URL to check if it is from YouTube
 
-        :return: If the URL is from YouTube, the function returns True. If the URL is not from YouTube, the function raises a ValueError.
+        Raises:
+            ValueError: Error thrown if the url is not from YouTube
+
+        Returns:
+            bool: True if the url is from YouTube
         """
 
         if "youtube.com" in url or "youtu.be" in url:
             LoggingManagement.write_log("The URL is from YouTube")
+
             return True
 
         LoggingManagement.write_error("The URL is not from YouTube")
+
         raise ValueError(ExcelTextLoader.get_text(11))
 
     @staticmethod
     @check_type
-    def check_if_directory_is_selected(
-        input_directory: str,
+    def set_default_directory_or_check_selected(
+        input_directory: TextField,
         page: Page,
         video_location: str,
     ) -> bool:
         """
-        Checks if a directory is selected
+        Check if a directory is selected, or set a default.
 
-        :param input_directory: a string representing the path of the selected directory
-        :param page: Is a reference to the app window
-        :param video_location: A string representing the directory where the video will be saved. If no directory has been selected, it will be set to "None"
+        Args:
+            input_directory (flet.TextField): Entry for the default directory.
+            page (flet.Page): Reference to the app window.
+            video_location (str): The location to save the video.
 
-        :return: A boolean value.
+        Returns:
+            bool: True to indicate that everything went well.
         """
 
         if not video_location or video_location == "None":
@@ -91,9 +106,13 @@ class Validations:
     @staticmethod
     def check_internet_connection() -> bool:
         """
-        Checks if there is an internet connection by attempting to connect to Google.
+        Check internet connection availability.
 
-        :return: A boolean value indicating whether an internet connection is available or not.
+        Raises:
+            ConnectionError: Error thrown if there is no internet connection
+
+        Returns:
+            bool: True if there is internet connection
         """
 
         try:
@@ -101,20 +120,27 @@ class Validations:
 
         except (ConnectionError, Timeout) as exc:
             LoggingManagement.write_error("No internet connection")
+
             raise ConnectionError(ExcelTextLoader.get_text(10)) from exc
 
         LoggingManagement.write_log("Internet connection is available")
+
         return True
 
     @staticmethod
     @check_type
-    def check_if_the_video_is_available(url: str) -> bool:
+    def is_youtube_video_available(url: str) -> bool:
         """
-        This function checks if a YouTube video is available by attempting to access its URL.
+        Check if YouTube video is available
 
-        :param url: A string representing the URL of a YouTube video
+        Args:
+            url (str): Video URL to check
 
-        :return: A boolean value indicating whether the video is available or not.
+        Raises:
+            ValueError: Error thrown if the video is not available
+
+        Returns:
+            bool: True if video is available
         """
 
         try:
