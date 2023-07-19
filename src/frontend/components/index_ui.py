@@ -1,9 +1,11 @@
 from threading import Thread
 
-from flet import icons, KeyboardType, TextAlign
+from create_widgets import CreateIconButton, CreateInputs, CreateProgressBar, TaskBar
+from flet import KeyboardType, TextAlign, icons
 
 from config import ExcelTextLoader, GetConfigJson
-from create_widgets import CreateInputs, CreateIconButton, CreateProgressBar, TaskBar
+from frontend.create_widgets.create_checkbox import CreateCheckbox
+
 from .taskbar_ui import TaskBarUI
 
 
@@ -92,8 +94,22 @@ class IndexUI:
             self.select_directory,
         ]
 
-    def get_checkbox(self):
+    def get_checkbox(self) -> CreateCheckbox:
+        """
+        Get the automatic check for updates checkbox
+
+        Returns:
+            CreateCheckbox: The automatic check for updates checkbox
+        """
+
         return self.taskbar_ui.checkbox
 
-    def get_icon_update(self):
+    def get_icon_update(self) -> CreateIconButton:
+        """
+        Get button check for updates
+
+        Returns:
+            CreateIconButton: The check button for updates
+        """
+
         return self.taskbar_ui.icon_update

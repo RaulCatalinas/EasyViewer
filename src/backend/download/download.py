@@ -10,6 +10,7 @@ from flet import Page
 from config import ExcelTextLoader
 from control import ControlVariables
 from utils import LoggingManagement, check_type
+
 from .interact_api_pytube import InteractAPIPytube
 
 
@@ -32,7 +33,13 @@ class Download:
     @check_type
     def download(self, download_video: bool):
         """
-        Downloads a video or audio from a YouTube video and saves it to a specific location
+        Downloads a video or audio from a YouTube video
+
+        Args:
+            download_video (bool): Specify to download the video or only the audio
+
+        Raises:
+            Exception: Error occurred during download
         """
 
         try:

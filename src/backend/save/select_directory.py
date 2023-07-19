@@ -26,11 +26,10 @@ class SelectDirectory(FilePicker):
     @check_type
     def __on_result(self, event: FilePickerResultEvent):
         """
-        Sets the value of the selected directory and updates the page with the new value.
+        Sets the value of the selected directory.
 
-        :param event: FilePickerResultEvent, is an event object containing the path of the selected directory
-
-        :return: None
+        Args:
+            event (FilePickerResultEvent): Contains the path of the selected directory
         """
 
         path = event.path

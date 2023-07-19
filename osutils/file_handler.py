@@ -19,15 +19,17 @@ class FileHandler:
         path_to_file: str,
         download_name: str,
         callback: Callable = lambda: None,
-    ) -> None:
+    ):
         """
-        Deletes a file at a given path and raises an error if it fails.
+        Delete a file from the user's PC
 
-        :param path_to_file: A string representing the path to the directory where the file to be deleted is located
+        Args:
+            path_to_file (str): Location of the file to delete
+            download_name (str): File name to delete
+            callback (Callable, optional): Action to be executed after deleting the file
 
-        :param download_name: The name of the file to be deleted
-
-        :param callback: Is a function that is executed after the file is successfully deleted. It is an optional parameter and by default, it's set to a lambda function that does nothing. This parameter can be used to perform any additional actions after the file is deleted
+        Raises:
+            OSError: Error occurred during file deletion
         """
 
         from utils import LoggingManagement
@@ -47,11 +49,13 @@ class FileHandler:
     @classmethod
     def clean_invalid_chars(cls, title: str) -> str:
         """
-        Removes invalid characters from a given string, with different invalid characters depending on the operating system.
+        Remove invalid characters from a string
 
-        :param title: A string representing the title of the file
+        Args:
+            title (str): Title to clean from invalid characters
 
-        :return: A string that has been cleaned of any invalid characters based on the operating system.
+        Returns:
+            str: The title without invalid characters based on the user's OS
         """
 
         from utils import INVALID_CHARS, SYSTEM_NAME
@@ -63,9 +67,13 @@ class FileHandler:
     @classmethod
     def check_file_exists(cls, file_path: str | Path):
         """
-        Checks if a file exists at a given file path and raises a FileNotFoundError if it does not.
+        Check that a file exists
 
-        :param file_path: Is a string or Path object that represents the path to a file that needs to be checked for existence
+        Args:
+            file_path (str | Path): Path to the file to check
+
+        Raises:
+            FileNotFoundError: Error that the file doesn't exist at the given path
         """
 
         if not Path(file_path).exists():

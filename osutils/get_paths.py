@@ -10,26 +10,32 @@ class GetPaths:
     Gets the path to a directory or to a file
     """
 
-    @classmethod
-    def get_desktop_path(cls):
+    @staticmethod
+    def get_desktop_path() -> Path:
         """
-        Returns the path to the user's desktop.
+        Gets the path to the user's desktop
 
-        :return: The path to the user's desktop.
+        Returns:
+            Path: The path to the user's desktop.
         """
 
         from utils import DESKTOP_PATH
 
         return DESKTOP_PATH
 
-    @classmethod
-    def get_config_file(cls, config_file: str):
+    @staticmethod
+    def get_config_file(config_file: str) -> Path:
         """
-        Returns a configuration file based on the input string parameter.
+        Gets the configuration file
 
-        :param config_file: config_file is a string parameter that represents the name of the configuration file that needs to be retrieved
+        Args:
+            config_file (str): Configuration file to get
 
-        :return: The path to the configuration file
+        Raises:
+            ValueError: The configuration file doesn't exist
+
+        Returns:
+            Path: The path to the configuration file
         """
 
         from utils import CONFIG_FILES
@@ -39,23 +45,26 @@ class GetPaths:
 
         return CONFIG_FILES[config_file.upper()]
 
-    @classmethod
-    def get_project_root_path(cls):
+    @staticmethod
+    def get_project_root_path() -> Path:
         """
         Gets the path to the root of the project.
 
-        :return: The path to the root of the project.
+        Returns:
+            Path: The path to the root of the project.
         """
 
         current_dir = Path(__file__).resolve()
 
         return current_dir.parent.parent
 
-    @classmethod
-    def get_user_home_path(cls):
+    @staticmethod
+    def get_user_home_path() -> Path:
         """
-        Get the home directory path of the user.
+        Gets the path of the user's home directory.
 
-        :return: The home directory path of the user.
+        Returns:
+            Path: The home directory path of the user.
         """
+
         return Path.home()

@@ -1,6 +1,6 @@
 from typing import Callable
 
-from flet import Dropdown, dropdown, alignment, Page, AppBar, IconButton, Checkbox
+from flet import AppBar, Checkbox, Dropdown, IconButton, Page, alignment, dropdown
 
 from config import ExcelTextLoader
 from utils import check_type
@@ -79,11 +79,12 @@ class ContactUI(Dropdown):
 
         return self.page.update(self, self.appbar)
 
-    def is_visible(self):
+    def is_visible(self) -> bool:
         """
         Checks if the dialog is visible.
 
-        :return: True if the dropdown is visible, False otherwise
+        Returns:
+            bool: True if the dropdown is visible, False otherwise
         """
 
         return self.visible
@@ -93,7 +94,8 @@ class ContactUI(Dropdown):
         """
         Changes the placeholder text.
 
-        :param new_placeholder: The new text that will replace the current placeholder text
+        Args:
+            new_placeholder (str): The new placeholder that will replace the current one
         """
 
         self.hint_text = new_placeholder

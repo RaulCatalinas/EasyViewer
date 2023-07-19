@@ -1,8 +1,8 @@
 from typing import Callable
 
-from flet import icons, CrossAxisAlignment, Page
-
 from create_widgets import CreateDialog, CreateElevatedButton
+from flet import CrossAxisAlignment, Page, icons
+
 from utils import check_type
 
 
@@ -31,8 +31,8 @@ class ErrorDialog(CreateDialog):
         """
         Show a dialog with the specified error.
 
-        :param error: Error message
-        :param app_page: Reference to the app window
+        Args:
+            error (str): Error message
         """
 
         self.overlay(self.app_page)

@@ -1,7 +1,15 @@
-from flet import dropdown
+from components import ContactUI, LanguageUI
+from create_widgets import (
+    CreateCheckbox,
+    CreateDialog,
+    CreateElevatedButton,
+    CreateIconButton,
+    CreateInputs,
+    TaskBar,
+)
+from flet import Page, dropdown
 
-from components import LanguageUI
-from config import ExcelTextLoader, EnvironmentVariables
+from config import EnvironmentVariables, ExcelTextLoader
 from utils import check_type
 
 
@@ -13,20 +21,19 @@ class ChangeLanguage(LanguageUI):
     @check_type
     def __init__(
         self,
-        appbar,
-        page,
-        input_url,
-        input_directory,
-        close_dialog,
-        dropdown_contact,
-        icon_language,
-        icon_theme,
-        button_exit_the_app,
-        icon_update,
-        checkbox,
+        appbar: TaskBar,
+        page: Page,
+        input_url: CreateInputs,
+        input_directory: CreateInputs,
+        close_dialog: CreateDialog,
+        dropdown_contact: ContactUI,
+        icon_language: CreateIconButton,
+        icon_theme: CreateIconButton,
+        button_exit_the_app: CreateElevatedButton,
+        icon_update: CreateIconButton,
+        checkbox: CreateCheckbox,
     ):
         self.appbar = appbar
-        self.page = page
         self.input_url = input_url
         self.input_directory = input_directory
         self.close_dialog = close_dialog
@@ -53,17 +60,19 @@ class ChangeLanguage(LanguageUI):
         )
 
     @check_type
-    def __change_language(self, page):
+    def __change_language(self, page: Page):
         """
-        Change the language of the app, update the texts of the app, and update the environment variable to the chosen language.
+        Change the language of the application
 
-        :param page: A reference to the app window.
+        Args:
+            page (flet.Page): Reference to the app window.
         """
 
         if self.value in ["Spanish", "Español"]:
-            EnvironmentVariables.set_language(language="Español", page=page)
+            EnvironmentVariables.set_language(language="Español", page=self.page)
+
         else:
-            EnvironmentVariables.set_language(language="English", page=page)
+            EnvironmentVariables.set_language(language="English", page=self.page)
 
         self.visible = False
 
@@ -94,7 +103,7 @@ class ChangeLanguage(LanguageUI):
             self.icon_update.change_offset(offset_x=0, offset_y=0)
             self.check_box.change_offset(offset_x=0, offset_y=0)
 
-        return self.page.update(
+        page.update(
             self.appbar,
             self.input_url,
             self.input_directory,

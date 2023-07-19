@@ -2,7 +2,7 @@
 Create the inputs
 """
 
-from flet import TextField, KeyboardType, Offset, MainAxisAlignment
+from flet import KeyboardType, MainAxisAlignment, Offset, Page, TextField
 
 from utils import check_type
 
@@ -47,40 +47,46 @@ class CreateInputs(TextField):
             value=self.value_input,
         )
 
-    def toggle_state(self, page):
+    @check_type
+    def toggle_state(self, page: Page):
         """
         If the input is activated, it deactivates it and vice versa
 
-        :param page: Is a reference to the app window
+        Args:
+            page (flet.Page): Reference to the app window
         """
 
         self.disabled = not self.disabled
+        page.update(self)
 
-        return page.update(self)
-
-    def change_placeholder(self, new_placeholder):
+    @check_type
+    def change_placeholder(self, new_placeholder: str):
         """
         Changes the placeholder.
 
-        :param new_placeholder: The new placeholder that will replace the current placeholder
+        Args:
+            new_placeholder (str): The new placeholder that will replace the current one
         """
 
         self.hint_text = new_placeholder
 
-    def set_value(self, new_value):
+    @check_type
+    def set_value(self, new_value: str):
         """
         Sets a new value for the input.
 
-        :param new_value: The new value that will be assigned to the input
+        Args:
+            new_value (str): The new value that will be assigned to the input
         """
 
         self.value = new_value
 
-    def get_value(self):
+    def get_value(self) -> str:
         """
         Get the current value of the input.
 
-        :return: The current value of the input.
+        Returns:
+            str: The current value of the input.
         """
 
         return self.value

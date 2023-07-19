@@ -14,22 +14,29 @@ class InterfaceIconButton(ABC):
         """
         If the button is activated, it deactivates it and vice versa
 
-        :param page: Is a reference to the app window
+        Args:
+            page (flet.Page): Reference to the app window
         """
 
     @abstractmethod
     def change_offset(self, offset_x: int, offset_y: int):
         """
-        Changes the offset of the button using the given x and y values.
+        Change the button offset
 
-        :param offset_x: x-coordinate offset
-
-        :param offset_y: y-coordinate offset
+        Args:
+            offset_x (int): Offset in x-axis
+            offset_y (int): Offset in the y-axis
         """
 
     @abstractmethod
-    def set_visibility(self, visible: bool):
-        """ """
+    def set_visibility(self, visible: bool, page: Page):
+        """
+        Change the visibility of the button
+
+        Args:
+            visible (bool): The new button visibility
+            page (Page): Reference to the app window
+        """
 
 
 class InterfaceTextButton(ABC):
@@ -40,9 +47,10 @@ class InterfaceTextButton(ABC):
     @abstractmethod
     def change_function(self, new_function: Callable, *args, **kwargs):
         """
-        Takes a new function and its arguments, and sets it as the on_click event.
+        Change the function that is executed when the button is clicked
 
-        :param new_function: The new function that will be executed when the button is clicked
+        Args:
+            new_function (Callable): The new function that the button will execute
         """
 
     @abstractmethod

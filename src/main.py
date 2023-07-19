@@ -2,15 +2,15 @@
 
 from threading import Thread
 
-from flet import Page, CrossAxisAlignment, app
-
-from backend import Download, Validations, ShutdownHandler, Update
-from components import IndexUI, ErrorDialog, UpdateDialog
-from config import GetConfigJson, EnvironmentVariables, ExcelTextLoader
-from control import ControlVariables
+from components import ErrorDialog, IndexUI, UpdateDialog
+from flet import CrossAxisAlignment, Page, app
 from modify_gui import ChangeTheme
+
+from backend import Download, ShutdownHandler, Update, Validations
+from config import EnvironmentVariables, ExcelTextLoader, GetConfigJson
+from control import ControlVariables
 from osutils import FileHandler
-from utils import LoggingManagement, check_type, ENABLED_TYPE_CHECKING
+from utils import ENABLED_TYPE_CHECKING, LoggingManagement, check_type
 
 
 class Main:
@@ -19,7 +19,7 @@ class Main:
         Initializes the Main class.
 
         Args:
-            app_page (Page): Reference to the app window.
+            app_page (flet.Page): Reference to the app window.
         """
 
         self.control_variables = ControlVariables()
@@ -31,10 +31,10 @@ class Main:
 
     def __initialize_app(self, app_page: Page):
         """
-        Initializes the app by setting up initial values and instantiating necessary classes.
+        Initialize the application
 
         Args:
-            app_page (Page): Reference to the app window.
+            app_page (flet.Page): Reference to the app window.
         """
 
         ChangeTheme.set_initial_theme(app_page)
@@ -54,7 +54,7 @@ class Main:
         Configures the window properties of the app page.
 
         Args:
-            app_page (Page): Reference to the app window.
+            app_page (flet.Page): Reference to the app window.
         """
 
         app_page.title = GetConfigJson.get_config_json("WINDOW", "TITLE")
@@ -76,7 +76,7 @@ class Main:
         Adds items to the app page.
 
         Args:
-            app_page (Page): Reference to the app window.
+            app_page (flet.Page): Reference to the app window.
         """
 
         index_ui = IndexUI(
@@ -130,7 +130,7 @@ class Main:
 
         Args:
             event (EventData): Window event data.
-            app_page (Page): Reference to the app window.
+            app_page (flet.Page): Reference to the app window.
         """
 
         if event.data == "close":
@@ -148,7 +148,7 @@ class Main:
         Download the video if `download_video` is True, otherwise download the audio.
 
         Args:
-            app_page (Page): Reference to the app window.
+            app_page (flet.Page): Reference to the app window.
             download_video (bool): Indicates whether to download the video or audio.
         """
 
@@ -186,7 +186,7 @@ class Main:
         Add dialogs to the overlay of the specified page.
 
         Args:
-            app_page (Page): Reference to the app window.
+            app_page (flet.Page): Reference to the app window.
         """
 
         to_add_to_the_overlay_of_the_page = [self.shutdown_handler, self.error_dialog]
@@ -200,7 +200,7 @@ class Main:
         Toggle the state of various widgets.
 
         Args:
-            app_page (Page): Reference to the app window.
+            app_page (flet.Page): Reference to the app window.
         """
 
         self.button_directory.toggle_state(app_page)
@@ -214,7 +214,7 @@ class Main:
         Checks for updates and shows a dialog if a new release is available.
 
         Args:
-            app_page (Page): Reference to the app window.
+            app_page (flet.Page): Reference to the app window.
             is_main (bool): Indicates if it's the main update check (default is True).
         """
 
@@ -234,13 +234,15 @@ class Main:
             self.update_dialog.show_update_dialog()
 
     @check_type
-    def __validate_download(self, url: str, app_page: Page, video_location: str):
+    def __validate_download(
+        self, url: str, app_page: Page, video_location: str
+    ) -> bool:
         """
         Validates the download parameters.
 
         Args:
             url (str): The URL of the video.
-            app_page (Page): Reference to the app window.
+            app_page (flet.Page): Reference to the app window.
             video_location (str): The location to save the video.
 
         Returns:
@@ -248,15 +250,15 @@ class Main:
         """
 
         return (
-            Validations.check_if_a_url_has_been_entered(url)
-            and Validations.check_if_is_url_youtube(url)
-            and Validations.check_if_directory_is_selected(
+            Validations.validate_non_empty_url(url)
+            and Validations.check_if_youtube_url(url)
+            and Validations.set_default_directory_or_check_selected(
                 input_directory=self.input_directory,
                 page=app_page,
                 video_location=video_location,
             )
             and Validations.check_internet_connection()
-            and Validations.check_if_the_video_is_available(url)
+            and Validations.is_youtube_video_available(url)
         )
 
 

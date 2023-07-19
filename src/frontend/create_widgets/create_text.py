@@ -18,9 +18,10 @@ class CreateText(Text):
     @check_type
     def set_text(self, new_text: str):
         """
-        Set a new text content.
+        Change the text that is displayed
 
-        :param new_text: The new text content.
+        Args:
+            new_text (str): The new text to be displayed
         """
 
         self.value = new_text
