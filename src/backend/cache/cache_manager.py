@@ -16,7 +16,7 @@ class CacheManager:
     """
 
     @staticmethod
-    def read_cache() -> Any:
+    def read_cache():
         """
         Get the data from the cache
 
@@ -34,7 +34,7 @@ class CacheManager:
             except JSONDecodeError as exc:
                 LoggingManagement.write_error(str(exc))
 
-                raise JSONDecodeError(str(exc), doc=CACHE_FILE) from exc
+                raise JSONDecodeError(str(exc), doc=CACHE_FILE, pos=0) from exc
 
     @staticmethod
     def write_cache(key: str, data: Any):

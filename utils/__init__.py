@@ -1,16 +1,16 @@
 from .constants import (
+    CACHE_FILE,
+    CONFIG_FILES,
     DESKTOP_PATH,
+    ENABLED_TYPE_CHECKING,
     ICONS,
     INVALID_CHARS,
-    CONFIG_FILES,
     SYSTEM_NAME,
-    ENABLED_TYPE_CHECKING,
-    CACHE_FILE,
 )
-from .interfaces import InterfaceTextButton, InterfaceIconButton
+from .enum_helper import EnumHelper
+from .interfaces import InterfaceIconButton, InterfaceTextButton
 from .logging_management import LoggingManagement
 from .type_checker import check_type
-from .enum_helper import EnumHelper
 
 __all__ = [
     "check_type",

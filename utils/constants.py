@@ -13,10 +13,10 @@ USER_HOME = GetPaths.get_user_home_path()
 DESKTOP_PATH = USER_HOME.joinpath("Desktop")
 
 CONFIG_FILES = {
-    "INI": ROOT_PATH.joinpath("config/control_variables.ini"),
-    "JSON": ROOT_PATH.joinpath("config/config.json"),
-    "EXCEL": ROOT_PATH.joinpath("config/languages.xlsx"),
-    "ENV": ROOT_PATH.joinpath("config/.env"),
+    "INI": ROOT_PATH.joinpath("settings/control_variables.ini"),
+    "JSON": ROOT_PATH.joinpath("settings/settings.json"),
+    "EXCEL": ROOT_PATH.joinpath("settings/languages.xlsx"),
+    "ENV": ROOT_PATH.joinpath("settings/.env"),
 }
 
 ICONS = {
@@ -31,4 +31,4 @@ SYSTEM_NAME = system()
 
 ENABLED_TYPE_CHECKING = True
 
-CACHE_FILE = "github_cache.json"
+CACHE_FILE = "./src/backend/cache/github_cache.json"
