@@ -1,9 +1,3 @@
-exclude=[
-    ".git",
-    ".venv",
-    "dist",
-    "build",
-    ".ruff_cache"
-]
+exclude = [".git", ".venv", "dist", "build", ".ruff_cache"]
 
-fix=true
+fix = true
