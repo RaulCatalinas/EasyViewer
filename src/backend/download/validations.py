@@ -6,9 +6,9 @@ from flet import Page, TextField
 from pytube import YouTube
 from requests import ConnectionError, Timeout, get
 
-from config import ExcelTextLoader
-from control import ControlVariables
+from control_variables import ControlVariables
 from osutils import GetPaths
+from settings import ExcelTextLoader
 from utils import LoggingManagement, check_type
 
 

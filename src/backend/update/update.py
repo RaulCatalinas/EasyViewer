@@ -6,11 +6,13 @@ from os.path import exists
 from tomllib import load
 from webbrowser import open_new_tab
 
-from cache import CacheManager
 from github import Github
-from github_credentials import PASSWORD, EMAIL
 
+from frontend.components.update_dialog import UpdateDialog
+from github_credentials import EMAIL, PASSWORD
 from utils import CACHE_FILE
+
+from ..cache import CacheManager
 
 
 class Update(Github):
@@ -18,7 +20,7 @@ class Update(Github):
     Handles application updates through GitHub.
     """
 
-    def __init__(self, page, update_dialog):
+    def __init__(self, page, update_dialog: UpdateDialog | None):
         self.page = page
         self.update_dialog = update_dialog
 
@@ -28,6 +30,10 @@ class Update(Github):
         CacheManager.reset_cache_if_expired()
 
         array_versions = CacheManager.read_cache()
+
+        if array_versions is None:
+            CacheManager.create_json_cache()
+
         self.length_array_versions = len(array_versions)
 
         if self.length_array_versions != 0:
@@ -114,7 +120,7 @@ class Update(Github):
         if self.length_array_versions != 0:
             return self.user_version
 
-        with open("../pyproject.toml", mode="rb") as f:
+        with open("pyproject.toml", mode="rb") as f:
             data = load(f, parse_float=float)
 
         user_version = data["tool"]["poetry"]["version"]
@@ -143,4 +149,5 @@ class Update(Github):
 
         open_new_tab("https://github.com/RaulCatalinas/EasyViewer/releases/latest")
 
-        self.update_dialog.change_state(self.page)
+        if self.update_dialog is not None:
+            self.update_dialog.change_state(self.page)

@@ -4,9 +4,9 @@ Interact with the Pytube API.
 
 from pytube import Stream, YouTube
 
-from config import ExcelTextLoader
-from control import ControlVariables
+from control_variables import ControlVariables
 from osutils import FileHandler
+from settings import ExcelTextLoader
 from utils import LoggingManagement, check_type
 
 

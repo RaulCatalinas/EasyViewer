@@ -1,6 +1,6 @@
 """Build the app"""
 
-from subprocess import run, CalledProcessError
+from subprocess import CalledProcessError, run
 
 from utils import ENABLED_TYPE_CHECKING
 
@@ -32,13 +32,13 @@ def build():
         "--copyright",
         '"Copyright (c) 2023 Raul Catalinas Esteban"',
         "--add-data",
-        "config;config",
+        "settings;settings",
         "--add-data",
         "icon;icon",
         "--add-data",
         "src;src",
         "--add-data",
-        "control;control",
+        "control_variables;control_variables",
         "--add-data",
         "osutils;osutils",
         "--add-data",

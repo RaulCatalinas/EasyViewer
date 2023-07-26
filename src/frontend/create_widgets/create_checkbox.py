@@ -2,7 +2,7 @@ from typing import Callable
 
 from flet import Checkbox, Offset, Page
 
-from control import ControlVariables
+from control_variables import ControlVariables
 from utils import check_type
 
 

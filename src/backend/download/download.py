@@ -7,8 +7,8 @@ from typing import Callable
 
 from flet import Page
 
-from config import ExcelTextLoader
-from control import ControlVariables
+from control_variables import ControlVariables
+from settings import ExcelTextLoader
 from utils import LoggingManagement, check_type
 
 from .interact_api_pytube import InteractAPIPytube

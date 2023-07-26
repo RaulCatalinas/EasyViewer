@@ -2,15 +2,15 @@
 
 from threading import Thread
 
-from components import ErrorDialog, IndexUI, UpdateDialog
-from flet import CrossAxisAlignment, Page, app
-from modify_gui import ChangeTheme
-
 from backend import Download, ShutdownHandler, Update, Validations
-from config import EnvironmentVariables, ExcelTextLoader, GetConfigJson
-from control import ControlVariables
+from flet import MainAxisAlignment, Page, app
+from frontend.components import ErrorDialog, IndexUI, UpdateDialog
+from frontend.modify_gui import ChangeTheme
+
+from control_variables import ControlVariables
 from osutils import FileHandler
-from utils import ENABLED_TYPE_CHECKING, LoggingManagement, check_type
+from settings import EnvironmentVariables, ExcelTextLoader, GetConfigJson
+from utils import ENABLED_TYPE_CHECKING, EnumHelper, LoggingManagement, check_type
 
 
 class Main:
@@ -61,8 +61,12 @@ class Main:
         app_page.window_width = GetConfigJson.get_config_json("WINDOW", "WIDTH")
         app_page.window_height = GetConfigJson.get_config_json("WINDOW", "HIGH")
         app_page.window_center()
-        app_page.horizontal_alignment = CrossAxisAlignment.CENTER
-        app_page.vertical_alignment = CrossAxisAlignment.CENTER
+        app_page.horizontal_alignment = EnumHelper.get_enum_value(
+            MainAxisAlignment.CENTER
+        )
+        app_page.vertical_alignment = EnumHelper.get_enum_value(
+            MainAxisAlignment.CENTER
+        )
         app_page.window_resizable = False
         app_page.window_maximizable = False
         app_page.theme_mode = ChangeTheme.get_theme(app_page)

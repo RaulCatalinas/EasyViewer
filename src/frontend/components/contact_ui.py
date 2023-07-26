@@ -2,7 +2,7 @@ from typing import Callable
 
 from flet import AppBar, Checkbox, Dropdown, IconButton, Page, alignment, dropdown
 
-from config import ExcelTextLoader
+from settings import ExcelTextLoader
 from utils import check_type
 
 

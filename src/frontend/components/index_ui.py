@@ -1,11 +1,16 @@
 from threading import Thread
 
-from create_widgets import CreateIconButton, CreateInputs, CreateProgressBar, TaskBar
 from flet import KeyboardType, TextAlign, icons
 
-from config import ExcelTextLoader, GetConfigJson
-from frontend.create_widgets.create_checkbox import CreateCheckbox
+from settings import ExcelTextLoader, GetConfigJson
 
+from ..create_widgets import (
+    CreateCheckbox,
+    CreateIconButton,
+    CreateInputs,
+    CreateProgressBar,
+    TaskBar,
+)
 from .taskbar_ui import TaskBarUI
 
 
@@ -65,7 +70,7 @@ class IndexUI:
         self.progress_bar = CreateProgressBar(
             color=GetConfigJson.get_config_json("COLORS", "GREEN"),
             value=0,
-            offset_y=23,
+            offset_y=18.5,
         )
 
         self.taskbar_ui = TaskBarUI(

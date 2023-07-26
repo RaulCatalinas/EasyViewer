@@ -1,10 +1,11 @@
 from typing import Callable
 
-from create_widgets import CreateCheckbox, CreateIconButton
 from flet import AlertDialog, Column, ElevatedButton, Page, TextField, icons
 
-from config import ExcelTextLoader
+from settings import ExcelTextLoader
 from utils import check_type
+
+from ..create_widgets import CreateCheckbox, CreateIconButton
 
 
 class TaskBarUI:
@@ -19,7 +20,8 @@ class TaskBarUI:
         check_updates: Callable,
     ):
         from backend import Contact
-        from modify_gui import ChangeLanguage, ChangeTheme
+
+        from ..modify_gui import ChangeLanguage, ChangeTheme
 
         self.page = page
         self.input_url = input_url

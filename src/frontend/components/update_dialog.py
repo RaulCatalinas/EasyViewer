@@ -2,9 +2,10 @@ from typing import Callable
 
 from flet import CrossAxisAlignment, Page
 
-from config import ExcelTextLoader
-from create_widgets import CreateDialog, CreateElevatedButton, CreateOutlinedButton
+from settings import ExcelTextLoader
 from utils import check_type
+
+from ..create_widgets import CreateDialog, CreateElevatedButton, CreateOutlinedButton
 
 
 class UpdateDialog(CreateDialog):

@@ -3,10 +3,10 @@ Control the closing of the app
 """
 
 from flet import MainAxisAlignment, Page
-from frontend import CreateDialog, CreateElevatedButton, CreateOutlinedButton
 
-from config import ExcelTextLoader
-from control import ControlVariables
+from control_variables import ControlVariables
+from frontend import CreateDialog, CreateElevatedButton, CreateOutlinedButton
+from settings import ExcelTextLoader
 
 
 class ShutdownHandler(CreateDialog):

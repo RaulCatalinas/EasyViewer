@@ -1,19 +1,19 @@
 from typing import Callable
 
 from flet import (
-    Dropdown,
-    dropdown,
-    alignment,
-    Page,
-    AppBar,
-    IconButton,
-    TextField,
     AlertDialog,
-    ElevatedButton,
+    AppBar,
     Checkbox,
+    Dropdown,
+    ElevatedButton,
+    IconButton,
+    Page,
+    TextField,
+    alignment,
+    dropdown,
 )
 
-from config import ExcelTextLoader, EnvironmentVariables
+from settings import EnvironmentVariables, ExcelTextLoader
 from utils import check_type
 
 

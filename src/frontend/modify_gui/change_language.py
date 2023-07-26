@@ -1,5 +1,10 @@
-from components import ContactUI, LanguageUI
-from create_widgets import (
+from flet import Page, dropdown
+
+from settings import EnvironmentVariables, ExcelTextLoader
+from utils import check_type
+
+from ..components import ContactUI, LanguageUI
+from ..create_widgets import (
     CreateCheckbox,
     CreateDialog,
     CreateElevatedButton,
@@ -7,10 +12,6 @@ from create_widgets import (
     CreateInputs,
     TaskBar,
 )
-from flet import Page, dropdown
-
-from config import EnvironmentVariables, ExcelTextLoader
-from utils import check_type
 
 
 class ChangeLanguage(LanguageUI):

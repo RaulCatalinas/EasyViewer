@@ -4,8 +4,8 @@ Prompts the user to select a directory for the downloaded file
 
 from flet import FilePicker, FilePickerResultEvent, Page, TextField
 
-from config import ExcelTextLoader
-from control import ControlVariables
+from control_variables import ControlVariables
+from settings import ExcelTextLoader
 from utils import check_type
 
 

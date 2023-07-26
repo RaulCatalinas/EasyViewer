@@ -4,10 +4,11 @@ Create a dialog to communicate something to the user
 
 from typing import Union
 
-from create_text import CreateText
 from flet import AlertDialog, Icon, MainAxisAlignment, Page
 
 from utils import check_type
+
+from .create_text import CreateText
 
 
 class CreateDialog(AlertDialog):
