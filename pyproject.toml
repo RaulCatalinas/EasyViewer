@@ -12,14 +12,14 @@ python-dotenv = ">=1.0.0"
 pandas = ">=2.0.3"
 openpyxl = ">=3.1.2"
 pytube = ">=15.0.0"
-pygithub = ">=1.59.0"
+pygithub = ">=1.59.1"
 flet = ">=0.8.4"
 
 
 [tool.poetry.group.dev.dependencies]
 pyinstaller = ">=5.13.0"
 pillow = ">=10.0.0"
-ruff = ">=0.0.280"
+ruff = ">=0.0.282"
 
 [build-system]
 requires = ["poetry-core"]
