@@ -2,9 +2,7 @@
 
 from subprocess import CalledProcessError, run
 
-from utils import ENABLED_TYPE_CHECKING
-
-__version__ = "2.1.0"
+from constants import ENABLED_TYPE_CHECKING, USER_VERSION
 
 
 def build():
@@ -26,11 +24,11 @@ def build():
         "--file-description",
         "App to download youtube videos",
         "--file-version",
-        __version__,
+        USER_VERSION,
         "--product-version",
-        __version__,
+        USER_VERSION,
         "--copyright",
-        '"Copyright (c) 2023 Raul Catalinas Esteban"',
+        "Copyright (c) 2023 Raul Catalinas Esteban",
         "--add-data",
         "settings;settings",
         "--add-data",
@@ -44,7 +42,7 @@ def build():
         "--add-data",
         "utils;utils",
         "--add-data",
-        "pyproject.toml;pyproject.toml",
+        "constants;constants",
         "--add-data",
         "github_credentials.py;github_credentials.py",
     ]

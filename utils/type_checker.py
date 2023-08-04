@@ -1,6 +1,6 @@
 from typing import Callable, get_type_hints
 
-from utils import ENABLED_TYPE_CHECKING
+from constants import ENABLED_TYPE_CHECKING
 
 
 def check_type(func: Callable) -> Callable:

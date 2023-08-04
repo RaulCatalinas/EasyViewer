@@ -1,9 +1,3 @@
-"""
-Constants needed for the application
-"""
-
-from platform import system
-
 from osutils import GetPaths
 
 ROOT_PATH = GetPaths.get_project_root_path()
@@ -24,11 +18,3 @@ ICONS = {
     "Darwin": ROOT_PATH.joinpath("icon/icon-macOS.icns"),
     "Linux": ROOT_PATH.joinpath("icon/icon-Linux.png"),
 }
-
-INVALID_CHARS = {"Windows": r'[<>:/\\"|?*]', "Darwin": r"[:/]", "Linux": r"[/]"}
-
-SYSTEM_NAME = system()
-
-ENABLED_TYPE_CHECKING = True
-
-CACHE_FILE = "./src/backend/cache/github_cache.json"

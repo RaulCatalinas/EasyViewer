@@ -7,10 +7,11 @@ from flet import MainAxisAlignment, Page, app
 from frontend.components import ErrorDialog, IndexUI, UpdateDialog
 from frontend.modify_gui import ChangeTheme
 
+from constants import ENABLED_TYPE_CHECKING
 from control_variables import ControlVariables
 from osutils import FileHandler
 from settings import EnvironmentVariables, ExcelTextLoader, GetConfigJson
-from utils import ENABLED_TYPE_CHECKING, EnumHelper, LoggingManagement, check_type
+from utils import EnumHelper, LoggingManagement, check_type
 
 
 class Main:

@@ -11,7 +11,7 @@ class GetPaths:
     """
 
     @staticmethod
-    def get_desktop_path() -> Path:
+    def get_desktop_path():
         """
         Gets the path to the user's desktop
 
@@ -19,12 +19,12 @@ class GetPaths:
             Path: The path to the user's desktop.
         """
 
-        from utils import DESKTOP_PATH
+        from constants import DESKTOP_PATH
 
         return DESKTOP_PATH
 
     @staticmethod
-    def get_config_file(config_file: str) -> Path:
+    def get_config_file(config_file: str):
         """
         Gets the configuration file
 
@@ -38,7 +38,7 @@ class GetPaths:
             Path: The path to the configuration file
         """
 
-        from utils import CONFIG_FILES
+        from constants import CONFIG_FILES
 
         if config_file.upper() not in CONFIG_FILES:
             raise ValueError("Configuration file doesn't exist")
