@@ -2,11 +2,15 @@
 Validating various aspects of a YouTube video download request
 """
 
-from flet import Page, TextField
+from urllib.parse import urlparse
+
+from flet import Page
 from pytube import YouTube
 from requests import ConnectionError, Timeout, get
 
+from constants import ALLOW_HOSTS, GOOGLE
 from control_variables import ControlVariables
+from frontend.create_widgets import CreateInputs
 from osutils import GetPaths
 from settings import ExcelTextLoader
 from utils import LoggingManagement, check_type
@@ -57,7 +61,9 @@ class Validations:
             bool: True if the url is from YouTube
         """
 
-        if "youtube.com" in url or "youtu.be" in url:
+        host = urlparse(url).hostname
+
+        if host in ALLOW_HOSTS:
             LoggingManagement.write_log("The URL is from YouTube")
 
             return True
@@ -69,7 +75,7 @@ class Validations:
     @staticmethod
     @check_type
     def set_default_directory_or_check_selected(
-        input_directory: TextField,
+        input_directory: CreateInputs,
         page: Page,
         video_location: str,
     ) -> bool:
@@ -89,7 +95,7 @@ class Validations:
             default_directory = GetPaths.get_desktop_path()
 
             input_directory.set_value(default_directory)
-            ControlVariables().set_control_variable_in_ini(
+            ControlVariables().set_control_variable(
                 option="VIDEO_LOCATION", value=default_directory
             )
 
@@ -116,7 +122,7 @@ class Validations:
         """
 
         try:
-            get("https://www.google.com", timeout=5)
+            get(GOOGLE, timeout=5)
 
         except (ConnectionError, Timeout) as exc:
             LoggingManagement.write_error("No internet connection")
