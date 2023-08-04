@@ -340,26 +340,26 @@ files = [
 
 [[package]]
 name = "flet"
-version = "0.8.4"
+version = "0.9.0"
 description = "Flet for Python - easily build interactive multi-platform apps in Python"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "flet-0.8.4-py3-none-any.whl", hash = "sha256:8ca1f9fc9c3de21db2a54bbb6c1effdf3b49c4a6e7bfd213a247c88b1e6e112a"},
-    {file = "flet-0.8.4-py3-none-macosx_10_14_x86_64.whl", hash = "sha256:273d20e9e1750a1976687b824fd3e278eaf33a3a73b2351bd56d4f8538d6456b"},
-    {file = "flet-0.8.4-py3-none-macosx_12_0_arm64.whl", hash = "sha256:a95fcea3685f55a448fac8ca59916c51dd0e58539e30fe505cf7b0a3239d1bd8"},
-    {file = "flet-0.8.4-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:29b05bf88381a008c226b7c39eb4cb5d906f9650f873c4b28d1bdc61d0c20e5e"},
-    {file = "flet-0.8.4-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:e91567fe8836fb51cf1ee472425ceb8e4b5e1cd08789006c8715025a7645a740"},
-    {file = "flet-0.8.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f6032bac9e446fdb3e6c4ff040a95a1531d5d52cd5bd630aa17f6bb5dd86b0f4"},
-    {file = "flet-0.8.4-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:60659259677d53e2cb68386ec298b983ce46fd20cf7b584cb15cb21dc8c7663c"},
-    {file = "flet-0.8.4-py3-none-win32.whl", hash = "sha256:8d388683328b7061e2b5f1d88ff68682e8705608909c663c8ccab58dc75e1052"},
-    {file = "flet-0.8.4-py3-none-win_amd64.whl", hash = "sha256:29aad8f6ed09ca1fa8f6be6a2bb3a5748177a707cf4b30e7201b64ba215f9666"},
-    {file = "flet-0.8.4.tar.gz", hash = "sha256:78e1c05a231f774f5fff24873143ae3e7b5d8c7c55759b86f84137d93e71a9b4"},
+    {file = "flet-0.9.0-py3-none-any.whl", hash = "sha256:ce9843c5c3bc29b8bb57e8c7340d4f32dbf9ba4c1c8f8c875118297ed34be264"},
+    {file = "flet-0.9.0-py3-none-macosx_10_14_x86_64.whl", hash = "sha256:cd6133c149586b2c16e3701e35d1b1da18c1188331eeec689648a6ad68a9750d"},
+    {file = "flet-0.9.0-py3-none-macosx_12_0_arm64.whl", hash = "sha256:1c3409e0c0d103e7d8f746f666e7cb7aa922c869f1fb7ad656f7a0821fb9feac"},
+    {file = "flet-0.9.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:56598e840ef02e6c37f5075b802e83ad77900aa1b74e632cf489d9d76d9fe21f"},
+    {file = "flet-0.9.0-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:4591e05cdd6a1edc5ce2252d91cfb6eff77a3e5f613be405b2fca06829936706"},
+    {file = "flet-0.9.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ec98488088fd9bccdd5d89dd6d1d3538939c2d8a41615284f8700049c74c2a3a"},
+    {file = "flet-0.9.0-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:04e552c2c6e95e7b5374a5ed9d3d363b390afa6fe02666dfa79388ce12853a24"},
+    {file = "flet-0.9.0-py3-none-win32.whl", hash = "sha256:7d8206f10763596b470e9982608503f7adb0a9ca5f4ed5ccf2762c52fdffaece"},
+    {file = "flet-0.9.0-py3-none-win_amd64.whl", hash = "sha256:1178373e779fe3f2000a320eeafcc92032ba11098287ec56e28151a5557dad68"},
+    {file = "flet-0.9.0.tar.gz", hash = "sha256:f06e20d79590bdfdc2c02267605b32d0551ee434f2aeb44053f2a73f88ab1654"},
 ]
 
 [package.dependencies]
 copier = ">=8.0.0,<9.0.0"
-flet-runtime = "0.8.4"
+flet-runtime = "0.9.0"
 packaging = ">=23.1,<24.0"
 pydantic = "<2"
 qrcode = ">=7.4.2,<8.0.0"
@@ -369,13 +369,13 @@ websockets = ">=11.0.3,<12.0.0"
 
 [[package]]
 name = "flet-core"
-version = "0.8.4"
+version = "0.9.0"
 description = "Flet core library"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "flet_core-0.8.4-py3-none-any.whl", hash = "sha256:b6e8849c8b438e296ca6ed3a03ebd042b10592f7df6ea82feb024cb6bc13ad83"},
-    {file = "flet_core-0.8.4.tar.gz", hash = "sha256:0204fb6af53146bf0b75376bd280ef5b148efdba60befcf6cceb4badb606b8ac"},
+    {file = "flet_core-0.9.0-py3-none-any.whl", hash = "sha256:a03bc7099433a7170ebc99bc3c5200763fbe90fbd3cf1e999ffd07fb3abe4b9a"},
+    {file = "flet_core-0.9.0.tar.gz", hash = "sha256:c90a000c1fbcf75d4aa4ac488d8d1b37986d6382d2bef408097d5fb07607eb1f"},
 ]
 
 [package.dependencies]
@@ -383,17 +383,17 @@ repath = ">=0.9.0,<0.10.0"
 
 [[package]]
 name = "flet-runtime"
-version = "0.8.4"
+version = "0.9.0"
 description = "Flet Runtime - a base package for Flet desktop and Flet mobile."
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "flet_runtime-0.8.4-py3-none-any.whl", hash = "sha256:a12e887bc3b2d71c655992ce2618341eeaff3fe5b0ee01b86747d5a01ebe9f2a"},
-    {file = "flet_runtime-0.8.4.tar.gz", hash = "sha256:ea577991791599379dcdf91c532c857ceb54e47fa02aa9ecf040dd0be9c10fde"},
+    {file = "flet_runtime-0.9.0-py3-none-any.whl", hash = "sha256:c6ace96e054b3456ce44786596008db5ff618b0981ad63294e2ee3c74e8500ae"},
+    {file = "flet_runtime-0.9.0.tar.gz", hash = "sha256:76af913a74aaa38a07d93c77816685991d6e25563fd9885b34ad057906498e66"},
 ]
 
 [package.dependencies]
-flet-core = "0.8.4"
+flet-core = "0.9.0"
 httpx = ">=0.24.1,<0.25.0"
 oauthlib = ">=3.2.2,<4.0.0"
 
@@ -1600,4 +1600,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11, <3.12"
-content-hash = "f4bb27ae06293f20244d80728d51fbd38c8baba0fd545315da7caa4df418bd45"
+content-hash = "c63a878fcce6501965ccac0ded2f630d237292e8b97a06000daaa80505a72a72"
