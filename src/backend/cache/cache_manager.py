@@ -7,7 +7,8 @@ from json import JSONDecodeError, dump, load
 from time import time
 from typing import Any
 
-from utils import CACHE_FILE, LoggingManagement
+from constants import CACHE_FILE
+from utils import LoggingManagement
 
 
 class CacheManager:
@@ -16,7 +17,7 @@ class CacheManager:
     """
 
     @staticmethod
-    def read_cache():
+    def read_cache() -> dict[str, Any]:
         """
         Get the data from the cache
 
@@ -47,13 +48,13 @@ class CacheManager:
         """
 
         try:
-            array = CacheManager.read_cache()
+            cache_dict = CacheManager.read_cache()
             cached_data = {key: data, "timestamp": int(time())}
 
-            array.append(cached_data)
+            cache_dict.update(cached_data)
 
             with open(CACHE_FILE, mode="w", encoding="utf-8") as file:
-                dump(array, file)
+                dump(cache_dict, file)
 
         except Exception as e:
             LoggingManagement.write_error(str(e))
@@ -66,7 +67,7 @@ class CacheManager:
 
         try:
             with open(CACHE_FILE, mode="w", encoding="utf-8") as file:
-                file.write("[]")
+                file.write("{}")
 
         except Exception as e:
             LoggingManagement.write_error(str(e))
@@ -86,13 +87,19 @@ class CacheManager:
 
                 current_time = datetime.now()
 
-                for data in cache_data:
-                    timestamp = data.get("timestamp")
-                    cache_time = datetime.fromtimestamp(timestamp)
-                    expiration_time = cache_time + timedelta(days=30)
+                timestamp = cache_data.get("timestamp")
+                cache_time = datetime.fromtimestamp(timestamp)
+                expiration_time = cache_time + timedelta(days=30)
 
-                    if current_time > expiration_time:
-                        CacheManager.create_json_cache()
+                if current_time > expiration_time:
+                    CacheManager.create_json_cache()
 
             except (JSONDecodeError, KeyError) as e:
                 LoggingManagement.write_error(str(e))
+
+    @staticmethod
+    def is_the_cache_empty():
+        with open(CACHE_FILE, "r", encoding="utf-8") as file:
+            cache = load(file)
+
+        return bool(cache)

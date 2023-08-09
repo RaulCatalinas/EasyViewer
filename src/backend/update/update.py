@@ -2,15 +2,23 @@
 Handles application updates through GitHub.
 """
 
+from os import environ
 from os.path import exists
-from tomllib import load
 from webbrowser import open_new_tab
 
+from flet import Page
 from github import Github
+from github.GitReleaseAsset import GitReleaseAsset
 
+from constants import (
+    CACHE_FILE,
+    GITHUB_REPO,
+    GITHUB_USER,
+    LATEST_RELEASE_URL,
+    USER_VERSION,
+)
 from frontend.components.update_dialog import UpdateDialog
-from github_credentials import EMAIL, PASSWORD
-from utils import CACHE_FILE
+from utils import check_type
 
 from ..cache import CacheManager
 
@@ -20,7 +28,8 @@ class Update(Github):
     Handles application updates through GitHub.
     """
 
-    def __init__(self, page, update_dialog: UpdateDialog | None):
+    @check_type
+    def __init__(self, page: Page, update_dialog: UpdateDialog | None):
         self.page = page
         self.update_dialog = update_dialog
 
@@ -29,19 +38,15 @@ class Update(Github):
 
         CacheManager.reset_cache_if_expired()
 
-        array_versions = CacheManager.read_cache()
+        self.cache = CacheManager.read_cache()
 
-        if array_versions is None:
-            CacheManager.create_json_cache()
+        self.is_the_cache_empty = CacheManager.is_the_cache_empty()
 
-        self.length_array_versions = len(array_versions)
+        token = environ.get("TOKEN")
+        print(token)
 
-        if self.length_array_versions != 0:
-            self.release_version = array_versions[0]["release_version"]
-            self.user_version = array_versions[1]["user_version"]
-
-        elif self.length_array_versions == 0:
-            super().__init__(login_or_token=EMAIL, password=PASSWORD)
+        if not self.is_the_cache_empty:
+            super().__init__(token)
 
     def __get_user(self):
         """
@@ -51,7 +56,7 @@ class Update(Github):
             AuthenticatedUser | NamedUser: The GitHub user object.
         """
 
-        return self.get_user("RaulCatalinas")
+        return self.get_user(GITHUB_USER)
 
     def __get_repo(self):
         """
@@ -63,9 +68,9 @@ class Update(Github):
 
         user = self.__get_user()
 
-        return user.get_repo("EasyViewer")
+        return user.get_repo(GITHUB_REPO)
 
-    def __get_assets(self):
+    def __get_assets(self) -> GitReleaseAsset:
         """
         Gets the assets of the latest release.
 
@@ -91,7 +96,7 @@ class Update(Github):
 
         return assets.browser_download_url
 
-    def __get_release_version(self):
+    def __get_release_version(self) -> str:
         """
         Gets the version number of the latest version.
 
@@ -99,8 +104,8 @@ class Update(Github):
             str: The version number of the latest release.
         """
 
-        if self.length_array_versions != 0:
-            return self.release_version
+        if self.is_the_cache_empty:
+            self.cache.get("release_version")
 
         download_url = self.__get_download_url()
         release_version = download_url.split("/")[-2].replace("v", "")
@@ -108,26 +113,6 @@ class Update(Github):
         CacheManager.write_cache("release_version", release_version)
 
         return release_version
-
-    def __get_user_version(self):
-        """
-        Gets the version number of the user's current application.
-
-        Returns:
-            str: The version number of the user's current application.
-        """
-
-        if self.length_array_versions != 0:
-            return self.user_version
-
-        with open("pyproject.toml", mode="rb") as f:
-            data = load(f, parse_float=float)
-
-        user_version = data["tool"]["poetry"]["version"]
-
-        CacheManager.write_cache("user_version", user_version)
-
-        return user_version
 
     def is_new_release_available(self) -> bool:
         """
@@ -138,16 +123,15 @@ class Update(Github):
         """
 
         release_version = self.__get_release_version()
-        user_version = self.__get_user_version()
 
-        return user_version < release_version
+        return USER_VERSION < release_version
 
     def update(self):
         """
         Opens the user's default web browser to the latest version page on GitHub
         """
 
-        open_new_tab("https://github.com/RaulCatalinas/EasyViewer/releases/latest")
+        open_new_tab(LATEST_RELEASE_URL)
 
         if self.update_dialog is not None:
             self.update_dialog.change_state(self.page)
