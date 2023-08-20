@@ -1,10 +1,9 @@
 from typing import Callable
 
 from flet import CrossAxisAlignment, Page, icons
+from frontend.create_widgets import CreateDialog, CreateElevatedButton
 
 from utils import check_type
-
-from ..create_widgets import CreateDialog, CreateElevatedButton
 
 
 class ErrorDialog(CreateDialog):

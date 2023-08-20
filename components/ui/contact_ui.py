@@ -1,7 +1,8 @@
 from typing import Callable
 
-from flet import AppBar, Checkbox, Dropdown, IconButton, Page, alignment, dropdown
+from flet import Dropdown, Page, alignment, dropdown
 
+from frontend.create_widgets import CreateCheckbox, CreateIconButton, TaskBar
 from settings import ExcelTextLoader
 from utils import check_type
 
@@ -16,12 +17,12 @@ class ContactUI(Dropdown):
         self,
         dropdown_language: Dropdown,
         page: Page,
-        appbar: AppBar,
-        icon_contact: IconButton,
-        icon_theme: IconButton,
+        appbar: TaskBar,
+        icon_contact: CreateIconButton,
+        icon_theme: CreateIconButton,
         callback: Callable,
-        icon_update: IconButton,
-        checkbox: Checkbox,
+        icon_update: CreateIconButton,
+        checkbox: CreateCheckbox,
     ):
         self.dropdown_language = dropdown_language
         self.page = page
@@ -49,6 +50,8 @@ class ContactUI(Dropdown):
         Show or hide the dropdown if it's hidden or not respectively
         """
 
+        drodropdown_language_is_visible = self.dropdown_language.is_visible()
+
         if not self.visible:
             self.visible = True
 
@@ -59,7 +62,7 @@ class ContactUI(Dropdown):
             self.checkbox.change_offset(offset_x=0, offset_y=-0.79)
             self.icon_update.change_offset(
                 offset_x=(
-                    -2.61 if self.visible and self.dropdown_language.is_visible() else 0
+                    -2.61 if self.visible and drodropdown_language_is_visible else 0
                 ),
                 offset_y=-0.62,
             )
@@ -70,7 +73,10 @@ class ContactUI(Dropdown):
         self.icon_contact.change_offset(offset_x=0, offset_y=0.3)
         self.icon_update.change_offset(offset_x=0, offset_y=-0.62)
 
-        if not self.dropdown_language.is_visible():
+        if (
+            not drodropdown_language_is_visible
+            and drodropdown_language_is_visible is not None
+        ):
             self.appbar.change_height(63)
 
             self.icon_theme.change_offset(offset_x=0, offset_y=0)
@@ -79,7 +85,7 @@ class ContactUI(Dropdown):
 
         return self.page.update(self, self.appbar)
 
-    def is_visible(self) -> bool:
+    def is_visible(self):
         """
         Checks if the dialog is visible.
 

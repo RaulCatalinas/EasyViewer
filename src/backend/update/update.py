@@ -10,6 +10,7 @@ from flet import Page
 from github import Github
 from github.GitReleaseAsset import GitReleaseAsset
 
+from components.dialog import UpdateDialog
 from constants import (
     CACHE_FILE,
     GITHUB_REPO,
@@ -17,7 +18,6 @@ from constants import (
     LATEST_RELEASE_URL,
     USER_VERSION,
 )
-from frontend.components.update_dialog import UpdateDialog
 from utils import check_type
 
 from ..cache import CacheManager

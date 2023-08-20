@@ -1,11 +1,18 @@
 from typing import Callable
 
-from flet import AlertDialog, Column, ElevatedButton, Page, TextField, icons
+from flet import (
+    AlertDialog,
+    Column,
+    ElevatedButton,
+    LabelPosition,
+    Page,
+    TextField,
+    icons,
+)
+from frontend.create_widgets import CreateCheckbox, CreateIconButton
 
 from settings import ExcelTextLoader
 from utils import check_type
-
-from ..create_widgets import CreateCheckbox, CreateIconButton
 
 
 class TaskBarUI:
@@ -20,8 +27,7 @@ class TaskBarUI:
         check_updates: Callable,
     ):
         from backend import Contact
-
-        from ..modify_gui import ChangeLanguage, ChangeTheme
+        from frontend.modify_gui import ChangeLanguage, ChangeTheme
 
         self.page = page
         self.input_url = input_url
@@ -31,7 +37,7 @@ class TaskBarUI:
 
         self.checkbox = CreateCheckbox(
             label=ExcelTextLoader.get_text(20),
-            label_position="left",
+            label_position=LabelPosition.LEFT,
             callback=None,
             page=self.page,
         )
@@ -51,7 +57,7 @@ class TaskBarUI:
         self.icon_theme = CreateIconButton(
             icon=ChangeTheme.set_initial_icon_theme(self.page),
             function=lambda e: ChangeTheme.change_theme(
-                page=self.page, icon_theme=self.icon_theme
+                page=page, icon_theme=self.icon_theme
             ),
         )
 

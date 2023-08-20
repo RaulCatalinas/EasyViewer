@@ -1,21 +1,20 @@
 from threading import Thread
 
 from flet import KeyboardType, TextAlign, icons
-
-from settings import ExcelTextLoader, GetConfigJson
-
-from ..create_widgets import (
-    CreateCheckbox,
+from frontend.create_widgets import (
     CreateIconButton,
     CreateInputs,
     CreateProgressBar,
     TaskBar,
 )
+
+from settings import ExcelTextLoader, GetConfigJson
+
 from .taskbar_ui import TaskBarUI
 
 
 class IndexUI:
-    def __init__(self, page, download, video_location, shutdown_handler, check_updates):
+    def __init__(self, page, download, shutdown_handler, check_updates, video_location):
         from backend import SelectDirectory
 
         self.input_url = CreateInputs(
@@ -36,8 +35,7 @@ class IndexUI:
         )
 
         self.select_directory = SelectDirectory(
-            page=page,
-            input_directory=self.input_directory,
+            page=page, input_directory=self.input_directory
         )
 
         self.button_directory = CreateIconButton(
@@ -99,7 +97,7 @@ class IndexUI:
             self.select_directory,
         ]
 
-    def get_checkbox(self) -> CreateCheckbox:
+    def get_checkbox(self):
         """
         Get the automatic check for updates checkbox
 
@@ -109,7 +107,7 @@ class IndexUI:
 
         return self.taskbar_ui.checkbox
 
-    def get_icon_update(self) -> CreateIconButton:
+    def get_icon_update(self):
         """
         Get button check for updates
 

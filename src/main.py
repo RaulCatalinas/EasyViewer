@@ -4,9 +4,10 @@ from threading import Thread
 
 from backend import Download, ShutdownHandler, Update, Validations
 from flet import MainAxisAlignment, Page, app
-from frontend.components import ErrorDialog, IndexUI, UpdateDialog
 from frontend.modify_gui import ChangeTheme
 
+from components.dialog import ErrorDialog, UpdateDialog
+from components.ui import IndexUI
 from constants import ENABLED_TYPE_CHECKING
 from control_variables import ControlVariables
 from osutils import FileHandler

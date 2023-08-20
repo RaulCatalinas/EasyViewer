@@ -1,9 +1,9 @@
 from flet import Page, dropdown
 
+from components.ui import ContactUI, LanguageUI
 from settings import EnvironmentVariables, ExcelTextLoader
 from utils import check_type
 
-from ..components import ContactUI, LanguageUI
 from ..create_widgets import (
     CreateCheckbox,
     CreateDialog,

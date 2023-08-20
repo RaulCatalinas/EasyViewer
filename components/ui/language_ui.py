@@ -1,18 +1,15 @@
 from typing import Callable
 
-from flet import (
-    AlertDialog,
-    AppBar,
-    Checkbox,
-    Dropdown,
-    ElevatedButton,
-    IconButton,
-    Page,
-    TextField,
-    alignment,
-    dropdown,
-)
+from flet import Dropdown, Page, alignment, dropdown
 
+from frontend.create_widgets import (
+    CreateCheckbox,
+    CreateDialog,
+    CreateElevatedButton,
+    CreateIconButton,
+    CreateInputs,
+    TaskBar,
+)
 from settings import EnvironmentVariables, ExcelTextLoader
 from utils import check_type
 
@@ -21,18 +18,18 @@ class LanguageUI(Dropdown):
     @check_type
     def __init__(
         self,
-        appbar: AppBar,
+        appbar: TaskBar,
         page: Page,
-        input_url: TextField,
-        input_directory: TextField,
-        close_dialog: AlertDialog,
+        input_url: CreateInputs,
+        input_directory: CreateInputs,
+        close_dialog: CreateDialog,
         dropdown_contact: Dropdown,
-        icon_language: IconButton,
-        icon_theme: IconButton,
-        button_exit_the_app: ElevatedButton,
+        icon_language: CreateIconButton,
+        icon_theme: CreateIconButton,
+        button_exit_the_app: CreateElevatedButton,
         callback: Callable,
-        icon_update: IconButton,
-        checkbox: Checkbox,
+        icon_update: CreateIconButton,
+        checkbox: CreateCheckbox,
     ):
         self.appbar = appbar
         self.page = page
@@ -62,6 +59,8 @@ class LanguageUI(Dropdown):
         Show or hide the dropdown if it's hidden or not respectively
         """
 
+        drodropdown_contact_is_visible = self.dropdown_contact.is_visible()
+
         if not self.visible:
             self.visible = True
             self.appbar.change_height(114)
@@ -71,7 +70,11 @@ class LanguageUI(Dropdown):
             self.checkbox.change_offset(offset_x=0, offset_y=-0.79)
             self.icon_update.change_offset(
                 offset_x=(
-                    -2.61 if self.visible and self.dropdown_contact.is_visible() else 0
+                    -2.61
+                    if self.visible
+                    and drodropdown_contact_is_visible
+                    and drodropdown_contact_is_visible is not None
+                    else 0
                 ),
                 offset_y=-0.62,
             )
@@ -82,7 +85,7 @@ class LanguageUI(Dropdown):
         self.icon_language.change_offset(offset_x=0, offset_y=0.3)
         self.icon_update.change_offset(offset_x=0, offset_y=-0.62)
 
-        if not self.dropdown_contact.is_visible():
+        if not drodropdown_contact_is_visible:
             self.appbar.change_height(63)
 
             self.icon_theme.change_offset(offset_x=0, offset_y=0)

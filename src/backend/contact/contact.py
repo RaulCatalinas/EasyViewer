@@ -4,9 +4,9 @@ Control the logic to be able to contact the developer
 
 from webbrowser import open_new_tab
 
-from flet import Dropdown, Page, IconButton, AppBar, Checkbox
+from flet import AppBar, Checkbox, Dropdown, IconButton, Page
 
-from frontend import ContactUI
+from components.ui import ContactUI
 from utils import check_type
 
 

@@ -3,9 +3,13 @@ Control the closing of the app
 """
 
 from flet import MainAxisAlignment, Page
+from frontend.create_widgets import (
+    CreateDialog,
+    CreateElevatedButton,
+    CreateOutlinedButton,
+)
 
 from control_variables import ControlVariables
-from frontend import CreateDialog, CreateElevatedButton, CreateOutlinedButton
 from settings import ExcelTextLoader
 
 
