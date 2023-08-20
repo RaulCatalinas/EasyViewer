@@ -40,14 +40,14 @@ class FileHandler:
             callback()
 
         except OSError as error:
-            LoggingManagement.write_error(error)
+            LoggingManagement.write_error(str(error))
 
             raise OSError(
                 f"Unable to delete file {download_name} at {path_to_file}"
             ) from error
 
     @classmethod
-    def clean_invalid_chars(cls, title: str) -> str:
+    def clean_invalid_chars(cls, title: str):
         """
         Remove invalid characters from a string
 
@@ -58,7 +58,7 @@ class FileHandler:
             str: The title without invalid characters based on the user's OS
         """
 
-        from utils import INVALID_CHARS, SYSTEM_NAME
+        from constants import INVALID_CHARS, SYSTEM_NAME
 
         invalid_chars = INVALID_CHARS[SYSTEM_NAME]
 
