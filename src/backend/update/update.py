@@ -2,7 +2,6 @@
 Handles application updates through GitHub.
 """
 
-from os import environ
 from os.path import exists
 from webbrowser import open_new_tab
 
@@ -18,6 +17,7 @@ from constants import (
     LATEST_RELEASE_URL,
     USER_VERSION,
 )
+from github_credentials import EMAIL, PASSWORD
 from utils import check_type
 
 from ..cache import CacheManager
@@ -42,11 +42,8 @@ class Update(Github):
 
         self.is_the_cache_empty = CacheManager.is_the_cache_empty()
 
-        token = environ.get("TOKEN")
-        print(token)
-
         if not self.is_the_cache_empty:
-            super().__init__(token)
+            super().__init__(login_or_token=EMAIL, password=PASSWORD)
 
     def __get_user(self):
         """
@@ -96,7 +93,7 @@ class Update(Github):
 
         return assets.browser_download_url
 
-    def __get_release_version(self) -> str:
+    def __get_release_version(self):
         """
         Gets the version number of the latest version.
 
@@ -114,7 +111,7 @@ class Update(Github):
 
         return release_version
 
-    def is_new_release_available(self) -> bool:
+    def is_new_release_available(self):
         """
         Checks if a new release is available on GitHub.
 
