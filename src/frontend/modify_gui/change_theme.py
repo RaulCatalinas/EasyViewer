@@ -1,9 +1,14 @@
+# Standard library
 from threading import Lock, Thread
-from typing import Any, Literal
 
-from flet import IconButton, Page, icons, ThemeMode
+# Third-Party libraries
+from flet import Page, ThemeMode, icons
 
-from utils import check_type, EnumHelper
+# Utils
+from utils import EnumHelper, check_type
+
+# Create widgets
+from ..create_widgets import CreateIconButton
 
 
 class ChangeTheme:
@@ -17,7 +22,7 @@ class ChangeTheme:
 
     @classmethod
     @check_type
-    def change_theme(cls, page: Page, icon_theme: IconButton):
+    def change_theme(cls, page: Page, icon_theme: CreateIconButton):
         """
         Changes the app's theme between dark and light mode.
 
@@ -40,7 +45,7 @@ class ChangeTheme:
 
     @classmethod
     @check_type
-    def set_initial_icon_theme(cls, page: Page) -> Literal["dark_mode", "light_mode"]:
+    def set_initial_icon_theme(cls, page: Page):
         """
         Sets the initial icon theme based on the app's current theme mode.
 
@@ -75,7 +80,7 @@ class ChangeTheme:
 
     @classmethod
     @check_type
-    def get_theme(cls, page: Page) -> Any:
+    def get_theme(cls, page: Page):
         """
         Gets the saved theme from the client storage
 

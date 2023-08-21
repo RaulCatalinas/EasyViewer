@@ -1,6 +1,10 @@
+# Standard library
 from threading import Thread
 
+# Thid-Party libraries
 from flet import KeyboardType, TextAlign, icons
+
+# Create widgets
 from frontend.create_widgets import (
     CreateIconButton,
     CreateInputs,
@@ -8,13 +12,16 @@ from frontend.create_widgets import (
     TaskBar,
 )
 
+# Settings
 from settings import ExcelTextLoader, GetConfigJson
 
+# Taskbar UI
 from .taskbar_ui import TaskBarUI
 
 
 class IndexUI:
     def __init__(self, page, download, shutdown_handler, check_updates, video_location):
+        # Backend
         from backend import SelectDirectory
 
         self.input_url = CreateInputs(

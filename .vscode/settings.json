@@ -13,7 +13,6 @@
   "ruff.enable": true,
   "ruff.fixAll": true,
   "ruff.run": "onSave",
-  "ruff.organizeImports": true,
   "ruff.codeAction.fixViolation": {
     "enable": true
   }

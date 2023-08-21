@@ -1,5 +1,7 @@
+# Third-Party libraries
 from flet import Offset, Page, ProgressBar
 
+# Utils
 from utils import check_type
 
 

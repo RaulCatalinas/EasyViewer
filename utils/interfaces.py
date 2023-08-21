@@ -2,9 +2,11 @@
 Interfaces for the program
 """
 
+# Standard library
 from abc import ABC, abstractmethod
 from typing import Callable
 
+# Third-Party libraries
 from flet import Page
 
 

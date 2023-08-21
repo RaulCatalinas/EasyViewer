@@ -1,7 +1,9 @@
 """Build the app"""
 
+# Standard library
 from subprocess import CalledProcessError, run
 
+# Constants
 from constants import ENABLED_TYPE_CHECKING, USER_VERSION
 
 

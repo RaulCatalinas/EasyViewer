@@ -2,11 +2,19 @@
 Control the logic to be able to contact the developer
 """
 
+# Standard library
 from webbrowser import open_new_tab
 
-from flet import AppBar, Checkbox, Dropdown, IconButton, Page
+# Third-Party libraries
+from flet import Dropdown, Page
 
+# Components
 from components.ui import ContactUI
+
+# Create widgets
+from frontend.create_widgets import CreateCheckbox, CreateIconButton, TaskBar
+
+# Utils
 from utils import check_type
 
 
@@ -20,11 +28,11 @@ class Contact(ContactUI):
         self,
         dropdown_language: Dropdown,
         page: Page,
-        appbar: AppBar,
-        icon_contact: IconButton,
-        icon_theme: IconButton,
-        icon_update: IconButton,
-        checkbox: Checkbox,
+        appbar: TaskBar,
+        icon_contact: CreateIconButton,
+        icon_theme: CreateIconButton,
+        icon_update: CreateIconButton,
+        checkbox: CreateCheckbox,
     ):
         self.dropdown_language = dropdown_language
         self.page = page
@@ -58,13 +66,17 @@ class Contact(ContactUI):
         """
 
         self.selected_social_network = self.value
+
+        if self.selected_social_network is None:
+            return
+
         open_new_tab(self.social_networks[self.selected_social_network])
 
         self.visible = False
 
         self.icon_contact.change_offset(offset_x=0, offset_y=0.3)
 
-        if not self.dropdown_language.get_visibility():
+        if not self.dropdown_language.is_visible():
             self.appbar.change_height(63)
 
             self.icon_theme.change_offset(offset_x=0, offset_y=0)

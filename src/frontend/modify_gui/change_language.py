@@ -1,9 +1,16 @@
+# Third-Party libraries
 from flet import Page, dropdown
 
+# Components
 from components.ui import ContactUI, LanguageUI
+
+# Settings
 from settings import EnvironmentVariables, ExcelTextLoader
+
+# Utils
 from utils import check_type
 
+# Create widgets
 from ..create_widgets import (
     CreateCheckbox,
     CreateDialog,

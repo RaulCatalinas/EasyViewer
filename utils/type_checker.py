@@ -1,5 +1,7 @@
+# Standard library
 from typing import Callable, get_type_hints
 
+# Constants
 from constants import ENABLED_TYPE_CHECKING
 
 

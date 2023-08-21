@@ -1,7 +1,10 @@
+# Standard library
 from typing import Callable
 
+# Third-Party libraries
 from flet import ElevatedButton, Icon, IconButton, Offset, OutlinedButton, Page
 
+# Utils
 from utils import InterfaceIconButton, InterfaceTextButton, check_type
 
 

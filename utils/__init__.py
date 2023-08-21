@@ -1,6 +1,13 @@
+# Enum helper
 from .enum_helper import EnumHelper
+
+# Insterfaces
 from .interfaces import InterfaceIconButton, InterfaceTextButton
+
+# Logging management
 from .logging_management import LoggingManagement
+
+# Type checker
 from .type_checker import check_type
 
 __all__ = [

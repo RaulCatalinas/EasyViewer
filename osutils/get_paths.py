@@ -2,6 +2,7 @@
 Gets the path to a directory or to a file
 """
 
+# Standard library
 from pathlib import Path
 
 
@@ -46,7 +47,7 @@ class GetPaths:
         return CONFIG_FILES[config_file.upper()]
 
     @staticmethod
-    def get_project_root_path() -> Path:
+    def get_project_root_path():
         """
         Gets the path to the root of the project.
 
@@ -59,7 +60,7 @@ class GetPaths:
         return current_dir.parent.parent
 
     @staticmethod
-    def get_user_home_path() -> Path:
+    def get_user_home_path():
         """
         Gets the path of the user's home directory.
 

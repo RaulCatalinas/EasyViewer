@@ -2,8 +2,10 @@
 Create the inputs
 """
 
-from flet import KeyboardType, MainAxisAlignment, Offset, Page, TextField
+# Third-Party libraries
+from flet import KeyboardType, Offset, Page, TextAlign, TextField
 
+# Utils
 from utils import check_type
 
 
@@ -17,7 +19,7 @@ class CreateInputs(TextField):
         self,
         placeholder: str,
         text_size: int,
-        text_align: MainAxisAlignment,
+        text_align: TextAlign,
         offset_x: int = 0,
         offset_y: int = 0,
         keyboard_type: KeyboardType = KeyboardType.TEXT,
@@ -81,7 +83,7 @@ class CreateInputs(TextField):
 
         self.value = new_value
 
-    def get_value(self) -> str:
+    def get_value(self):
         """
         Get the current value of the input.
 

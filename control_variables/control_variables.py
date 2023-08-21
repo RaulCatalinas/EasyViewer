@@ -2,12 +2,17 @@
 Save control variables in an INI file and reset their values.
 """
 
+# Standard library
 from configparser import ConfigParser
 from threading import Lock, Thread
 
+# Third-Party libraries
 from flet import Page
 
+# Osutils
 from osutils import FileHandler, GetPaths
+
+# Utils
 from utils import check_type
 
 

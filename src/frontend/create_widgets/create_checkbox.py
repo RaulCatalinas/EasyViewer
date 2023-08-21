@@ -1,8 +1,13 @@
+# Standard library
 from typing import Callable
 
-from flet import Checkbox, Offset, Page
+# Third-Party libraries
+from flet import Checkbox, LabelPosition, Offset, Page
 
+# Control variables
 from control_variables import ControlVariables
+
+# Utils
 from utils import check_type
 
 
@@ -11,7 +16,7 @@ class CreateCheckbox(Checkbox):
     def __init__(
         self,
         label: str,
-        label_position: str,
+        label_position: LabelPosition,
         page: Page,
         callback: Callable,
         offset_x: int = 0,
@@ -29,7 +34,7 @@ class CreateCheckbox(Checkbox):
             value=self.__get_value_from_ini("checkbox_update", True),
         )
 
-    def get_value(self) -> bool:
+    def get_value(self):
         """
         Gets the value of the checkbox
 

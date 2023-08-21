@@ -1,8 +1,13 @@
+# Standard library
 from typing import Callable
 
+# Third-Party libraries
 from flet import CrossAxisAlignment, Page, icons
+
+# Create widgets
 from frontend.create_widgets import CreateDialog, CreateElevatedButton
 
+# Utils
 from utils import check_type
 
 

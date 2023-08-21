@@ -2,11 +2,16 @@
 Gets the app texts from the Excel file
 """
 
-from pandas import DataFrame, read_excel
+# Third-Party libraries
+from pandas import read_excel
 
+# Osutils
 from osutils import GetPaths
+
+# Utils
 from utils import check_type
 
+# Envrioment variables
 from .environment_variables import EnvironmentVariables
 
 
@@ -34,7 +39,7 @@ class ExcelTextLoader:
         return languages_dataframe.loc[excel_column_number][language]
 
     @staticmethod
-    def _read_excel() -> DataFrame:
+    def _read_excel():
         """
         Reads an Excel file and returns the data as a DataFrame.
 

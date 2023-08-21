@@ -2,14 +2,19 @@
 Handles application updates through GitHub.
 """
 
+# Standard library
 from os.path import exists
 from webbrowser import open_new_tab
 
+# Third-Party libraries
 from flet import Page
 from github import Github
 from github.GitReleaseAsset import GitReleaseAsset
 
+# Components
 from components.dialog import UpdateDialog
+
+# Constants
 from constants import (
     CACHE_FILE,
     GITHUB_REPO,
@@ -17,9 +22,14 @@ from constants import (
     LATEST_RELEASE_URL,
     USER_VERSION,
 )
+
+# GitHub credentials
 from github_credentials import EMAIL, PASSWORD
+
+# Utils
 from utils import check_type
 
+# Cache
 from ..cache import CacheManager
 
 
@@ -102,7 +112,7 @@ class Update(Github):
         """
 
         if self.is_the_cache_empty:
-            self.cache.get("release_version")
+            return self.cache.get("release_version")
 
         download_url = self.__get_download_url()
         release_version = download_url.split("/")[-2].replace("v", "")

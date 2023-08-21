@@ -2,13 +2,18 @@
 Controls the logic of environment variables
 """
 
+# Standard library
 from os import environ
 from threading import Lock, Thread
 
+# Third-Party libraries
 from dotenv import set_key
 from flet import Page
 
+# Osutils
 from osutils import GetPaths
+
+# Utils
 from utils import check_type
 
 
@@ -22,7 +27,7 @@ class EnvironmentVariables:
 
     @classmethod
     @check_type
-    def set_language(cls, language: str, page: Page) -> None:
+    def set_language(cls, language: str, page: Page):
         """
         Sets the value of the "LANGUAGE" environment variable
 
@@ -36,7 +41,7 @@ class EnvironmentVariables:
         cls.save(page=page, language_to_save=language)
 
     @classmethod
-    def get_language(cls) -> str:
+    def get_language(cls):
         """
         Gets the language saved in the environment variable
 

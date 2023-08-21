@@ -1,17 +1,34 @@
 """Start the app"""
 
+# Standard library
 from threading import Thread
 
-from backend import Download, ShutdownHandler, Update, Validations
+# Third-Party libraries
 from flet import MainAxisAlignment, Page, app
-from frontend.modify_gui import ChangeTheme
 
+# Backend
+from backend import Download, ShutdownHandler, Update, Validations
+
+# Components
 from components.dialog import ErrorDialog, UpdateDialog
 from components.ui import IndexUI
+
+# Constants
 from constants import ENABLED_TYPE_CHECKING
+
+# Control variables
 from control_variables import ControlVariables
+
+# Modify GUI
+from frontend.modify_gui import ChangeTheme
+
+# Osutils
 from osutils import FileHandler
+
+# Sttings
 from settings import EnvironmentVariables, ExcelTextLoader, GetConfigJson
+
+# Utils
 from utils import EnumHelper, LoggingManagement, check_type
 
 

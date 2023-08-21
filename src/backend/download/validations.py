@@ -1,18 +1,30 @@
 """
 Validating various aspects of a YouTube video download request
 """
-
+# Standard library
 from urllib.parse import urlparse
 
+# Third-Party libraries
 from flet import Page
 from pytube import YouTube
 from requests import ConnectionError, Timeout, get
 
+# Constants
 from constants import ALLOW_HOSTS, GOOGLE
+
+# Control variables
 from control_variables import ControlVariables
+
+# Create widgets
 from frontend.create_widgets import CreateInputs
+
+# Osutils
 from osutils import GetPaths
+
+# Settings
 from settings import ExcelTextLoader
+
+# Utils
 from utils import LoggingManagement, check_type
 
 

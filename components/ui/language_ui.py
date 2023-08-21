@@ -1,7 +1,10 @@
+# Standard library
 from typing import Callable
 
+# Third-Party libraries
 from flet import Dropdown, Page, alignment, dropdown
 
+# Create widgets
 from frontend.create_widgets import (
     CreateCheckbox,
     CreateDialog,
@@ -10,7 +13,11 @@ from frontend.create_widgets import (
     CreateInputs,
     TaskBar,
 )
+
+# Settings
 from settings import EnvironmentVariables, ExcelTextLoader
+
+# Utils
 from utils import check_type
 
 

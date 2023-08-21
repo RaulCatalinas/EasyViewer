@@ -2,12 +2,16 @@
 Create a dialog to communicate something to the user
 """
 
+# Standard library
 from typing import Union
 
+# Third-Party libraries
 from flet import AlertDialog, Icon, MainAxisAlignment, Page
 
+# Utils
 from utils import check_type
 
+# Create text
 from .create_text import CreateText
 
 
@@ -70,7 +74,7 @@ class CreateDialog(AlertDialog):
 
         self.content_text.set_text(new_content)
 
-    def is_open(self) -> bool:
+    def is_open(self):
         """
         Checks if the dialog is open.
 

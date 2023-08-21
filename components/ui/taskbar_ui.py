@@ -1,17 +1,27 @@
+# Standard library
 from typing import Callable
 
+# Third-Party libraries
 from flet import (
-    AlertDialog,
     Column,
-    ElevatedButton,
     LabelPosition,
     Page,
-    TextField,
     icons,
 )
-from frontend.create_widgets import CreateCheckbox, CreateIconButton
 
+# Create widgets
+from frontend.create_widgets import (
+    CreateCheckbox,
+    CreateDialog,
+    CreateElevatedButton,
+    CreateIconButton,
+    CreateInputs,
+)
+
+# Settings
 from settings import ExcelTextLoader
+
+# Utils
 from utils import check_type
 
 
@@ -20,13 +30,16 @@ class TaskBarUI:
     def __init__(
         self,
         page: Page,
-        input_url: TextField,
-        input_directory: TextField,
-        close_dialog: AlertDialog,
-        button_exit_the_app: ElevatedButton,
+        input_url: CreateInputs,
+        input_directory: CreateInputs,
+        close_dialog: CreateDialog,
+        button_exit_the_app: CreateElevatedButton,
         check_updates: Callable,
     ):
+        # Backend
         from backend import Contact
+
+        # Modify GUI
         from frontend.modify_gui import ChangeLanguage, ChangeTheme
 
         self.page = page

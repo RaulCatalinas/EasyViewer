@@ -2,10 +2,19 @@
 Prompts the user to select a directory for the downloaded file
 """
 
-from flet import FilePicker, FilePickerResultEvent, Page, TextField
+# Third-Party libraries
+from flet import FilePicker, FilePickerResultEvent, Page
 
+# Control variables
 from control_variables import ControlVariables
+
+# Create widgets
+from frontend.create_widgets import CreateInputs
+
+# Sttings
 from settings import ExcelTextLoader
+
+# Utils
 from utils import check_type
 
 
@@ -15,7 +24,7 @@ class SelectDirectory(FilePicker):
     """
 
     @check_type
-    def __init__(self, page: Page, input_directory: TextField):
+    def __init__(self, page: Page, input_directory: CreateInputs):
         self.page = page
         self.input_directory = input_directory
 

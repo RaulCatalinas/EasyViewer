@@ -2,15 +2,23 @@
 Downloads a video or audio from a YouTube video and saves it to a specific location
 """
 
+# Standard library
 from os import startfile
 from typing import Callable
 
+# Third-Party libraries
 from flet import Page
 
+# Control variables
 from control_variables import ControlVariables
+
+# Settings
 from settings import ExcelTextLoader
+
+# Utils
 from utils import LoggingManagement, check_type
 
+# Interact api pytube
 from .interact_api_pytube import InteractAPIPytube
 
 

@@ -2,14 +2,20 @@
 Control the closing of the app
 """
 
+# Third-Party libraries
 from flet import MainAxisAlignment, Page
+
+# Control variables
+from control_variables import ControlVariables
+
+# Create widgets
 from frontend.create_widgets import (
     CreateDialog,
     CreateElevatedButton,
     CreateOutlinedButton,
 )
 
-from control_variables import ControlVariables
+# Settings
 from settings import ExcelTextLoader
 
 

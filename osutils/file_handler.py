@@ -2,6 +2,7 @@
 Controls the logic that is responsible for interacting with the user's OS files
 """
 
+# Standard library
 from os import remove
 from pathlib import Path
 from re import sub
@@ -32,6 +33,7 @@ class FileHandler:
             OSError: Error occurred during file deletion
         """
 
+        # Utils
         from utils import LoggingManagement
 
         try:
@@ -58,6 +60,7 @@ class FileHandler:
             str: The title without invalid characters based on the user's OS
         """
 
+        # Constants
         from constants import INVALID_CHARS, SYSTEM_NAME
 
         invalid_chars = INVALID_CHARS[SYSTEM_NAME]

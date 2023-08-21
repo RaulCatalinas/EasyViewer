@@ -2,11 +2,19 @@
 Interact with the Pytube API.
 """
 
-from pytube import Stream, YouTube
+# Third-Party libraries
+from pytube import YouTube
 
+# Control variables
 from control_variables import ControlVariables
+
+# Osutils
 from osutils import FileHandler
+
+# Settings
 from settings import ExcelTextLoader
+
+# Utils
 from utils import LoggingManagement, check_type
 
 
@@ -19,7 +27,7 @@ class InteractAPIPytube:
         self.control_variables = ControlVariables()
 
     @check_type
-    def get_video(self, download_video: bool) -> Stream | None:
+    def get_video(self, download_video: bool):
         """
         Get the video to download
 

@@ -1,10 +1,13 @@
 """
 Gets the app texts from the JSON file
 """
-
+# Standard library
 from json import load
 
+# Osutils
 from osutils import GetPaths
+
+# Utils
 from utils import check_type
 
 

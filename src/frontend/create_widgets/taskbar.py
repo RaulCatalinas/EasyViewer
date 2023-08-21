@@ -2,8 +2,10 @@
 Control the logic of the taskbar
 """
 
+# Third-Party libraries
 from flet import AppBar
 
+# Utils
 from utils import check_type
 
 

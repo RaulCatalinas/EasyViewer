@@ -1,13 +1,20 @@
+# Standard library
 from typing import Callable
 
+# Third-Party libraries
 from flet import CrossAxisAlignment, Page
+
+# Create widgets
 from frontend.create_widgets import (
     CreateDialog,
     CreateElevatedButton,
     CreateOutlinedButton,
 )
 
+# Settings
 from settings import ExcelTextLoader
+
+# Utils
 from utils import check_type
 
 
