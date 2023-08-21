@@ -13,9 +13,3 @@ CONFIG_FILES = {
     "EXCEL": ROOT_PATH.joinpath("settings/languages.xlsx"),
     "ENV": ROOT_PATH.joinpath("settings/.env"),
 }
-
-ICONS = {
-    "Windows": ROOT_PATH.joinpath("icon/icon-Windows.ico"),
-    "Darwin": ROOT_PATH.joinpath("icon/icon-macOS.icns"),
-    "Linux": ROOT_PATH.joinpath("icon/icon-Linux.png"),
-}

@@ -57,7 +57,7 @@ class GetPaths:
 
         current_dir = Path(__file__).resolve()
 
-        return current_dir.parent.parent
+        return current_dir.parents[1]
 
     @staticmethod
     def get_user_home_path():

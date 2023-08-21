@@ -4,7 +4,7 @@
 from subprocess import CalledProcessError, run
 
 # Constants
-from constants import ENABLED_TYPE_CHECKING, USER_VERSION
+from src.constants import ENABLED_TYPE_CHECKING, USER_VERSION
 
 
 def build():
@@ -16,7 +16,7 @@ def build():
     command = [
         "flet",
         "pack",
-        "src/main.py",
+        "../src/main.py",
         "-n",
         "EasyViewer",
         "-i",
@@ -32,21 +32,9 @@ def build():
         "--copyright",
         "Copyright (c) 2023 Raul Catalinas Esteban",
         "--add-data",
-        "settings;settings",
+        "../build_tools/;build_tools",
         "--add-data",
-        "icon;icon",
-        "--add-data",
-        "src;src",
-        "--add-data",
-        "control_variables;control_variables",
-        "--add-data",
-        "osutils;osutils",
-        "--add-data",
-        "utils;utils",
-        "--add-data",
-        "constants;constants",
-        "--add-data",
-        "github_credentials.py;github_credentials.py",
+        "../src;src",
     ]
 
     try:

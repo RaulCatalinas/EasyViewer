@@ -11,7 +11,7 @@ from .github_api import GITHUB_REPO, GITHUB_USER, LATEST_RELEASE_URL
 from .hosts import ALLOW_HOSTS, GOOGLE
 
 # Paths
-from .paths import CONFIG_FILES, DESKTOP_PATH, ICONS, ROOT_PATH, USER_HOME
+from .paths import CONFIG_FILES, DESKTOP_PATH, ROOT_PATH, USER_HOME
 
 # Type checking
 from .type_checking import ENABLED_TYPE_CHECKING
@@ -31,7 +31,6 @@ __all__ = [
     "GOOGLE",
     "CONFIG_FILES",
     "DESKTOP_PATH",
-    "ICONS",
     "ROOT_PATH",
     "USER_HOME",
     "ENABLED_TYPE_CHECKING",
