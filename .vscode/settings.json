@@ -1,13 +1,14 @@
 {
   "python.analysis.typeCheckingMode": "basic",
+
   "terminal.integrated.env.windows": {
-    "PYTHONPATH": "${workspaceFolder}"
+    "PYTHONPATH": "${env:PYTHONPATH};${workspaceFolder}/src;${env:PYTHONPATH};${workspaceFolder}/build_tools"
   },
   "terminal.integrated.env.linux": {
-    "PYTHONPATH": "${workspaceFolder}"
+    "PYTHONPATH": "${env:PYTHONPATH}:${workspaceFolder}/src:${env:PYTHONPATH}:${workspaceFolder}/build_tools"
   },
   "terminal.integrated.env.osx": {
-    "PYTHONPATH": "${workspaceFolder}"
+    "PYTHONPATH": "${env:PYTHONPATH}:${workspaceFolder}/src:${env:PYTHONPATH}:${workspaceFolder}/build_tools"
   },
 
   "ruff.enable": true,
