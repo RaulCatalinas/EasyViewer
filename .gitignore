@@ -1,11 +1,12 @@
-__pycache__/
+__pycache__
 venv
-Log/
+.venv
+Log
 .idea
 dist
 build
-generated-909db92aeb4c4b31b0dc53c3a34c4af5666de2704223d9a64538898149c2bf4b.ico
-EasyViewer.spec
+/*.ico
+/*.spec
 github_credentials.py
 src/backend/cache/github_cache.json
 .ruff_cache
