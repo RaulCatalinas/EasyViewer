@@ -39,7 +39,8 @@ class FileHandler:
         try:
             remove(f"{path_to_file}/{download_name}")
 
-            callback()
+            if callback is not None:
+                callback()
 
         except OSError as error:
             LoggingManagement.write_error(str(error))
