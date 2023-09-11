@@ -24,6 +24,6 @@
 
 # 2.0 - 12-05-2023
 
-## Fixsed
+## Fixed
 
 * Resolve pytube error in video title retrieval
