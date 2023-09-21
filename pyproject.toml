@@ -9,7 +9,7 @@ readme = "README.md"
 python = ">=3.11, <3.12"
 requests = ">=2.31.0"
 python-dotenv = ">=1.0.0"
-pandas = ">=2.1.0"
+pandas = ">=2.1.1"
 openpyxl = ">=3.1.2"
 pytube = ">=15.0.0"
 pygithub = ">=1.59.1"
@@ -18,8 +18,8 @@ flet = ">=0.10.1"
 
 [tool.poetry.group.dev.dependencies]
 pyinstaller = ">=5.13.2"
-pillow = ">=10.0.0"
-ruff = ">=0.0.288"
+pillow = ">=10.0.1"
+ruff = ">=0.0.290"
 
 [build-system]
 requires = ["poetry-core"]
