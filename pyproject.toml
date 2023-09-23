@@ -17,7 +17,7 @@ flet = ">=0.10.2"
 
 
 [tool.poetry.group.dev.dependencies]
-pyinstaller = ">=5.13.2"
+pyinstaller = ">=6.0.0"
 pillow = ">=10.0.1"
 ruff = ">=0.0.291"
 
