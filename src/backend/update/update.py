@@ -6,11 +6,6 @@ Handles application updates through GitHub.
 from os.path import exists
 from webbrowser import open_new_tab
 
-# Third-Party libraries
-from flet import Page
-from github import Github
-from github.GitReleaseAsset import GitReleaseAsset
-
 # Components
 from components.dialog import UpdateDialog
 
@@ -23,8 +18,10 @@ from constants import (
     USER_VERSION,
 )
 
-# GitHub credentials
-from github_credentials import EMAIL, PASSWORD
+# Third-Party libraries
+from flet import Page
+from github import Github
+from github.GitReleaseAsset import GitReleaseAsset
 
 # Utils
 from utils import check_type
@@ -50,9 +47,12 @@ class Update(Github):
 
         self.cache = CacheManager.read_cache()
 
-        self.is_the_cache_empty = CacheManager.is_the_cache_empty()
+        self.the_cache_contains_something = CacheManager.the_cache_contains_something()
 
-        if not self.is_the_cache_empty:
+        if not self.the_cache_contains_something:
+            # GitHub credentials
+            from github_credentials import EMAIL, PASSWORD
+
             super().__init__(login_or_token=EMAIL, password=PASSWORD)
 
     def __get_user(self):
@@ -111,7 +111,7 @@ class Update(Github):
             str: The version number of the latest release.
         """
 
-        if self.is_the_cache_empty:
+        if self.the_cache_contains_something:
             return self.cache.get("release_version")
 
         download_url = self.__get_download_url()
@@ -121,7 +121,7 @@ class Update(Github):
 
         return release_version
 
-    def is_new_release_available(self):
+    def is_new_release_available(self) -> bool:
         """
         Checks if a new release is available on GitHub.
 

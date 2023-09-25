@@ -102,7 +102,7 @@ class CacheManager:
                 LoggingManagement.write_error(str(e))
 
     @staticmethod
-    def is_the_cache_empty():
+    def the_cache_contains_something():
         with open(CACHE_FILE, "r", encoding="utf-8") as file:
             cache = load(file)
 
