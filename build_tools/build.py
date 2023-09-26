@@ -10,13 +10,16 @@ from constants import ENABLED_TYPE_CHECKING, USER_VERSION
 def build():
     """Generate the application executable"""
 
+    ADD_DATA_COMMAND = "--add-data"
+    SRC_FOLDER = "src"
+
     if not ENABLED_TYPE_CHECKING:
         print("Type checking off")
 
     command = [
         "flet",
         "pack",
-        "src/main.py",
+        f"{SRC_FOLDER}/main.py",
         "-n",
         "EasyViewer",
         "-i",
@@ -31,8 +34,26 @@ def build():
         USER_VERSION,
         "--copyright",
         "Copyright (c) 2023 Raul Catalinas Esteban",
-        "--add-data",
-        "src;src",
+        ADD_DATA_COMMAND,
+        f"{SRC_FOLDER}/backend;backend",
+        ADD_DATA_COMMAND,
+        f"{SRC_FOLDER}/components;components",
+        ADD_DATA_COMMAND,
+        f"{SRC_FOLDER}/constants;constants",
+        ADD_DATA_COMMAND,
+        f"{SRC_FOLDER}/control_variables;control_variables",
+        ADD_DATA_COMMAND,
+        f"{SRC_FOLDER}/frontend;frontend",
+        ADD_DATA_COMMAND,
+        f"{SRC_FOLDER}/osutils;osutils",
+        ADD_DATA_COMMAND,
+        f"{SRC_FOLDER}/settings;settings",
+        ADD_DATA_COMMAND,
+        f"{SRC_FOLDER}/settings_files;settings_files",
+        ADD_DATA_COMMAND,
+        f"{SRC_FOLDER}/utils;utils",
+        ADD_DATA_COMMAND,
+        f"{SRC_FOLDER}/github_credentials.py;github_credentials.py",
     ]
 
     try:
