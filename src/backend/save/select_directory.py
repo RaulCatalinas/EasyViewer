@@ -11,7 +11,7 @@ from control_variables import ControlVariables
 # Create widgets
 from frontend.create_widgets import CreateInputs
 
-# Sttings
+# Settings
 from settings import ExcelTextLoader
 
 # Utils
