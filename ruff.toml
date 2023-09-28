@@ -1,3 +1,5 @@
+unfixable = ["I001"]
+
 exclude = [".git", ".venv", "dist", "build", ".ruff_cache"]
 
 fix = true

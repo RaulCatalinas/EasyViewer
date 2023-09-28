@@ -12,14 +12,14 @@ from control_variables import ControlVariables
 
 # Third-Party libraries
 from flet import Page
+from pytube import YouTube
+from requests import ConnectionError, Timeout, get
 
 # Create widgets
 from frontend.create_widgets import CreateInputs
 
 # Osutils
 from osutils import GetPaths
-from pytube import YouTube
-from requests import ConnectionError, Timeout, get
 
 # Settings
 from settings import ExcelTextLoader

@@ -12,7 +12,6 @@ from control_variables import ControlVariables
 # Third-Party libraries
 from flet import Page
 
-# Settings
 # Utils
 from utils import LoggingManagement, check_type
 

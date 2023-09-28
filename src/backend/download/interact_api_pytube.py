@@ -3,11 +3,6 @@ Interact with the Pytube API.
 """
 
 # Third-Party libraries
-# Control variables
-from control_variables import ControlVariables
-
-# Osutils
-from osutils import FileHandler
 from pytube import YouTube
 from pytube.exceptions import (
     AgeRestrictedError,
@@ -17,6 +12,12 @@ from pytube.exceptions import (
     VideoPrivate,
     VideoRegionBlocked,
 )
+
+# Control variables
+from control_variables import ControlVariables
+
+# Osutils
+from osutils import FileHandler
 
 # Settings
 from settings import ExcelTextLoader
