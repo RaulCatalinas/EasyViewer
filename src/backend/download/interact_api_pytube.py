@@ -3,13 +3,20 @@ Interact with the Pytube API.
 """
 
 # Third-Party libraries
-from pytube import YouTube
-
 # Control variables
 from control_variables import ControlVariables
 
 # Osutils
 from osutils import FileHandler
+from pytube import YouTube
+from pytube.exceptions import (
+    AgeRestrictedError,
+    LiveStreamError,
+    MembersOnly,
+    PytubeError,
+    VideoPrivate,
+    VideoRegionBlocked,
+)
 
 # Settings
 from settings import ExcelTextLoader
@@ -68,7 +75,34 @@ class InteractAPIPytube:
                 else stream.get_audio_only()
             )
 
-        except Exception as exception:
-            LoggingManagement.write_error(str(exception))
+        except AgeRestrictedError as age_error:
+            LoggingManagement.write_error(str(age_error))
 
-            raise Exception(ExcelTextLoader.get_text(23)) from exception
+            raise Exception(ExcelTextLoader.get_text(23)) from age_error
+
+        except LiveStreamError as live_error:
+            LoggingManagement.write_error(str(live_error))
+
+            raise Exception(ExcelTextLoader.get_text(24)) from live_error
+
+        except MembersOnly as member_error:
+            LoggingManagement.write_error(str(member_error))
+
+            raise Exception(ExcelTextLoader.get_text(25)) from member_error
+
+        except VideoPrivate as video_private_error:
+            LoggingManagement.write_error(str(video_private_error))
+
+            raise Exception(ExcelTextLoader.get_text(26)) from video_private_error
+
+        except VideoRegionBlocked as video_region_blocked_error:
+            LoggingManagement.write_error(str(video_region_blocked_error))
+
+            raise Exception(
+                ExcelTextLoader.get_text(27)
+            ) from video_region_blocked_error
+
+        except PytubeError as pytube_error:
+            LoggingManagement.write_error(str(pytube_error))
+
+            raise Exception(ExcelTextLoader.get_text(29)) from pytube_error

@@ -3,9 +3,6 @@
 # Standard library
 from threading import Thread
 
-# Third-Party libraries
-from flet import MainAxisAlignment, Page, app
-
 # Backend
 from backend import Download, ShutdownHandler, Update, Validations
 
@@ -18,6 +15,9 @@ from constants import ENABLED_TYPE_CHECKING
 
 # Control variables
 from control_variables import ControlVariables
+
+# Third-Party libraries
+from flet import MainAxisAlignment, Page, app
 
 # Modify GUI
 from frontend.modify_gui import ChangeTheme
@@ -275,13 +275,13 @@ class Main:
         return (
             Validations.validate_non_empty_url(url)
             and Validations.check_if_youtube_url(url)
+            and Validations.check_internet_connection()
+            and Validations.is_youtube_video_available(url)
             and Validations.set_default_directory_or_check_selected(
                 input_directory=self.input_directory,
                 page=app_page,
                 video_location=video_location,
             )
-            and Validations.check_internet_connection()
-            and Validations.is_youtube_video_available(url)
         )
 
 

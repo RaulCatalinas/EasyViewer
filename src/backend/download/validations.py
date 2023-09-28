@@ -4,22 +4,22 @@ Validating various aspects of a YouTube video download request
 # Standard library
 from urllib.parse import urlparse
 
-# Third-Party libraries
-from flet import Page
-from pytube import YouTube
-from requests import ConnectionError, Timeout, get
-
 # Constants
 from constants import ALLOW_HOSTS, GOOGLE
 
 # Control variables
 from control_variables import ControlVariables
 
+# Third-Party libraries
+from flet import Page
+
 # Create widgets
 from frontend.create_widgets import CreateInputs
 
 # Osutils
 from osutils import GetPaths
+from pytube import YouTube
+from requests import ConnectionError, Timeout, get
 
 # Settings
 from settings import ExcelTextLoader
@@ -164,9 +164,9 @@ class Validations:
         try:
             YouTube(url).check_availability()
 
-            LoggingManagement.write_log("The video is available")
             return True
 
         except Exception as exception:
             LoggingManagement.write_error(str(exception))
-            raise ValueError(str(exception)) from exception
+
+            raise Exception(ExcelTextLoader.get_text(28)) from exception

@@ -6,15 +6,13 @@ Downloads a video or audio from a YouTube video and saves it to a specific locat
 from os import startfile
 from typing import Callable
 
-# Third-Party libraries
-from flet import Page
-
 # Control variables
 from control_variables import ControlVariables
 
-# Settings
-from settings import ExcelTextLoader
+# Third-Party libraries
+from flet import Page
 
+# Settings
 # Utils
 from utils import LoggingManagement, check_type
 
@@ -69,7 +67,7 @@ class Download:
 
             self.update_progressbar(new_value=0, page=self.page)
 
-            raise Exception(ExcelTextLoader.get_text(23)) from exception
+            raise Exception(str(exception)) from exception
 
         startfile(ControlVariables().get_control_variable("VIDEO_LOCATION"))
 
