@@ -14,6 +14,14 @@ from control_variables import ControlVariables
 from flet import Page
 from pytube import YouTube
 from requests import ConnectionError, Timeout, get
+from pytube.exceptions import (
+    AgeRestrictedError,
+    LiveStreamError,
+    MembersOnly,
+    VideoPrivate,
+    VideoRegionBlocked,
+    VideoUnavailable,
+)
 
 # Create widgets
 from frontend.create_widgets import CreateInputs
@@ -166,7 +174,39 @@ class Validations:
 
             return True
 
+        except AgeRestrictedError as age_error:
+            LoggingManagement.write_error(str(age_error))
+
+            raise Exception(ExcelTextLoader.get_text(23)) from age_error
+
+        except LiveStreamError as live_error:
+            LoggingManagement.write_error(str(live_error))
+
+            raise Exception(ExcelTextLoader.get_text(24)) from live_error
+
+        except MembersOnly as member_error:
+            LoggingManagement.write_error(str(member_error))
+
+            raise Exception(ExcelTextLoader.get_text(25)) from member_error
+
+        except VideoPrivate as video_private_error:
+            LoggingManagement.write_error(str(video_private_error))
+
+            raise Exception(ExcelTextLoader.get_text(26)) from video_private_error
+
+        except VideoRegionBlocked as video_region_blocked_error:
+            LoggingManagement.write_error(str(video_region_blocked_error))
+
+            raise Exception(
+                ExcelTextLoader.get_text(27)
+            ) from video_region_blocked_error
+
+        except VideoUnavailable as video_unavailable:
+            LoggingManagement.write_error(str(video_unavailable))
+
+            raise Exception(ExcelTextLoader.get_text(28)) from video_unavailable
+
         except Exception as exception:
             LoggingManagement.write_error(str(exception))
 
-            raise Exception(ExcelTextLoader.get_text(28)) from exception
+            raise Exception(ExcelTextLoader.get_text(29)) from exception

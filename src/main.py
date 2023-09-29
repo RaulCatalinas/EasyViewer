@@ -11,7 +11,6 @@ from components.dialog import ErrorDialog, UpdateDialog
 from components.ui import IndexUI
 
 # Constants
-from constants import ENABLED_TYPE_CHECKING
 
 # Control variables
 from control_variables import ControlVariables
@@ -118,7 +117,7 @@ class Main:
             self.button_directory,
             self.button_download_video,
             self.button_download_audio,
-            progress_bar,
+            self.progress_bar,
             _,
             _,
         ) = index_ui.get_elements()
@@ -128,7 +127,7 @@ class Main:
         self.download = Download(
             page=app_page,
             toggle_state_widgets=self.__toggle_state_widgets,
-            update_progressbar=progress_bar.update_value,
+            update_progressbar=self.progress_bar.update_value,
         )
 
         Thread(
@@ -175,6 +174,9 @@ class Main:
             download_video (bool): Indicates whether to download the video or audio.
         """
 
+        self.__toggle_state_widgets(app_page)
+        self.progress_bar.update_value(None, app_page)
+
         url_to_save = self.input_url.get_value()
         self.control_variables.set_control_variable(
             control_variable="URL_VIDEO", value=url_to_save
@@ -186,10 +188,15 @@ class Main:
                 "VIDEO_LOCATION"
             )
 
-            if self.__validate_download(url, app_page, video_location):
+            can_download_video = self.__validate_download(url, app_page, video_location)
+
+            if can_download_video:
                 self.download.download(download_video)
 
         except Exception as exception:
+            self.control_variables.reset()
+            self.progress_bar.update_value(0, app_page)
+            self.__toggle_state_widgets(app_page)
             self.error_dialog.show_error_dialog(str(exception))
             video_location = self.control_variables.get_control_variable(
                 "VIDEO_LOCATION"
@@ -200,8 +207,6 @@ class Main:
                 download_name=download_name,
                 callback=self.control_variables.reset,
             )
-            self.__toggle_state_widgets(app_page)
-            self.control_variables.reset()
 
     @check_type
     def __overlay(self, app_page: Page):
@@ -286,7 +291,6 @@ class Main:
 
 
 if __name__ == "__main__":
-    if ENABLED_TYPE_CHECKING:
-        LoggingManagement.initialize_logging()
+    LoggingManagement.initialize_logging()
 
     app(target=Main)

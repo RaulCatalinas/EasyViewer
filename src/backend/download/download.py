@@ -48,10 +48,6 @@ class Download:
         """
 
         try:
-            self.update_progressbar(new_value=None, page=self.page)
-
-            self.toggle_state_widgets(self.page)
-
             stream = InteractAPIPytube().get_video(download_video)
 
             stream.download(
