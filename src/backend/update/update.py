@@ -103,7 +103,7 @@ class Update(Github):
 
         return assets.browser_download_url
 
-    def __get_release_version(self):
+    def __get_release_version(self) -> str | None:
         """
         Gets the version number of the latest version.
 
@@ -121,7 +121,7 @@ class Update(Github):
 
         return release_version
 
-    def is_new_release_available(self) -> bool:
+    def is_new_release_available(self):
         """
         Checks if a new release is available on GitHub.
 
@@ -131,7 +131,8 @@ class Update(Github):
 
         release_version = self.__get_release_version()
 
-        return USER_VERSION < release_version
+        if release_version is not None:
+            return USER_VERSION < release_version
 
     def update(self):
         """
