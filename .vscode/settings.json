@@ -1,6 +1,5 @@
 {
-  "python.analysis.typeCheckingMode": "basic",
-
+  // Terminal
   "terminal.integrated.env.windows": {
     "PYTHONPATH": "${env:PYTHONPATH};${workspaceFolder}/src;${env:PYTHONPATH};${workspaceFolder}/build_tools"
   },
@@ -11,9 +10,10 @@
     "PYTHONPATH": "${env:PYTHONPATH}:${workspaceFolder}/src:${env:PYTHONPATH}:${workspaceFolder}/build_tools"
   },
 
+  // Ruff
   "ruff.enable": true,
+  "ruff.lint.run": "onSave",
   "ruff.fixAll": true,
-  "ruff.run": "onSave",
   "ruff.codeAction.fixViolation": {
     "enable": true
   }
