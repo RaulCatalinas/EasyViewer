@@ -19,7 +19,7 @@ flet = ">=0.10.3"
 [tool.poetry.group.dev.dependencies]
 pyinstaller = ">=6.0.0"
 pillow = ">=10.0.1"
-ruff = ">=0.0.291"
+ruff = ">=0.0.292"
 
 [build-system]
 requires = ["poetry-core"]
