@@ -24,7 +24,7 @@ from frontend.modify_gui import ChangeTheme
 # Osutils
 from osutils import FileHandler
 
-# Sttings
+# Settings
 from settings import EnvironmentVariables, ExcelTextLoader, GetConfigJson
 
 # Utils
