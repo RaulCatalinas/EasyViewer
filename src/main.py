@@ -10,8 +10,6 @@ from backend import Download, ShutdownHandler, Update, Validations
 from components.dialog import ErrorDialog, UpdateDialog
 from components.ui import IndexUI
 
-# Constants
-
 # Control variables
 from control_variables import ControlVariables
 
