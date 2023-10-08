@@ -4,7 +4,6 @@ Downloads a video or audio from a YouTube video and saves it to a specific locat
 
 # Standard library
 from os import startfile
-from typing import Callable
 
 # Control variables
 from control_variables import ControlVariables
@@ -25,15 +24,10 @@ class Download:
     """
 
     @check_type
-    def __init__(
-        self,
-        page: Page,
-        toggle_state_widgets: Callable,
-        update_progressbar: Callable,
-    ):
+    def __init__(self, page: Page):
         self.page = page
-        self.toggle_state_widgets = toggle_state_widgets
-        self.update_progressbar = update_progressbar
+        self.interact_api_pytube = InteractAPIPytube()
+        self.control_variables = ControlVariables()
 
     @check_type
     def download(self, download_video: bool):
@@ -48,28 +42,22 @@ class Download:
         """
 
         try:
-            stream = InteractAPIPytube().get_video(download_video)
+            stream = self.interact_api_pytube.get_video(download_video)
 
             stream.download(
-                output_path=ControlVariables().get_control_variable("VIDEO_LOCATION"),
-                filename=ControlVariables().get_control_variable("DOWNLOAD_NAME"),
+                output_path=self.control_variables.get_control_variable(
+                    "VIDEO_LOCATION"
+                ),
+                filename=self.control_variables.get_control_variable("DOWNLOAD_NAME"),
             )
 
         except Exception as exception:
             LoggingManagement.write_error(str(exception))
 
-            self.toggle_state_widgets(self.page)
-
-            self.update_progressbar(new_value=0, page=self.page)
-
             raise Exception(str(exception)) from exception
 
-        startfile(ControlVariables().get_control_variable("VIDEO_LOCATION"))
+        startfile(self.control_variables.get_control_variable("VIDEO_LOCATION"))
 
-        self.update_progressbar(new_value=0, page=self.page)
-
-        self.toggle_state_widgets(self.page)
-
-        ControlVariables().reset()
+        self.control_variables.reset()
 
         LoggingManagement.write_log("Download completed successfully")

@@ -122,11 +122,7 @@ class Main:
 
         self.checkbox = index_ui.get_checkbox()
 
-        self.download = Download(
-            page=app_page,
-            toggle_state_widgets=self.__toggle_state_widgets,
-            update_progressbar=self.progress_bar.update_value,
-        )
+        self.download = Download(app_page)
 
         Thread(
             target=app_page.add,
@@ -192,9 +188,6 @@ class Main:
                 self.download.download(download_video)
 
         except Exception as exception:
-            self.control_variables.reset()
-            self.progress_bar.update_value(0, app_page)
-            self.__toggle_state_widgets(app_page)
             self.error_dialog.show_error_dialog(str(exception))
             video_location = self.control_variables.get_control_variable(
                 "VIDEO_LOCATION"
@@ -205,6 +198,11 @@ class Main:
                 download_name=download_name,
                 callback=self.control_variables.reset,
             )
+
+        finally:
+            self.__toggle_state_widgets(app_page)
+            self.control_variables.reset()
+            self.progress_bar.update_value(0, app_page)
 
     @check_type
     def __overlay(self, app_page: Page):
