@@ -1,7 +1,7 @@
 # Standard library
 from threading import Thread
 
-# Thid-Party libraries
+# Third-Party libraries
 from flet import KeyboardType, TextAlign, icons
 
 # Create widgets
