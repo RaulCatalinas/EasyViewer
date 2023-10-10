@@ -1,7 +1,7 @@
 # Enum helper
 from .enum_helper import EnumHelper
 
-# Insterfaces
+# Interfaces
 from .interfaces import InterfaceIconButton, InterfaceTextButton
 
 # Logging management
