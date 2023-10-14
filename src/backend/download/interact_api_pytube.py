@@ -17,6 +17,14 @@ from settings import ExcelTextLoader
 # Utils
 from utils import LoggingManagement, check_type
 
+# Constants
+from constants import (
+    EXTENSION_FILE_VIDEO,
+    EXTENSION_FILE_AUDIO,
+    DOWNLOADED_FILE_TYPE_AUDIO,
+    DOWNLOADED_FILE_TYPE_VIDEO,
+)
+
 
 class InteractAPIPytube:
     """
@@ -50,8 +58,14 @@ class InteractAPIPytube:
 
             title_for_the_file = FileHandler.clean_invalid_chars(title)
 
-            extension_file = "mp3" if not download_video else "mp4"
-            downloaded_file_type = "audio" if not download_video else "video"
+            extension_file = (
+                EXTENSION_FILE_AUDIO if not download_video else EXTENSION_FILE_VIDEO
+            )
+            downloaded_file_type = (
+                DOWNLOADED_FILE_TYPE_AUDIO
+                if not download_video
+                else DOWNLOADED_FILE_TYPE_VIDEO
+            )
 
             self.control_variables.set_control_variable(
                 control_variable="DOWNLOAD_NAME",
