@@ -41,7 +41,7 @@ class Validations:
     Validating various aspects of a YouTube video download request
     """
 
-    video_location = VideoLocation()
+    video_location_instance = VideoLocation()
 
     @staticmethod
     @check_type
@@ -100,7 +100,6 @@ class Validations:
         cls,
         input_directory: CreateInputs,
         page: Page,
-        video_location: str,
     ) -> bool:
         """
         Check if a directory is selected, or set a default.
@@ -114,14 +113,17 @@ class Validations:
             bool: True to indicate that everything went well.
         """
 
-        if not video_location or video_location == "None":
-            default_directory = GetPaths.get_desktop_path()
+        video_location = cls.video_location_instance.get()
+
+        if not video_location or video_location is None:
+            default_directory = str(GetPaths.get_desktop_path())
 
             input_directory.set_value(default_directory)
 
-            cls.video_location.set(default_directory)
+            cls.video_location_instance.set(default_directory)
 
             LoggingManagement.write_log("Default directory set")
+
             page.update(input_directory)
 
         else:

@@ -107,10 +107,12 @@ class Main:
             app_page (flet.Page): Reference to the app window.
         """
 
+        video_location = self.video_location.get()
+
         index_ui = IndexUI(
             page=app_page,
             download=self.__download,
-            video_location=self.video_location.get(),
+            video_location=video_location if video_location is not None else None,
             shutdown_handler=self.shutdown_handler,
             check_updates=self.__check_updates,
         )
@@ -185,7 +187,7 @@ class Main:
 
             video_location = self.video_location.get()
 
-            can_download_video = self.__validate_download(url, app_page, video_location)
+            can_download_video = self.__validate_download(url, app_page)
 
             if can_download_video:
                 self.download.download(download_video)
@@ -259,9 +261,7 @@ class Main:
             self.update_dialog.show_update_dialog()
 
     @check_type
-    def __validate_download(
-        self, url: str, app_page: Page, video_location: str
-    ) -> bool:
+    def __validate_download(self, url: str, app_page: Page) -> bool:
         """
         Validates the download parameters.
 
@@ -276,14 +276,13 @@ class Main:
 
         return (
             Validations.validate_non_empty_url(url)
-            and Validations.check_if_youtube_url(url)
-            and Validations.check_internet_connection()
-            and Validations.is_youtube_video_available(url)
             and Validations.set_default_directory_or_check_selected(
                 input_directory=self.input_directory,
                 page=app_page,
-                video_location=video_location,
             )
+            and Validations.check_if_youtube_url(url)
+            and Validations.check_internet_connection()
+            and Validations.is_youtube_video_available(url)
         )
 
 
