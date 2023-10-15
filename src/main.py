@@ -11,7 +11,13 @@ from components.dialog import ErrorDialog, UpdateDialog
 from components.ui import IndexUI
 
 # Control variables
-from control_variables import ControlVariables
+from control_variables import (
+    URLs,
+    VideoLocation,
+    DownloadName,
+    set_initial_values,
+    reset,
+)
 
 # Third-Party libraries
 from flet import MainAxisAlignment, Page, app
@@ -38,7 +44,9 @@ class Main:
             app_page (flet.Page): Reference to the app window.
         """
 
-        self.control_variables = ControlVariables()
+        self.urls = URLs()
+        self.video_location = VideoLocation()
+        self.download_name = DownloadName()
         self.updater = Update(page=app_page, update_dialog=None)
 
         self.__initialize_app(app_page)
@@ -63,7 +71,7 @@ class Main:
         )
         self.updater.update_dialog = self.update_dialog
 
-        self.control_variables.set_initial_values(app_page)
+        set_initial_values(app_page)
 
     def __configure_window(self, app_page: Page):
         """
@@ -102,9 +110,7 @@ class Main:
         index_ui = IndexUI(
             page=app_page,
             download=self.__download,
-            video_location=self.control_variables.get_control_variable(
-                "VIDEO_LOCATION"
-            ),
+            video_location=self.video_location.get(),
             shutdown_handler=self.shutdown_handler,
             check_updates=self.__check_updates,
         )
@@ -172,15 +178,12 @@ class Main:
         self.progress_bar.update_value(None, app_page)
 
         url_to_save = self.input_url.get_value()
-        self.control_variables.set_control_variable(
-            control_variable="URL_VIDEO", value=url_to_save
-        )
+        self.urls.set(url_to_save)
 
         try:
-            url = self.control_variables.get_control_variable("URL_VIDEO")
-            video_location = self.control_variables.get_control_variable(
-                "VIDEO_LOCATION"
-            )
+            url = self.urls.get()
+
+            video_location = self.video_location.get()
 
             can_download_video = self.__validate_download(url, app_page, video_location)
 
@@ -189,19 +192,17 @@ class Main:
 
         except Exception as exception:
             self.error_dialog.show_error_dialog(str(exception))
-            video_location = self.control_variables.get_control_variable(
-                "VIDEO_LOCATION"
-            )
-            download_name = self.control_variables.get_control_variable("DOWNLOAD_NAME")
+            video_location = self.video_location.get()
+            download_name = self.download_name.get()
             FileHandler.delete_file(
                 path_to_file=video_location,
                 download_name=download_name,
-                callback=self.control_variables.reset,
+                callback=reset,
             )
 
         finally:
             self.__toggle_state_widgets(app_page)
-            self.control_variables.reset()
+            reset()
             self.progress_bar.update_value(0, app_page)
 
     @check_type

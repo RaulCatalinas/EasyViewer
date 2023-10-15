@@ -6,7 +6,7 @@ Downloads a video or audio from a YouTube video and saves it to a specific locat
 from os import startfile
 
 # Control variables
-from control_variables import ControlVariables
+from control_variables import VideoLocation, DownloadName
 
 # Third-Party libraries
 from flet import Page
@@ -27,7 +27,8 @@ class Download:
     def __init__(self, page: Page):
         self.page = page
         self.interact_api_pytube = InteractAPIPytube()
-        self.control_variables = ControlVariables()
+        self.video_location = VideoLocation()
+        self.download_name = DownloadName()
 
     @check_type
     def download(self, download_video: bool):
@@ -45,10 +46,8 @@ class Download:
             stream = self.interact_api_pytube.get_video(download_video)
 
             stream.download(
-                output_path=self.control_variables.get_control_variable(
-                    "VIDEO_LOCATION"
-                ),
-                filename=self.control_variables.get_control_variable("DOWNLOAD_NAME"),
+                output_path=self.video_location.get(),
+                filename=self.download_name.get(),
             )
 
         except Exception as exception:
@@ -56,8 +55,6 @@ class Download:
 
             raise Exception(str(exception)) from exception
 
-        startfile(self.control_variables.get_control_variable("VIDEO_LOCATION"))
-
-        self.control_variables.reset()
+        startfile(self.video_location.get())
 
         LoggingManagement.write_log("Download completed successfully")

@@ -6,7 +6,7 @@ Interact with the Pytube API.
 from pytube import YouTube
 
 # Control variables
-from control_variables import ControlVariables
+from control_variables import URLs, DownloadName
 
 # Osutils
 from osutils import FileHandler
@@ -32,7 +32,8 @@ class InteractAPIPytube:
     """
 
     def __init__(self):
-        self.control_variables = ControlVariables()
+        self.urls = URLs()
+        self.download_name = DownloadName()
 
     @check_type
     def get_video(self, download_video: bool):
@@ -49,7 +50,7 @@ class InteractAPIPytube:
             pytube.Stream | None: The information of the video to download
         """
 
-        url = self.control_variables.get_control_variable("URL_VIDEO")
+        url = self.urls.get()
 
         try:
             video_id = YouTube(url)
@@ -67,9 +68,8 @@ class InteractAPIPytube:
                 else DOWNLOADED_FILE_TYPE_VIDEO
             )
 
-            self.control_variables.set_control_variable(
-                control_variable="DOWNLOAD_NAME",
-                value=f"{title_for_the_file}.{extension_file}",
+            self.download_name.set(
+                f"{title_for_the_file}.{extension_file}",
             )
 
             LoggingManagement.write_log(

@@ -2,10 +2,10 @@
 from typing import Callable
 
 # Third-Party libraries
-from flet import Checkbox, LabelPosition, Offset, Page
+from flet import LabelPosition, Offset, Page, Checkbox
 
 # Control variables
-from control_variables import ControlVariables
+from control_variables import CheckBox
 
 # Utils
 from utils import check_type
@@ -24,14 +24,14 @@ class CreateCheckbox(Checkbox):
     ):
         self.page = page
         self.callback = callback
-        self.control_variables = ControlVariables()
+        self.checkbox_instance = CheckBox()
 
         super().__init__(
             label=label,
             label_position=label_position,
             offset=Offset(offset_x, offset_y),
             on_change=lambda e: self.__on_change(),
-            value=self.__get_value_from_ini("checkbox_update", True),
+            value=self.__get_value_from_ini("update", True),
         )
 
     def get_value(self):
@@ -72,7 +72,7 @@ class CreateCheckbox(Checkbox):
         Functions that are executed when the value of the checkbox changes
         """
         self.callback()
-        self.control_variables.set_control_variable("checkbox_update", self.value)
+        self.checkbox_instance.set("update", self.value)
 
     def __get_value_from_ini(self, key: str, default_value: bool) -> bool:
         """
@@ -86,6 +86,6 @@ class CreateCheckbox(Checkbox):
             bool: The value of the checkbox
         """
 
-        value = self.control_variables.get_control_variable(key, get_bool=True)
+        value = self.checkbox_instance.get(key)
 
         return value if value != "None" else default_value

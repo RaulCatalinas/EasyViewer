@@ -6,7 +6,7 @@ Prompts the user to select a directory for the downloaded file
 from flet import FilePicker, FilePickerResultEvent, Page
 
 # Control variables
-from control_variables import ControlVariables
+from control_variables import VideoLocation
 
 # Create widgets
 from frontend.create_widgets import CreateInputs
@@ -28,7 +28,7 @@ class SelectDirectory(FilePicker):
         self.page = page
         self.input_directory = input_directory
 
-        self.control_variables = ControlVariables()
+        self.video_location = VideoLocation()
 
         super().__init__(on_result=self.__on_result)
 
@@ -47,7 +47,7 @@ class SelectDirectory(FilePicker):
             return
 
         self.input_directory.set_value(path)
-        self.control_variables.set_control_variable("VIDEO_LOCATION", path)
+        self.video_location.set(path)
         self.page.update(self.input_directory)
 
     def select_directory(self):

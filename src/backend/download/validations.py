@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 from constants import ALLOW_HOSTS, GOOGLE
 
 # Control variables
-from control_variables import ControlVariables
+from control_variables import VideoLocation
 
 # Third-Party libraries
 from flet import Page
@@ -40,6 +40,8 @@ class Validations:
     """
     Validating various aspects of a YouTube video download request
     """
+
+    video_location = VideoLocation()
 
     @staticmethod
     @check_type
@@ -92,9 +94,10 @@ class Validations:
 
         raise ValueError(ExcelTextLoader.get_text(11))
 
-    @staticmethod
+    @classmethod
     @check_type
     def set_default_directory_or_check_selected(
+        cls,
         input_directory: CreateInputs,
         page: Page,
         video_location: str,
@@ -115,9 +118,8 @@ class Validations:
             default_directory = GetPaths.get_desktop_path()
 
             input_directory.set_value(default_directory)
-            ControlVariables().set_control_variable(
-                option="VIDEO_LOCATION", value=default_directory
-            )
+
+            cls.video_location.set(default_directory)
 
             LoggingManagement.write_log("Default directory set")
             page.update(input_directory)

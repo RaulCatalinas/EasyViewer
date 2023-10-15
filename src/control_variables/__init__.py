@@ -2,7 +2,33 @@
 Read and write control variables in the INI file
 """
 
-# Control variables
-from .control_variables import ControlVariables
+# Urls
+from .urls import URLs
 
-__all__ = ["ControlVariables"]
+# Video location
+from .video_location import VideoLocation
+
+# Download name
+from .download_name import DownloadName
+
+# Checkbox
+from .checkbox import CheckBox
+
+# Store control variables
+from .store_control_variables import store_control_variables
+
+# Set initial values
+from .set_initial_values import set_initial_values
+
+# Reset
+from .reset import reset
+
+__all__ = [
+    "URLs",
+    "VideoLocation",
+    "DownloadName",
+    "CheckBox",
+    "store_control_variables",
+    "set_initial_values",
+    "reset",
+]

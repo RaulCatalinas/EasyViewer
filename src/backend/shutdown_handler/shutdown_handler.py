@@ -6,7 +6,7 @@ Control the closing of the app
 from flet import MainAxisAlignment, Page
 
 # Control variables
-from control_variables import ControlVariables
+from control_variables import store_control_variables
 
 # Create widgets
 from frontend.create_widgets import (
@@ -56,7 +56,7 @@ class ShutdownHandler(CreateDialog):
 
         self.change_state(page)
 
-        ControlVariables().save_to_local_storage(page)
+        store_control_variables(page)
 
         page.window_destroy()
 
