@@ -5,6 +5,7 @@ Save control variables in an INI file and reset their values.
 # Standard library
 from configparser import ConfigParser
 from threading import Lock, Thread
+from typing import Union
 
 # Osutils
 from osutils import FileHandler, GetPaths
@@ -28,9 +29,7 @@ class Core:
 
     @classmethod
     @check_type
-    def _get_control_variable(
-        cls, control_variable: str, get_bool: bool = False
-    ) -> str | bool:
+    def _get_control_variable(cls, control_variable: str, get_bool: bool = False):
         """
         Gets the value of the control variable
 
@@ -39,21 +38,26 @@ class Core:
             get_bool (bool, optional): Indicates whether to return a boolean or str
 
         Returns:
-            str | bool: _description_
+            str | bool | None: _description_
         """
 
         section = "ControlVariables"
         option = control_variable.lower()
 
+        value_of_control_variable = cls.config_parser.get(section, option)
+
+        if value_of_control_variable == "None":
+            return None
+
         return (
-            cls.config_parser.getboolean(section, option)
-            if get_bool
-            else cls.config_parser.get(section, option)
+            bool(value_of_control_variable) if get_bool else value_of_control_variable
         )
 
     @classmethod
     @check_type
-    def _set_control_variable(cls, control_variable: str, value: str | bool):
+    def _set_control_variable(
+        cls, control_variable: str, value: Union[str, bool, None]
+    ):
         """
         Sets a new value for the control variable
 

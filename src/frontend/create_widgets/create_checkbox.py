@@ -88,4 +88,4 @@ class CreateCheckbox(Checkbox):
 
         value = self.checkbox_instance.get(key)
 
-        return value if value != "None" else default_value
+        return value if value is not None else default_value

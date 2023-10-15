@@ -6,7 +6,7 @@ class CheckBox(Core):
     def __init__(self):
         super().__init__()
 
-    def get(self, checkbox) -> bool:
+    def get(self, checkbox) -> bool | None:
         return self._get_control_variable(f"checkbox_{checkbox}", get_bool=True)
 
     def set(self, checkbox, value):

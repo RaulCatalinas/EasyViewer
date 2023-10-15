@@ -10,6 +10,9 @@ class LocalStorage(ClientStorage):
         super().__init__(page)
 
     def set(self, key: str, value: Any):
+        if value is None:
+            return
+
         super().set(key, value)
 
     def get(self, key: str):
