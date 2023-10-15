@@ -6,7 +6,7 @@ class URLs(Core):
     def __init__(self):
         super().__init__()
 
-    def get(self) -> str:
+    def get(self) -> str | None:
         return self._get_control_variable("URL_VIDEO")
 
     def set(self, url):

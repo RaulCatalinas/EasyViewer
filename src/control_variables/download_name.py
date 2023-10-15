@@ -6,7 +6,7 @@ class DownloadName(Core):
     def __init__(self):
         super().__init__()
 
-    def get(self) -> str:
+    def get(self) -> str | None:
         return self._get_control_variable("DOWNLOAD_NAME")
 
     def set(self, download_name):
