@@ -54,6 +54,8 @@ def build():
         f"{SRC_FOLDER}/utils;utils",
         ADD_DATA_COMMAND,
         f"{SRC_FOLDER}/github_credentials.py;github_credentials.py",
+        ADD_DATA_COMMAND,
+        f"{SRC_FOLDER}/local_storage;local_storage",
     ]
 
     try:
