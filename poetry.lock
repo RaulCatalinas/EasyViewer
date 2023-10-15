@@ -722,7 +722,10 @@ files = [
 ]
 
 [package.dependencies]
-numpy = {version = ">=1.23.2", markers = "python_version == \"3.11\""}
+numpy = [
+    {version = ">=1.23.2", markers = "python_version == \"3.11\""},
+    {version = ">=1.26.0", markers = "python_version >= \"3.12\""},
+]
 python-dateutil = ">=2.8.2"
 pytz = ">=2020.1"
 tzdata = ">=2022.1"
@@ -1722,5 +1725,5 @@ files = [
 
 [metadata]
 lock-version = "2.0"
-python-versions = ">=3.11, <3.12"
-content-hash = "68074eee653784bac51771d91f32e63bc7ce571c4dc711f8a3bc82e12fd7afc5"
+python-versions = ">=3.11,<3.13"
+content-hash = "8670d3f97f654c43202fcf63a75b762b31b7678aeb99d9bb3c2fdd6419df3a7f"
