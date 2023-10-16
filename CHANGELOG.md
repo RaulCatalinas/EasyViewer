@@ -26,4 +26,11 @@
 
 ## Fixed
 
-* Resolve pytube error in video title retrieval
+- Resolve pytube error in video title retrieval
+
+# 2.1.0 - 16-10-2023
+
+## Added
+
+- The app will now notify you when a new version is available.
+- The input of the url of the video is cleared when it downloads correctly and when there is a problem with validations.
