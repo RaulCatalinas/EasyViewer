@@ -69,7 +69,7 @@ class Validations:
 
     @staticmethod
     @check_type
-    def check_if_youtube_url(url: str) -> bool:
+    def check_if_youtube_url(url: str, input_url: CreateInputs) -> bool:
         """
         Checks if a given URL is from YouTube.
 
@@ -91,6 +91,8 @@ class Validations:
             return True
 
         LoggingManagement.write_error("The URL is not from YouTube")
+
+        input_url.set_value("")
 
         raise ValueError(ExcelTextLoader.get_text(11))
 
@@ -159,7 +161,7 @@ class Validations:
 
     @staticmethod
     @check_type
-    def is_youtube_video_available(url: str) -> bool:
+    def is_youtube_video_available(url: str, input_url: CreateInputs) -> bool:
         """
         Check if YouTube video is available
 
@@ -178,39 +180,27 @@ class Validations:
 
             return True
 
-        except AgeRestrictedError as age_error:
-            LoggingManagement.write_error(str(age_error))
+        except (
+            AgeRestrictedError,
+            LiveStreamError,
+            MembersOnly,
+            VideoPrivate,
+            VideoRegionBlocked,
+            VideoUnavailable,
+            Exception,
+        ) as error:
+            LoggingManagement.write_error(str(error))
 
-            raise Exception(ExcelTextLoader.get_text(23)) from age_error
+            input_url.set_value("")
 
-        except LiveStreamError as live_error:
-            LoggingManagement.write_error(str(live_error))
+            error_message = {
+                AgeRestrictedError: ExcelTextLoader.get_text(23),
+                LiveStreamError: ExcelTextLoader.get_text(24),
+                MembersOnly: ExcelTextLoader.get_text(25),
+                VideoPrivate: ExcelTextLoader.get_text(26),
+                VideoRegionBlocked: ExcelTextLoader.get_text(27),
+                VideoUnavailable: ExcelTextLoader.get_text(28),
+                Exception: ExcelTextLoader.get_text(29),
+            }
 
-            raise Exception(ExcelTextLoader.get_text(24)) from live_error
-
-        except MembersOnly as member_error:
-            LoggingManagement.write_error(str(member_error))
-
-            raise Exception(ExcelTextLoader.get_text(25)) from member_error
-
-        except VideoPrivate as video_private_error:
-            LoggingManagement.write_error(str(video_private_error))
-
-            raise Exception(ExcelTextLoader.get_text(26)) from video_private_error
-
-        except VideoRegionBlocked as video_region_blocked_error:
-            LoggingManagement.write_error(str(video_region_blocked_error))
-
-            raise Exception(
-                ExcelTextLoader.get_text(27)
-            ) from video_region_blocked_error
-
-        except VideoUnavailable as video_unavailable:
-            LoggingManagement.write_error(str(video_unavailable))
-
-            raise Exception(ExcelTextLoader.get_text(28)) from video_unavailable
-
-        except Exception as exception:
-            LoggingManagement.write_error(str(exception))
-
-            raise Exception(ExcelTextLoader.get_text(29)) from exception
+            raise Exception(error_message.get(type(error))) from error

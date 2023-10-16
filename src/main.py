@@ -202,6 +202,9 @@ class Main:
                 callback=reset,
             )
 
+        else:
+            self.input_url.set_value("")
+
         finally:
             self.__toggle_state_widgets(app_page)
             reset()
@@ -280,9 +283,9 @@ class Main:
                 input_directory=self.input_directory,
                 page=app_page,
             )
-            and Validations.check_if_youtube_url(url)
+            and Validations.check_if_youtube_url(url, self.input_url)
             and Validations.check_internet_connection()
-            and Validations.is_youtube_video_available(url)
+            and Validations.is_youtube_video_available(url, self.input_url)
         )
 
 
