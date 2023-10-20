@@ -2,6 +2,7 @@
 
 # Standard library
 from threading import Thread
+from os import startfile
 
 # Backend
 from backend import Download, ShutdownHandler, Update, Validations
@@ -179,23 +180,62 @@ class Main:
         self.__toggle_state_widgets(app_page)
         self.progress_bar.update_value(None, app_page)
 
-        url_to_save = self.input_url.get_value()
-        self.urls.set(url_to_save)
+        urls_to_download = self.input_url.get_value()
+        video_location = self.video_location.get()
 
-        try:
+        def download_one_video(url_to_download: str):
+            self.urls.set(url_to_download)
+
             url = self.urls.get()
-
-            video_location = self.video_location.get()
 
             can_download_video = self.__validate_download(url, app_page)
 
             if can_download_video:
                 self.download.download(download_video)
 
+        def download_several_videos(urls_to_download: list[str]):
+            for url in urls_to_download.copy():
+                self.urls.set(url)
+
+                can_download_video = self.__validate_download(url, app_page)
+
+                if can_download_video:
+                    self.download.download(download_video)
+
+                urls_to_download.remove(url)
+
+                if len(urls_to_download) == 0:
+                    break
+
+                if len(urls_to_download) > 1:
+                    self.input_url.set_value("\n".join(urls_to_download))
+
+                elif len(urls_to_download) == 1:
+                    self.input_url.set_value(*urls_to_download)
+
+                app_page.update(self.input_url)
+
+        try:
+            Validations.validate_non_empty_url(urls_to_download)
+
+            list_urls_to_download: list[str] = urls_to_download.splitlines()
+
+            if len(list_urls_to_download) == 1:
+                LoggingManagement.write_log("Just one video will be downloaded")
+                download_one_video(list_urls_to_download[0])
+
+            else:
+                LoggingManagement.write_log("Several videos will be downloaded")
+                download_several_videos(list_urls_to_download)
+
         except Exception as exception:
             self.error_dialog.show_error_dialog(str(exception))
             video_location = self.video_location.get()
             download_name = self.download_name.get()
+
+            if video_location is None or download_name is None:
+                return
+
             FileHandler.delete_file(
                 path_to_file=video_location,
                 download_name=download_name,
@@ -203,6 +243,11 @@ class Main:
             )
 
         else:
+            if video_location is None:
+                return
+
+            startfile(video_location)
+
             self.input_url.set_value("")
 
         finally:

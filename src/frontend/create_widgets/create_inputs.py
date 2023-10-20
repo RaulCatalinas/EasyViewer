@@ -26,6 +26,8 @@ class CreateInputs(TextField):
         autofocus: bool = False,
         read_only: bool = False,
         value_input: str | None = None,
+        is_multiline: bool = False,
+        max_height: int = 1,
     ):
         self.placeholder_input = placeholder
         self.text_size_input = text_size
@@ -36,6 +38,8 @@ class CreateInputs(TextField):
         self.value_input = value_input
         self.offset_x = offset_x
         self.offset_y = offset_y
+        self.max_height = max_height
+        self.is_multiline = is_multiline
 
     def _build(self):
         return super().__init__(
@@ -47,6 +51,8 @@ class CreateInputs(TextField):
             text_align=self.text_align_input,
             offset=Offset(self.offset_x, self.offset_y),
             value=self.value_input,
+            multiline=self.is_multiline,
+            max_lines=self.max_height,
         )
 
     @check_type

@@ -2,9 +2,6 @@
 Downloads a video or audio from a YouTube video and saves it to a specific location
 """
 
-# Standard library
-from os import startfile
-
 # Control variables
 from control_variables import VideoLocation, DownloadName
 
@@ -54,7 +51,3 @@ class Download:
             LoggingManagement.write_error(str(exception))
 
             raise Exception(str(exception)) from exception
-
-        startfile(self.video_location.get())
-
-        LoggingManagement.write_log("Download completed successfully")

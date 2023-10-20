@@ -30,6 +30,8 @@ class IndexUI:
             keyboard_type=KeyboardType.URL,
             text_align=TextAlign.CENTER,
             autofocus=True,
+            is_multiline=True,
+            max_height=2,
         )
 
         self.input_directory = CreateInputs(
