@@ -194,7 +194,9 @@ class Main:
                 self.download.download(download_video)
 
         def download_several_videos(urls_to_download: list[str]):
-            for url in urls_to_download.copy():
+            while len(urls_to_download) > 0:
+                url = urls_to_download[0]
+
                 self.urls.set(url)
 
                 can_download_video = self.__validate_download(url, app_page)
@@ -203,9 +205,6 @@ class Main:
                     self.download.download(download_video)
 
                 urls_to_download.remove(url)
-
-                if len(urls_to_download) == 0:
-                    break
 
                 self.input_url.set_value("\n".join(urls_to_download))
 
