@@ -207,11 +207,7 @@ class Main:
                 if len(urls_to_download) == 0:
                     break
 
-                if len(urls_to_download) > 1:
-                    self.input_url.set_value("\n".join(urls_to_download))
-
-                elif len(urls_to_download) == 1:
-                    self.input_url.set_value(*urls_to_download)
+                self.input_url.set_value("\n".join(urls_to_download))
 
                 app_page.update(self.input_url)
 
