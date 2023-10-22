@@ -194,21 +194,40 @@ class Main:
                 self.download.download(download_video)
 
         def download_several_videos(urls_to_download: list[str]):
-            while len(urls_to_download) > 0:
-                url = urls_to_download[0]
-
-                self.urls.set(url)
-
-                can_download_video = self.__validate_download(url, app_page)
-
-                if can_download_video:
-                    self.download.download(download_video)
-
-                urls_to_download.remove(url)
+            def update_gui(url_to_remove):
+                urls_to_download.remove(url_to_remove)
 
                 self.input_url.set_value("\n".join(urls_to_download))
 
                 app_page.update(self.input_url)
+
+            while len(urls_to_download) > 0:
+                try:
+                    url_to_download = urls_to_download[0]
+
+                    self.urls.set(url_to_download)
+
+                    url = self.urls.get()
+
+                    can_download_video = self.__validate_download(url, app_page)
+
+                    if can_download_video:
+                        self.download.download(download_video)
+
+                    update_gui(url)
+
+                except Exception as error:
+                    LoggingManagement.write_error(str(error))
+
+                    url = self.urls.get()
+
+                    if url is None:
+                        return
+
+                    update_gui(url)
+
+                finally:
+                    reset()
 
         try:
             Validations.validate_non_empty_url(urls_to_download)
@@ -225,6 +244,7 @@ class Main:
 
         except Exception as exception:
             self.error_dialog.show_error_dialog(str(exception))
+
             video_location = self.video_location.get()
             download_name = self.download_name.get()
 
