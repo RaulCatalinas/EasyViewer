@@ -33,7 +33,12 @@ from osutils import FileHandler
 from settings import EnvironmentVariables, ExcelTextLoader, GetConfigJson
 
 # Utils
-from utils import EnumHelper, LoggingManagement, check_type
+from utils import (
+    EnumHelper,
+    LoggingManagement,
+    check_type,
+    separate_urls,
+)
 
 
 class Main:
@@ -181,6 +186,7 @@ class Main:
         self.progress_bar.update_value(None, app_page)
 
         urls_to_download = self.input_url.get_value()
+
         video_location = self.video_location.get()
 
         def download_one_video(url_to_download: str):
@@ -232,7 +238,11 @@ class Main:
         try:
             Validations.validate_non_empty_url(urls_to_download)
 
-            list_urls_to_download: list[str] = urls_to_download.splitlines()
+            list_urls_to_download = separate_urls(urls_to_download)
+
+            self.input_url.set_value("\n".join(list_urls_to_download))
+
+            app_page.update(self.input_url)
 
             if len(list_urls_to_download) == 1:
                 LoggingManagement.write_log("Just one video will be downloaded")
@@ -338,8 +348,7 @@ class Main:
         """
 
         return (
-            Validations.validate_non_empty_url(url)
-            and Validations.set_default_directory_or_check_selected(
+            Validations.set_default_directory_or_check_selected(
                 input_directory=self.input_directory,
                 page=app_page,
             )
