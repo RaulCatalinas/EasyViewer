@@ -4,6 +4,9 @@ from re import sub
 # Strings utils
 from .strings_utils import remove_empty_strings
 
+# Constants
+from constants import HTTPS_PATTERN, SPACE_BEFORE_HTTPS
+
 
 def separate_urls(urls: str):
     """
@@ -27,6 +30,6 @@ def separate_urls(urls: str):
         ['https://example.com', 'https://another-url.com', 'https://another-url.com']
     """
 
-    urls_with_spaces = sub(r"(https://)", r" \1", urls).replace(" ", "\n")
+    urls_with_spaces = sub(HTTPS_PATTERN, SPACE_BEFORE_HTTPS, urls).replace(" ", "\n")
 
     return remove_empty_strings(urls_with_spaces.splitlines())

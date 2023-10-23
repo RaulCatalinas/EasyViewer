@@ -21,6 +21,9 @@ from .hosts import ALLOW_HOSTS, GOOGLE
 # Paths
 from .paths import CONFIG_FILES, DESKTOP_PATH, ROOT_PATH, USER_HOME
 
+# Regex
+from .regex import HTTPS_PATTERN, SPACE_BEFORE_HTTPS
+
 # Type checking
 from .type_checking import ENABLED_TYPE_CHECKING
 
@@ -45,6 +48,8 @@ __all__ = [
     "DESKTOP_PATH",
     "ROOT_PATH",
     "USER_HOME",
+    "HTTPS_PATTERN",
+    "SPACE_BEFORE_HTTPS",
     "ENABLED_TYPE_CHECKING",
     "USER_VERSION",
 ]
