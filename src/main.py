@@ -38,6 +38,7 @@ from utils import (
     LoggingManagement,
     check_type,
     separate_urls,
+    get_video_title,
 )
 
 
@@ -194,6 +195,11 @@ class Main:
 
             url = self.urls.get()
 
+            if url is None:
+                return
+
+            self.download_name.set(get_video_title(url, download_video))
+
             can_download_video = self.__validate_download(url, app_page)
 
             if can_download_video:
@@ -214,6 +220,11 @@ class Main:
                     self.urls.set(url_to_download)
 
                     url = self.urls.get()
+
+                    if url is None:
+                        return
+
+                    self.download_name.set(get_video_title(url, download_video))
 
                     can_download_video = self.__validate_download(url, app_page)
 

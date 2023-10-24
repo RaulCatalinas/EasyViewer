@@ -6,24 +6,13 @@ Interact with the Pytube API.
 from pytube import YouTube
 
 # Control variables
-from control_variables import URLs, DownloadName
-
-# Osutils
-from osutils import FileHandler
+from control_variables import URLs
 
 # Settings
 from settings import ExcelTextLoader
 
 # Utils
 from utils import LoggingManagement, check_type
-
-# Constants
-from constants import (
-    EXTENSION_FILE_VIDEO,
-    EXTENSION_FILE_AUDIO,
-    DOWNLOADED_FILE_TYPE_AUDIO,
-    DOWNLOADED_FILE_TYPE_VIDEO,
-)
 
 
 class InteractAPIPytube:
@@ -33,7 +22,6 @@ class InteractAPIPytube:
 
     def __init__(self):
         self.urls = URLs()
-        self.download_name = DownloadName()
 
     @check_type
     def get_video(self, download_video: bool):
@@ -53,28 +41,11 @@ class InteractAPIPytube:
         url = self.urls.get()
 
         try:
-            video_id = YouTube(url)
-            title = video_id.title
-            stream = video_id.streams
+            if url is None:
+                return
 
-            title_for_the_file = FileHandler.clean_invalid_chars(title)
-
-            extension_file = (
-                EXTENSION_FILE_AUDIO if not download_video else EXTENSION_FILE_VIDEO
-            )
-            downloaded_file_type = (
-                DOWNLOADED_FILE_TYPE_AUDIO
-                if not download_video
-                else DOWNLOADED_FILE_TYPE_VIDEO
-            )
-
-            self.download_name.set(
-                f"{title_for_the_file}.{extension_file}",
-            )
-
-            LoggingManagement.write_log(
-                f"The {downloaded_file_type} will be downloaded."
-            )
+            youtube = YouTube(url)
+            stream = youtube.streams
 
             return (
                 stream.get_highest_resolution()

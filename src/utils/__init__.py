@@ -14,7 +14,7 @@ from .type_checker import check_type
 from .strings_utils import remove_empty_strings
 
 # Youtube utils
-from .youtube_utils import separate_urls
+from .youtube_utils import separate_urls, get_video_title
 
 __all__ = [
     "check_type",
@@ -24,4 +24,5 @@ __all__ = [
     "EnumHelper",
     "remove_empty_strings",
     "separate_urls",
+    "get_video_title",
 ]
