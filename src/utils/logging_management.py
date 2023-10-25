@@ -1,47 +1,38 @@
 # Standard library
-from logging import basicConfig, error, info
+from logging import Logger, FileHandler, Formatter, DEBUG
 from os import mkdir
 from os.path import exists
 
+# Type checker
+from .type_checker import check_type
+
 
 class LoggingManagement:
-    """
-    Manage app logs
-    """
+    logger = Logger("EasyViewer", DEBUG)
 
     @classmethod
+    @check_type
     def write_log(cls, message: str):
-        """
-        Writes a log message to the log file.
-
-        Args:
-            message (str): The message to write to the log file.
-        """
-
-        info(message)
+        cls.logger.info(message)
 
     @classmethod
+    @check_type
     def write_error(cls, message: str):
-        """
-        Write an error message to the log file.
-
-        Args:
-            message (str): The message to write to the log file.
-        """
-
-        error(message)
+        cls.logger.error(message)
 
     @classmethod
+    @check_type
     def initialize_logging(cls):
-        """
-        Initializes the logging configuration.
-        """
-
         if not exists("Log"):
             mkdir("Log")
 
-        basicConfig(
-            filemode="w+",
-            filename="Log/App.log",
-            format="%(asctime)s -> %(levelname)s: %(message)s",
+        handler = FileHandler("Log/App.log")
+
+        formatter = Formatter(
+            "%(asctime)s -> %(levelname)s: %(message)s",
+            datefmt="%Y-%m-%d %H:%M",
         )
+
+        handler.setFormatter(formatter)
+
+        cls.logger.addHandler(handler)
