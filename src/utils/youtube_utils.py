@@ -5,7 +5,12 @@ from re import sub
 from .strings_utils import remove_empty_strings
 
 # Constants
-from constants import HTTPS_PATTERN, SPACE_BEFORE_HTTPS
+from constants import (
+    HTTPS_PATTERN,
+    SPACE_BEFORE_HTTPS,
+    EXTENSION_FILE_VIDEO,
+    EXTENSION_FILE_AUDIO,
+)
 
 # Third-Party libraries
 from pytube import YouTube
@@ -15,12 +20,6 @@ from osutils import FileHandler
 
 # Utils
 from utils import check_type
-
-# Constants
-from constants import (
-    EXTENSION_FILE_VIDEO,
-    EXTENSION_FILE_AUDIO,
-)
 
 
 def separate_urls(urls: str):
