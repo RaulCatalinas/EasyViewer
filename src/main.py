@@ -183,7 +183,6 @@ class Main:
             app_page (flet.Page): Reference to the app window.
             download_video (bool): Indicates whether to download the video or audio.
         """
-
         self.__toggle_state_widgets(app_page)
         self.progress_bar.update_value(None, app_page)
 
@@ -193,61 +192,10 @@ class Main:
 
         video_location = self.video_location.get()
 
-        def download_one_video(url_to_download: str):
-            self.urls.set(url_to_download)
+        if video_location is None:
+            return
 
-            url = self.urls.get()
-
-            if url is None:
-                return
-
-            self.download_name.set(get_video_title(url, download_video))
-
-            can_download_video = self.__validate_download(url)
-
-            if can_download_video:
-                self.download.download(download_video)
-
-        def download_several_videos(urls_to_download: list[str]):
-            def update_gui(url_to_remove):
-                urls_to_download.remove(url_to_remove)
-
-                self.input_url.set_value("\n".join(urls_to_download))
-
-                app_page.update(self.input_url)
-
-            while len(urls_to_download) > 0:
-                try:
-                    url_to_download = urls_to_download[0]
-
-                    self.urls.set(url_to_download)
-
-                    url = self.urls.get()
-
-                    if url is None:
-                        return
-
-                    self.download_name.set(get_video_title(url, download_video))
-
-                    can_download_video = self.__validate_download(url)
-
-                    if can_download_video:
-                        self.download.download(download_video)
-
-                    update_gui(url)
-
-                except Exception as error:
-                    LoggingManagement.write_error(str(error))
-
-                    url = self.urls.get()
-
-                    if url is None:
-                        return
-
-                    update_gui(url)
-
-                finally:
-                    reset()
+        videos_downloaded_successfully: list[str] = []
 
         try:
             Validations.validate_non_empty_url(urls_to_download)
@@ -258,21 +206,51 @@ class Main:
 
             app_page.update(self.input_url)
 
-            if len(list_urls_to_download) == 1:
-                LoggingManagement.write_log("Just one video will be downloaded")
-                download_one_video(list_urls_to_download[0])
+            while len(list_urls_to_download) > 0:
+                try:
+                    url_to_download = list_urls_to_download[0]
 
-            else:
-                LoggingManagement.write_log("Several videos will be downloaded")
-                download_several_videos(list_urls_to_download)
+                    self.urls.set(url_to_download)
+
+                    url = self.urls.get()
+
+                    if url is None:
+                        return
+
+                    can_download_video = self.__validate_download(url)
+
+                    if can_download_video:
+                        self.download_name.set(get_video_title(url, download_video))
+
+                        self.download.download(download_video)
+
+                        videos_downloaded_successfully.append(url)
+
+                except Exception as error:
+                    LoggingManagement.write_error(str(error))
+
+                    self.error_dialog.show_error_dialog(str(error))
+
+                finally:
+                    url = self.urls.get()
+
+                    if url is None:
+                        return
+
+                    list_urls_to_download.remove(url)
+
+                    self.input_url.set_value("\n".join(list_urls_to_download))
+
+                    app_page.update(self.input_url)
+
+                    reset()
 
         except Exception as exception:
             self.error_dialog.show_error_dialog(str(exception))
 
-            video_location = self.video_location.get()
             download_name = self.download_name.get()
 
-            if video_location is None or download_name is None:
+            if download_name is None:
                 return
 
             FileHandler.delete_file(
@@ -282,14 +260,14 @@ class Main:
             )
 
         else:
-            if video_location is None:
-                return
-
-            startfile(video_location)
+            if len(videos_downloaded_successfully) > 0:
+                startfile(video_location)
 
             self.input_url.set_value("")
 
         finally:
+            videos_downloaded_successfully.clear()
+
             self.__toggle_state_widgets(app_page)
             reset()
             self.progress_bar.update_value(0, app_page)
