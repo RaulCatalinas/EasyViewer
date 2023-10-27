@@ -39,6 +39,7 @@ from utils import (
     check_type,
     separate_urls,
     get_video_title,
+    configure_directory,
 )
 
 
@@ -186,6 +187,8 @@ class Main:
         self.__toggle_state_widgets(app_page)
         self.progress_bar.update_value(None, app_page)
 
+        configure_directory(self.input_directory, app_page)
+
         urls_to_download = self.input_url.get_value()
 
         video_location = self.video_location.get()
@@ -200,7 +203,7 @@ class Main:
 
             self.download_name.set(get_video_title(url, download_video))
 
-            can_download_video = self.__validate_download(url, app_page)
+            can_download_video = self.__validate_download(url)
 
             if can_download_video:
                 self.download.download(download_video)
@@ -226,7 +229,7 @@ class Main:
 
                     self.download_name.set(get_video_title(url, download_video))
 
-                    can_download_video = self.__validate_download(url, app_page)
+                    can_download_video = self.__validate_download(url)
 
                     if can_download_video:
                         self.download.download(download_video)
@@ -345,7 +348,7 @@ class Main:
             self.update_dialog.show_update_dialog()
 
     @check_type
-    def __validate_download(self, url: str, app_page: Page) -> bool:
+    def __validate_download(self, url: str) -> bool:
         """
         Validates the download parameters.
 
@@ -359,11 +362,7 @@ class Main:
         """
 
         return (
-            Validations.set_default_directory_or_check_selected(
-                input_directory=self.input_directory,
-                page=app_page,
-            )
-            and Validations.check_if_youtube_url(url, self.input_url)
+            Validations.check_if_youtube_url(url, self.input_url)
             and Validations.check_internet_connection()
             and Validations.is_youtube_video_available(url, self.input_url)
         )

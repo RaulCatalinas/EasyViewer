@@ -7,11 +7,7 @@ from urllib.parse import urlparse
 # Constants
 from constants import ALLOW_HOSTS, GOOGLE
 
-# Control variables
-from control_variables import VideoLocation
-
 # Third-Party libraries
-from flet import Page
 from pytube import YouTube
 from requests import ConnectionError, Timeout, get
 from pytube.exceptions import (
@@ -26,9 +22,6 @@ from pytube.exceptions import (
 # Create widgets
 from frontend.create_widgets import CreateInputs
 
-# Osutils
-from osutils import GetPaths
-
 # Settings
 from settings import ExcelTextLoader
 
@@ -40,8 +33,6 @@ class Validations:
     """
     Validating various aspects of a YouTube video download request
     """
-
-    video_location_instance = VideoLocation()
 
     @staticmethod
     @check_type
@@ -95,45 +86,6 @@ class Validations:
         input_url.set_value("")
 
         raise ValueError(ExcelTextLoader.get_text(11))
-
-    @classmethod
-    @check_type
-    def set_default_directory_or_check_selected(
-        cls,
-        input_directory: CreateInputs,
-        page: Page,
-    ) -> bool:
-        """
-        Check if a directory is selected, or set a default.
-
-        Args:
-            input_directory (flet.TextField): Entry for the default directory.
-            page (flet.Page): Reference to the app window.
-            video_location (str): The location to save the video.
-
-        Returns:
-            bool: True to indicate that everything went well.
-        """
-
-        video_location = cls.video_location_instance.get()
-
-        if not video_location or video_location is None:
-            default_directory = str(GetPaths.get_desktop_path())
-
-            input_directory.set_value(default_directory)
-
-            cls.video_location_instance.set(default_directory)
-
-            LoggingManagement.write_log("Default directory set")
-
-            page.update(input_directory)
-
-        else:
-            LoggingManagement.write_log(
-                "A directory has been selected to save the video"
-            )
-
-        return True
 
     @staticmethod
     def check_internet_connection() -> bool:

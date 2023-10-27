@@ -16,6 +16,9 @@ from .strings_utils import remove_empty_strings
 # Youtube utils
 from .youtube_utils import separate_urls, get_video_title
 
+# Directory utils
+from .directory_utils import configure_directory
+
 __all__ = [
     "check_type",
     "LoggingManagement",
@@ -25,4 +28,5 @@ __all__ = [
     "remove_empty_strings",
     "separate_urls",
     "get_video_title",
+    "configure_directory",
 ]
