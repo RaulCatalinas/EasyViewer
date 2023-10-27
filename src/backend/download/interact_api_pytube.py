@@ -3,7 +3,7 @@ Interact with the Pytube API.
 """
 
 # Third-Party libraries
-from pytube import YouTube
+from pytubefix import YouTube
 
 # Control variables
 from control_variables import URLs

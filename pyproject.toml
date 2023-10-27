@@ -11,9 +11,9 @@ requests = ">=2.31.0"
 python-dotenv = ">=1.0.0"
 pandas = ">=2.1.2"
 openpyxl = ">=3.1.2"
-pytube = ">=15.0.0"
 pygithub = ">=2.1.1"
 flet = ">=0.10.3"
+pytubefix = ">=1.8.0"
 
 
 [tool.poetry.group.dev.dependencies]

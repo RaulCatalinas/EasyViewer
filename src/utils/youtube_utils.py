@@ -13,7 +13,7 @@ from constants import (
 )
 
 # Third-Party libraries
-from pytube import YouTube
+from pytubefix import YouTube
 
 # Osutils
 from osutils import FileHandler

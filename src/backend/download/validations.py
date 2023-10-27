@@ -8,9 +8,9 @@ from urllib.parse import urlparse
 from constants import ALLOW_HOSTS, GOOGLE
 
 # Third-Party libraries
-from pytube import YouTube
+from pytubefix import YouTube
 from requests import ConnectionError, Timeout, get
-from pytube.exceptions import (
+from pytubefix.exceptions import (
     AgeRestrictedError,
     LiveStreamError,
     MembersOnly,
