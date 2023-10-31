@@ -8,7 +8,7 @@ from os import startfile
 from backend import Download, ShutdownHandler, Update, Validations
 
 # Components
-from components.dialog import ErrorDialog, UpdateDialog
+from components.dialog import ErrorDialog, UpdateDialog, WhatsNewDialog
 from components.ui import IndexUI
 
 # Control variables
@@ -55,6 +55,7 @@ class Main:
         self.urls = URLs()
         self.video_location = VideoLocation()
         self.download_name = DownloadName()
+
         self.updater = Update(page=app_page, update_dialog=None)
 
         self.__initialize_app(app_page)
@@ -72,11 +73,16 @@ class Main:
         ChangeTheme.set_initial_theme(app_page)
         EnvironmentVariables.set_initial_language(app_page)
 
-        self.error_dialog = ErrorDialog(app_page=app_page, overlay=self.__overlay)
         self.shutdown_handler = ShutdownHandler(app_page, self.__overlay)
+
+        self.error_dialog = ErrorDialog(app_page=app_page, overlay=self.__overlay)
         self.update_dialog = UpdateDialog(
             app_page=app_page, overlay=self.__overlay, update=self.updater.update
         )
+        self.whats_new_dialog = WhatsNewDialog(
+            app_page=app_page, overlay=self.__overlay
+        )
+
         self.updater.update_dialog = self.update_dialog
 
         set_initial_values(app_page)
@@ -115,12 +121,10 @@ class Main:
             app_page (flet.Page): Reference to the app window.
         """
 
-        video_location = self.video_location.get()
-
         index_ui = IndexUI(
             page=app_page,
             download=self.__download,
-            video_location=video_location if video_location is not None else None,
+            video_location=self.video_location.get(),
             shutdown_handler=self.shutdown_handler,
             check_updates=self.__check_updates,
         )
@@ -147,6 +151,7 @@ class Main:
                 self.error_dialog,
                 self.shutdown_handler,
                 self.update_dialog,
+                self.whats_new_dialog,
             ],
             daemon=False,
         ).start()
@@ -155,6 +160,8 @@ class Main:
 
         if self.checkbox.get_value():
             Thread(target=self.__check_updates, args=[True], daemon=False).start()
+
+        self.whats_new_dialog.show()
 
     def __event_close_window(self, event, app_page):
         """
@@ -281,7 +288,10 @@ class Main:
             app_page (flet.Page): Reference to the app window.
         """
 
-        to_add_to_the_overlay_of_the_page = [self.shutdown_handler, self.error_dialog]
+        to_add_to_the_overlay_of_the_page = [
+            self.shutdown_handler,
+            self.error_dialog,
+        ]
 
         for dialog in to_add_to_the_overlay_of_the_page:
             app_page.overlay.append(dialog)

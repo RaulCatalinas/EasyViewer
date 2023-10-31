@@ -17,7 +17,7 @@ from .github_api import GITHUB_REPO, GITHUB_USER, LATEST_RELEASE_URL
 from .hosts import ALLOW_HOSTS, GOOGLE
 
 # Paths
-from .paths import CONFIG_FILES, DESKTOP_PATH, ROOT_PATH, USER_HOME
+from .paths import CONFIG_FILES, DESKTOP_PATH, ROOT_PATH, USER_HOME, WHATS_NEW_FILES
 
 # Regex
 from .regex import HTTPS_PATTERN, SPACE_BEFORE_HTTPS
@@ -44,6 +44,7 @@ __all__ = [
     "DESKTOP_PATH",
     "ROOT_PATH",
     "USER_HOME",
+    "WHATS_NEW_FILES",
     "HTTPS_PATTERN",
     "SPACE_BEFORE_HTTPS",
     "ENABLED_TYPE_CHECKING",
