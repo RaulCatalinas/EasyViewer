@@ -1189,13 +1189,13 @@ cli = ["click (>=5.0)"]
 
 [[package]]
 name = "pytubefix"
-version = "1.8.0"
+version = "1.8.1"
 description = "Python 3 library for downloading YouTube Videos."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytubefix-1.8.0-py3-none-any.whl", hash = "sha256:e4b13f1f0e2b4c4ff79184aedba664de588d166bf6c4e7bb7660f43408b1c3e3"},
-    {file = "pytubefix-1.8.0.tar.gz", hash = "sha256:7553eb29cd262f0f9f1330dd8bceb291fb195a072f9be33a58d58c160ff8f509"},
+    {file = "pytubefix-1.8.1-py3-none-any.whl", hash = "sha256:5d23ab8a94b69380934ed70b80f494d8c4a706614fb7bee821625bf36f048115"},
+    {file = "pytubefix-1.8.1.tar.gz", hash = "sha256:56314a7e2c6c32422cb1446ec99f9b6885fa9f56529f63758be797e170723c26"},
 ]
 
 [[package]]
@@ -1535,13 +1535,13 @@ watchmedo = ["PyYAML (>=3.10)"]
 
 [[package]]
 name = "wcwidth"
-version = "0.2.8"
+version = "0.2.9"
 description = "Measures the displayed width of unicode strings in a terminal"
 optional = false
 python-versions = "*"
 files = [
-    {file = "wcwidth-0.2.8-py2.py3-none-any.whl", hash = "sha256:77f719e01648ed600dfa5402c347481c0992263b81a027344f3e1ba25493a704"},
-    {file = "wcwidth-0.2.8.tar.gz", hash = "sha256:8705c569999ffbb4f6a87c6d1b80f324bd6db952f5eb0b95bc07517f4c1813d4"},
+    {file = "wcwidth-0.2.9-py2.py3-none-any.whl", hash = "sha256:9a929bd8380f6cd9571a968a9c8f4353ca58d7cd812a4822bba831f8d685b223"},
+    {file = "wcwidth-0.2.9.tar.gz", hash = "sha256:a675d1a4a2d24ef67096a04b85b02deeecd8e226f57b5e3a72dbb9ed99d27da8"},
 ]
 
 [[package]]
@@ -1726,4 +1726,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "41267b68ecf3d575f0cb7d9082224c33e7043cebee1242bfdaf62a71db7d1b76"
+content-hash = "364da915ad24cbb777857ff75cb51ba2701ada1c2d60a88e77561332f0636b20"
