@@ -29,21 +29,12 @@ class ErrorDialog(CreateDialog):
             content_size=23,
             actions=[self.button_close_dialog],
             actions_alignment=CrossAxisAlignment.END,
+            overlay=self.overlay,
+            app_page=self.app_page,
         )
 
     @check_type
-    def show_error_dialog(self, error: str):
-        """
-        Show a dialog with the specified error.
-
-        Args:
-            error (str): Error message
-        """
-
-        self.overlay(self.app_page)
-
+    def show(self, error: str):
         self.update_content(error)
 
-        self.app_page.dialog = self
-
-        self.change_state(self.app_page)
+        return super().show()

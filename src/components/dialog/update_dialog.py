@@ -33,6 +33,10 @@ class UpdateDialog(CreateDialog):
             function=lambda e: self.change_state(app_page),
         )
 
+        self.button_ok = CreateElevatedButton(
+            text_button="ok", function=lambda e: self.change_state(app_page)
+        )
+
         super().__init__(
             title=ExcelTextLoader.get_text(17),
             title_size=23,
@@ -40,15 +44,18 @@ class UpdateDialog(CreateDialog):
             content_size=23,
             actions=[self.button_update, self.button_later],
             actions_alignment=CrossAxisAlignment.END,
+            overlay=self.overlay,
+            app_page=self.app_page,
         )
 
-    def show_update_dialog(self):
-        """
-        Shows the update dialog
-        """
+    @check_type
+    def show(self, is_new_release_available: bool, is_main: bool):
+        if not is_new_release_available and not is_main:
+            self.update_title(ExcelTextLoader.get_text(21))
+            self.update_content(ExcelTextLoader.get_text(22))
+            self.actions = [self.button_ok]
 
-        self.overlay(self.app_page)
+            return super().show()
 
-        self.app_page.dialog = self
-
-        self.change_state(self.app_page)
+        if is_new_release_available:
+            return super().show()

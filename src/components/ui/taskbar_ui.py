@@ -75,7 +75,7 @@ class TaskBarUI:
         )
 
         self.icon_update = CreateIconButton(
-            icon=icons.UPDATE, function=lambda e: check_updates(page, False)
+            icon=icons.UPDATE, function=lambda e: check_updates(False)
         )
 
         self.icon_update.set_visibility(

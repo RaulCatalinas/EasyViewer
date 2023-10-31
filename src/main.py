@@ -30,7 +30,7 @@ from frontend.modify_gui import ChangeTheme
 from osutils import FileHandler
 
 # Settings
-from settings import EnvironmentVariables, ExcelTextLoader, GetConfigJson
+from settings import EnvironmentVariables, GetConfigJson
 
 # Utils
 from utils import (
@@ -73,7 +73,7 @@ class Main:
         EnvironmentVariables.set_initial_language(app_page)
 
         self.error_dialog = ErrorDialog(app_page=app_page, overlay=self.__overlay)
-        self.shutdown_handler = ShutdownHandler(app_page)
+        self.shutdown_handler = ShutdownHandler(app_page, self.__overlay)
         self.update_dialog = UpdateDialog(
             app_page=app_page, overlay=self.__overlay, update=self.updater.update
         )
@@ -154,7 +154,7 @@ class Main:
         Thread(target=self.__overlay, args=[app_page], daemon=False).start()
 
         if self.checkbox.get_value():
-            Thread(target=self.__check_updates, args=[app_page], daemon=False).start()
+            Thread(target=self.__check_updates, args=[True], daemon=False).start()
 
     def __event_close_window(self, event, app_page):
         """
@@ -229,7 +229,7 @@ class Main:
                 except Exception as error:
                     LoggingManagement.write_error(str(error))
 
-                    self.error_dialog.show_error_dialog(str(error))
+                    self.error_dialog.show(str(error))
 
                 finally:
                     url = self.urls.get()
@@ -246,7 +246,7 @@ class Main:
                     reset()
 
         except Exception as exception:
-            self.error_dialog.show_error_dialog(str(exception))
+            self.error_dialog.show(str(exception))
 
             download_name = self.download_name.get()
 
@@ -301,29 +301,17 @@ class Main:
         self.input_url.toggle_state(app_page)
 
     @check_type
-    def __check_updates(self, app_page: Page, is_main: bool = True):
+    def __check_updates(self, is_main: bool):
         """
         Checks for updates and shows a dialog if a new release is available.
-
-        Args:
-            app_page (flet.Page): Reference to the app window.
-            is_main (bool): Indicates if it's the main update check (default is True).
         """
 
         is_new_release_available = self.updater.is_new_release_available()
 
-        if is_new_release_available:
-            self.update_dialog.show_update_dialog()
+        if is_new_release_available is None:
+            return
 
-        elif not is_new_release_available and not is_main:
-            self.update_dialog.update_title(ExcelTextLoader.get_text(21))
-            self.update_dialog.update_content(ExcelTextLoader.get_text(22))
-            self.update_dialog.button_update.change_text("Ok")
-            self.update_dialog.button_update.change_function(
-                self.update_dialog.change_state, app_page
-            )
-            self.update_dialog.actions = [self.update_dialog.button_update]
-            self.update_dialog.show_update_dialog()
+        self.update_dialog.show(is_new_release_available, is_main)
 
     @check_type
     def __validate_download(self, url: str) -> bool:

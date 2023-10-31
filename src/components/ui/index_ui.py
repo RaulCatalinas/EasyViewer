@@ -40,7 +40,7 @@ class IndexUI:
             text_align=TextAlign.CENTER,
             read_only=True,
             offset_y=0.5,
-            value_input=video_location if video_location != "None" else None,
+            value_input=video_location,
         )
 
         self.select_directory = SelectDirectory(

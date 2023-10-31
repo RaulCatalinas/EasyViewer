@@ -3,7 +3,7 @@ Create a dialog to communicate something to the user
 """
 
 # Standard library
-from typing import Union
+from typing import Callable
 
 # Third-Party libraries
 from flet import AlertDialog, Icon, MainAxisAlignment, Page
@@ -23,14 +23,19 @@ class CreateDialog(AlertDialog):
     @check_type
     def __init__(
         self,
-        title: Union[str, Icon],
+        title: str,
         content: str,
         title_size: float,
         content_size: float,
         actions: list,
+        overlay: Callable,
+        app_page: Page,
         actions_alignment: MainAxisAlignment,
         icon: bool = False,
-    ) -> None:
+    ):
+        self.overlay = overlay
+        self.app_page = app_page
+
         self.title_text = CreateText(text=title, text_size=title_size)
         self.content_text = CreateText(text=content, text_size=content_size)
 
@@ -83,3 +88,15 @@ class CreateDialog(AlertDialog):
         """
 
         return self.open
+
+    @check_type
+    def show(self):
+        """
+        Show the dialogue
+        """
+
+        self.overlay(self.app_page)
+
+        self.app_page.dialog = self
+
+        self.change_state(self.app_page)

@@ -24,7 +24,7 @@ class ShutdownHandler(CreateDialog):
     Control the closing of the app
     """
 
-    def __init__(self, page):
+    def __init__(self, page, overlay):
         self.button_exit_the_app = CreateElevatedButton(
             text_button=ExcelTextLoader.get_text(4),
             function=lambda e: self.__exit(page=page),
@@ -44,6 +44,8 @@ class ShutdownHandler(CreateDialog):
             content_size=25,
             actions=[self.button_exit_the_app, self.button_cancel_exit_the_app],
             actions_alignment=MainAxisAlignment.END,
+            overlay=overlay,
+            app_page=page,
         )
 
     def __exit(self, page: Page):
