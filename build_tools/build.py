@@ -56,6 +56,10 @@ def build():
         f"{SRC_FOLDER}/github_credentials.py;github_credentials.py",
         ADD_DATA_COMMAND,
         f"{SRC_FOLDER}/local_storage;local_storage",
+        ADD_DATA_COMMAND,
+        f"{SRC_FOLDER}/whats_new_en;whats_new_en",
+        ADD_DATA_COMMAND,
+        f"{SRC_FOLDER}/whats_new_es;whats_new_es",
     ]
 
     try:
