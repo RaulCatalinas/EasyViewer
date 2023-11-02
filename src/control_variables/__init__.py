@@ -23,6 +23,9 @@ from .set_initial_values import set_initial_values
 # Reset
 from .reset import reset
 
+# Whats new read
+from .whats_new_read import WhatsNewRead
+
 __all__ = [
     "URLs",
     "VideoLocation",
@@ -31,4 +34,5 @@ __all__ = [
     "store_control_variables",
     "set_initial_values",
     "reset",
+    "WhatsNewRead",
 ]

@@ -16,10 +16,15 @@ from constants import WHATS_NEW_FILES
 # Settings
 from settings import EnvironmentVariables, ExcelTextLoader
 
+# Control variables
+from control_variables import WhatsNewRead
+
 
 class WhatsNewDialog(CreateDialog):
     @check_type
     def __init__(self, app_page: Page, overlay: Callable):
+        self.whats_new_read = WhatsNewRead()
+
         self.overlay = overlay
         self.app_page = app_page
 
@@ -48,3 +53,11 @@ class WhatsNewDialog(CreateDialog):
 
         with open(whats_new_file, mode="r", encoding="utf-8") as f:
             return f.read()
+
+    def show(self):
+        whats_new_read = self.whats_new_read.get()
+
+        if not whats_new_read or whats_new_read is None:
+            self.whats_new_read.set(True)
+
+            return super().show()

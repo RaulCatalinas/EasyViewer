@@ -17,10 +17,15 @@ from settings import ExcelTextLoader
 # Utils
 from utils import check_type
 
+# Control variables
+from control_variables import WhatsNewRead
+
 
 class UpdateDialog(CreateDialog):
     @check_type
     def __init__(self, app_page: Page, overlay: Callable, update: Callable):
+        self.whats_new_read = WhatsNewRead()
+        
         self.app_page = app_page
         self.overlay = overlay
 
@@ -58,4 +63,6 @@ class UpdateDialog(CreateDialog):
             return super().show()
 
         if is_new_release_available:
+            self.whats_new_read.set(False)
+            
             return super().show()
