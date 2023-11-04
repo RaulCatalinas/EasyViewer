@@ -38,7 +38,7 @@ class Core:
             get_bool (bool, optional): Indicates whether to return a boolean or str
 
         Returns:
-            str | bool | None: _description_
+            str | bool | None: Value of control variable
         """
 
         section = "ControlVariables"
@@ -50,7 +50,9 @@ class Core:
             return None
 
         return (
-            bool(value_of_control_variable) if get_bool else value_of_control_variable
+            cls.config_parser.getboolean(section, option)
+            if get_bool
+            else cls.config_parser.get(section, option)
         )
 
     @classmethod
