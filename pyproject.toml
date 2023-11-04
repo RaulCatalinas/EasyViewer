@@ -19,7 +19,7 @@ pytubefix = ">=1.8.1"
 [tool.poetry.group.dev.dependencies]
 pyinstaller = ">=6.1.0"
 pillow = ">=10.1.0"
-ruff = ">=0.1.3"
+ruff = ">=0.1.4"
 
 [build-system]
 requires = ["poetry-core"]
