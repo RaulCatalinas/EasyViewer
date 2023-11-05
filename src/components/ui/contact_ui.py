@@ -2,10 +2,10 @@
 from typing import Callable
 
 # Third-Party libraries
-from flet import Dropdown, Page, alignment, dropdown
+from flet import Page, alignment, dropdown
 
 # Create widgets
-from frontend.create_widgets import CreateCheckbox, CreateIconButton, TaskBar
+from ..widgets import Checkbox, IconButton, TaskBar, Dropdown
 
 # Settings
 from settings import ExcelTextLoader
@@ -25,11 +25,11 @@ class ContactUI(Dropdown):
         dropdown_language: Dropdown,
         page: Page,
         appbar: TaskBar,
-        icon_contact: CreateIconButton,
-        icon_theme: CreateIconButton,
+        icon_contact: IconButton,
+        icon_theme: IconButton,
         callback: Callable,
-        icon_update: CreateIconButton,
-        checkbox: CreateCheckbox,
+        icon_update: IconButton,
+        checkbox: Checkbox,
     ):
         self.dropdown_language = dropdown_language
         self.page = page
@@ -46,22 +46,17 @@ class ContactUI(Dropdown):
                 dropdown.Option("Twitter"),
                 dropdown.Option("GitHub"),
             ],
-            hint_text=ExcelTextLoader.get_text(16),
+            placeholder=ExcelTextLoader.get_text(16),
             visible=False,
             alignment=alignment.center,
             on_change=lambda e: callback(),
+            page=page,
         )
 
     def change_visibility(self):
-        """
-        Show or hide the dropdown if it's hidden or not respectively
-        """
-
-        drodropdown_language_is_visible = self.dropdown_language.is_visible()
+        dropdown_language_is_visible = self.dropdown_language.is_visible()
 
         if not self.visible:
-            self.visible = True
-
             self.appbar.change_height(114)
 
             self.icon_contact.change_offset(offset_x=0, offset_y=0.3)
@@ -69,20 +64,19 @@ class ContactUI(Dropdown):
             self.checkbox.change_offset(offset_x=0, offset_y=-0.79)
             self.icon_update.change_offset(
                 offset_x=(
-                    -2.61 if self.visible and drodropdown_language_is_visible else 0
+                    -2.61 if self.visible and dropdown_language_is_visible else 0
                 ),
                 offset_y=-0.62,
             )
 
-            return self.page.update(self, self.appbar)
+            return super().change_visibility(True)
 
-        self.visible = False
         self.icon_contact.change_offset(offset_x=0, offset_y=0.3)
         self.icon_update.change_offset(offset_x=0, offset_y=-0.62)
 
         if (
-            not drodropdown_language_is_visible
-            and drodropdown_language_is_visible is not None
+            not dropdown_language_is_visible
+            and dropdown_language_is_visible is not None
         ):
             self.appbar.change_height(63)
 
@@ -90,25 +84,4 @@ class ContactUI(Dropdown):
             self.icon_update.change_offset(offset_x=0, offset_y=0)
             self.checkbox.change_offset(offset_x=0, offset_y=0)
 
-        return self.page.update(self, self.appbar)
-
-    def is_visible(self):
-        """
-        Checks if the dialog is visible.
-
-        Returns:
-            bool: True if the dropdown is visible, False otherwise
-        """
-
-        return self.visible
-
-    @check_type
-    def change_placeholder(self, new_placeholder: str):
-        """
-        Changes the placeholder text.
-
-        Args:
-            new_placeholder (str): The new placeholder that will replace the current one
-        """
-
-        self.hint_text = new_placeholder
+        return super().change_visibility(False)

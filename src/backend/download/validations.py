@@ -20,7 +20,7 @@ from pytubefix.exceptions import (
 )
 
 # Create widgets
-from frontend.create_widgets import CreateInputs
+from components.widgets import Input
 
 # Settings
 from settings import ExcelTextLoader
@@ -60,7 +60,7 @@ class Validations:
 
     @staticmethod
     @check_type
-    def check_if_youtube_url(url: str, input_url: CreateInputs) -> bool:
+    def check_if_youtube_url(url: str, input_url: Input) -> bool:
         """
         Checks if a given URL is from YouTube.
 
@@ -113,7 +113,7 @@ class Validations:
 
     @staticmethod
     @check_type
-    def is_youtube_video_available(url: str, input_url: CreateInputs) -> bool:
+    def is_youtube_video_available(url: str, input_url: Input) -> bool:
         """
         Check if YouTube video is available
 

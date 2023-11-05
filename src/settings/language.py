@@ -2,7 +2,7 @@
 from flet import Page, dropdown
 
 # Components
-from components.ui import ContactUI, LanguageUI
+from components.ui.language_ui import LanguageUI
 
 # Settings
 from settings import EnvironmentVariables, ExcelTextLoader
@@ -10,18 +10,19 @@ from settings import EnvironmentVariables, ExcelTextLoader
 # Utils
 from utils import check_type
 
-# Create widgets
-from ..create_widgets import (
-    CreateCheckbox,
-    CreateDialog,
-    CreateElevatedButton,
-    CreateIconButton,
-    CreateInputs,
+# Widgets
+from components.widgets import (
+    Checkbox,
+    Dialog,
+    ElevatedButton,
+    IconButton,
+    Input,
     TaskBar,
+    Dropdown,
 )
 
 
-class ChangeLanguage(LanguageUI):
+class Language(LanguageUI):
     """
     Allows the user to change the language of the app
     """
@@ -31,15 +32,15 @@ class ChangeLanguage(LanguageUI):
         self,
         appbar: TaskBar,
         page: Page,
-        input_url: CreateInputs,
-        input_directory: CreateInputs,
-        close_dialog: CreateDialog,
-        dropdown_contact: ContactUI,
-        icon_language: CreateIconButton,
-        icon_theme: CreateIconButton,
-        button_exit_the_app: CreateElevatedButton,
-        icon_update: CreateIconButton,
-        checkbox: CreateCheckbox,
+        input_url: Input,
+        input_directory: Input,
+        close_dialog: Dialog,
+        dropdown_contact: Dropdown,
+        icon_language: IconButton,
+        icon_theme: IconButton,
+        button_exit_the_app: ElevatedButton,
+        icon_update: IconButton,
+        checkbox: Checkbox,
     ):
         self.appbar = appbar
         self.input_url = input_url
@@ -88,6 +89,7 @@ class ChangeLanguage(LanguageUI):
             dropdown.Option(ExcelTextLoader.get_text(7)),
             dropdown.Option(ExcelTextLoader.get_text(8)),
         ]
+
         self.value = EnvironmentVariables.get_language()
 
         self.input_url.change_placeholder(ExcelTextLoader.get_text(14))

@@ -9,27 +9,27 @@ from flet import MainAxisAlignment, Page
 from control_variables import store_control_variables
 
 # Create widgets
-from frontend.create_widgets import (
-    CreateDialog,
-    CreateElevatedButton,
-    CreateOutlinedButton,
+from components.widgets import (
+    Dialog,
+    ElevatedButton,
+    OutlinedButton,
 )
 
 # Settings
 from settings import ExcelTextLoader
 
 
-class ShutdownHandler(CreateDialog):
+class ShutdownHandler(Dialog):
     """
     Control the closing of the app
     """
 
     def __init__(self, page, overlay):
-        self.button_exit_the_app = CreateElevatedButton(
+        self.button_exit_the_app = ElevatedButton(
             text_button=ExcelTextLoader.get_text(4),
             function=lambda e: self.__exit(page=page),
         )
-        self.button_cancel_exit_the_app = CreateOutlinedButton(
+        self.button_cancel_exit_the_app = OutlinedButton(
             text_button="No", function=lambda e: self.__cancel(page)
         )
 

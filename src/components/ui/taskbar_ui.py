@@ -10,16 +10,16 @@ from flet import (
 )
 
 # Create widgets
-from frontend.create_widgets import (
-    CreateCheckbox,
-    CreateDialog,
-    CreateElevatedButton,
-    CreateIconButton,
-    CreateInputs,
+from ..widgets import (
+    Checkbox,
+    Dialog,
+    ElevatedButton,
+    IconButton,
+    Input,
 )
 
 # Settings
-from settings import ExcelTextLoader
+from settings import ExcelTextLoader, Language, Theme
 
 # Utils
 from utils import check_type
@@ -30,17 +30,14 @@ class TaskBarUI:
     def __init__(
         self,
         page: Page,
-        input_url: CreateInputs,
-        input_directory: CreateInputs,
-        close_dialog: CreateDialog,
-        button_exit_the_app: CreateElevatedButton,
+        input_url: Input,
+        input_directory: Input,
+        close_dialog: Dialog,
+        button_exit_the_app: ElevatedButton,
         check_updates: Callable,
     ):
         # Backend
         from backend import Contact
-
-        # Modify GUI
-        from frontend.modify_gui import ChangeLanguage, ChangeTheme
 
         self.page = page
         self.input_url = input_url
@@ -48,33 +45,33 @@ class TaskBarUI:
         self.close_dialog = close_dialog
         self.button_exit_the_app = button_exit_the_app
 
-        self.checkbox = CreateCheckbox(
+        self.checkbox = Checkbox(
             label=ExcelTextLoader.get_text(20),
             label_position=LabelPosition.LEFT,
             callback=None,
             page=self.page,
         )
 
-        self.icon_language = CreateIconButton(
+        self.icon_language = IconButton(
             icon=icons.LANGUAGE,
             function=lambda e: self.dropdown_language.change_visibility(),
             offset_y=0.3,
         )
 
-        self.icon_contact = CreateIconButton(
+        self.icon_contact = IconButton(
             icon=icons.CONTACTS,
             function=lambda e: self.dropdown_contact.change_visibility(),
             offset_y=0.3,
         )
 
-        self.icon_theme = CreateIconButton(
-            icon=ChangeTheme.set_initial_icon_theme(self.page),
-            function=lambda e: ChangeTheme.change_theme(
+        self.icon_theme = IconButton(
+            icon=Theme.set_initial_icon_theme(self.page),
+            function=lambda e: Theme.change_theme(
                 page=page, icon_theme=self.icon_theme
             ),
         )
 
-        self.icon_update = CreateIconButton(
+        self.icon_update = IconButton(
             icon=icons.UPDATE, function=lambda e: check_updates(False)
         )
 
@@ -86,7 +83,7 @@ class TaskBarUI:
             visible=not self.checkbox.get_value(), page=page
         )
 
-        self.dropdown_language = ChangeLanguage(
+        self.dropdown_language = Language(
             appbar=None,
             page=self.page,
             input_url=self.input_url,

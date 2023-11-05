@@ -23,14 +23,11 @@ from control_variables import (
 # Third-Party libraries
 from flet import MainAxisAlignment, Page, app
 
-# Modify GUI
-from frontend.modify_gui import ChangeTheme
-
 # Osutils
 from osutils import FileHandler
 
 # Settings
-from settings import EnvironmentVariables, GetConfigJson
+from settings import EnvironmentVariables, GetConfigJson, Theme
 
 # Utils
 from utils import (
@@ -70,7 +67,7 @@ class Main:
             app_page (flet.Page): Reference to the app window.
         """
 
-        ChangeTheme.set_initial_theme(app_page)
+        Theme.set_initial_theme(app_page)
         EnvironmentVariables.set_initial_language(app_page)
 
         self.shutdown_handler = ShutdownHandler(app_page, self.__overlay)
@@ -107,7 +104,7 @@ class Main:
         )
         app_page.window_resizable = False
         app_page.window_maximizable = False
-        app_page.theme_mode = ChangeTheme.get_theme(app_page)
+        app_page.theme_mode = Theme.get_theme(app_page)
         app_page.window_prevent_close = True
         app_page.on_window_event = lambda e: self.__event_close_window(
             event=e, app_page=app_page

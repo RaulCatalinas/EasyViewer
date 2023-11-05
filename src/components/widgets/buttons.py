@@ -2,13 +2,19 @@
 from typing import Callable
 
 # Third-Party libraries
-from flet import ElevatedButton, Icon, IconButton, Offset, OutlinedButton, Page
+from flet import (
+    ElevatedButton as FletElevatedButton,
+    IconButton as FletIconButton,
+    OutlinedButton as FletOutlinedButton,
+    Offset,
+    Page,
+)
 
 # Utils
 from utils import InterfaceIconButton, InterfaceTextButton, check_type
 
 
-class CreateIconButton(InterfaceIconButton, IconButton):
+class IconButton(InterfaceIconButton, FletIconButton):
     """
     Creates a button of type IconButton
     """
@@ -16,7 +22,7 @@ class CreateIconButton(InterfaceIconButton, IconButton):
     @check_type
     def __init__(
         self,
-        icon: Icon,
+        icon: str,
         function: Callable,
         offset_x: int = 0,
         offset_y: int = 0,
@@ -73,7 +79,7 @@ class CreateIconButton(InterfaceIconButton, IconButton):
         page.update(self)
 
 
-class CreateElevatedButton(InterfaceTextButton, ElevatedButton):
+class ElevatedButton(InterfaceTextButton, FletElevatedButton):
     """
     Creates a button of type ElevatedButton
     """
@@ -108,7 +114,7 @@ class CreateElevatedButton(InterfaceTextButton, ElevatedButton):
         self.on_click = lambda e: new_function(*args, **kwargs)
 
 
-class CreateOutlinedButton(InterfaceTextButton, OutlinedButton):
+class OutlinedButton(InterfaceTextButton, FletOutlinedButton):
     """
     Creates a button of type OutlinedButton
     """

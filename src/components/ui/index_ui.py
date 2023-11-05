@@ -5,10 +5,10 @@ from threading import Thread
 from flet import KeyboardType, TextAlign, icons
 
 # Create widgets
-from frontend.create_widgets import (
-    CreateIconButton,
-    CreateInputs,
-    CreateProgressBar,
+from ..widgets import (
+    IconButton,
+    Input,
+    ProgressBar,
     TaskBar,
 )
 
@@ -24,7 +24,7 @@ class IndexUI:
         # Backend
         from backend import SelectDirectory
 
-        self.input_url = CreateInputs(
+        self.input_url = Input(
             placeholder=ExcelTextLoader.get_text(14),
             text_size=20,
             keyboard_type=KeyboardType.URL,
@@ -34,7 +34,7 @@ class IndexUI:
             max_height=2,
         )
 
-        self.input_directory = CreateInputs(
+        self.input_directory = Input(
             placeholder=ExcelTextLoader.get_text(15),
             text_size=20,
             text_align=TextAlign.CENTER,
@@ -47,14 +47,14 @@ class IndexUI:
             page=page, input_directory=self.input_directory
         )
 
-        self.button_directory = CreateIconButton(
+        self.button_directory = IconButton(
             icon=icons.FOLDER,
             function=lambda e: self.select_directory.select_directory(),
             offset_y=1.5,
             scale=2.5,
         )
 
-        self.button_download_video = CreateIconButton(
+        self.button_download_video = IconButton(
             icon=icons.VIDEO_FILE,
             function=lambda e: [
                 Thread(target=download, args=[page, True], daemon=True).start()
@@ -64,7 +64,7 @@ class IndexUI:
             scale=2.5,
         )
 
-        self.button_download_audio = CreateIconButton(
+        self.button_download_audio = IconButton(
             icon=icons.AUDIO_FILE,
             function=lambda e: [
                 Thread(target=download, args=[page, False], daemon=True).start()
@@ -74,7 +74,7 @@ class IndexUI:
             scale=2.5,
         )
 
-        self.progress_bar = CreateProgressBar(
+        self.progress_bar = ProgressBar(
             color=GetConfigJson.get_config_json("COLORS", "GREEN"),
             value=0,
             offset_y=18.5,
@@ -121,7 +121,7 @@ class IndexUI:
         Get button check for updates
 
         Returns:
-            CreateIconButton: The check button for updates
+            IconButton: The check button for updates
         """
 
         return self.taskbar_ui.icon_update

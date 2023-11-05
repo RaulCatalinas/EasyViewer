@@ -1,11 +1,11 @@
 # Third-Party libraries
-from flet import Text
+from flet import Text as FletText
 
 # Utils
 from utils import check_type
 
 
-class CreateText(Text):
+class Text(FletText):
     """
     Create the text content for the app
     """

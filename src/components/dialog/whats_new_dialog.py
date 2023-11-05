@@ -1,5 +1,5 @@
 # Create widgets
-from frontend.create_widgets import CreateDialog, CreateElevatedButton
+from ..widgets import Dialog, ElevatedButton
 
 # Utils
 from utils import check_type
@@ -20,7 +20,7 @@ from settings import EnvironmentVariables, ExcelTextLoader
 from control_variables import WhatsNewRead
 
 
-class WhatsNewDialog(CreateDialog):
+class WhatsNewDialog(Dialog):
     @check_type
     def __init__(self, app_page: Page, overlay: Callable):
         self.whats_new_read = WhatsNewRead()
@@ -28,7 +28,7 @@ class WhatsNewDialog(CreateDialog):
         self.overlay = overlay
         self.app_page = app_page
 
-        self.button_close_dialog = CreateElevatedButton(
+        self.button_close_dialog = ElevatedButton(
             text_button="Ok", function=lambda e: self.change_state(app_page)
         )
 

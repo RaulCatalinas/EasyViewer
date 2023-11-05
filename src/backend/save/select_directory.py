@@ -9,7 +9,7 @@ from flet import FilePicker, FilePickerResultEvent, Page
 from control_variables import VideoLocation
 
 # Create widgets
-from frontend.create_widgets import CreateInputs
+from components.widgets import Input
 
 # Settings
 from settings import ExcelTextLoader
@@ -24,7 +24,7 @@ class SelectDirectory(FilePicker):
     """
 
     @check_type
-    def __init__(self, page: Page, input_directory: CreateInputs):
+    def __init__(self, page: Page, input_directory: Input):
         self.page = page
         self.input_directory = input_directory
 
@@ -44,6 +44,9 @@ class SelectDirectory(FilePicker):
         path = event.path
 
         if path is None:
+            return
+
+        if self.page is None:
             return
 
         self.input_directory.set_value(path)

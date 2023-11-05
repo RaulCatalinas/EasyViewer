@@ -5,7 +5,7 @@ from flet import Offset, Page, ProgressBar
 from utils import check_type
 
 
-class CreateProgressBar(ProgressBar):
+class ProgressBar(ProgressBar):
     """Create a progress bar UI"""
 
     @check_type

@@ -12,10 +12,10 @@ from flet import AlertDialog, Icon, MainAxisAlignment, Page
 from utils import check_type
 
 # Create text
-from .create_text import CreateText
+from .text import Text
 
 
-class CreateDialog(AlertDialog):
+class Dialog(AlertDialog):
     """
     Create a dialog to communicate something to the user
     """
@@ -36,8 +36,8 @@ class CreateDialog(AlertDialog):
         self.overlay = overlay
         self.app_page = app_page
 
-        self.title_text = CreateText(text=title, text_size=title_size)
-        self.content_text = CreateText(text=content, text_size=content_size)
+        self.title_text = Text(text=title, text_size=title_size)
+        self.content_text = Text(text=content, text_size=content_size)
 
         super().__init__(
             title=(Icon(name=title, scale=title_size) if icon else self.title_text),

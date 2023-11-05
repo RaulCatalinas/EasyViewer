@@ -22,6 +22,9 @@ from .paths import CONFIG_FILES, DESKTOP_PATH, ROOT_PATH, USER_HOME, WHATS_NEW_F
 # Regex
 from .regex import HTTPS_PATTERN, SPACE_BEFORE_HTTPS
 
+# Social networks
+from .social_networks import SOCIAL_NETWORKS
+
 # Type checking
 from .type_checking import ENABLED_TYPE_CHECKING
 
@@ -47,6 +50,7 @@ __all__ = [
     "WHATS_NEW_FILES",
     "HTTPS_PATTERN",
     "SPACE_BEFORE_HTTPS",
+    "SOCIAL_NETWORKS",
     "ENABLED_TYPE_CHECKING",
     "USER_VERSION",
 ]

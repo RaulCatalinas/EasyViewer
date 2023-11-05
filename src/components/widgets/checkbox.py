@@ -2,7 +2,7 @@
 from typing import Callable
 
 # Third-Party libraries
-from flet import LabelPosition, Offset, Page, Checkbox
+from flet import LabelPosition, Offset, Page, Checkbox as FletCheckbox
 
 # Control variables
 from control_variables import CheckBox
@@ -11,7 +11,7 @@ from control_variables import CheckBox
 from utils import check_type
 
 
-class CreateCheckbox(Checkbox):
+class Checkbox(FletCheckbox):
     @check_type
     def __init__(
         self,

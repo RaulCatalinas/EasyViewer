@@ -5,10 +5,10 @@ from typing import Callable
 from flet import CrossAxisAlignment, Page
 
 # Create widgets
-from frontend.create_widgets import (
-    CreateDialog,
-    CreateElevatedButton,
-    CreateOutlinedButton,
+from ..widgets import (
+    Dialog,
+    ElevatedButton,
+    OutlinedButton,
 )
 
 # Settings
@@ -21,24 +21,24 @@ from utils import check_type
 from control_variables import WhatsNewRead
 
 
-class UpdateDialog(CreateDialog):
+class UpdateDialog(Dialog):
     @check_type
     def __init__(self, app_page: Page, overlay: Callable, update: Callable):
         self.whats_new_read = WhatsNewRead()
-        
+
         self.app_page = app_page
         self.overlay = overlay
 
-        self.button_update = CreateElevatedButton(
+        self.button_update = ElevatedButton(
             text_button=ExcelTextLoader.get_text(4), function=lambda e: update()
         )
 
-        self.button_later = CreateOutlinedButton(
+        self.button_later = OutlinedButton(
             text_button=ExcelTextLoader.get_text(19),
             function=lambda e: self.change_state(app_page),
         )
 
-        self.button_ok = CreateElevatedButton(
+        self.button_ok = ElevatedButton(
             text_button="ok", function=lambda e: self.change_state(app_page)
         )
 
@@ -64,5 +64,5 @@ class UpdateDialog(CreateDialog):
 
         if is_new_release_available:
             self.whats_new_read.set(False)
-            
+
             return super().show()

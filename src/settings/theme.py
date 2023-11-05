@@ -8,10 +8,10 @@ from flet import Page, ThemeMode, icons
 from utils import EnumHelper, check_type
 
 # Create widgets
-from ..create_widgets import CreateIconButton
+from components.widgets import IconButton
 
 
-class ChangeTheme:
+class Theme:
     """
     Controls theme change logic
     """
@@ -22,7 +22,7 @@ class ChangeTheme:
 
     @classmethod
     @check_type
-    def change_theme(cls, page: Page, icon_theme: CreateIconButton):
+    def change_theme(cls, page: Page, icon_theme: IconButton):
         """
         Changes the app's theme between dark and light mode.
 
@@ -71,6 +71,9 @@ class ChangeTheme:
             theme (str): The theme to be saved
         """
 
+        if page.client_storage is None:
+            return
+
         with cls.LOCK:
             Thread(
                 target=page.client_storage.set,
@@ -90,6 +93,9 @@ class ChangeTheme:
         Returns:
             Any: The theme saved from the client storage
         """
+
+        if page.client_storage is None:
+            return
 
         return page.client_storage.get("theme")
 

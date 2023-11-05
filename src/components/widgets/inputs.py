@@ -9,7 +9,7 @@ from flet import KeyboardType, Offset, Page, TextAlign, TextField
 from utils import check_type
 
 
-class CreateInputs(TextField):
+class Input(TextField):
     """
     Create the inputs
     """

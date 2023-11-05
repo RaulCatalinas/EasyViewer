@@ -2,16 +2,17 @@
 from typing import Callable
 
 # Third-Party libraries
-from flet import Dropdown, Page, alignment, dropdown
+from flet import Page, alignment, dropdown
 
 # Create widgets
-from frontend.create_widgets import (
-    CreateCheckbox,
-    CreateDialog,
-    CreateElevatedButton,
-    CreateIconButton,
-    CreateInputs,
+from ..widgets import (
+    Checkbox,
+    Dialog,
+    ElevatedButton,
+    IconButton,
+    Input,
     TaskBar,
+    Dropdown,
 )
 
 # Settings
@@ -27,16 +28,16 @@ class LanguageUI(Dropdown):
         self,
         appbar: TaskBar,
         page: Page,
-        input_url: CreateInputs,
-        input_directory: CreateInputs,
-        close_dialog: CreateDialog,
+        input_url: Input,
+        input_directory: Input,
+        close_dialog: Dialog,
         dropdown_contact: Dropdown,
-        icon_language: CreateIconButton,
-        icon_theme: CreateIconButton,
-        button_exit_the_app: CreateElevatedButton,
+        icon_language: IconButton,
+        icon_theme: IconButton,
+        button_exit_the_app: ElevatedButton,
         callback: Callable,
-        icon_update: CreateIconButton,
-        checkbox: CreateCheckbox,
+        icon_update: IconButton,
+        checkbox: Checkbox,
     ):
         self.appbar = appbar
         self.page = page
@@ -59,17 +60,13 @@ class LanguageUI(Dropdown):
             visible=False,
             alignment=alignment.center,
             on_change=lambda e: callback(page),
+            page=page,
         )
 
     def change_visibility(self):
-        """
-        Show or hide the dropdown if it's hidden or not respectively
-        """
-
-        drodropdown_contact_is_visible = self.dropdown_contact.is_visible()
+        dropdown_contact_is_visible = self.dropdown_contact.is_visible()
 
         if not self.visible:
-            self.visible = True
             self.appbar.change_height(114)
 
             self.icon_language.change_offset(offset_x=0, offset_y=0.3)
@@ -79,33 +76,23 @@ class LanguageUI(Dropdown):
                 offset_x=(
                     -2.61
                     if self.visible
-                    and drodropdown_contact_is_visible
-                    and drodropdown_contact_is_visible is not None
+                    and dropdown_contact_is_visible
+                    and dropdown_contact_is_visible is not None
                     else 0
                 ),
                 offset_y=-0.62,
             )
 
-            return self.page.update(self, self.appbar)
+            return super().change_visibility(True)
 
-        self.visible = False
         self.icon_language.change_offset(offset_x=0, offset_y=0.3)
         self.icon_update.change_offset(offset_x=0, offset_y=-0.62)
 
-        if not drodropdown_contact_is_visible:
+        if not dropdown_contact_is_visible:
             self.appbar.change_height(63)
 
             self.icon_theme.change_offset(offset_x=0, offset_y=0)
             self.icon_update.change_offset(offset_x=0, offset_y=0)
             self.checkbox.change_offset(offset_x=0, offset_y=0)
 
-        return self.page.update(self, self.appbar)
-
-    def is_visible(self):
-        """
-        Returns the visibility state of the dropdown.
-
-        :return: Returns the value of the attribute `visible`.
-        """
-
-        return self.visible
+        return super().change_visibility(False)
