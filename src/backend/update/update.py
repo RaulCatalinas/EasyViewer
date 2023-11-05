@@ -7,7 +7,7 @@ from os.path import exists
 from webbrowser import open_new_tab
 
 # Components
-from components.dialog import UpdateDialog
+from components.dialog import UpdateDialog, WhatsNewDialog
 
 # Constants
 from constants import (
@@ -36,7 +36,13 @@ class Update(Github):
     """
 
     @check_type
-    def __init__(self, page: Page, update_dialog: UpdateDialog | None):
+    def __init__(
+        self,
+        page: Page,
+        update_dialog: UpdateDialog | None,
+        whats_new_dialog: WhatsNewDialog | None,
+    ):
+        self.whats_new_dialog = whats_new_dialog
         self.page = page
         self.update_dialog = update_dialog
 
@@ -143,3 +149,15 @@ class Update(Github):
 
         if self.update_dialog is not None:
             self.update_dialog.change_state(self.page)
+
+    def user_has_updated(self):
+        release_version = self.__get_release_version()
+
+        if release_version is None:
+            return
+
+        if self.whats_new_dialog is None:
+            return
+
+        if USER_VERSION >= release_version:
+            self.whats_new_dialog.show()

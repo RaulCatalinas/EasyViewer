@@ -53,7 +53,7 @@ class Main:
         self.video_location = VideoLocation()
         self.download_name = DownloadName()
 
-        self.updater = Update(page=app_page, update_dialog=None)
+        self.updater = Update(page=app_page, update_dialog=None, whats_new_dialog=None)
 
         self.__initialize_app(app_page)
         self.__configure_window(app_page)
@@ -81,6 +81,7 @@ class Main:
         )
 
         self.updater.update_dialog = self.update_dialog
+        self.updater.whats_new_dialog = self.whats_new_dialog
 
         set_initial_values(app_page)
 
@@ -156,9 +157,9 @@ class Main:
         Thread(target=self.__overlay, args=[app_page], daemon=False).start()
 
         if self.checkbox.get_value():
-            Thread(target=self.__check_updates, args=[True], daemon=False).start()
+            self.__check_updates(True)
 
-        self.whats_new_dialog.show()
+        self.updater.user_has_updated()
 
     def __event_close_window(self, event, app_page):
         """
