@@ -57,9 +57,9 @@ def build():
         ADD_DATA_COMMAND,
         f"{SRC_FOLDER}/local_storage;local_storage",
         ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/whats_new_en;whats_new_en",
+        f"{SRC_FOLDER}/whats_new_en.txt;whats_new_en.txt",
         ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/whats_new_es;whats_new_es",
+        f"{SRC_FOLDER}/whats_new_es.txt;whats_new_es.txt",
     ]
 
     try:
