@@ -34,9 +34,9 @@ class WhatsNewDialog(Dialog):
 
         super().__init__(
             title=ExcelTextLoader.get_text(30),
-            title_size=23,
+            title_size=18,
             content=self.__get_content(),
-            content_size=23,
+            content_size=16,
             actions=[self.button_close_dialog],
             actions_alignment=CrossAxisAlignment.END,
             overlay=self.overlay,
@@ -55,6 +55,8 @@ class WhatsNewDialog(Dialog):
             return f.read()
 
     def show(self):
+        return super().show()
+
         whats_new_read = self.whats_new_read.get()
 
         if not whats_new_read or whats_new_read is None:

@@ -1,13 +1,12 @@
 New feature
 
-You can now download multiple videos at once.
+- You've now got the ability to download multiple videos at once.
 
-How do I use it?
+How to use it?
 
-Just put the URLs underneath each other and click on download the video or audio.
+- Just put the URLs underneath each other and click on download.
 
 Fixed
 
-We've fixed an issue that previously blocked the download if you deleted a folder you had previously selected.
-
-Now you can delete folders and download your files without worrying.
+- That's fixed an issue that previously blocked the download if you deleted a folder you had previously selected.
+- Now you can delete folders and download your videos/audios without worrying.

@@ -1,13 +1,12 @@
-Nueva característica
+Nueva función
 
-Ahora puedes descargar varios videos de una sola vez.
+- Ahora puedes descargar varios vídeos a la vez.
 
-¿Como se usa?
+¿Cómo utilizarla?
 
-Tan solo tienes que poner las URLs una debajo de otra y darle a descargar el video o el audio
+- Solo tienes que poner las URLs una debajo de la otra y darle a descargar.
 
-Solucionado
+Corregido
 
-Hemos arreglado un problema que antes bloqueaba la descarga si eliminabas una carpeta que habías seleccionado previamente.
-
-Ahora podrás borrar carpetas y descargar tus archivos sin preocupaciones.
+- Hemos arreglado un problema que bloqueaba la descarga si eliminabas una carpeta que habías seleccionado
+- Ahora puedes borrar carpetas y descargar tus videos/audios sin problemas.
