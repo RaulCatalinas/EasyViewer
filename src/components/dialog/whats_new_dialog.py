@@ -55,11 +55,9 @@ class WhatsNewDialog(Dialog):
             return f.read()
 
     def show(self):
-        return super().show()
-
         whats_new_read = self.whats_new_read.get()
 
-        if not whats_new_read or whats_new_read is None:
+        if not whats_new_read:
             self.whats_new_read.set(True)
 
             return super().show()
