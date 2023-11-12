@@ -1,11 +1,11 @@
 # Third-Party libraries
-from flet import Offset, Page, ProgressBar
+from flet import Offset, Page, ProgressBar as FletProgressBar
 
 # Utils
 from utils import check_type
 
 
-class ProgressBar(ProgressBar):
+class ProgressBar(FletProgressBar):
     """Create a progress bar UI"""
 
     @check_type
