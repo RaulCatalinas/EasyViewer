@@ -16,6 +16,9 @@ from osutils import GetPaths
 # Utils
 from utils import check_type
 
+# Local storage
+from local_storage import LocalStorage
+
 
 class EnvironmentVariables:
     """
@@ -62,6 +65,8 @@ class EnvironmentVariables:
             language_to_save (str): Language to save in client storage.
         """
 
+        local_storage = LocalStorage(page)
+
         def set_key_thread():
             set_key(
                 cls.ENVIRONMENT_VARIABLES_FILE,
@@ -71,7 +76,7 @@ class EnvironmentVariables:
 
         with cls.LOCK:
             Thread(
-                target=page.client_storage.set,
+                target=local_storage.set,
                 args=["language", language_to_save],
                 daemon=False,
             ).start()
@@ -87,6 +92,9 @@ class EnvironmentVariables:
         Args:
             page (flet.Page): Reference to the application window.
         """
-        language_for_the_app = page.client_storage.get("language") or "English"
+
+        local_storage = LocalStorage(page)
+
+        language_for_the_app = local_storage.get("language") or "English"
 
         environ["LANGUAGE"] = language_for_the_app

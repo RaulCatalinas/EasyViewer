@@ -10,6 +10,9 @@ from utils import EnumHelper, check_type
 # Create widgets
 from components.widgets import IconButton
 
+# Local storage
+from local_storage import LocalStorage
+
 
 class Theme:
     """
@@ -71,12 +74,11 @@ class Theme:
             theme (str): The theme to be saved
         """
 
-        if page.client_storage is None:
-            return
+        local_storage = LocalStorage(page)
 
         with cls.LOCK:
             Thread(
-                target=page.client_storage.set,
+                target=local_storage.set,
                 args=["theme", theme],
                 daemon=False,
             ).start()
@@ -94,10 +96,9 @@ class Theme:
             Any: The theme saved from the client storage
         """
 
-        if page.client_storage is None:
-            return
+        local_storage = LocalStorage(page)
 
-        return page.client_storage.get("theme")
+        return local_storage.get("theme")
 
     @classmethod
     @check_type
@@ -110,4 +111,5 @@ class Theme:
         """
 
         theme_for_the_app = cls.get_theme(page) or cls.LIGHT_MODE
+
         cls.__save_theme(page=page, theme=theme_for_the_app)
