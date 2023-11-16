@@ -1,12 +1,12 @@
-Nueva función
+Nueva Función
 
 - Ahora puedes descargar varios vídeos a la vez.
 
 ¿Cómo utilizarla?
 
-- Solo tienes que poner las URLs una debajo de la otra y darle a descargar.
+- Simplemente coloca las URLs una debajo de otra y haz clic en 'Descargar.'
 
 Corregido
 
-- Hemos arreglado un problema que bloqueaba la descarga si eliminabas una carpeta que habías seleccionado
-- Ahora puedes borrar carpetas y descargar tus videos/audios sin problemas.
+- Hemos solucionado un problema que bloqueaba las descargas al eliminar una carpeta previamente seleccionada.
+- Ahora puedes borrar carpetas y descargar tus videos/audios sin preocupaciones.
