@@ -26,6 +26,9 @@ from .reset import reset
 # Whats new read
 from .whats_new_read import WhatsNewRead
 
+# Validation error
+from .validation_error import ValidationError
+
 __all__ = [
     "URLs",
     "VideoLocation",
@@ -35,4 +38,5 @@ __all__ = [
     "set_initial_values",
     "reset",
     "WhatsNewRead",
+    "ValidationError",
 ]

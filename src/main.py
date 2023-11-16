@@ -16,6 +16,7 @@ from control_variables import (
     URLs,
     VideoLocation,
     DownloadName,
+    ValidationError,
     set_initial_values,
     reset,
 )
@@ -52,6 +53,7 @@ class Main:
         self.urls = URLs()
         self.video_location = VideoLocation()
         self.download_name = DownloadName()
+        self.validation_error = ValidationError()
 
         self.updater = Update(page=app_page, update_dialog=None, whats_new_dialog=None)
 
@@ -213,6 +215,8 @@ class Main:
 
             while len(list_urls_to_download) > 0:
                 try:
+                    self.validation_error.set(False)
+
                     url_to_download = list_urls_to_download[0]
 
                     self.urls.set(url_to_download)
@@ -234,7 +238,16 @@ class Main:
                 except Exception as error:
                     LoggingManagement.write_error(str(error))
 
-                    self.error_dialog.show(str(error))
+                    if self.validation_error.get():
+                        url = self.urls.get()
+
+                        if url is None:
+                            return
+
+                        self.error_dialog.show(f"{url} \n {error}")
+
+                    else:
+                        self.error_dialog.show(str(error))
 
                 finally:
                     url = self.urls.get()
@@ -242,7 +255,7 @@ class Main:
                     if url is None:
                         return
 
-                    list_urls_to_download.remove(url)
+                    list_urls_to_download.pop(0)
 
                     self.input_url.set_value("\n".join(list_urls_to_download))
 

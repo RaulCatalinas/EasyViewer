@@ -1,6 +1,7 @@
 """
 Validating various aspects of a YouTube video download request
 """
+
 # Standard library
 from urllib.parse import urlparse
 
@@ -28,11 +29,16 @@ from settings import ExcelTextLoader
 # Utils
 from utils import LoggingManagement, check_type
 
+# Control variables
+from control_variables import ValidationError
+
 
 class Validations:
     """
     Validating various aspects of a YouTube video download request
     """
+
+    validation_error = ValidationError()
 
     @staticmethod
     @check_type
@@ -111,9 +117,9 @@ class Validations:
 
         return True
 
-    @staticmethod
+    @classmethod
     @check_type
-    def is_youtube_video_available(url: str, input_url: Input) -> bool:
+    def is_youtube_video_available(cls, url: str, input_url: Input) -> bool:
         """
         Check if YouTube video is available
 
@@ -142,6 +148,8 @@ class Validations:
             Exception,
         ) as error:
             LoggingManagement.write_error(str(error))
+
+            cls.validation_error.set(True)
 
             input_url.set_value("")
 
