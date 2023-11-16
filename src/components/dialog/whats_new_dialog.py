@@ -11,7 +11,7 @@ from typing import Callable
 from flet import CrossAxisAlignment, Page
 
 # Constants
-from constants import WHATS_NEW_FILES
+from constants import WHATS_NEW_MESSAGE_EN, WHATS_NEW_MESSAGE_ES
 
 # Settings
 from settings import EnvironmentVariables, ExcelTextLoader
@@ -46,13 +46,15 @@ class WhatsNewDialog(Dialog):
     def __get_content(self) -> str:
         app_language = EnvironmentVariables.get_language()
 
-        if app_language is None:
-            return ""
+        match app_language:
+            case "Español":
+                return WHATS_NEW_MESSAGE_ES
 
-        whats_new_file = WHATS_NEW_FILES[app_language]
+            case "English":
+                return WHATS_NEW_MESSAGE_EN
 
-        with open(whats_new_file, mode="r", encoding="utf-8") as f:
-            return f.read()
+            case _:
+                return ""
 
     def show(self):
         whats_new_read = self.whats_new_read.get()

@@ -13,8 +13,3 @@ CONFIG_FILES = {
     "EXCEL": ROOT_PATH.joinpath("settings_files/languages.xlsx"),
     "ENV": ROOT_PATH.joinpath("settings_files/.env"),
 }
-
-WHATS_NEW_FILES = {
-    "Español": ROOT_PATH.joinpath("whats_new_es.txt"),
-    "English": ROOT_PATH.joinpath("whats_new_en.txt"),
-}

@@ -43,8 +43,6 @@ def build():
         ADD_DATA_COMMAND,
         f"{SRC_FOLDER}/control_variables;control_variables",
         ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/frontend;frontend",
-        ADD_DATA_COMMAND,
         f"{SRC_FOLDER}/osutils;osutils",
         ADD_DATA_COMMAND,
         f"{SRC_FOLDER}/settings;settings",
@@ -56,10 +54,6 @@ def build():
         f"{SRC_FOLDER}/github_credentials.py;github_credentials.py",
         ADD_DATA_COMMAND,
         f"{SRC_FOLDER}/local_storage;local_storage",
-        ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/whats_new_en.txt;whats_new_en.txt",
-        ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/whats_new_es.txt;whats_new_es.txt",
     ]
 
     try:
