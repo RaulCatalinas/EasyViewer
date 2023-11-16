@@ -4,7 +4,7 @@
 from subprocess import CalledProcessError, run
 
 # Constants
-from constants import ENABLED_TYPE_CHECKING, USER_VERSION
+from constants import ENABLED_TYPE_CHECKING, USER_VERSION, SYSTEM_NAME
 
 
 def build():
@@ -12,6 +12,7 @@ def build():
 
     ADD_DATA_COMMAND = "--add-data"
     SRC_FOLDER = "src"
+    SEPARATOR = ";" if SYSTEM_NAME == "win32" else ":"
 
     if not ENABLED_TYPE_CHECKING:
         print("Type checking off")
@@ -35,25 +36,25 @@ def build():
         "--copyright",
         "Copyright (c) 2023 Raul Catalinas Esteban",
         ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/backend;backend",
+        f"{SRC_FOLDER}/backend{SEPARATOR}backend",
         ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/components;components",
+        f"{SRC_FOLDER}/components{SEPARATOR}components",
         ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/constants;constants",
+        f"{SRC_FOLDER}/constants{SEPARATOR}constants",
         ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/control_variables;control_variables",
+        f"{SRC_FOLDER}/control_variables{SEPARATOR}control_variables",
         ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/osutils;osutils",
+        f"{SRC_FOLDER}/osutils{SEPARATOR}osutils",
         ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/settings;settings",
+        f"{SRC_FOLDER}/settings{SEPARATOR}settings",
         ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/settings_files;settings_files",
+        f"{SRC_FOLDER}/settings_files{SEPARATOR}settings_files",
         ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/utils;utils",
+        f"{SRC_FOLDER}/utils{SEPARATOR}utils",
         ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/github_credentials.py;github_credentials.py",
+        f"{SRC_FOLDER}/github_credentials.py{SEPARATOR}github_credentials.py",
         ADD_DATA_COMMAND,
-        f"{SRC_FOLDER}/local_storage;local_storage",
+        f"{SRC_FOLDER}/local_storage{SEPARATOR}local_storage",
     ]
 
     try:
