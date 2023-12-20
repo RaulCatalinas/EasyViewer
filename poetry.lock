@@ -13,13 +13,13 @@ files = [
 
 [[package]]
 name = "anyio"
-version = "4.1.0"
+version = "4.2.0"
 description = "High level compatibility layer for multiple asynchronous event loop implementations"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "anyio-4.1.0-py3-none-any.whl", hash = "sha256:56a415fbc462291813a94528a779597226619c8e78af7de0507333f700011e5f"},
-    {file = "anyio-4.1.0.tar.gz", hash = "sha256:5a0bec7085176715be77df87fc66d6c9d70626bd752fcc85f57cdbee5b3760da"},
+    {file = "anyio-4.2.0-py3-none-any.whl", hash = "sha256:745843b39e829e108e518c489b31dc757de7d2131d53fac32bd8df268227bfee"},
+    {file = "anyio-4.2.0.tar.gz", hash = "sha256:e1875bb4b4e2de1669f4bc7869b6d3f54231cdced71605e6e64c9be77e3be50f"},
 ]
 
 [package.dependencies]
@@ -370,26 +370,26 @@ files = [
 
 [[package]]
 name = "flet"
-version = "0.16.0"
+version = "0.17.0"
 description = "Flet for Python - easily build interactive multi-platform apps in Python"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "flet-0.16.0-py3-none-any.whl", hash = "sha256:43ecd61bddad9cfaa6b282727fd67535c3e5fb44b1b4391abe4e629cd1aed7cb"},
-    {file = "flet-0.16.0-py3-none-macosx_10_14_x86_64.whl", hash = "sha256:c83cb8ac1edc4cea54e0f2b98b463c6eadaaf463758254b1102bb4d585e87549"},
-    {file = "flet-0.16.0-py3-none-macosx_12_0_arm64.whl", hash = "sha256:c89f30a19153d11928eeef0108a1c5685d89c5492e6fdd1d535963abe5764a4f"},
-    {file = "flet-0.16.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:acbaea483986d6a4a5f80dbe5e2e9b91e82782fae74d21d88c030d943ea128d7"},
-    {file = "flet-0.16.0-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:b622e466271c3a3f680452069096bd2e6cf31b0a47360186d372891742e952ae"},
-    {file = "flet-0.16.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:16f123d36658e5ab108932394b93615ba5509bd88b4dd6fd392415ca0909b9e8"},
-    {file = "flet-0.16.0-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:c45ed0fab1d4e055f1328c3623dbbceec4d4413a4c0bf237623f0714094d0d31"},
-    {file = "flet-0.16.0-py3-none-win32.whl", hash = "sha256:92cb5c2e003c056e12f371761b873feb5283328fa9f365bd2203281aecfc6329"},
-    {file = "flet-0.16.0-py3-none-win_amd64.whl", hash = "sha256:2a3daa3624bed82997111bfac49bd9d1632656474fa213986bbc32d3aec886c7"},
-    {file = "flet-0.16.0.tar.gz", hash = "sha256:7a78d35351d8191f306023be96113e9621f0c7c6ffd8f26ace6167ba8d494602"},
+    {file = "flet-0.17.0-py3-none-any.whl", hash = "sha256:33a20cefb97dc54d34d4a0379e95630c7a07a4cf1d627ea98b99eb9b59c04a2b"},
+    {file = "flet-0.17.0-py3-none-macosx_10_14_x86_64.whl", hash = "sha256:20435b7a41f7f2bfa400f87c7c46f0d7a4d66feeeffe65f410fad7a76d175f0a"},
+    {file = "flet-0.17.0-py3-none-macosx_12_0_arm64.whl", hash = "sha256:f7c1241caa2b22847621b062e777ce085f86789e7e27b9b6080993505156bf9f"},
+    {file = "flet-0.17.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:e4340104f52a08affcb8a4807f48fac5e179bd8415fbf1c09fa50e95bed1d707"},
+    {file = "flet-0.17.0-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:5b24e1de275a4db8b2c5347ce284d1715fa9323364b28064b6be0e087f0e4833"},
+    {file = "flet-0.17.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5e989d0e59370a99a3b44c138f50b85451d7c126012e9b651f8c0050f8abbcc6"},
+    {file = "flet-0.17.0-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:d464f0d94f778bad5c4cd4697ce9d04f93ed7ae7fddb079b9ea8ee5c3237c862"},
+    {file = "flet-0.17.0-py3-none-win32.whl", hash = "sha256:64533ce4434a8a93dcecd82dff623884955f51a4e00ade1da3943f9edf615a4c"},
+    {file = "flet-0.17.0-py3-none-win_amd64.whl", hash = "sha256:d9f7a0a428b724e075a9920cccbac7bf37c70974cc74242a96b68e5b73c601c4"},
+    {file = "flet-0.17.0.tar.gz", hash = "sha256:60d6b5243a06aada738f1fb713561ccf6139c99e4c573a283e8f4f80716597db"},
 ]
 
 [package.dependencies]
 cookiecutter = ">=2.4.0,<3.0.0"
-flet-runtime = "0.16.0"
+flet-runtime = "0.17.0"
 packaging = ">=23.1,<24.0"
 qrcode = ">=7.4.2,<8.0.0"
 watchdog = ">=3.0.0,<4.0.0"
@@ -398,13 +398,13 @@ websockets = ">=11.0.3,<12.0.0"
 
 [[package]]
 name = "flet-core"
-version = "0.16.0"
+version = "0.17.0"
 description = "Flet core library"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "flet_core-0.16.0-py3-none-any.whl", hash = "sha256:d696d2ff7309bda3c563952369fa8fd260016022fdd2289295ec0568c76a4065"},
-    {file = "flet_core-0.16.0.tar.gz", hash = "sha256:339a1a6449e509ba41a6c9526f8af2587230e9c2e165267c724876eb19e74ff7"},
+    {file = "flet_core-0.17.0-py3-none-any.whl", hash = "sha256:b089dc8d2d1487a07ce49f791f98ab874fa4c56301554d14ceac23ab7ee384fe"},
+    {file = "flet_core-0.17.0.tar.gz", hash = "sha256:2d809b64ac475eb514b377f7336a46c73e7547674c7adeff7d8afd319d747202"},
 ]
 
 [package.dependencies]
@@ -412,17 +412,17 @@ repath = ">=0.9.0,<0.10.0"
 
 [[package]]
 name = "flet-runtime"
-version = "0.16.0"
+version = "0.17.0"
 description = "Flet Runtime - a base package for Flet desktop and Flet mobile."
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "flet_runtime-0.16.0-py3-none-any.whl", hash = "sha256:44fa80b1b6ee9eaee19b248fc5e56696a4d439d2efa6615acc48c7ebd78b3633"},
-    {file = "flet_runtime-0.16.0.tar.gz", hash = "sha256:825466b02a65f94be07606da64ff0a7fd80ee540351cd8b0524bf82137f07279"},
+    {file = "flet_runtime-0.17.0-py3-none-any.whl", hash = "sha256:a06689f372790ee31b36dc39afdfe2ad9dbdd866d1e2b4ad13099647cc73b518"},
+    {file = "flet_runtime-0.17.0.tar.gz", hash = "sha256:0615657b8329c7ed187006935a4d40bd81aec8f14f8eed62b85e922ecdae0335"},
 ]
 
 [package.dependencies]
-flet-core = "0.16.0"
+flet-core = "0.17.0"
 httpx = ">=0.24.1,<0.25.0"
 oauthlib = ">=3.2.2,<4.0.0"
 
@@ -940,13 +940,13 @@ hook-testing = ["execnet (>=1.5.0)", "psutil", "pytest (>=2.7.3)"]
 
 [[package]]
 name = "pyinstaller-hooks-contrib"
-version = "2023.10"
+version = "2023.11"
 description = "Community maintained hooks for PyInstaller"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyinstaller-hooks-contrib-2023.10.tar.gz", hash = "sha256:4b4a998036abb713774cb26534ca06b7e6e09e4c628196017a10deb11a48747f"},
-    {file = "pyinstaller_hooks_contrib-2023.10-py2.py3-none-any.whl", hash = "sha256:6dc1786a8f452941245d5bb85893e2a33632ebdcbc4c23eea41f2ee08281b0c0"},
+    {file = "pyinstaller-hooks-contrib-2023.11.tar.gz", hash = "sha256:5dd7a8a054a65c19cdaa381cabcfbe76f44d5f88d18214b0c570a0cd139be77f"},
+    {file = "pyinstaller_hooks_contrib-2023.11-py2.py3-none-any.whl", hash = "sha256:f2a75dac2968ec81f92dcd3768906f654fa4204bc496126ae8483e87a5d89602"},
 ]
 
 [[package]]
@@ -1053,13 +1053,13 @@ unidecode = ["Unidecode (>=1.1.1)"]
 
 [[package]]
 name = "pytubefix"
-version = "1.11rc2"
-description = "Python 3 library for downloading YouTube Videos."
+version = "1.12.0"
+description = "Python3 library for downloading YouTube Videos."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytubefix-1.11rc2-py3-none-any.whl", hash = "sha256:ff2a89e8d70ef04c80da1626ad06f873f6538a5ea000e9531934c5d8e1eaed92"},
-    {file = "pytubefix-1.11rc2.tar.gz", hash = "sha256:6434468ab405a166fe7d636f41b06528a8393bf4c902a6bd1b0cc681688781c2"},
+    {file = "pytubefix-1.12.0-py3-none-any.whl", hash = "sha256:19c82d91258f3f4b5544f8e53e83942bd684f8b4d48ded0810793fc1598f6e11"},
+    {file = "pytubefix-1.12.0.tar.gz", hash = "sha256:b2221f268195f15bf6fd843b83f3425604b337e750bca6ce3d1535e1fd34035d"},
 ]
 
 [[package]]
@@ -1559,4 +1559,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "638ba61fbf3c4a3ac5b681e1d376dff957e11e9f18fad69a49f30279c1123a74"
+content-hash = "b7b445bc9300383950f5646a3b1f6c22e6edd2d092b5049742c5faf78923c310"
