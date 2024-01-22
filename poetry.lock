@@ -1075,13 +1075,13 @@ unidecode = ["Unidecode (>=1.1.1)"]
 
 [[package]]
 name = "pytubefix"
-version = "1.13.1"
+version = "1.13.2"
 description = "Python3 library for downloading YouTube Videos."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytubefix-1.13.1-py3-none-any.whl", hash = "sha256:60145b89d0e95e2812d85fe076af8ae3ca46237e58aac6ec04d0b911ec52669f"},
-    {file = "pytubefix-1.13.1.tar.gz", hash = "sha256:e9d2d9e721a27ceab8fc18ffc103d6ab9f41f679c5177cb2db6e9842460ae328"},
+    {file = "pytubefix-1.13.2-py3-none-any.whl", hash = "sha256:2af6955376673d7c770770f61bb01b151d851020da6e5d31a4925fb210b5da1f"},
+    {file = "pytubefix-1.13.2.tar.gz", hash = "sha256:9a6ac09761129afd3430824eeed2bbadc2d6e5ff158def266eff37fe034abaa2"},
 ]
 
 [[package]]
@@ -1131,6 +1131,7 @@ files = [
     {file = "PyYAML-6.0.1-cp311-cp311-win_amd64.whl", hash = "sha256:bf07ee2fef7014951eeb99f56f39c9bb4af143d8aa3c21b1677805985307da34"},
     {file = "PyYAML-6.0.1-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:855fb52b0dc35af121542a76b9a84f8d1cd886ea97c84703eaa6d88e37a2ad28"},
     {file = "PyYAML-6.0.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:40df9b996c2b73138957fe23a16a4f0ba614f4c0efce1e9406a184b6d07fa3a9"},
+    {file = "PyYAML-6.0.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a08c6f0fe150303c1c6b71ebcd7213c2858041a7e01975da3a99aed1e7a378ef"},
     {file = "PyYAML-6.0.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6c22bec3fbe2524cde73d7ada88f6566758a8f7227bfbf93a408a9d86bcc12a0"},
     {file = "PyYAML-6.0.1-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:8d4e9c88387b0f5c7d5f281e55304de64cf7f9c0021a3525bd3b1c542da3b0e4"},
     {file = "PyYAML-6.0.1-cp312-cp312-win32.whl", hash = "sha256:d483d2cdf104e7c9fa60c544d92981f12ad66a457afae824d146093b8c294c54"},
