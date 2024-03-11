@@ -12,7 +12,7 @@ python-dotenv = "^1.0.1"
 pandas = "^2.2.1"
 openpyxl = "^3.1.2"
 pygithub = "^2.2.0"
-flet = "^0.20.2"
+flet = "^0.21.1"
 pytubefix = "^2.1.1"
 
 
