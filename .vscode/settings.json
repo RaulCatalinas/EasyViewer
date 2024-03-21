@@ -12,7 +12,7 @@
 
   // Ruff
   "ruff.enable": true,
-  "ruff.lint.run": "onSave",
+  "ruff.lint.run": "onType",
   "ruff.fixAll": true,
   "ruff.codeAction.fixViolation": {
     "enable": true
