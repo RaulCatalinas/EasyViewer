@@ -16,5 +16,10 @@
   "ruff.fixAll": true,
   "ruff.codeAction.fixViolation": {
     "enable": true
+  },
+
+  // Python
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
   }
 }
