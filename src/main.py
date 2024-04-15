@@ -38,6 +38,7 @@ from utils import (
     separate_urls,
     get_video_title,
     configure_directory,
+    toggle_state_widgets,
 )
 
 
@@ -190,7 +191,16 @@ class Main:
             app_page (flet.Page): Reference to the app window.
             download_video (bool): Indicates whether to download the video or audio.
         """
-        self.__toggle_state_widgets(app_page)
+        toggle_state_widgets(
+            [
+                self.button_directory,
+                self.button_download_video,
+                self.button_download_audio,
+                self.button_download_video,
+            ],
+            app_page,
+        )
+
         self.progress_bar.update_value(None, app_page)
 
         configure_directory(self.input_directory, app_page)
@@ -286,8 +296,18 @@ class Main:
         finally:
             videos_downloaded_successfully.clear()
 
-            self.__toggle_state_widgets(app_page)
+            toggle_state_widgets(
+                [
+                    self.button_directory,
+                    self.button_download_video,
+                    self.button_download_audio,
+                    self.button_download_video,
+                ],
+                app_page,
+            )
+
             reset()
+
             self.progress_bar.update_value(0, app_page)
 
     @check_type
@@ -306,20 +326,6 @@ class Main:
 
         for dialog in to_add_to_the_overlay_of_the_page:
             app_page.overlay.append(dialog)
-
-    @check_type
-    def __toggle_state_widgets(self, app_page: Page):
-        """
-        Toggle the state of various widgets.
-
-        Args:
-            app_page (flet.Page): Reference to the app window.
-        """
-
-        self.button_directory.toggle_state(app_page)
-        self.button_download_video.toggle_state(app_page)
-        self.button_download_audio.toggle_state(app_page)
-        self.input_url.toggle_state(app_page)
 
     @check_type
     def __check_updates(self, is_main: bool):

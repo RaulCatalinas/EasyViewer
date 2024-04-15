@@ -19,6 +19,9 @@ from .youtube_utils import separate_urls, get_video_title
 # Directory utils
 from .directory_utils import configure_directory
 
+# Toggle state widgets
+from .toggle_state_widgets import toggle_state_widgets
+
 __all__ = [
     "check_type",
     "LoggingManagement",
@@ -29,4 +32,5 @@ __all__ = [
     "separate_urls",
     "get_video_title",
     "configure_directory",
+    "toggle_state_widgets",
 ]
