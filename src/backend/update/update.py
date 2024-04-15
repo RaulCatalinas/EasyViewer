@@ -14,8 +14,8 @@ from constants import (
     CACHE_FILE,
     GITHUB_REPO,
     GITHUB_USER,
-    LATEST_RELEASE_URL,
     USER_VERSION,
+    GETS_MY_APPS_URL,
 )
 
 # Third-Party libraries
@@ -145,7 +145,7 @@ class Update(Github):
         Opens the user's default web browser to the latest version page on GitHub
         """
 
-        open_new_tab(LATEST_RELEASE_URL)
+        open_new_tab(GETS_MY_APPS_URL)
 
         if self.update_dialog is not None:
             self.update_dialog.change_state(self.page)

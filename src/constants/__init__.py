@@ -11,7 +11,7 @@ from .download_settings import (
 )
 
 # GitHub API
-from .github_api import GITHUB_REPO, GITHUB_USER, LATEST_RELEASE_URL
+from .github_api import GITHUB_REPO, GITHUB_USER
 
 # Hosts
 from .hosts import ALLOW_HOSTS, GOOGLE
@@ -34,6 +34,9 @@ from .versions import USER_VERSION
 # Whats new
 from .whats_new import WHATS_NEW_MESSAGE_ES, WHATS_NEW_MESSAGE_EN
 
+# URLs
+from .urls import GETS_MY_APPS_URL
+
 __all__ = [
     "CACHE_FILE",
     "DAYS_FOR_THE_CACHE_TO_EXPIRE",
@@ -43,7 +46,6 @@ __all__ = [
     "EXTENSION_FILE_VIDEO",
     "GITHUB_REPO",
     "GITHUB_USER",
-    "LATEST_RELEASE_URL",
     "ALLOW_HOSTS",
     "GOOGLE",
     "CONFIG_FILES",
@@ -57,4 +59,5 @@ __all__ = [
     "USER_VERSION",
     "WHATS_NEW_MESSAGE_ES",
     "WHATS_NEW_MESSAGE_EN",
+    "GETS_MY_APPS_URL",
 ]
