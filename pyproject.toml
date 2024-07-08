@@ -18,7 +18,7 @@ pytubefix = "^5.7.0"
 
 [tool.poetry.group.dev.dependencies]
 pyinstaller = "^6.8.0"
-pillow = "^10.3.0"
+pillow = "^10.4.0"
 ruff = "^0.5.1"
 
 [build-system]
