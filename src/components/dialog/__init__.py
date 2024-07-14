@@ -7,4 +7,7 @@ from .update_dialog import UpdateDialog
 # Whats new dialog
 from .whats_new_dialog import WhatsNewDialog
 
-__all__ = ["ErrorDialog", "UpdateDialog", "WhatsNewDialog"]
+# Disclaimer dialog
+from .disclaimer_dialog import DisclaimerDialog
+
+__all__ = ["ErrorDialog", "UpdateDialog", "WhatsNewDialog", "DisclaimerDialog"]

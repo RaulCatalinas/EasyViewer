@@ -8,7 +8,12 @@ from os import startfile
 from backend import Download, ShutdownHandler, Update, Validations
 
 # Components
-from components.dialog import ErrorDialog, UpdateDialog, WhatsNewDialog
+from components.dialog import (
+    ErrorDialog,
+    UpdateDialog,
+    WhatsNewDialog,
+    DisclaimerDialog,
+)
 from components.ui import IndexUI
 
 # Control variables
@@ -50,7 +55,6 @@ class Main:
         Args:
             app_page (flet.Page): Reference to the app window.
         """
-
         self.urls = URLs()
         self.video_location = VideoLocation()
         self.download_name = DownloadName()
@@ -69,7 +73,6 @@ class Main:
         Args:
             app_page (flet.Page): Reference to the app window.
         """
-
         Theme.set_initial_theme(app_page)
         EnvironmentVariables.set_initial_language(app_page)
 
@@ -80,6 +83,10 @@ class Main:
             app_page=app_page, overlay=self.__overlay, update=self.updater.update
         )
         self.whats_new_dialog = WhatsNewDialog(
+            app_page=app_page, overlay=self.__overlay
+        )
+
+        self.disclaimer_dialog = DisclaimerDialog(
             app_page=app_page, overlay=self.__overlay
         )
 
@@ -97,19 +104,21 @@ class Main:
         """
 
         app_page.title = GetConfigJson.get_config_json("WINDOW", "TITLE")
-        app_page.window_width = GetConfigJson.get_config_json("WINDOW", "WIDTH")
-        app_page.window_height = GetConfigJson.get_config_json("WINDOW", "HIGH")
-        app_page.window_center()
+        app_page.window.wait_until_ready_to_show = True
+
+        app_page.window.width = GetConfigJson.get_config_json("WINDOW", "WIDTH")
+        app_page.window.height = GetConfigJson.get_config_json("WINDOW", "HIGH")
+        app_page.window.center()
         app_page.horizontal_alignment = EnumHelper.get_enum_value(
             MainAxisAlignment.CENTER
         )
         app_page.vertical_alignment = EnumHelper.get_enum_value(
             MainAxisAlignment.CENTER
         )
-        app_page.window_resizable = False
-        app_page.window_maximizable = False
+        app_page.window.resizable = False
+        app_page.window.maximizable = False
         app_page.theme_mode = Theme.get_theme(app_page)
-        app_page.window_prevent_close = True
+        app_page.window.prevent_close = True
         app_page.on_window_event = lambda e: self.__event_close_window(
             event=e, app_page=app_page
         )
@@ -164,6 +173,8 @@ class Main:
 
         self.updater.user_has_updated()
 
+        self.disclaimer_dialog.show()
+
     def __event_close_window(self, event, app_page):
         """
         Event handler for the window close event.
@@ -175,7 +186,7 @@ class Main:
 
         if event.data == "close":
             self.__overlay(app_page)
-            app_page.dialog = self.shutdown_handler
+            app_page.overlay.append(self.shutdown_handler)
 
             if self.error_dialog.is_open():
                 self.error_dialog.change_state(app_page)
@@ -322,6 +333,7 @@ class Main:
         to_add_to_the_overlay_of_the_page = [
             self.shutdown_handler,
             self.error_dialog,
+            self.disclaimer_dialog,
         ]
 
         for dialog in to_add_to_the_overlay_of_the_page:

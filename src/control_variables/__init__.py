@@ -29,6 +29,9 @@ from .whats_new_read import WhatsNewRead
 # Validation error
 from .validation_error import ValidationError
 
+# Disclaimer dialog
+from .disclaimer_dialog import DisclaimerDialogControlVariable
+
 __all__ = [
     "URLs",
     "VideoLocation",
@@ -39,4 +42,5 @@ __all__ = [
     "reset",
     "WhatsNewRead",
     "ValidationError",
+    "DisclaimerDialogControlVariable",
 ]

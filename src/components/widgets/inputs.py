@@ -41,8 +41,7 @@ class Input(TextField):
         self.max_height = max_height
         self.is_multiline = is_multiline
 
-    def _build(self):
-        return super().__init__(
+        super().__init__(
             hint_text=self.placeholder_input,
             keyboard_type=self.keyboard_type_input,
             autofocus=self.autofocus_input,

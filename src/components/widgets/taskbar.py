@@ -16,11 +16,8 @@ class TaskBar(AppBar):
 
     @check_type
     def __init__(self, items: list):
-        self.items = items
-
-    def _build(self):
-        return super().__init__(
-            actions=self.items,
+        super().__init__(
+            actions=items,
             toolbar_height=63,
         )
 
