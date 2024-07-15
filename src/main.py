@@ -55,6 +55,9 @@ class Main:
         Args:
             app_page (flet.Page): Reference to the app window.
         """
+
+        app_page.window.wait_until_ready_to_show = True
+
         self.urls = URLs()
         self.video_location = VideoLocation()
         self.download_name = DownloadName()
@@ -62,8 +65,8 @@ class Main:
 
         self.updater = Update(page=app_page, update_dialog=None, whats_new_dialog=None)
 
-        self.__initialize_app(app_page)
         self.__configure_window(app_page)
+        self.__initialize_app(app_page)
         self.__add_items_to_page(app_page)
 
     def __initialize_app(self, app_page: Page):
@@ -104,21 +107,26 @@ class Main:
         """
 
         app_page.title = GetConfigJson.get_config_json("WINDOW", "TITLE")
-        app_page.window.wait_until_ready_to_show = True
 
         app_page.window.width = GetConfigJson.get_config_json("WINDOW", "WIDTH")
         app_page.window.height = GetConfigJson.get_config_json("WINDOW", "HIGH")
+
         app_page.window.center()
+
         app_page.horizontal_alignment = EnumHelper.get_enum_value(
             MainAxisAlignment.CENTER
         )
         app_page.vertical_alignment = EnumHelper.get_enum_value(
             MainAxisAlignment.CENTER
         )
+
         app_page.window.resizable = False
         app_page.window.maximizable = False
+
         app_page.theme_mode = Theme.get_theme(app_page)
+
         app_page.window.prevent_close = True
+
         app_page.on_window_event = lambda e: self.__event_close_window(
             event=e, app_page=app_page
         )
@@ -175,7 +183,7 @@ class Main:
 
         self.disclaimer_dialog.show()
 
-    def __event_close_window(self, event, app_page):
+    def __event_close_window(self, event, app_page: Page):
         """
         Event handler for the window close event.
 
