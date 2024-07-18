@@ -32,7 +32,13 @@ To download the latest version of Python, visit the [official website](https://w
 - pytube (To download the video/audio of the YouTube video)
 - requests (Checking if the user has internet)
 
-  To install these dependencies execute in a terminal with the virtual environment activated this command: `poetry install`.
+  To install the dependencies, run one of these 2 commands in a terminal with the virtual environment activated:
+
+  ```bash
+  poetry install
+  # or
+  pip install -r requirements.txt
+  ```
 
   This will automatically install all the dependencies specified in your project's `pyproject.toml` file.
 
