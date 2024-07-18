@@ -27,22 +27,18 @@ To download the latest version of Python, visit the [official website](https://w
 - Python 3.11 or higher
 - python-dotenv (Environment variable for language switching)
 - pandas (Read the Excel file for game texts)
-- openpyxl (Dependence on "pandas" to read the Excel file for the texts of the game)
+- openpyxl (Dependence on "pandas" to read the Excel file of the app's texts)
 - flet (Graphical interface)
-- pytube (To download the video/audio of the YouTube video)
+- pytubefix (To download the video/audio of the YouTube video)
 - requests (Checking if the user has internet)
 
-  To install the dependencies, run one of these 2 commands in a terminal with the virtual environment activated:
+To install the dependencies, run one of these 2 commands in a terminal with the virtual environment activated:
 
-  ```bash
-  poetry install
-  # or
-  pip install -r requirements.txt
-  ```
-
-  This will automatically install all the dependencies specified in your project's `pyproject.toml` file.
-
-  I explain more about "Poetry" in the next section
+```bash
+poetry install
+# or
+pip install -r requirements.txt
+```
 
 ## Poetry
 
