@@ -570,9 +570,9 @@ python-multipart==0.0.9 ; python_version >= "3.11" and python_version < "3.13" \
 python-slugify==8.0.4 ; python_version >= "3.11" and python_version < "3.13" \
     --hash=sha256:276540b79961052b66b7d116620b36518847f52d5fd9e3a70164fc8c50faa6b8 \
     --hash=sha256:59202371d1d05b54a9e7720c5e038f928f45daaffe41dd10822f3907b937c856
-pytubefix==6.3.3 ; python_version >= "3.11" and python_version < "3.13" \
-    --hash=sha256:7256bc6596997c981094e4460766e5d0dcc73c85ae625af66007c105e736dfc5 \
-    --hash=sha256:839cd901a1c6e304cb7ad58c913210e79670c844011cac6b8b73e25528633224
+pytubefix==6.3.4 ; python_version >= "3.11" and python_version < "3.13" \
+    --hash=sha256:0d5ff01fb953f22bcc61093367d261980f668a19009de3edcef1e3254145f1cb \
+    --hash=sha256:341b1c132cc49acc35223935012eb19687bd94e8d6f11093378d9af91b543bf6
 pytz==2024.1 ; python_version >= "3.11" and python_version < "3.13" \
     --hash=sha256:2a29735ea9c18baf14b448846bde5a48030ed267578472d8955cd0e7443a9812 \
     --hash=sha256:328171f4e3623139da4983451950b28e95ac706e13f3f2630a879749e7a8b319
@@ -669,9 +669,9 @@ tzdata==2024.1 ; python_version >= "3.11" and python_version < "3.13" \
 urllib3==2.2.2 ; python_version >= "3.11" and python_version < "3.13" \
     --hash=sha256:a448b2f64d686155468037e1ace9f2d2199776e17f0a46610480d311f73e3472 \
     --hash=sha256:dd505485549a7a552833da5e6063639d0d177c04f23bc3864e41e5dc5f612168
-uvicorn[standard]==0.30.1 ; python_version >= "3.11" and python_version < "3.13" \
-    --hash=sha256:cd17daa7f3b9d7a24de3617820e634d0933b69eed8e33a516071174427238c81 \
-    --hash=sha256:d46cd8e0fd80240baffbcd9ec1012a712938754afcf81bce56c024c1656aece8
+uvicorn[standard]==0.30.3 ; python_version >= "3.11" and python_version < "3.13" \
+    --hash=sha256:0d114d0831ff1adbf231d358cbf42f17333413042552a624ea6a9b4c33dcfd81 \
+    --hash=sha256:94a3608da0e530cea8f69683aa4126364ac18e3826b6630d1a65f4638aade503
 uvloop==0.19.0 ; (sys_platform != "win32" and sys_platform != "cygwin") and platform_python_implementation != "PyPy" and python_version >= "3.11" and python_version < "3.13" \
     --hash=sha256:0246f4fd1bf2bf702e06b0d45ee91677ee5c31242f39aab4ea6fe0c51aedd0fd \
     --hash=sha256:02506dc23a5d90e04d4f65c7791e65cf44bd91b37f24cfc3ef6cf2aff05dc7ec \
