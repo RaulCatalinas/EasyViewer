@@ -127,7 +127,7 @@ class Main:
 
         app_page.window.prevent_close = True
 
-        app_page.on_window_event = lambda e: self.__event_close_window(
+        Page.on_window_event = lambda e: self.__event_close_window(
             event=e, app_page=app_page
         )
 
@@ -194,7 +194,6 @@ class Main:
 
         if event.data == "close":
             self.__overlay(app_page)
-            app_page.overlay.append(self.shutdown_handler)
 
             if self.error_dialog.is_open():
                 self.error_dialog.change_state(app_page)
