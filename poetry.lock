@@ -1372,13 +1372,13 @@ unidecode = ["Unidecode (>=1.1.1)"]
 
 [[package]]
 name = "pytubefix"
-version = "6.5.2"
+version = "6.6.2"
 description = "Python3 library for downloading YouTube Videos."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytubefix-6.5.2-py3-none-any.whl", hash = "sha256:3a07952a56bfa6dcdd2a58f3473b3bc0399baac53fe6b762fad9c8353cf4f065"},
-    {file = "pytubefix-6.5.2.tar.gz", hash = "sha256:f92b1a642fb5a5eee5fd404c8967195a6249bdfafda495a0dc63595e0d19e630"},
+    {file = "pytubefix-6.6.2-py3-none-any.whl", hash = "sha256:e87fddd1f89307f67b56c7dcb84c0d4ca4d6607d5b594fff7a71d4b4be0ae968"},
+    {file = "pytubefix-6.6.2.tar.gz", hash = "sha256:d9d5016694a5dcce694dbbb2276d66d37ecea0397bd1154c6766cda1c9d52c96"},
 ]
 
 [[package]]
@@ -2072,4 +2072,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11,<3.13"
-content-hash = "d882245eaa3ab1912808873d42a457227c70662c04c0d7cd946bbde7cf7d471c"
+content-hash = "ad40b860144cea55b47c9036fd8b138338a0dbe486d8c041e3cdde7522e8d00a"
