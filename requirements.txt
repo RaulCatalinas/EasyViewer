@@ -565,9 +565,9 @@ python-multipart==0.0.9 ; python_version >= "3.11" and python_version < "3.13" \
 python-slugify==8.0.4 ; python_version >= "3.11" and python_version < "3.13" \
     --hash=sha256:276540b79961052b66b7d116620b36518847f52d5fd9e3a70164fc8c50faa6b8 \
     --hash=sha256:59202371d1d05b54a9e7720c5e038f928f45daaffe41dd10822f3907b937c856
-pytubefix==6.6.2 ; python_version >= "3.11" and python_version < "3.13" \
-    --hash=sha256:d9d5016694a5dcce694dbbb2276d66d37ecea0397bd1154c6766cda1c9d52c96 \
-    --hash=sha256:e87fddd1f89307f67b56c7dcb84c0d4ca4d6607d5b594fff7a71d4b4be0ae968
+pytubefix==6.7.0 ; python_version >= "3.11" and python_version < "3.13" \
+    --hash=sha256:e152ef9067a408bec85a5ec250bab24573988f73575be2655236f19bec083f10 \
+    --hash=sha256:e8b9bb41d2300770d01085cd863dd742573d02e1549e667ead110f9ccd881f38
 pytz==2024.1 ; python_version >= "3.11" and python_version < "3.13" \
     --hash=sha256:2a29735ea9c18baf14b448846bde5a48030ed267578472d8955cd0e7443a9812 \
     --hash=sha256:328171f4e3623139da4983451950b28e95ac706e13f3f2630a879749e7a8b319
