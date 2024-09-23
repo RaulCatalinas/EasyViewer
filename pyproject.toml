@@ -9,11 +9,11 @@ readme = "README.md"
 python = "^3.11,<3.13"
 requests = "^2.32.3"
 python-dotenv = "^1.0.1"
-pandas = "^2.2.2"
+pandas = "^2.2.3"
 openpyxl = "^3.1.5"
 pygithub = "^2.4.0"
 flet = "^0.24.1"
-pytubefix = "^6.16.2"
+pytubefix = "^6.16.3"
 
 
 [tool.poetry.group.dev.dependencies]
