@@ -13,7 +13,7 @@ pandas = "^2.2.3"
 openpyxl = "^3.1.5"
 pygithub = "^2.4.0"
 flet = "^0.24.1"
-pytubefix = "^8.0.0"
+pytubefix = "^8.1.1"
 
 
 [tool.poetry.group.dev.dependencies]
