@@ -1142,13 +1142,13 @@ typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
 
 [[package]]
 name = "pygithub"
-version = "2.4.0"
+version = "2.5.0"
 description = "Use the full Github API v3"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "PyGithub-2.4.0-py3-none-any.whl", hash = "sha256:81935aa4bdc939fba98fee1cb47422c09157c56a27966476ff92775602b9ee24"},
-    {file = "pygithub-2.4.0.tar.gz", hash = "sha256:6601e22627e87bac192f1e2e39c6e6f69a43152cfb8f307cee575879320b3051"},
+    {file = "PyGithub-2.5.0-py3-none-any.whl", hash = "sha256:b0b635999a658ab8e08720bdd3318893ff20e2275f6446fcf35bf3f44f2c0fd2"},
+    {file = "pygithub-2.5.0.tar.gz", hash = "sha256:e1613ac508a9be710920d26eb18b1905ebd9926aa49398e88151c1b526aad3cf"},
 ]
 
 [package.dependencies]
@@ -1326,13 +1326,13 @@ unidecode = ["Unidecode (>=1.1.1)"]
 
 [[package]]
 name = "pytubefix"
-version = "8.3.0"
+version = "8.3.2"
 description = "Python3 library for downloading YouTube Videos."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytubefix-8.3.0-py3-none-any.whl", hash = "sha256:1a695db27323d062eb6f048800a01751a8a4e0478ff318c5d7e003824cb26011"},
-    {file = "pytubefix-8.3.0.tar.gz", hash = "sha256:fc66e99beb66082e6b5faa5e9aaee1b58a28ba30af2e7e123cb2e35d97bedee0"},
+    {file = "pytubefix-8.3.2-py3-none-any.whl", hash = "sha256:e843ba7030571fd7dcdee1d0b52a029f9cf42a774e15f050a6d518197d0382ad"},
+    {file = "pytubefix-8.3.2.tar.gz", hash = "sha256:289b1b55dd1b40b45b9d8366a646b2fd40cb67a72b46ea17869d71e0673f8bdd"},
 ]
 
 [[package]]
@@ -2016,4 +2016,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11,<3.13"
-content-hash = "2329abe25e28ab9246b3ec85cba7f0aa39035705c6c73ca809a4eea1d9cf49d3"
+content-hash = "32cf16f18754c4a4cff330ed4fb945478c20530146bb012ac97cb6216f6c3f38"
