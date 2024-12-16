@@ -299,12 +299,12 @@ files = [
 
 [[package]]
 name = "flet"
-version = "0.25.1"
+version = "0.25.2"
 description = "Flet for Python - easily build interactive multi-platform apps in Python"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "flet-0.25.1-py3-none-any.whl", hash = "sha256:4a11db637ebd0074bcb6197e1d0626e1f28839f7e021e91b0fcda057c2fb8739"},
+    {file = "flet-0.25.2-py3-none-any.whl", hash = "sha256:3558545c079c8daf18f169f30e8e10ccb27146d2be2eb9dfe23e6fc7e09b9f1a"},
 ]
 
 [package.dependencies]
@@ -313,10 +313,10 @@ oauthlib = {version = ">=3.2.2,<4.0.0", markers = "platform_system != \"Pyodide\
 repath = ">=0.9.0,<0.10.0"
 
 [package.extras]
-all = ["flet-cli (==0.25.1)", "flet-desktop (==0.25.1)", "flet-desktop-light (==0.25.1)", "flet-web (==0.25.1)"]
-cli = ["flet-cli (==0.25.1)"]
-desktop = ["flet-desktop (==0.25.1)", "flet-desktop-light (==0.25.1)"]
-web = ["flet-web (==0.25.1)"]
+all = ["flet-cli (==0.25.2)", "flet-desktop (==0.25.2)", "flet-desktop-light (==0.25.2)", "flet-web (==0.25.2)"]
+cli = ["flet-cli (==0.25.2)"]
+desktop = ["flet-desktop (==0.25.2)", "flet-desktop-light (==0.25.2)"]
+web = ["flet-web (==0.25.2)"]
 
 [[package]]
 name = "h11"
@@ -837,13 +837,13 @@ cli = ["click (>=5.0)"]
 
 [[package]]
 name = "pytubefix"
-version = "8.7.0"
+version = "8.8.1"
 description = "Python3 library for downloading YouTube Videos."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytubefix-8.7.0-py3-none-any.whl", hash = "sha256:46b5d2da614b5ce694ef8a90ecdacf8a72c76c18b83772997f1de8c0f7d87ef9"},
-    {file = "pytubefix-8.7.0.tar.gz", hash = "sha256:0881042f065c6dac99c2785785061f37e37424d682cc5d570dba3d53c7f45ef7"},
+    {file = "pytubefix-8.8.1-py3-none-any.whl", hash = "sha256:5a7f80bb58a18c2af8d833682f6c8feef3b1b21e0db9fce992ba322c75fd9207"},
+    {file = "pytubefix-8.8.1.tar.gz", hash = "sha256:616a2e3f87f6c4c98ac34395437410760cd4d68a9c52ed9f8ccd20158a1dae13"},
 ]
 
 [[package]]
@@ -1089,4 +1089,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11,<3.13"
-content-hash = "313c47a16706b5596cfd53b19fa1a4465d88ad7fdaac47395196c9aba1804f5f"
+content-hash = "4cfd42657236de8aaf395e3b619f48812307f789ed7bf3e19fb811d97bd889d5"
