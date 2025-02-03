@@ -299,12 +299,12 @@ files = [
 
 [[package]]
 name = "flet"
-version = "0.25.2"
+version = "0.26.0"
 description = "Flet for Python - easily build interactive multi-platform apps in Python"
 optional = false
-python-versions = "<4.0,>=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "flet-0.25.2-py3-none-any.whl", hash = "sha256:3558545c079c8daf18f169f30e8e10ccb27146d2be2eb9dfe23e6fc7e09b9f1a"},
+    {file = "flet-0.26.0-py3-none-any.whl", hash = "sha256:779e58dcfb4fbf0760715471121a183bf7ecf48e522fee068556cb26df3490fb"},
 ]
 
 [package.dependencies]
@@ -313,10 +313,10 @@ oauthlib = {version = ">=3.2.2,<4.0.0", markers = "platform_system != \"Pyodide\
 repath = ">=0.9.0,<0.10.0"
 
 [package.extras]
-all = ["flet-cli (==0.25.2)", "flet-desktop (==0.25.2)", "flet-desktop-light (==0.25.2)", "flet-web (==0.25.2)"]
-cli = ["flet-cli (==0.25.2)"]
-desktop = ["flet-desktop (==0.25.2)", "flet-desktop-light (==0.25.2)"]
-web = ["flet-web (==0.25.2)"]
+all = ["flet-cli (==0.26.0)", "flet-desktop (==0.26.0)", "flet-desktop-light (==0.26.0)", "flet-web (==0.26.0)"]
+cli = ["flet-cli (==0.26.0)"]
+desktop = ["flet-desktop (==0.26.0)", "flet-desktop-light (==0.26.0)"]
+web = ["flet-web (==0.26.0)"]
 
 [[package]]
 name = "h11"
@@ -833,13 +833,13 @@ cli = ["click (>=5.0)"]
 
 [[package]]
 name = "pytubefix"
-version = "8.12.0"
+version = "8.12.1"
 description = "Python3 library for downloading YouTube Videos."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytubefix-8.12.0-py3-none-any.whl", hash = "sha256:560b0f17b5a5b86fa9a542b02049eaa06492f2f6f66b787244333673387343eb"},
-    {file = "pytubefix-8.12.0.tar.gz", hash = "sha256:8a2b51a06efbec926ad88d2d686b6a66c7da37edf406eab7347d4ee43b638a4b"},
+    {file = "pytubefix-8.12.1-py3-none-any.whl", hash = "sha256:1101463302b87c9a7172632232740413366919c4456255f5a85d114d0c60e0ec"},
+    {file = "pytubefix-8.12.1.tar.gz", hash = "sha256:64af1ce25543007b1eadf1e2e01363839b0e4dd3c62ca2ae008f46c5462a2c54"},
 ]
 
 [[package]]
@@ -1085,4 +1085,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11,<3.13"
-content-hash = "a8a4d04b90cffbbad097270772f48a71f2f31408037628fbae303310e98a9d22"
+content-hash = "153b77ad219cc6a3b090dc4b1a559c4292bc6bb4ab2e03412ef3a9e5dca7bf02"
