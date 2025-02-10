@@ -27,7 +27,6 @@ To download the latest version of Python, visit the [official website](https://w
 - Python 3.11 or higher
 - python-dotenv (Environment variable for language switching)
 - pandas (Read the Excel file for game texts)
-- openpyxl (Dependence on "pandas" to read the Excel file of the app's texts)
 - flet (Graphical interface)
 - pytubefix (To download the video/audio of the YouTube video)
 - requests (Checking if the user has internet)
@@ -35,42 +34,8 @@ To download the latest version of Python, visit the [official website](https://w
 To install the dependencies, run one of these 2 commands in a terminal with the virtual environment activated:
 
 ```bash
-poetry install
-# or
-pip install -r requirements.txt
+uv pip install
 ```
-
-## Poetry
-
-### Installation
-
-Poetry is a dependency management tool that simplifies the installation and management of Python packages.
-
-#### Globally
-
-To install Poetry globally, follow these steps:
-
-1. Download and install Poetry by running the following command in a terminal as administrator:
-   - On Unix or WSL: `curl -sSL https://install.python-poetry.org | python3 -`
-   - On Windows in a PowerShell terminal: `(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -`
-2. Add the Poetry installation path to your `PATH` environment variable.
-3. To verify that Poetry is installed correctly, run the following command in a terminal: `poetry --version`.
-
-#### Locally
-
-Installing Poetry locally can be useful if you want to manage different dependencies for different projects. To install Poetry locally, follow these steps:
-
-1. Create a virtual environment for your project.
-2. Activate the virtual environment.
-3. Run the following command in a terminal: `pip install poetry`.
-
-### Dependencies
-
-To install the dependencies required for your project, run the following command in a terminal with the virtual environment activated: `poetry install`.
-
-This will automatically install all the dependencies specified in your project's `pyproject.toml` file.
-
-For more information on Poetry, visit the [official website](https://python-poetry.org).
 
 ## Contributions
 
