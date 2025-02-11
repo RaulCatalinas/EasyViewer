@@ -127,7 +127,7 @@ class Main:
 
         app_page.window.prevent_close = True
 
-        Page.on_window_event = lambda e: self.__event_close_window(
+        app_page.window.on_event = lambda e: self.__handle_window_events(
             event=e, app_page=app_page
         )
 
@@ -183,7 +183,7 @@ class Main:
 
         self.disclaimer_dialog.show()
 
-    def __event_close_window(self, event, app_page: Page):
+    def __handle_window_events(self, event, app_page: Page):
         """
         Event handler for the window close event.
 
