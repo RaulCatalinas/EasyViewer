@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "flet>=0.26.0",
+    "flet-core>=0.24.1",
     "pandas>=2.2.3",
     "pygithub>=2.5.0",
     "python-dotenv>=1.0.1",

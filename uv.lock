@@ -125,6 +125,7 @@ version = "2.2.0"
 source = { virtual = "." }
 dependencies = [
     { name = "flet" },
+    { name = "flet-core" },
     { name = "pandas" },
     { name = "pygithub" },
     { name = "python-dotenv" },
@@ -142,6 +143,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "flet", specifier = ">=0.26.0" },
+    { name = "flet-core", specifier = ">=0.24.1" },
     { name = "pandas", specifier = ">=2.2.3" },
     { name = "pygithub", specifier = ">=2.5.0" },
     { name = "python-dotenv", specifier = ">=1.0.1" },
@@ -167,6 +169,18 @@ dependencies = [
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/dd/25/a770b6fe37945298334c7e3a6a5e79604030294d9d312c2cfd321d29aa25/flet-0.26.0-py3-none-any.whl", hash = "sha256:779e58dcfb4fbf0760715471121a183bf7ecf48e522fee068556cb26df3490fb", size = 535416 },
+]
+
+[[package]]
+name = "flet-core"
+version = "0.24.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "repath" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b5/cf/7b5a5a4e59814415270bda0b3c45e7c8be5e31037197a9cac3aa3e2af14a/flet_core-0.24.1.tar.gz", hash = "sha256:1137109aec43b78a911f460a56e0e4581b4c411ba53e5c68fe785502e7e89498", size = 288332 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a4/fd/17c690b9d8a437797f6bcec813e423711bfbacabab1f6a4aa28aed303fd1/flet_core-0.24.1-py3-none-any.whl", hash = "sha256:0c729a6a5f914b54ce90d727594d896b975ad1ef749c7076b6775ad4684ea4ed", size = 412157 },
 ]
 
 [[package]]
