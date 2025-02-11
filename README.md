@@ -34,7 +34,7 @@ To download the latest version of Python, visit the [official website](https://w
 To install the dependencies, run one of these 2 commands in a terminal with the virtual environment activated:
 
 ```bash
-uv pip install
+uv sync
 ```
 
 ## Contributions
