@@ -31,7 +31,7 @@ To download the latest version of Python, visit the [official website](https://w
 - pytubefix (To download the video/audio of the YouTube video)
 - requests (Checking if the user has internet)
 
-To install the dependencies, run one of these 2 commands in a terminal with the virtual environment activated:
+To install the dependencies run this command with the virtual environment enabled:
 
 ```bash
 uv sync
