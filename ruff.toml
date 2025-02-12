@@ -1,5 +1,10 @@
-lint.unfixable = ["I001"]
-
 exclude = [".git", ".venv", "dist", "build", ".ruff_cache"]
 
 fix = true
+
+line-length = 80
+indent-width = 4
+
+format.indent-style = "space"
+format.quote-style = "double"
+format.skip-magic-trailing-comma = true

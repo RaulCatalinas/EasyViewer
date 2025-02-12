@@ -12,11 +12,9 @@
 
   // Ruff
   "ruff.enable": true,
-  "ruff.lint.run": "onType",
-  "ruff.fixAll": true,
-  "ruff.codeAction.fixViolation": {
-    "enable": true
-  },
+  "ruff.nativeServer": "on",
+  "ruff.configuration": "${workspaceFolder}/ruff.toml",
+  "ruff.organizeImports": false,
 
   // Python
   "[python]": {
