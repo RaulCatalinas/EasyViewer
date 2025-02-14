@@ -5,8 +5,7 @@ description = "App to download youtube videos"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "flet>=0.26.0",
-    "flet-core>=0.24.1",
+    "flet==0.26.0",
     "pandas>=2.2.3",
     "pygithub>=2.5.0",
     "python-dotenv>=1.0.1",
@@ -14,5 +13,19 @@ dependencies = [
     "requests>=2.32.3",
 ]
 
-[dependency-groups]
-dev = ["pillow>=11.1.0", "pyinstaller>=6.12.0", "ruff>=0.9.6"]
+[tool.flet.app]
+path = "src"
+
+[tool.uv]
+dev-dependencies = [
+    "flet[all]==0.26.0",
+    "ruff>=0.9.6",
+    "pillow>=11.1.0",
+    "pyinstaller>=6.12.0",
+]
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+flet = { extras = ["all"], version = "0.26.0" }

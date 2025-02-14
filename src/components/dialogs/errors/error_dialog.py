@@ -1,0 +1,34 @@
+# Standard library
+
+# Third-Party libraries
+from flet import MainAxisAlignment, Page, icons
+
+# Create widgets
+from widgets.buttons import ElevatedButton
+
+# Base
+from .._base import BaseDialog
+
+
+class ErrorDialog(BaseDialog):
+    def __init__(self, app: Page):
+        self.button_close_dialog = ElevatedButton(
+            text="Ok", function=lambda e: self.close_dialog()
+        )
+
+        super().__init__(
+            icon=True,
+            title=icons.ERROR,
+            title_size=1.3,
+            content="",
+            content_size=23,
+            actions=[self.button_close_dialog],
+            actions_alignment=MainAxisAlignment.END,
+            overlay=self.overlay,
+            app=app,
+        )
+
+    def show_dialog(self, error: str):
+        self.update_content(error)
+
+        return super().show_dialog()
