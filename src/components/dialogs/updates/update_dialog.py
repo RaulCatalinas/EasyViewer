@@ -42,7 +42,6 @@ class UpdateDialog(BaseDialog):
             content_size=23,
             actions=[self.button_update, self.button_later],
             actions_alignment=MainAxisAlignment.END,
-            overlay=self.overlay,
             app=app,
         )
 

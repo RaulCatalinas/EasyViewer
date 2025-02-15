@@ -13,7 +13,7 @@ from .._base import BaseDialog
 class ErrorDialog(BaseDialog):
     def __init__(self, app: Page):
         self.button_close_dialog = ElevatedButton(
-            text="Ok", function=lambda e: self.close_dialog()
+            text="Ok", function=lambda _: self.close_dialog()
         )
 
         super().__init__(
@@ -24,7 +24,6 @@ class ErrorDialog(BaseDialog):
             content_size=23,
             actions=[self.button_close_dialog],
             actions_alignment=MainAxisAlignment.END,
-            overlay=self.overlay,
             app=app,
         )
 
