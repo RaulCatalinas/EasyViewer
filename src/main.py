@@ -2,8 +2,8 @@
 from flet import Page, app
 
 # Managers
-from managers import WindowManager
-from managers import MainUIManager
+from managers.window_managers import WindowManager
+from managers.ui_managers import MainUIManager
 
 # Dialogs
 from components.dialogs.warnings import CloseAppDialog
