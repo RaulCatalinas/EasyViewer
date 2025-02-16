@@ -1,7 +1,7 @@
 # Standard library
 from typing import Callable
 
-# Third-party libraries
+# Third-Party libraries
 from flet import LabelPosition
 
 # Base
@@ -14,12 +14,14 @@ class UpdateCheckbox(BaseCheckbox):
     """
 
     def __init__(
-        self,
-        label: str,
-        label_position: LabelPosition,
-        callback: Callable,
-        offset_x=0,
-        offset_y=0,
+        self, callback: Callable, offset_x: float = 0, offset_y: float = 0
     ):
-        self.label_position = label_position
-        super().__init__(label, "update", callback, True, offset_x, offset_y)
+        super().__init__(
+            label="Check for updates automatically ",
+            storage_key="update",
+            callback=callback,
+            default_value=True,
+            label_position=LabelPosition.LEFT,
+            offset_x=offset_x,
+            offset_y=offset_y,
+        )

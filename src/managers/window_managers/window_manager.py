@@ -5,7 +5,7 @@ from typing import Callable
 from flet import Page, WindowEvent
 
 # App settings
-from app_settings import AppSettings
+from app_settings import WindowSettings
 
 
 class WindowManager:
@@ -22,10 +22,10 @@ class WindowManager:
         """Set up the app window."""
         self.app.window.wait_until_ready_to_show = True
         self.app.window.center()
-        self.app.window.resizable = AppSettings.RESIZABLE.value
-        self.app.window.maximizable = AppSettings.MAXIMIZABLE.value
-        self.app.window.width = AppSettings.WIDTH.value
-        self.app.window.height = AppSettings.HIGH.value
-        self.app.title = AppSettings.TITLE.value
-        self.app.window.prevent_close = AppSettings.PREVENT_CLOSE.value
+        self.app.window.resizable = WindowSettings.RESIZABLE.value
+        self.app.window.maximizable = WindowSettings.MAXIMIZABLE.value
+        self.app.window.width = WindowSettings.WIDTH.value
+        self.app.window.height = WindowSettings.HIGH.value
+        self.app.title = WindowSettings.TITLE.value
+        self.app.window.prevent_close = WindowSettings.PREVENT_CLOSE.value
         self.app.window.on_event = self.events_handler

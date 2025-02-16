@@ -1,3 +1,3 @@
-from .config import AppSettings
+from .config import WindowSettings, AppColors
 
-__all__ = ["AppSettings"]
+__all__ = ["WindowSettings", "AppColors"]

@@ -1,8 +1,8 @@
 # Standard library
-from typing import Callable
+from typing import Callable, Optional
 
 # Third-party libraries
-from flet import Checkbox as FletCheckbox, Offset
+from flet import Checkbox as FletCheckbox, Offset, LabelPosition
 
 # Control variables
 from control_variables import CheckBox
@@ -19,8 +19,9 @@ class BaseCheckbox(FletCheckbox):
         storage_key: str,
         callback: Callable,
         default_value: bool,
-        offset_x: int = 0,
-        offset_y: int = 0,
+        label_position: Optional[LabelPosition] = None,
+        offset_x: float = 0,
+        offset_y: float = 0,
     ):
         self.storage = CheckBox()
         self.storage_key = storage_key
@@ -32,6 +33,7 @@ class BaseCheckbox(FletCheckbox):
             offset=Offset(offset_x, offset_y),
             value=initial_value,
             on_change=lambda e: self._on_change(),
+            label_position=label_position,
         )
 
     def set_label(self, new_label: str):

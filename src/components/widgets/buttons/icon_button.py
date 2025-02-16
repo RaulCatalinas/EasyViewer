@@ -1,8 +1,8 @@
 # Standard Library
-from typing import Callable
+from typing import Callable, Optional
 
 # Third-Party libraries
-from flet import IconButton as FletIconButton, Offset
+from flet import IconButton as FletIconButton, Offset, Alignment, Icons
 
 # Base
 from ._base import BaseButton
@@ -15,11 +15,12 @@ class IconButton(FletIconButton, BaseButton):
 
     def __init__(
         self,
-        icon: str,
+        icon: Icons,
         function: Callable,
         offset_x: float = 0,
         offset_y: float = 0,
         scale: float = 1,
+        alignment: Optional[Alignment] = None,
     ):
         BaseButton.__init__(self)
 
@@ -28,4 +29,5 @@ class IconButton(FletIconButton, BaseButton):
             on_click=function,
             scale=scale,
             offset=Offset(offset_x, offset_y),
+            alignment=alignment,
         )
