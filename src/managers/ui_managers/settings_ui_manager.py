@@ -1,5 +1,4 @@
 # Standard Library
-from typing import Callable
 
 # Third-Party libraries
 from flet import Page, Icons
@@ -20,31 +19,14 @@ class SettingsUIManager:
                 UpdateCheckbox(
                     lambda _: print("Check for updates automatically ")
                 ),
-                self._create_icon_button(
+                IconButton(
                     icon=Icons.LANGUAGE,
                     function=lambda _: print("Change Language"),
                 ),
-                self._create_icon_button(
+                IconButton(
                     icon=Icons.CONTACTS, function=lambda _: print("Contacting")
                 ),
             ],
             height=50,
             bg_color=AppColors.APP_BAR_BG_COLOR_THEME_DARK.value,
-        )
-
-    def _create_icon_button(
-        self,
-        icon: Icons,
-        function: Callable,
-        offset_x: float = 0,
-        offset_y: float = 0,
-        scale: float = 1,
-    ):
-        """Creates an icon button with default values."""
-        return IconButton(
-            icon=icon,
-            function=function,
-            offset_x=offset_x,
-            offset_y=offset_y,
-            scale=scale,
         )
