@@ -7,6 +7,9 @@ from flet import LabelPosition
 # Base
 from ._base import BaseCheckbox
 
+# App enums
+from app_enums import UserPreferencesKeys
+
 
 class UpdateCheckbox(BaseCheckbox):
     """
@@ -18,7 +21,7 @@ class UpdateCheckbox(BaseCheckbox):
     ):
         super().__init__(
             label="Check for updates automatically ",
-            storage_key="update",
+            storage_key=UserPreferencesKeys.AUTOMATIC_NOTIFICATIONS,
             callback=callback,
             default_value=True,
             label_position=LabelPosition.LEFT,

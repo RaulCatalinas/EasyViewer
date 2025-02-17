@@ -1,5 +1,3 @@
-# Standard Library
-
 # Third-Party libraries
 from flet import Page, Icons
 
@@ -8,16 +6,36 @@ from components.widgets.app_bars import AppBar
 from components.widgets.buttons import IconButton
 from components.widgets.checkboxes import UpdateCheckbox
 
-# App settings
-from app_settings import AppColors
+# User preferences
+from user_preferences import ThemeManager, UserPreferencesManager
+
+# App enums
+from app_enums import UserPreferencesKeys
 
 
 class SettingsUIManager:
     def __init__(self, app: Page):
-        app.appbar = AppBar(
+        user_preferences_manager = UserPreferencesManager()
+        theme_manager = ThemeManager(app)
+
+        automatic_notifications = user_preferences_manager.get_preference(
+            UserPreferencesKeys.AUTOMATIC_NOTIFICATIONS
+        )
+
+        self.button_icon_theme = IconButton(
+            icon=theme_manager.get_icon_theme(),
+            function=lambda _: theme_manager.toggle_theme_mode(),
+        )
+        self.button_icon_check_updates = IconButton(
+            icon=Icons.UPDATE,
+            function=lambda _: print("Checking for updates"),
+            visible=not automatic_notifications,
+        )
+
+        self.app_bar = AppBar(
             window_elements=[
                 UpdateCheckbox(
-                    lambda _: print("Check for updates automatically ")
+                    lambda: self.button_icon_check_updates.toggle_visible(app)
                 ),
                 IconButton(
                     icon=Icons.LANGUAGE,
@@ -26,7 +44,14 @@ class SettingsUIManager:
                 IconButton(
                     icon=Icons.CONTACTS, function=lambda _: print("Contacting")
                 ),
+                self.button_icon_theme,
+                self.button_icon_check_updates,
             ],
             height=50,
-            bg_color=AppColors.APP_BAR_BG_COLOR_THEME_DARK.value,
+            bg_color=theme_manager.get_app_bar_theme(),
         )
+
+        theme_manager.app_bar_reference = self.app_bar
+        theme_manager.button_icon_theme_reference = self.button_icon_theme
+
+        app.appbar = self.app_bar

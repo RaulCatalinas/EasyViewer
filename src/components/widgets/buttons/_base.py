@@ -31,6 +31,7 @@ class BaseButton(Control):
 
     def toggle_state(self, app: Page):
         """Toggles the button state (enabled/disabled)."""
+
         self.disabled = not self.disabled
 
         app.update(self)
@@ -39,6 +40,13 @@ class BaseButton(Control):
         """Changes the button's offset."""
 
         self.offset = Offset(offset_x, offset_y)
+
+    def toggle_visible(self, app: Page):
+        """Toggles the visibility of the button"""
+
+        self.visible = not self.visible
+
+        app.update(self)
 
 
 class BaseTextButton(BaseButton):

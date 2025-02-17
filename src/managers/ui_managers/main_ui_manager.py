@@ -1,5 +1,3 @@
-# Standard library
-
 # Third party libraries
 from flet import Icons, Page
 

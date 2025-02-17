@@ -21,6 +21,7 @@ class IconButton(FletIconButton, BaseButton):
         offset_y: float = 0,
         scale: float = 1,
         alignment: Optional[Alignment] = None,
+        visible: Optional[bool] = None,
     ):
         BaseButton.__init__(self)
 
@@ -30,4 +31,15 @@ class IconButton(FletIconButton, BaseButton):
             scale=scale,
             offset=Offset(offset_x, offset_y),
             alignment=alignment,
+            visible=visible,
         )
+
+    def change_icon(self, new_icon: Icons):
+        """
+        Change the button icon
+
+        Args:
+            new_icon (Icons): The new icon for the button.
+        """
+
+        self.icon = new_icon

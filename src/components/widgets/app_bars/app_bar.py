@@ -15,3 +15,13 @@ class AppBar(FletAppBar):
         super().__init__(
             actions=window_elements, toolbar_height=height, bgcolor=bg_color
         )
+
+    def change_bg_color(self, new_bg_color: str):
+        """
+        Change the taskbar background color
+
+        Args:
+            new_bg_color (str): The new taskbar background color.
+        """
+
+        self.bgcolor = new_bg_color
