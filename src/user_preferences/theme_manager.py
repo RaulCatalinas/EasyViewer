@@ -81,17 +81,21 @@ class ThemeManager:
             str: The icon representing the opposite theme mode (light mode icon if in dark mode and vice versa).
         """
 
+        theme_mode = ThemeMode(self.app.theme_mode)
+
         return (
             Icons.DARK_MODE
-            if self.app.theme_mode == ThemeMode.LIGHT.value
+            if theme_mode == ThemeMode.LIGHT
             else Icons.LIGHT_MODE
         )
 
     def get_app_bar_theme(self):
         """Returns the appropriate color for the taskbar based on the current theme mode."""
 
+        theme_mode = ThemeMode(self.app.theme_mode)
+
         return (
             AppColors.APP_BAR_BG_COLOR_THEME_DARK.value
-            if self.app.theme_mode == ThemeMode.DARK.value
+            if theme_mode == ThemeMode.DARK
             else AppColors.APP_BAR_BG_COLOR_THEME_LIGHT.value
         )
