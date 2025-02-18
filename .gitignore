@@ -1,12 +1,11 @@
 __pycache__
 venv
 .venv
-Log
 .idea
 dist
 build
 /*.ico
 /*.spec
-/src/backend/cache/github_cache.json
 .ruff_cache
 /src/user_preferences/user_preferences.json
+/logs
