@@ -4,11 +4,11 @@ from ...widgets.buttons import ElevatedButton
 # Third-Party libraries
 from flet import MainAxisAlignment, Page
 
-# Settings
-# from settings import ExcelTextLoader
+# User preferences
+from user_preferences import UserPreferencesManager
 
-# Control variables
-# from control_variables import DisclaimerDialogControlVariable
+# App enums
+from app_enums import UserPreferencesKeys
 
 # Base
 from .._base import BaseDialog
@@ -16,26 +16,34 @@ from .._base import BaseDialog
 
 class DisclaimerDialog(BaseDialog):
     def __init__(self, app: Page):
-        # self.disclaimer_dialog = DisclaimerDialogControlVariable()
+        self.user_preferences_manager = UserPreferencesManager()
 
         self.button_close_dialog = ElevatedButton(
-            text="Ok", function=lambda e: self.close_dialog()
+            text="Ok", function=lambda _: self.close_dialog()
         )
 
         super().__init__(
-            title="",  # ExcelTextLoader.get_text(31),
+            title="Change this to the title of the disclaimer",
             title_size=18,
-            content="",  # ExcelTextLoader.get_text(32),
+            content="Change this to the content of the disclaimer",
             content_size=16,
             actions=[self.button_close_dialog],
             actions_alignment=MainAxisAlignment.END,
             app=app,
+            is_modal=True,
         )
 
-    # def show_dialog(self):
-    #     disclaimer_dialog = self.disclaimer_dialog.get()
+    def _mark_as_shown(self):
+        self.user_preferences_manager.set_preference(
+            UserPreferencesKeys.DISCLAIMER_SHOWN, True
+        )
 
-    #     if not disclaimer_dialog:
-    #         self.disclaimer_dialog.set(True)
+    def show_dialog_if_necessary(self):
+        disclaimer_shown = self.user_preferences_manager.get_preference(
+            UserPreferencesKeys.DISCLAIMER_SHOWN
+        )
 
-    #         return super().show_dialog()
+        if not disclaimer_shown:
+            self._mark_as_shown()
+
+            super().show_dialog()

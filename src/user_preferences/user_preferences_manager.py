@@ -64,6 +64,8 @@ class UserPreferencesManager:
             UserPreferencesKeys.THEME: "light",
             UserPreferencesKeys.AUTOMATIC_NOTIFICATIONS: True,
             UserPreferencesKeys.LANGUAGE: "en",
+            UserPreferencesKeys.PREVIOUS_APP_VERSION: "2.2.0",
+            UserPreferencesKeys.DISCLAIMER_SHOWN: False,
         }
 
         create_empty_json_file(

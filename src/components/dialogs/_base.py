@@ -24,6 +24,7 @@ class BaseDialog(AlertDialog):
         app: Page,
         actions_alignment: MainAxisAlignment = MainAxisAlignment.CENTER,
         icon: bool = False,
+        is_modal=False,
     ):
         self.app = app
 
@@ -37,6 +38,7 @@ class BaseDialog(AlertDialog):
             content=self.content_text,
             actions=actions,
             actions_alignment=actions_alignment,
+            modal=is_modal,
         )
 
     def update_title(self, new_title: str):
