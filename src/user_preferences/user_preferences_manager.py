@@ -64,7 +64,7 @@ class UserPreferencesManager:
             UserPreferencesKeys.THEME: "light",
             UserPreferencesKeys.AUTOMATIC_NOTIFICATIONS: True,
             UserPreferencesKeys.LANGUAGE: "en",
-            UserPreferencesKeys.PREVIOUS_APP_VERSION: "2.2.0",
+            UserPreferencesKeys.PREVIOUS_APP_VERSION: "0.0.0",
             UserPreferencesKeys.DISCLAIMER_SHOWN: False,
         }
 
