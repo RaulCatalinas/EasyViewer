@@ -12,9 +12,12 @@ from user_preferences import ThemeManager, UserPreferencesManager
 # App enums
 from app_enums import UserPreferencesKeys
 
+# Update manager
+from update import UpdateManager
+
 
 class SettingsUIManager:
-    def __init__(self, app: Page):
+    def __init__(self, app: Page, update_manager: UpdateManager):
         user_preferences_manager = UserPreferencesManager()
         theme_manager = ThemeManager(app)
 
@@ -26,9 +29,10 @@ class SettingsUIManager:
             icon=theme_manager.get_icon_theme(),
             function=lambda _: theme_manager.toggle_theme_mode(),
         )
+
         self.button_icon_check_updates = IconButton(
             icon=Icons.UPDATE,
-            function=lambda _: print("Checking for updates"),
+            function=lambda: update_manager.check_updates(True),
             visible=not automatic_notifications,
         )
 

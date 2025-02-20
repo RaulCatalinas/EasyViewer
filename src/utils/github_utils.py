@@ -9,13 +9,20 @@ from constants import GITHUB_API_URL, DEFAULT_MESSAGE, GITHUB_VERSION_TAG_KEY
 from app_logging import LoggingManager
 
 # App enums
-from app_enums import LOG_LEVELS
+from app_enums import LOG_LEVELS, UserPreferencesKeys
+
+# Utils
+from .time_utils import has_one_month_passed
+
+# User preferences
+from user_preferences import UserPreferencesManager
 
 
+user_preferences_manager = UserPreferencesManager()
 logging_manager = LoggingManager()
 
 
-def get_latest_github_release():
+def _get_latest_github_release_version():
     """
     Fetches the latest release version from a GitHub repository.
 
@@ -36,3 +43,19 @@ def get_latest_github_release():
         logging_manager.write_log(LOG_LEVELS.ERROR, str(e))
 
         return f"Error fetching release: {e}"
+
+
+def get_github_version() -> str:
+    if has_one_month_passed():
+        latest_github_release_version = _get_latest_github_release_version()
+
+        user_preferences_manager.set_preference(
+            UserPreferencesKeys.LATEST_GITHUB_VERSION,
+            latest_github_release_version,
+        )
+
+        return latest_github_release_version
+
+    return user_preferences_manager.get_preference(
+        UserPreferencesKeys.LATEST_GITHUB_VERSION
+    )

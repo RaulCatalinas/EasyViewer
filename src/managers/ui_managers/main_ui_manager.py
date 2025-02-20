@@ -5,22 +5,30 @@ from flet import Icons, Page
 from components.widgets.buttons import IconButton
 from components.widgets.inputs import Input
 from components.widgets.progress_bars import ProgressBar
+from components.dialogs.updates import UpdateDialog
 
 # Managers
-from managers.ui_managers.settings_ui_manager import SettingsUIManager
+from .settings_ui_manager import SettingsUIManager
 
 # App settings
 from app_settings import AppColors
+
+# Update manager
+from update import UpdateManager
 
 
 class MainUIManager:
     def __init__(self, app: Page):
         self.app = app
+        update_dialog = UpdateDialog(app, self.update_manager.update)
+        self.update_manager = UpdateManager(update_dialog)
+
         self._initialize_ui()
 
     def _initialize_ui(self):
         """Initialises the UI elements and adds them to the app."""
-        SettingsUIManager(self.app)
+
+        SettingsUIManager(self.app, self.update_manager)
         self.app.add(
             Input(
                 placeholder="Video URL",

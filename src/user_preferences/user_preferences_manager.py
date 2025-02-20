@@ -7,8 +7,11 @@ from typing import Any
 # App enums
 from app_enums import UserPreferencesKeys
 
-# Infrastructure
-from infrastructure import create_empty_json_file
+# Utils
+from utils import create_empty_json_file
+
+# Constants
+from constants import DEFAULT_USER_PREFERENCES, USER_PREFERENCES_FILE
 
 
 class UserPreferencesManager:
@@ -18,8 +21,8 @@ class UserPreferencesManager:
     """
 
     _instance = None
-    script_dir = dirname(abspath(__file__))
-    PREFERENCES_FILE = "user_preferences"
+    _script_dir = dirname(abspath(__file__))
+    USER_PREFERENCES_FILE_PATH = f"{_script_dir}/{USER_PREFERENCES_FILE}.json"
 
     def __new__(cls):
         """Ensures only one instance of UserPreferencesManager exists."""
@@ -45,39 +48,23 @@ class UserPreferencesManager:
             dict: A dictionary containing the user preferences.
         """
 
-        if not exists(f"{self.script_dir}/{self.PREFERENCES_FILE}.json"):
+        if not exists(self.USER_PREFERENCES_FILE_PATH):
             print("🔄 Creating new user preferences file...")
 
             self._create_default_preferences()
 
-        with open(
-            f"{self.script_dir}/{self.PREFERENCES_FILE}.json",
-            "r",
-            encoding="utf-8",
-        ) as f:
+        with open(self.USER_PREFERENCES_FILE_PATH, "r", encoding="utf-8") as f:
             return load(f)
 
     def _create_default_preferences(self) -> None:
         """Creates the default preferences file if it doesn't exist."""
 
-        default_prefs = {
-            UserPreferencesKeys.THEME: "light",
-            UserPreferencesKeys.AUTOMATIC_NOTIFICATIONS: True,
-            UserPreferencesKeys.LANGUAGE: "en",
-            UserPreferencesKeys.PREVIOUS_APP_VERSION: "0.0.0",
-            UserPreferencesKeys.DISCLAIMER_SHOWN: False,
-        }
-
         create_empty_json_file(
-            self.script_dir, f"{self.script_dir}/{self.PREFERENCES_FILE}"
+            self._script_dir, f"{self._script_dir}/{USER_PREFERENCES_FILE}"
         )
 
-        with open(
-            f"{self.script_dir}/{self.PREFERENCES_FILE}.json",
-            "w",
-            encoding="utf-8",
-        ) as f:
-            dump(default_prefs, f, indent=2)
+        with open(self.USER_PREFERENCES_FILE_PATH, "w", encoding="utf-8") as f:
+            dump(DEFAULT_USER_PREFERENCES, f, indent=2)
 
     def get_preference(self, key: UserPreferencesKeys) -> Any:
         """
@@ -106,11 +93,7 @@ class UserPreferencesManager:
     def _save_preferences(self) -> None:
         """Saves the current user preferences to user_preferences.json."""
 
-        with open(
-            f"{self.script_dir}/{self.PREFERENCES_FILE}.json",
-            "w",
-            encoding="utf-8",
-        ) as f:
+        with open(self.USER_PREFERENCES_FILE_PATH, "w", encoding="utf-8") as f:
             dump(self.preferences, f, indent=4)
 
         print("💾 User preferences saved successfully!")

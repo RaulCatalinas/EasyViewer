@@ -5,5 +5,6 @@ class UserPreferencesKeys(StrEnum):
     THEME = "theme"
     AUTOMATIC_NOTIFICATIONS = "automatic_notifications"
     LANGUAGE = "language"
-    PREVIOUS_APP_VERSION = "previous_app_version"
+    LATEST_GITHUB_VERSION = "latest_github_version"
     DISCLAIMER_SHOWN = "disclaimer_shown"
+    LAST_UPDATE_CHECK = "last_update_check"
