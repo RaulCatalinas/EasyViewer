@@ -32,7 +32,7 @@ class SettingsUIManager:
 
         self.button_icon_check_updates = IconButton(
             icon=Icons.UPDATE,
-            function=lambda: update_manager.check_updates(True),
+            function=lambda _: update_manager.check_updates(True),
             visible=not automatic_notifications,
         )
 

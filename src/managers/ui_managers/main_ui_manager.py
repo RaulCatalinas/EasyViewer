@@ -20,8 +20,10 @@ from update import UpdateManager
 class MainUIManager:
     def __init__(self, app: Page):
         self.app = app
-        update_dialog = UpdateDialog(app, self.update_manager.update)
+        update_dialog = UpdateDialog(app, lambda: ())
         self.update_manager = UpdateManager(update_dialog)
+
+        update_dialog.update_function = self.update_manager.update
 
         self._initialize_ui()
 

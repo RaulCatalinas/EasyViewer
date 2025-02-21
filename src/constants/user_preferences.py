@@ -12,5 +12,5 @@ DEFAULT_USER_PREFERENCES: dict[UserPreferencesKeys, Any] = {
     UserPreferencesKeys.LANGUAGE: "en",
     UserPreferencesKeys.LATEST_GITHUB_VERSION: "0.0.0",
     UserPreferencesKeys.DISCLAIMER_SHOWN: False,
-    UserPreferencesKeys.LAST_UPDATE_CHECK: "0000-00-00",
+    UserPreferencesKeys.LAST_UPDATE_CHECK: "1970-01-01",
 }

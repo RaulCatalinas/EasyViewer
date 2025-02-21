@@ -5,7 +5,7 @@ from typing import Callable
 from flet import MainAxisAlignment, Page
 
 # Widgets
-from widgets.buttons import ElevatedButton, OutlinedButton
+from ...widgets.buttons import ElevatedButton, OutlinedButton
 
 # Base
 from .._base import BaseDialog
@@ -13,16 +13,17 @@ from .._base import BaseDialog
 
 class UpdateDialog(BaseDialog):
     def __init__(self, app: Page, update_function: Callable):
+        self.update_function = update_function
         self.button_update = ElevatedButton(
-            text="Update", function=lambda: update_function()
+            text="Update", function=lambda _: self.update_function()
         )
 
         self.button_later = OutlinedButton(
-            text="Later", function=lambda: self.close_dialog()
+            text="Later", function=lambda _: self.close_dialog()
         )
 
         self.button_ok = ElevatedButton(
-            text="ok", function=lambda: self.close_dialog()
+            text="ok", function=lambda _: self.close_dialog()
         )
 
         super().__init__(

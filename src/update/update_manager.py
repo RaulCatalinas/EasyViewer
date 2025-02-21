@@ -1,19 +1,19 @@
 # Standard library
 from threading import Thread
-from datetime import datetime, timedelta
+from datetime import datetime
 from webbrowser import open_new_tab
 
 # App enums
 from app_enums import UserPreferencesKeys
 
 # Utils
-from utils import get_github_version
+from utils import get_github_version, has_one_month_passed
 
 # User preferences
 from user_preferences import UserPreferencesManager
 
 # Constants
-from constants import INSTALLED_VERSION, CHECK_INTERVAL_DAYS, DOWNLOAD_PAGE_URL
+from constants import INSTALLED_VERSION, DOWNLOAD_PAGE_URL
 
 # Components
 from components.dialogs.updates import UpdateDialog
@@ -36,15 +36,7 @@ class UpdateManager:
     def _check_for_updates_if_needed(self) -> None:
         """Checks if an update check is needed before querying the API."""
 
-        last_check_str: str = self.user_preferences_manager.get_preference(
-            UserPreferencesKeys.LAST_UPDATE_CHECK
-        )
-
-        last_check_date = datetime.strptime(last_check_str, "%Y-%m-%d")
-
-        next_check_date = last_check_date + timedelta(days=CHECK_INTERVAL_DAYS)
-
-        if datetime.now() >= next_check_date:
+        if has_one_month_passed():
             self._an_update_is_available()
 
     def _an_update_is_available(self):
@@ -75,6 +67,8 @@ class UpdateManager:
         """
 
         open_new_tab(DOWNLOAD_PAGE_URL)
+
+        self.update_dialog.close_dialog()
 
     def check_updates(self, checking_for_updates_manually=False) -> None:
         """

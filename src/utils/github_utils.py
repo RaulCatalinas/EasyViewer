@@ -14,11 +14,6 @@ from app_enums import LOG_LEVELS, UserPreferencesKeys
 # Utils
 from .time_utils import has_one_month_passed
 
-# User preferences
-from user_preferences import UserPreferencesManager
-
-
-user_preferences_manager = UserPreferencesManager()
 logging_manager = LoggingManager()
 
 
@@ -46,6 +41,13 @@ def _get_latest_github_release_version():
 
 
 def get_github_version() -> str:
+    if "UserPreferencesManager" not in globals():
+        from user_preferences.user_preferences_manager import (
+            UserPreferencesManager,
+        )
+
+    user_preferences_manager = UserPreferencesManager()
+
     if has_one_month_passed():
         latest_github_release_version = _get_latest_github_release_version()
 

@@ -1,16 +1,12 @@
 # Standard library
 from datetime import datetime, timedelta
 
-# User preferences
-from user_preferences import UserPreferencesManager
 
 # App enums
 from app_enums import UserPreferencesKeys
 
 # Constants
 from constants import CHECK_INTERVAL_DAYS
-
-user_preferences_manager = UserPreferencesManager()
 
 
 def has_one_month_passed() -> bool:
@@ -20,6 +16,13 @@ def has_one_month_passed() -> bool:
     Returns:
         bool: True if a month has passed, False otherwise.
     """
+
+    if "UserPreferencesManager" not in globals():
+        from user_preferences.user_preferences_manager import (
+            UserPreferencesManager,
+        )
+
+    user_preferences_manager = UserPreferencesManager()
 
     last_check_str = user_preferences_manager.get_preference(
         UserPreferencesKeys.LAST_UPDATE_CHECK
