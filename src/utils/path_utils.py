@@ -7,6 +7,3 @@ def get_default_download_directory():
     """
 
     return str(Path.home() / "Desktop")
-
-
-print(get_default_download_directory())

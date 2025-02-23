@@ -3,7 +3,7 @@ Create the inputs
 """
 
 # Third-Party libraries
-from flet import Offset, TextAlign, TextField
+from flet import Offset, TextAlign, TextField, Page
 
 
 class Input(TextField):
@@ -15,15 +15,18 @@ class Input(TextField):
         self,
         placeholder: str,
         text_size: int,
+        app: Page,
         text_align: TextAlign = TextAlign.CENTER,
         offset_x: float = 0,
         offset_y: float = 0,
         autofocus: bool = False,
         read_only: bool = False,
-        value: str | None = None,
+        initial_value: str | None = None,
         is_multiline: bool = False,
         max_height: int = 1,
     ):
+        self.app = app
+
         super().__init__(
             hint_text=placeholder,
             autofocus=autofocus,
@@ -31,7 +34,7 @@ class Input(TextField):
             text_size=text_size,
             text_align=text_align,
             offset=Offset(offset_x, offset_y),
-            value=value,
+            value=initial_value,
             multiline=is_multiline,
             max_lines=max_height,
         )
@@ -62,6 +65,8 @@ class Input(TextField):
         """
 
         self.value = new_value
+
+        self.app.update(self)
 
     def get_value(self):
         """
