@@ -28,3 +28,11 @@ package-mode = false
 
 [tool.poetry.group.dev.dependencies]
 flet = { extras = ["all"], version = "0.26.0" }
+
+[tool.flet]
+product = "EasyViewer"
+company = "Raul Catalinas"
+copyright = "Copyright (C) 2025 by Raul Catalinas"
+compile.app = true
+compile.packages = true
+compile.cleanup = true
