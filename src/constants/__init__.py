@@ -3,6 +3,7 @@ from .version_constants import INSTALLED_VERSION
 from .urls import DOWNLOAD_PAGE_URL
 from .user_preferences import DEFAULT_USER_PREFERENCES, USER_PREFERENCES_FILE
 from .update_constants import CHECK_INTERVAL_DAYS
+from .hosts import ALLOW_HOSTS, GOOGLE
 
 __all__ = [
     "GITHUB_API_URL",
@@ -13,4 +14,6 @@ __all__ = [
     "DEFAULT_USER_PREFERENCES",
     "USER_PREFERENCES_FILE",
     "CHECK_INTERVAL_DAYS",
+    "ALLOW_HOSTS",
+    "GOOGLE",
 ]
