@@ -17,7 +17,9 @@ class BaseButton(Control):
     Base class for buttons to encapsulate common behavior.
     """
 
-    def __init__(self):
+    def __init__(self, app: Page):
+        self.app = app
+
         super().__init__()
 
     def change_function(self, new_function: Callable, *args, **kwargs):
@@ -29,24 +31,24 @@ class BaseButton(Control):
         """
         self.on_click = partial(new_function, *args, **kwargs)
 
-    def toggle_state(self, app: Page):
+    def toggle_state(self):
         """Toggles the button state (enabled/disabled)."""
 
         self.disabled = not self.disabled
 
-        app.update(self)
+        self.app.update(self)
 
     def change_offset(self, offset_x: int, offset_y: int):
         """Changes the button's offset."""
 
         self.offset = Offset(offset_x, offset_y)
 
-    def toggle_visible(self, app: Page):
+    def toggle_visible(self):
         """Toggles the visibility of the button"""
 
         self.visible = not self.visible
 
-        app.update(self)
+        self.app.update(self)
 
 
 class BaseTextButton(BaseButton):
@@ -55,9 +57,11 @@ class BaseTextButton(BaseButton):
     """
 
     def __init__(
-        self, button_reference: Union[FletElevatedButton, FletOutlinedButton]
+        self,
+        app: Page,
+        button_reference: Union[FletElevatedButton, FletOutlinedButton],
     ):
-        super().__init__()
+        super().__init__(app)
 
         self.button_reference = button_reference
 

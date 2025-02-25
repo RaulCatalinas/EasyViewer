@@ -4,7 +4,7 @@
 from flet import MainAxisAlignment, Page, icons
 
 # Create widgets
-from widgets.buttons import ElevatedButton
+from ...widgets.buttons import ElevatedButton
 
 # Base
 from .._base import BaseDialog
@@ -13,7 +13,7 @@ from .._base import BaseDialog
 class ErrorDialog(BaseDialog):
     def __init__(self, app: Page):
         self.button_close_dialog = ElevatedButton(
-            text="Ok", function=lambda _: self.close_dialog()
+            app=app, text="Ok", function=lambda _: self.close_dialog()
         )
 
         super().__init__(

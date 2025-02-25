@@ -2,15 +2,12 @@
 from typing import Optional
 
 # Third-Party libraries
-from flet import AppBar as FletAppBar, Control
+from flet import AppBar as FletAppBar
 
 
 class AppBar(FletAppBar):
     def __init__(
-        self,
-        window_elements: list[Control],
-        height: int,
-        bg_color: Optional[str] = None,
+        self, window_elements: list, height: int, bg_color: Optional[str] = None
     ):
         super().__init__(
             actions=window_elements, toolbar_height=height, bgcolor=bg_color

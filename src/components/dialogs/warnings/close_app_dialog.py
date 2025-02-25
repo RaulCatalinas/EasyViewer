@@ -11,6 +11,7 @@ from flet import Page
 class CloseAppDialog(BaseDialog):
     def __init__(self, app: Page):
         self.button_close_app = ElevatedButton(
+            app=app,
             text="Yes",
             function=lambda _: self.app.window.destroy(),
             scale=1.2,
@@ -18,6 +19,7 @@ class CloseAppDialog(BaseDialog):
         )
 
         self.button_close_dialog = OutlinedButton(
+            app=app,
             text="No",
             function=lambda _: self.close_dialog(),
             scale=1.1,

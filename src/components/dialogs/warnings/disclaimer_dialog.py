@@ -19,7 +19,7 @@ class DisclaimerDialog(BaseDialog):
         self.user_preferences_manager = UserPreferencesManager()
 
         self.button_close_dialog = ElevatedButton(
-            text="Ok", function=lambda _: self.close_dialog()
+            app=app, text="Ok", function=lambda _: self.close_dialog()
         )
 
         super().__init__(

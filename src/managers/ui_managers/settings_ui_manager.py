@@ -26,11 +26,13 @@ class SettingsUIManager:
         )
 
         self.button_icon_theme = IconButton(
+            app=app,
             icon=theme_manager.get_icon_theme(),
             function=lambda _: theme_manager.toggle_theme_mode(),
         )
 
         self.button_icon_check_updates = IconButton(
+            app=app,
             icon=Icons.UPDATE,
             function=lambda _: update_manager.check_updates(True),
             visible=not automatic_notifications,
@@ -39,14 +41,17 @@ class SettingsUIManager:
         self.app_bar = AppBar(
             window_elements=[
                 UpdateCheckbox(
-                    lambda: self.button_icon_check_updates.toggle_visible(app)
+                    lambda: self.button_icon_check_updates.toggle_visible()
                 ),
                 IconButton(
+                    app=app,
                     icon=Icons.LANGUAGE,
                     function=lambda _: print("Change Language"),
                 ),
                 IconButton(
-                    icon=Icons.CONTACTS, function=lambda _: print("Contacting")
+                    app=app,
+                    icon=Icons.CONTACTS,
+                    function=lambda _: print("Contacting"),
                 ),
                 self.button_icon_theme,
                 self.button_icon_check_updates,

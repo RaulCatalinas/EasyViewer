@@ -15,15 +15,15 @@ class UpdateDialog(BaseDialog):
     def __init__(self, app: Page, update_function: Callable):
         self.update_function = update_function
         self.button_update = ElevatedButton(
-            text="Update", function=lambda _: self.update_function()
+            app=app, text="Update", function=lambda _: self.update_function()
         )
 
         self.button_later = OutlinedButton(
-            text="Later", function=lambda _: self.close_dialog()
+            app=app, text="Later", function=lambda _: self.close_dialog()
         )
 
         self.button_ok = ElevatedButton(
-            text="ok", function=lambda _: self.close_dialog()
+            app=app, text="ok", function=lambda _: self.close_dialog()
         )
 
         super().__init__(

@@ -2,7 +2,7 @@
 from typing import Callable, Optional
 
 # Third-Party libraries
-from flet import IconButton as FletIconButton, Offset, Alignment, Icons
+from flet import IconButton as FletIconButton, Offset, Alignment, Icons, Page
 
 # Base
 from ._base import BaseButton
@@ -15,6 +15,7 @@ class IconButton(FletIconButton, BaseButton):
 
     def __init__(
         self,
+        app: Page,
         icon: Icons,
         function: Callable,
         offset_x: float = 0,
@@ -23,7 +24,7 @@ class IconButton(FletIconButton, BaseButton):
         alignment: Optional[Alignment] = None,
         visible: Optional[bool] = None,
     ):
-        BaseButton.__init__(self)
+        BaseButton.__init__(self, app)
 
         super().__init__(
             icon=icon,
