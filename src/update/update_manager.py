@@ -18,6 +18,7 @@ from constants import INSTALLED_VERSION, DOWNLOAD_PAGE_URL
 # Components
 from components.dialogs.updates import UpdateDialog
 from components.dialogs.warnings import DisclaimerDialog
+from components.dialogs.info import WhatsNewDialog
 
 # Third party libraries
 from flet import Page
@@ -29,6 +30,8 @@ class UpdateManager:
     def __init__(self, app: Page):
         self.update_dialog = UpdateDialog(app, self._update)
         self.disclaimer_dialog = DisclaimerDialog(app)
+        self.whats_new_dialog = WhatsNewDialog(app)
+
         self.user_preferences_manager = UserPreferencesManager()
 
         self._start_background_tasks()
@@ -37,7 +40,11 @@ class UpdateManager:
         """Start a new thread to make background tasks."""
 
         Thread(target=self._check_for_updates_if_needed, daemon=True).start()
-        Thread(target=self._reminder_update_if_necessary, daemon=True).start()
+
+        if not self._is_the_latest_version():
+            Thread(
+                target=self._reminder_update_if_necessary, daemon=True
+            ).start()
 
     def _check_for_updates_if_needed(self):
         """Checks if an update check is needed before querying the API."""
@@ -91,8 +98,13 @@ class UpdateManager:
             self.user_preferences_manager.set_preference(
                 UserPreferencesKeys.UPGRADE_AVAILABLE, True
             )
+
             self.user_preferences_manager.set_preference(
                 UserPreferencesKeys.DISCLAIMER_SHOWN, False
+            )
+
+            self.user_preferences_manager.set_preference(
+                UserPreferencesKeys.WHATS_NEW_SHOWN, False
             )
 
             self._notify_update(True)
@@ -107,3 +119,28 @@ class UpdateManager:
             UserPreferencesKeys.UPGRADE_AVAILABLE
         ):
             self._notify_update(True)
+
+    def _is_the_latest_version(self):
+        """Checks if the user has updated the app."""
+
+        latest_github_version: str = (
+            self.user_preferences_manager.get_preference(
+                UserPreferencesKeys.LATEST_GITHUB_VERSION
+            )
+        )
+
+        return INSTALLED_VERSION >= latest_github_version
+
+    def _show_post_update_dialogs(self):
+        """Displays the "What's New" and disclaimer dialogs if the app is up to date."""
+
+        if self._is_the_latest_version():
+            self.disclaimer_dialog.show_dialog_if_necessary()
+            self.whats_new_dialog.show_dialog_if_necessary()
+
+    def show_post_update_dialogs_in_background(self):
+        """
+        Runs `show_post_update_dialogs` in a separate thread to prevent UI blocking.
+        """
+
+        Thread(target=self._show_post_update_dialogs, daemon=True).start()

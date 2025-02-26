@@ -39,7 +39,7 @@ class DisclaimerDialog(BaseDialog):
         )
 
     def show_dialog_if_necessary(self):
-        disclaimer_shown = self.user_preferences_manager.get_preference(
+        disclaimer_shown: bool = self.user_preferences_manager.get_preference(
             UserPreferencesKeys.DISCLAIMER_SHOWN
         )
 

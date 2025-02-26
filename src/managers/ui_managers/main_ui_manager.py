@@ -117,6 +117,8 @@ class MainUIManager:
             self.input_directory
         )
 
+        self.update_manager.show_post_update_dialogs_in_background()
+
         self._initialize_ui()
 
     def _initialize_ui(self):

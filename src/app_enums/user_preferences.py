@@ -10,3 +10,4 @@ class UserPreferencesKeys(StrEnum):
     LAST_UPDATE_CHECK = "last_update_check"
     DOWNLOAD_DIRECTORY = "download_directory"
     UPGRADE_AVAILABLE = "upgrade_available"
+    WHATS_NEW_SHOWN = "whats_new_shown"
