@@ -1,7 +1,6 @@
 # Standard library
 from datetime import datetime, timedelta
 
-
 # App enums
 from app_enums import UserPreferencesKeys
 
