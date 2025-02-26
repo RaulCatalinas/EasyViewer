@@ -18,12 +18,15 @@ from constants import INSTALLED_VERSION, DOWNLOAD_PAGE_URL
 # Components
 from components.dialogs.updates import UpdateDialog
 
+# Third party libraries
+from flet import Page
+
 
 class UpdateManager:
     """Manages update checks in a background thread, running once per month."""
 
-    def __init__(self, update_dialog: UpdateDialog):
-        self.update_dialog = update_dialog
+    def __init__(self, app: Page):
+        self.update_dialog = UpdateDialog(app, self._update)
         self.user_preferences_manager = UserPreferencesManager()
 
         self._start_background_update_check()
@@ -37,7 +40,7 @@ class UpdateManager:
         """Checks if an update check is needed before querying the API."""
 
         if has_one_month_passed():
-            self._an_update_is_available()
+            self.check_updates()
 
     def _an_update_is_available(self):
         """Fetches the latest release from GitHub and updates preferences if needed."""
@@ -59,9 +62,10 @@ class UpdateManager:
         Args:
             an_update_is_available (bool): True if an update is available, False otherwise.
         """
+
         self.update_dialog.show_dialog(an_update_is_available)
 
-    def update(self) -> None:
+    def _update(self) -> None:
         """
         Opens the download page for the latest version in a new browser tab.
         """

@@ -35,9 +35,11 @@ def _get_latest_github_release_version():
         return latest_version.replace("v", "")
 
     except RequestException as e:
-        logging_manager.write_log(LOG_LEVELS.ERROR, str(e))
+        logging_manager.write_log(
+            LOG_LEVELS.ERROR, f"Error fetching latest release: {e}"
+        )
 
-        return f"Error fetching release: {e}"
+        return f"Error fetching latest release: {e}"
 
 
 def get_github_version() -> str:

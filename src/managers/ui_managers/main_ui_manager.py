@@ -8,7 +8,6 @@ from flet import Icons, Page
 from components.widgets.buttons import IconButton
 from components.widgets.inputs import Input
 from components.widgets.progress_bars import ProgressBar
-from components.dialogs.updates import UpdateDialog
 from components.dialogs.errors import ErrorDialog
 
 # Managers
@@ -51,8 +50,9 @@ from app_logging import LoggingManager
 class MainUIManager:
     def __init__(self, app: Page):
         self.app = app
-        update_dialog = UpdateDialog(app, lambda: ())
-        self.update_manager = UpdateManager(update_dialog)
+
+        self.update_manager = UpdateManager(self.app)
+        self.logging_manager = LoggingManager()
 
         self.user_preferences_manager = UserPreferencesManager()
 
@@ -61,7 +61,6 @@ class MainUIManager:
         self.download_data_store = DownloadDataStore()
 
         self.error_dialog = ErrorDialog(self.app)
-        self.logging_manager = LoggingManager()
 
         self.input_directory = Input(
             app=self.app,
@@ -118,8 +117,6 @@ class MainUIManager:
         self.select_directory_manager = SelectDirectoryManager(
             self.input_directory
         )
-
-        update_dialog.update_function = self.update_manager.update
 
         self._initialize_ui()
 
