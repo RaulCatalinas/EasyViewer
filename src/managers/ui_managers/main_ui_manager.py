@@ -53,7 +53,6 @@ class MainUIManager:
 
         self.update_manager = UpdateManager(self.app)
         self.logging_manager = LoggingManager()
-
         self.user_preferences_manager = UserPreferencesManager()
 
         self.download_manager = DownloadManager()
@@ -121,8 +120,7 @@ class MainUIManager:
         self._initialize_ui()
 
     def _initialize_ui(self):
-        """Initialises the UI elements and adds them to the app."""
-
+        """Initializes the UI elements and adds them to the app."""
         SettingsUIManager(self.app, self.update_manager)
         self.app.add(
             self.select_directory_manager,
@@ -135,32 +133,47 @@ class MainUIManager:
         )
 
     def _initialize_download(self, download_video: bool):
-        self._toggle_state_widgets()
+        """Initializes the download process."""
 
+        self._toggle_state_widgets()
         self.progress_bar.update_value(None)
 
-        download_directory: str = self.user_preferences_manager.get_preference(
-            UserPreferencesKeys.DOWNLOAD_DIRECTORY
-        )
-
-        if download_directory != "" and verify_download_directory(
-            download_directory
-        ):
-            default_download_directory = get_default_download_directory()
-
-            self.input_directory.set_value(default_download_directory)
-
-            self.user_preferences_manager.set_preference(
-                UserPreferencesKeys.DOWNLOAD_DIRECTORY,
-                default_download_directory,
-            )
+        self._get_or_set_download_directory()
 
         urls_to_download = self.input_url.get_value()
 
-        if urls_to_download is None:
+        if not urls_to_download:
             return
 
-        videos_downloaded_successfully: list[str] = []
+        videos_downloaded_successfully = self._process_downloads(
+            urls_to_download, download_video
+        )
+
+        self._finalize_download(videos_downloaded_successfully)
+        self._toggle_state_widgets()
+
+    def _get_or_set_download_directory(self) -> str:
+        """Gets the user-selected download directory or sets the default one."""
+
+        download_directory = self.user_preferences_manager.get_preference(
+            UserPreferencesKeys.DOWNLOAD_DIRECTORY
+        )
+
+        if download_directory and verify_download_directory(download_directory):
+            return download_directory
+
+        default_download_directory = get_default_download_directory()
+        self.input_directory.set_value(default_download_directory)
+        self.user_preferences_manager.set_preference(
+            UserPreferencesKeys.DOWNLOAD_DIRECTORY, default_download_directory
+        )
+
+        return default_download_directory
+
+    def _process_downloads(
+        self, urls_to_download: str, download_video: bool
+    ) -> list[str]:
+        """Processes the list of URLs and handles the download process."""
 
         try:
             DownloadValidations.validate_non_empty_url(urls_to_download)
@@ -169,73 +182,83 @@ class MainUIManager:
 
             self.input_url.set_value("\n".join(list_urls_to_download))
 
-            while len(list_urls_to_download) > 0:
-                try:
-                    url = list_urls_to_download[0]
-                    self.download_data_store.set_download_info(
-                        DownloadInfoKeys.URL, url
-                    )
+            videos_downloaded_successfully: list[str] = []
 
-                    can_download_video = (
-                        self.download_manager.validate_download()
-                    )
+            while list_urls_to_download:
+                url = list_urls_to_download.pop(0)
 
-                    if can_download_video:
-                        self.download_data_store.set_download_info(
-                            DownloadInfoKeys.DOWNLOAD_NAME,
-                            self.interact_api_pytube.get_video_title(
-                                url, download_video
-                            ),
-                        )
+                self.input_url.set_value("\n".join(list_urls_to_download))
 
-                        self.download_manager.download(download_video)
-
-                        videos_downloaded_successfully.append(url)
-
-                except Exception as e:
-                    self.error_dialog.show_dialog(str(e))
-
-                    download_directory = (
-                        self.user_preferences_manager.get_preference(
-                            UserPreferencesKeys.DOWNLOAD_DIRECTORY
-                        )
-                    )
-
-                    download_name: str = (
-                        self.download_data_store.get_download_info(
-                            DownloadInfoKeys.DOWNLOAD_NAME
-                        )
-                    )
-
-                    delete_file(download_directory, download_name)
-
-                finally:
-                    list_urls_to_download.pop(0)
-
-                    self.input_url.set_value("\n".join(list_urls_to_download))
-
-                    self.download_data_store.reset_download_info()
+                self._process_single_download(
+                    url, download_video, videos_downloaded_successfully
+                )
 
         except Exception as e:
             self.logging_manager.write_log(LOG_LEVELS.CRITICAL, str(e))
-
             self.error_dialog.show_dialog(str(e))
 
+        return videos_downloaded_successfully
+
+    def _process_single_download(
+        self,
+        url: str,
+        download_video: bool,
+        videos_downloaded_successfully: list[str],
+    ):
+        """Handles the validation and downloading of a single video."""
+
+        try:
+            self.download_data_store.set_download_info(
+                DownloadInfoKeys.URL, url
+            )
+
+            if not self.download_manager.validate_download():
+                return
+
+            self.download_data_store.set_download_info(
+                DownloadInfoKeys.DOWNLOAD_NAME,
+                self.interact_api_pytube.get_video_title(url, download_video),
+            )
+
+            self.download_manager.download(download_video)
+
+            videos_downloaded_successfully.append(url)
+
+        except Exception as e:
+            self._handle_download_error(e)
+
         finally:
-            if len(videos_downloaded_successfully) > 0:
-                open_directory(
-                    self.user_preferences_manager.get_preference(
-                        UserPreferencesKeys.DOWNLOAD_DIRECTORY
-                    )
+            self.download_data_store.reset_download_info()
+
+    def _handle_download_error(self, error: Exception):
+        """Handles errors that occur during the download process."""
+
+        self.error_dialog.show_dialog(str(error))
+
+        download_directory: str = self.user_preferences_manager.get_preference(
+            UserPreferencesKeys.DOWNLOAD_DIRECTORY
+        )
+        download_name: str = self.download_data_store.get_download_info(
+            DownloadInfoKeys.DOWNLOAD_NAME
+        )
+
+        delete_file(download_directory, download_name)
+
+    def _finalize_download(self, videos_downloaded_successfully: list[str]):
+        """Finalizes the download process by opening the directory and resetting UI elements."""
+
+        if videos_downloaded_successfully:
+            open_directory(
+                self.user_preferences_manager.get_preference(
+                    UserPreferencesKeys.DOWNLOAD_DIRECTORY
                 )
+            )
 
-            self.progress_bar.update_value(0)
-            self.input_url.set_value("")
-
-            self._toggle_state_widgets()
+        self.progress_bar.update_value(0)
+        self.input_url.set_value("")
 
     def _toggle_state_widgets(self):
-        """Toggles widget state (enabled/disabled)"""
+        """Toggles widget state (enabled/disabled)."""
 
         self.input_url.toggle_state()
         self.button_select_directory.toggle_state()

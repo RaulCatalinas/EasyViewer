@@ -46,6 +46,8 @@ class Input(TextField):
 
         self.disabled = not self.disabled
 
+        self.app.update(self)
+
     def change_placeholder(self, new_placeholder: str):
         """
         Changes the placeholder.
