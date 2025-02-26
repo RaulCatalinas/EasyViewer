@@ -14,16 +14,17 @@ from handlers import handle_close_window_event
 
 class Main:
     def __init__(self, page: Page):
-        self.app = page
-        self.close_app_dialog = CloseAppDialog(self.app)
+        app = page
+        close_app_dialog = CloseAppDialog(app)
 
         WindowManager(
-            self.app,
+            app,
             lambda event: handle_close_window_event(
-                event, self.close_app_dialog.show_dialog
+                event, close_app_dialog.show_dialog
             ),
         )
-        MainUIManager(self.app)
+
+        MainUIManager(app)
 
 
 if __name__ == "__main__":

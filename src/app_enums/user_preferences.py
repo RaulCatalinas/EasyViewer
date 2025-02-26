@@ -9,3 +9,4 @@ class UserPreferencesKeys(StrEnum):
     DISCLAIMER_SHOWN = "disclaimer_shown"
     LAST_UPDATE_CHECK = "last_update_check"
     DOWNLOAD_DIRECTORY = "download_directory"
+    UPGRADE_AVAILABLE = "upgrade_available"

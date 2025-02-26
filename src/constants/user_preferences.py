@@ -14,4 +14,5 @@ DEFAULT_USER_PREFERENCES: dict[UserPreferencesKeys, Any] = {
     UserPreferencesKeys.DISCLAIMER_SHOWN: False,
     UserPreferencesKeys.LAST_UPDATE_CHECK: "1970-01-01",
     UserPreferencesKeys.DOWNLOAD_DIRECTORY: "",
+    UserPreferencesKeys.UPGRADE_AVAILABLE: False,
 }
