@@ -1,5 +1,6 @@
 # Standard library
 from threading import Thread
+from typing import Optional
 
 # Third party libraries
 from flet import Icons, Page
@@ -144,7 +145,7 @@ class MainUIManager:
 
         urls_to_download = self.input_url.get_value()
 
-        if not urls_to_download:
+        if urls_to_download is None:
             return
 
         videos_downloaded_successfully = self._process_downloads(
@@ -174,7 +175,7 @@ class MainUIManager:
 
     def _process_downloads(
         self, urls_to_download: str, download_video: bool
-    ) -> list[str]:
+    ) -> Optional[list[str]]:
         """Processes the list of URLs and handles the download process."""
 
         try:
@@ -199,7 +200,8 @@ class MainUIManager:
             self.logging_manager.write_log(LOG_LEVELS.CRITICAL, str(e))
             self.error_dialog.show_dialog(str(e))
 
-        return videos_downloaded_successfully
+        else:
+            return videos_downloaded_successfully
 
     def _process_single_download(
         self,
@@ -214,19 +216,20 @@ class MainUIManager:
                 DownloadInfoKeys.URL, url
             )
 
-            if not self.download_manager.validate_download():
-                return
+            if self.download_manager.validate_download():
+                self.download_data_store.set_download_info(
+                    DownloadInfoKeys.DOWNLOAD_NAME,
+                    self.interact_api_pytube.get_video_title(
+                        url, download_video
+                    ),
+                )
 
-            self.download_data_store.set_download_info(
-                DownloadInfoKeys.DOWNLOAD_NAME,
-                self.interact_api_pytube.get_video_title(url, download_video),
-            )
+                self.download_manager.download(download_video)
 
-            self.download_manager.download(download_video)
-
-            videos_downloaded_successfully.append(url)
+                videos_downloaded_successfully.append(url)
 
         except Exception as e:
+            print("Exception")
             self._handle_download_error(e)
 
         finally:
@@ -246,10 +249,12 @@ class MainUIManager:
 
         delete_file(download_directory, download_name)
 
-    def _finalize_download(self, videos_downloaded_successfully: list[str]):
+    def _finalize_download(
+        self, videos_downloaded_successfully: Optional[list[str]]
+    ):
         """Finalizes the download process by opening the directory and resetting UI elements."""
 
-        if videos_downloaded_successfully:
+        if videos_downloaded_successfully is not None:
             open_directory(
                 self.user_preferences_manager.get_preference(
                     UserPreferencesKeys.DOWNLOAD_DIRECTORY
