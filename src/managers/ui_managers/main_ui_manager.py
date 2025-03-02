@@ -1,4 +1,5 @@
 # Standard library
+from errno import ENOSPC
 from threading import Thread
 from typing import Optional
 
@@ -228,17 +229,22 @@ class MainUIManager:
 
                 videos_downloaded_successfully.append(url)
 
+        except OSError as e:
+            if e.errno == ENOSPC:
+                self._handle_download_error(
+                    "Insufficient space to save download"
+                )
+
         except Exception as e:
-            print("Exception")
-            self._handle_download_error(e)
+            self._handle_download_error(str(e))
 
         finally:
             self.download_data_store.reset_download_info()
 
-    def _handle_download_error(self, error: Exception):
+    def _handle_download_error(self, error: str):
         """Handles errors that occur during the download process."""
 
-        self.error_dialog.show_dialog(str(error))
+        self.error_dialog.show_dialog(error)
 
         download_directory: str = self.user_preferences_manager.get_preference(
             UserPreferencesKeys.DOWNLOAD_DIRECTORY
