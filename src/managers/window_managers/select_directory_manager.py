@@ -6,7 +6,7 @@ Prompts the user to select a directory for the downloaded file
 from flet import FilePicker, FilePickerResultEvent
 
 # App enums
-from app_enums import UserPreferencesKeys, LOG_LEVELS
+from app_enums import UserPreferencesKeys, LogLevels
 
 # User preferences
 from user_preferences import UserPreferencesManager
@@ -58,4 +58,4 @@ class SelectDirectoryManager(FilePicker):
             self.get_directory_path(dialog_title="Select directory")
 
         except Exception as e:
-            self.logging_manager.write_log(LOG_LEVELS.ERROR, str(e))
+            self.logging_manager.write_log(LogLevels.ERROR, str(e))

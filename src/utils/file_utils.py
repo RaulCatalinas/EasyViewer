@@ -9,7 +9,7 @@ from typing import Callable
 from app_logging import LoggingManager
 
 # App enums
-from app_enums import LOG_LEVELS
+from app_enums import LogLevels
 
 # Constants
 from constants import INVALID_CHARS, SYSTEM_NAME
@@ -53,7 +53,7 @@ def delete_file(
         on_delete_callback()
 
     except OSError as e:
-        logging_manager.write_log(LOG_LEVELS.ERROR, str(e))
+        logging_manager.write_log(LogLevels.ERROR, str(e))
 
         raise OSError(f"Unable to delete file {file_name} at {path_to_file}")
 

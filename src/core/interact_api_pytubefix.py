@@ -9,7 +9,7 @@ from pytubefix import YouTube
 from app_logging import LoggingManager
 
 # App enums
-from app_enums import LOG_LEVELS
+from app_enums import LogLevels
 
 # Constants
 from constants import EXTENSION_FILE_VIDEO, EXTENSION_FILE_AUDIO
@@ -52,7 +52,7 @@ class InteractAPIPytube:
             )
 
         except Exception as e:
-            self.logging_manager.write_log(LOG_LEVELS.CRITICAL, str(e))
+            self.logging_manager.write_log(LogLevels.CRITICAL, str(e))
 
             raise Exception("Something has gone wrong try again later")
 

@@ -9,7 +9,7 @@ from constants import GITHUB_API_URL, DEFAULT_MESSAGE, GITHUB_VERSION_TAG_KEY
 from app_logging import LoggingManager
 
 # App enums
-from app_enums import LOG_LEVELS, UserPreferencesKeys
+from app_enums import LogLevels, UserPreferencesKeys
 
 # Utils
 from .time_utils import has_one_month_passed
@@ -36,7 +36,7 @@ def _get_latest_github_release_version():
 
     except RequestException as e:
         logging_manager.write_log(
-            LOG_LEVELS.ERROR, f"Error fetching latest release: {e}"
+            LogLevels.ERROR, f"Error fetching latest release: {e}"
         )
 
         return f"Error fetching latest release: {e}"

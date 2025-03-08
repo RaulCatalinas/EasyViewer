@@ -21,7 +21,7 @@ from pytubefix.exceptions import (
 from app_logging import LoggingManager
 
 # App enums
-from app_enums import LOG_LEVELS
+from app_enums import LogLevels
 
 logging_manager = LoggingManager()
 
@@ -47,7 +47,7 @@ class DownloadValidations:
         """
 
         if not url:
-            logging_manager.write_log(LOG_LEVELS.WARNING, "No URL entered")
+            logging_manager.write_log(LogLevels.WARNING, "No URL entered")
 
             raise ValueError("No URL entered")
 
@@ -70,7 +70,7 @@ class DownloadValidations:
 
         if host not in ALLOW_HOSTS:
             logging_manager.write_log(
-                LOG_LEVELS.WARNING, "The URL is not from YouTube"
+                LogLevels.WARNING, "The URL is not from YouTube"
             )
 
             raise ValueError("The URL is not from YouTube")
@@ -92,7 +92,7 @@ class DownloadValidations:
 
         except (ConnectionError, Timeout) as e:
             logging_manager.write_log(
-                LOG_LEVELS.ERROR, f"Internet connection issue: {e}"
+                LogLevels.ERROR, f"Internet connection issue: {e}"
             )
 
             raise ConnectionError(
@@ -129,7 +129,7 @@ class DownloadValidations:
             VideoRegionBlocked,
             VideoUnavailable,
         ) as e:
-            logging_manager.write_log(LOG_LEVELS.WARNING, str(e))
+            logging_manager.write_log(LogLevels.WARNING, str(e))
 
             error_message = {
                 AgeRestrictedError: "AgeRestrictedError",
@@ -144,6 +144,6 @@ class DownloadValidations:
             raise ValueError(error_message.get(type(e))) from e
 
         except Exception as e:
-            logging_manager.write_log(LOG_LEVELS.CRITICAL, str(e))
+            logging_manager.write_log(LogLevels.CRITICAL, str(e))
 
             raise Exception("Unexpected error occurred") from e

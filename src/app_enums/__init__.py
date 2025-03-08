@@ -1,5 +1,5 @@
 from .user_preferences import UserPreferencesKeys
-from .logging import LOG_LEVELS
+from .logging import LogLevels
 from .download import DownloadInfoKeys
 
-__all__ = ["UserPreferencesKeys", "LOG_LEVELS", "DownloadInfoKeys"]
+__all__ = ["UserPreferencesKeys", "LogLevels", "DownloadInfoKeys"]
