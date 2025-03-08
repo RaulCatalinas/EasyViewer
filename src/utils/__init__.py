@@ -4,7 +4,7 @@ from .time_utils import has_one_month_passed
 from .path_utils import get_default_download_directory
 from .strings_utils import remove_empty_strings
 from .youtube_utils import separate_urls
-from .directory_utils import verify_download_directory, open_directory
+from .directory_utils import is_there_a_directory, open_directory
 
 __all__ = [
     "create_empty_json_file",
@@ -15,6 +15,6 @@ __all__ = [
     "clean_invalid_chars",
     "delete_file",
     "separate_urls",
-    "verify_download_directory",
+    "is_there_a_directory",
     "open_directory",
 ]

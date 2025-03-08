@@ -23,7 +23,7 @@ from app_settings import AppColors
 from update import UpdateManager
 
 # App enums
-from app_enums import UserPreferencesKeys, DownloadInfoKeys, LOG_LEVELS
+from app_enums import UserPreferencesKeys, DownloadInfoKeys, LogLevels
 
 # User preferences
 from user_preferences import UserPreferencesManager
@@ -39,7 +39,7 @@ from core import (
 # Utils
 from utils import (
     get_default_download_directory,
-    verify_download_directory,
+    is_there_a_directory,
     separate_urls,
     delete_file,
     open_directory,
@@ -163,7 +163,7 @@ class MainUIManager:
             UserPreferencesKeys.DOWNLOAD_DIRECTORY
         )
 
-        if download_directory and verify_download_directory(download_directory):
+        if download_directory and is_there_a_directory(download_directory):
             return download_directory
 
         default_download_directory = get_default_download_directory()
@@ -198,7 +198,7 @@ class MainUIManager:
                 )
 
         except Exception as e:
-            self.logging_manager.write_log(LOG_LEVELS.CRITICAL, str(e))
+            self.logging_manager.write_log(LogLevels.CRITICAL, str(e))
             self.error_dialog.show_dialog(str(e))
 
         else:

@@ -8,7 +8,7 @@ from typing import Callable, Union
 from constants import SYSTEM_NAME
 
 
-def verify_download_directory(directory: str) -> bool:
+def is_there_a_directory(directory: str) -> bool:
     """
     Verifies if the given directory exists.
 
