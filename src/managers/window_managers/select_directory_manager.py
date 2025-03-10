@@ -6,7 +6,7 @@ Prompts the user to select a directory for the downloaded file
 from flet import FilePicker, FilePickerResultEvent
 
 # App enums
-from app_enums import UserPreferencesKeys, LogLevels
+from app_enums import UserPreferencesKeys, LogLevels, ExcelTextLoaderKeys
 
 # User preferences
 from user_preferences import UserPreferencesManager
@@ -20,6 +20,9 @@ from components.widgets.inputs import Input
 # Logging
 from app_logging import LoggingManager
 
+# i18n
+from i18n import ExcelTextLoader
+
 
 class SelectDirectoryManager(FilePicker):
     """
@@ -30,6 +33,7 @@ class SelectDirectoryManager(FilePicker):
         self.input_directory = input_directory
         self.user_preferences_manager = UserPreferencesManager()
         self.logging_manager = LoggingManager()
+        self.excel_text_loader = ExcelTextLoader()
 
         super().__init__(on_result=self._on_result)
 
@@ -55,7 +59,11 @@ class SelectDirectoryManager(FilePicker):
         """
 
         try:
-            self.get_directory_path(dialog_title="Select directory")
+            self.get_directory_path(
+                dialog_title=self.excel_text_loader.get_text(
+                    ExcelTextLoaderKeys.SELECT_DIRECTORY
+                )
+            )
 
         except Exception as e:
             self.logging_manager.write_log(LogLevels.ERROR, str(e))

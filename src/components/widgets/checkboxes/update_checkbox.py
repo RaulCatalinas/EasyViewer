@@ -8,7 +8,10 @@ from flet import LabelPosition
 from ._base import BaseCheckbox
 
 # App enums
-from app_enums import UserPreferencesKeys
+from app_enums import UserPreferencesKeys, ExcelTextLoaderKeys
+
+# i18n
+from i18n import ExcelTextLoader
 
 
 class UpdateCheckbox(BaseCheckbox):
@@ -19,8 +22,11 @@ class UpdateCheckbox(BaseCheckbox):
     def __init__(
         self, callback: Callable, offset_x: float = 0, offset_y: float = 0
     ):
+        self.excel_text_loader = ExcelTextLoader()
         super().__init__(
-            label="Check for updates automatically ",
+            label=self.excel_text_loader.get_text(
+                ExcelTextLoaderKeys.CHECK_UPDATES
+            ),
             storage_key=UserPreferencesKeys.AUTOMATIC_NOTIFICATIONS,
             callback=callback,
             default_value=True,

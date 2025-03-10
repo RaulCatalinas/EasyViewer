@@ -1,20 +1,23 @@
 # Standard library
-from typing import Callable, Optional
+from typing import Callable, Optional, List
 
 # Third-Party libraries
-from flet import Dropdown as FletDropdown, dropdown, Alignment
+from flet import Dropdown, dropdown, Alignment, Page
 
 
-class Dropdown(FletDropdown):
+class DropdownBase(Dropdown):
     def __init__(
         self,
-        options: list[dropdown.Option],
-        visible: bool,
-        alignment: Alignment,
+        app: Page,
+        options: List[dropdown.Option],
         on_change: Callable,
+        visible: bool = True,
+        alignment: Optional[Alignment] = None,
         placeholder: Optional[str] = None,
         value: Optional[str] = None,
     ):
+        self.app = app
+
         super().__init__(
             options=options,
             visible=visible,
@@ -24,12 +27,14 @@ class Dropdown(FletDropdown):
             on_change=on_change,
         )
 
-    def change_visibility(self):
+    def toggle_visibility(self):
         """
-        Show or hide the dropdown if it's hidden or not respectively
+        If the input is activated, it deactivates it and vice versa
         """
 
         self.visible = not self.visible
+
+        self.app.update(self)
 
     def change_placeholder(self, new_placeholder: str):
         """
@@ -40,3 +45,5 @@ class Dropdown(FletDropdown):
         """
 
         self.hint_text = new_placeholder
+
+        self.app.update(self)

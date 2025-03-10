@@ -7,12 +7,22 @@ from ...widgets.buttons import ElevatedButton, OutlinedButton
 # Third-Party libraries
 from flet import Page
 
+# App enums
+from app_enums import ExcelTextLoaderKeys
+
+# i18n
+from i18n import ExcelTextLoader
+
 
 class CloseAppDialog(BaseDialog):
     def __init__(self, app: Page):
+        self.excel_text_loader = ExcelTextLoader()
+
         self.button_close_app = ElevatedButton(
             app=app,
-            text="Yes",
+            text=self.excel_text_loader.get_text(
+                ExcelTextLoaderKeys.YES_OPTION
+            ),
             function=lambda _: self.app.window.destroy(),
             scale=1.2,
             offset_x=-0.24,
@@ -27,8 +37,12 @@ class CloseAppDialog(BaseDialog):
         )
 
         super().__init__(
-            title="Close Application",
-            content="Are you sure you wanna close the application?",
+            title=self.excel_text_loader.get_text(
+                ExcelTextLoaderKeys.EXIT_CONFIRMATION_TITLE
+            ),
+            content=self.excel_text_loader.get_text(
+                ExcelTextLoaderKeys.EXIT_CONFIRMATION_BODY
+            ),
             title_size=23,
             content_size=20,
             actions=[self.button_close_app, self.button_close_dialog],

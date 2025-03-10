@@ -27,6 +27,7 @@ To download the latest version of Python, visit the [official website](https://w
 - Python 3.11 or higher
 - python-dotenv (Environment variable for language switching)
 - pandas (Read the Excel file for game texts)
+- openpyxl (Dependence on "pandas" to read the Excel file of the app's texts)
 - flet (Graphical interface)
 - pytubefix (To download the video/audio of the YouTube video)
 - requests (Checking if the user has internet)

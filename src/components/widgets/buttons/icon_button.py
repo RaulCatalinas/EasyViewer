@@ -23,6 +23,7 @@ class IconButton(FletIconButton, BaseButton):
         scale: float = 1,
         alignment: Optional[Alignment] = None,
         visible: Optional[bool] = None,
+        tooltip_text: Optional[str] = None,
     ):
         BaseButton.__init__(self, app)
 
@@ -33,6 +34,7 @@ class IconButton(FletIconButton, BaseButton):
             offset=Offset(offset_x, offset_y),
             alignment=alignment,
             visible=visible,
+            tooltip=tooltip_text,
         )
 
     def change_icon(self, new_icon: Icons):

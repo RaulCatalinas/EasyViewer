@@ -23,7 +23,12 @@ from app_settings import AppColors
 from update import UpdateManager
 
 # App enums
-from app_enums import UserPreferencesKeys, DownloadInfoKeys, LogLevels
+from app_enums import (
+    UserPreferencesKeys,
+    DownloadInfoKeys,
+    LogLevels,
+    ExcelTextLoaderKeys,
+)
 
 # User preferences
 from user_preferences import UserPreferencesManager
@@ -48,6 +53,9 @@ from utils import (
 # App logging
 from app_logging import LoggingManager
 
+# i18n
+from i18n import ExcelTextLoader
+
 
 class MainUIManager:
     def __init__(self, app: Page):
@@ -56,6 +64,7 @@ class MainUIManager:
         self.update_manager = UpdateManager(self.app)
         self.logging_manager = LoggingManager()
         self.user_preferences_manager = UserPreferencesManager()
+        self.excel_text_loader = ExcelTextLoader()
 
         self.download_manager = DownloadManager()
         self.interact_api_pytube = InteractAPIPytube()
@@ -65,7 +74,9 @@ class MainUIManager:
 
         self.input_directory = Input(
             app=self.app,
-            placeholder="Directory",
+            placeholder=self.excel_text_loader.get_text(
+                ExcelTextLoaderKeys.PLACEHOLDER_DIRECTORY
+            ),
             text_size=20,
             read_only=True,
             offset_y=1,
@@ -75,7 +86,9 @@ class MainUIManager:
         )
         self.input_url = Input(
             app=self.app,
-            placeholder="Video URL",
+            placeholder=self.excel_text_loader.get_text(
+                ExcelTextLoaderKeys.PLACEHOLDER_URL
+            ),
             text_size=20,
             autofocus=True,
             is_multiline=True,
@@ -91,6 +104,9 @@ class MainUIManager:
             offset_x=8.4,
             offset_y=2.79,
             scale=2.5,
+            tooltip_text=self.excel_text_loader.get_text(
+                ExcelTextLoaderKeys.DOWNLOAD_AUDIO
+            ),
         )
         self.button_download_video = IconButton(
             app=self.app,
@@ -101,6 +117,9 @@ class MainUIManager:
             offset_x=10.45,
             offset_y=1.56,
             scale=2.5,
+            tooltip_text=self.excel_text_loader.get_text(
+                ExcelTextLoaderKeys.DOWNLOAD_VIDEO
+            ),
         )
         self.button_select_directory = IconButton(
             app=self.app,
@@ -109,6 +128,9 @@ class MainUIManager:
             offset_x=9.42,
             offset_y=2.02,
             scale=2.5,
+            tooltip_text=self.excel_text_loader.get_text(
+                ExcelTextLoaderKeys.SELECT_DIRECTORY
+            ),
         )
 
         self.progress_bar = ProgressBar(

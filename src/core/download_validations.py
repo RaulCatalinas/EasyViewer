@@ -21,9 +21,13 @@ from pytubefix.exceptions import (
 from app_logging import LoggingManager
 
 # App enums
-from app_enums import LogLevels
+from app_enums import LogLevels, ExcelTextLoaderKeys
+
+# i18n
+from i18n import ExcelTextLoader
 
 logging_manager = LoggingManager()
+excel_text_loader = ExcelTextLoader()
 
 
 class DownloadValidations:
@@ -49,7 +53,9 @@ class DownloadValidations:
         if not url:
             logging_manager.write_log(LogLevels.WARNING, "No URL entered")
 
-            raise ValueError("No URL entered")
+            raise ValueError(
+                excel_text_loader.get_text(ExcelTextLoaderKeys.ERROR_EMPTY_URL)
+            )
 
     @staticmethod
     def check_if_youtube_url(url: str):
@@ -73,7 +79,11 @@ class DownloadValidations:
                 LogLevels.WARNING, "The URL is not from YouTube"
             )
 
-            raise ValueError("The URL is not from YouTube")
+            raise ValueError(
+                excel_text_loader.get_text(
+                    ExcelTextLoaderKeys.ERROR_YOUTUBE_URL
+                )
+            )
 
     @staticmethod
     def check_internet_connection() -> bool:
@@ -96,7 +106,7 @@ class DownloadValidations:
             )
 
             raise ConnectionError(
-                "No internet connection available. Please check your network"
+                excel_text_loader.get_text(ExcelTextLoaderKeys.ERROR_CONNECTION)
             )
 
         return True
@@ -132,13 +142,27 @@ class DownloadValidations:
             logging_manager.write_log(LogLevels.WARNING, str(e))
 
             error_message = {
-                AgeRestrictedError: "AgeRestrictedError",
-                LiveStreamError: "LiveStreamError",
-                MembersOnly: "MembersOnly",
-                VideoPrivate: "VideoPrivate",
-                VideoRegionBlocked: "VideoRegionBlocked",
-                VideoUnavailable: "VideoUnavailable",
-                LoginRequired: "LoginRequired",
+                AgeRestrictedError: excel_text_loader.get_text(
+                    ExcelTextLoaderKeys.ERROR_AGE_RESTRICTED
+                ),
+                LiveStreamError: excel_text_loader.get_text(
+                    ExcelTextLoaderKeys.ERROR_LIVE_STREAM
+                ),
+                MembersOnly: excel_text_loader.get_text(
+                    ExcelTextLoaderKeys.ERROR_ONLY_MEMBERS
+                ),
+                VideoPrivate: excel_text_loader.get_text(
+                    ExcelTextLoaderKeys.ERROR_PRIVATE_VIDEO
+                ),
+                VideoRegionBlocked: excel_text_loader.get_text(
+                    ExcelTextLoaderKeys.ERROR_BLOCKED_REGION
+                ),
+                VideoUnavailable: excel_text_loader.get_text(
+                    ExcelTextLoaderKeys.ERROR_DEFAULT
+                ),
+                LoginRequired: excel_text_loader.get_text(
+                    ExcelTextLoaderKeys.ERROR_DEFAULT
+                ),
             }
 
             raise ValueError(error_message.get(type(e))) from e
@@ -146,4 +170,6 @@ class DownloadValidations:
         except Exception as e:
             logging_manager.write_log(LogLevels.CRITICAL, str(e))
 
-            raise Exception("Unexpected error occurred") from e
+            raise Exception(
+                excel_text_loader.get_text(ExcelTextLoaderKeys.ERROR_DEFAULT)
+            ) from e

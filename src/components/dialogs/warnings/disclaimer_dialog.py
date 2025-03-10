@@ -8,24 +8,32 @@ from flet import MainAxisAlignment, Page
 from user_preferences import UserPreferencesManager
 
 # App enums
-from app_enums import UserPreferencesKeys
+from app_enums import UserPreferencesKeys, ExcelTextLoaderKeys
 
 # Base
 from .._base import BaseDialog
+
+# i18n
+from i18n import ExcelTextLoader
 
 
 class DisclaimerDialog(BaseDialog):
     def __init__(self, app: Page):
         self.user_preferences_manager = UserPreferencesManager()
+        self.excel_text_loader = ExcelTextLoader()
 
         self.button_close_dialog = ElevatedButton(
             app=app, text="Ok", function=lambda _: self.close_dialog()
         )
 
         super().__init__(
-            title="Change this to the title of the disclaimer",
+            title=self.excel_text_loader.get_text(
+                ExcelTextLoaderKeys.LIABILITY_NOTICE_TITLE
+            ),
             title_size=18,
-            content="Change this to the content of the disclaimer",
+            content=self.excel_text_loader.get_text(
+                ExcelTextLoaderKeys.LIABILITY_NOTICE_BODY
+            ),
             content_size=16,
             actions=[self.button_close_dialog],
             actions_alignment=MainAxisAlignment.END,

@@ -11,19 +11,25 @@ from .._base import BaseDialog
 from user_preferences import UserPreferencesManager
 
 # App enums
-from app_enums import UserPreferencesKeys
+from app_enums import UserPreferencesKeys, ExcelTextLoaderKeys
+
+# i18n
+from i18n import ExcelTextLoader
 
 
 class WhatsNewDialog(BaseDialog):
     def __init__(self, app: Page):
         self.user_preferences_manager = UserPreferencesManager()
+        self.excel_text_loader = ExcelTextLoader()
 
         self.button_ok = ElevatedButton(
             app=app, text="Ok", function=lambda _: self.close_dialog()
         )
 
         super().__init__(
-            title="What's new",
+            title=self.excel_text_loader.get_text(
+                ExcelTextLoaderKeys.WHATS_NEW_TITLE
+            ),
             content="Change this with the changes made in this version",
             title_size=23,
             content_size=23,

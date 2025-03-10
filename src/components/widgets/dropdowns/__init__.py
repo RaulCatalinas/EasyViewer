@@ -1,3 +1,3 @@
-from .dropdown import Dropdown
+from .dropdown_language import DropdownLanguage
 
-__all__ = ["Dropdown"]
+__all__ = ["DropdownLanguage"]
