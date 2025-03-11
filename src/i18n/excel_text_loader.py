@@ -1,5 +1,5 @@
 # Standard library
-from typing import ClassVar, Dict, List, Callable
+from typing import ClassVar, Dict
 from pathlib import Path
 from os.path import dirname, abspath
 
@@ -26,7 +26,6 @@ class ExcelTextLoader:
     )
     _text_dictionary: Dict[str, Dict[str, str]] = {}
     _is_loaded: bool = False
-    _language_change_listeners: List[Callable] = []
     _current_language: str = ""
 
     def __new__(cls):
