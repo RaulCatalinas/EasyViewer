@@ -43,3 +43,4 @@ class DownloadDataStore:
 
         DOWNLOAD_INFO[DownloadInfoKeys.URL] = ""
         DOWNLOAD_INFO[DownloadInfoKeys.DOWNLOAD_NAME] = ""
+        DOWNLOAD_INFO[DownloadInfoKeys.VALIDATION_ERROR] = False

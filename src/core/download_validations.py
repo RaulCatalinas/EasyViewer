@@ -21,13 +21,17 @@ from pytubefix.exceptions import (
 from app_logging import LoggingManager
 
 # App enums
-from app_enums import LogLevels, ExcelTextLoaderKeys
+from app_enums import LogLevels, ExcelTextLoaderKeys, DownloadInfoKeys
 
 # i18n
 from i18n import ExcelTextLoader
 
+# Core
+from .download_data_store import DownloadDataStore
+
 logging_manager = LoggingManager()
 excel_text_loader = ExcelTextLoader()
+download_data_store = DownloadDataStore()
 
 
 class DownloadValidations:
@@ -52,6 +56,10 @@ class DownloadValidations:
 
         if not url:
             logging_manager.write_log(LogLevels.WARNING, "No URL entered")
+
+            download_data_store.set_download_info(
+                DownloadInfoKeys.VALIDATION_ERROR, True
+            )
 
             raise ValueError(
                 excel_text_loader.get_text(ExcelTextLoaderKeys.ERROR_EMPTY_URL)
@@ -79,6 +87,10 @@ class DownloadValidations:
                 LogLevels.WARNING, "The URL is not from YouTube"
             )
 
+            download_data_store.set_download_info(
+                DownloadInfoKeys.VALIDATION_ERROR, True
+            )
+
             raise ValueError(
                 excel_text_loader.get_text(
                     ExcelTextLoaderKeys.ERROR_YOUTUBE_URL
@@ -103,6 +115,10 @@ class DownloadValidations:
         except (ConnectionError, Timeout) as e:
             logging_manager.write_log(
                 LogLevels.ERROR, f"Internet connection issue: {e}"
+            )
+
+            download_data_store.set_download_info(
+                DownloadInfoKeys.VALIDATION_ERROR, True
             )
 
             raise ConnectionError(
@@ -140,6 +156,10 @@ class DownloadValidations:
             VideoUnavailable,
         ) as e:
             logging_manager.write_log(LogLevels.WARNING, str(e))
+
+            download_data_store.set_download_info(
+                DownloadInfoKeys.VALIDATION_ERROR, True
+            )
 
             error_message = {
                 AgeRestrictedError: excel_text_loader.get_text(

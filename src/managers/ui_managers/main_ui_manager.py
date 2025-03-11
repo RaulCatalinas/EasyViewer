@@ -220,8 +220,13 @@ class MainUIManager:
                 )
 
         except Exception as e:
-            self.logging_manager.write_log(LogLevels.CRITICAL, str(e))
-            self.error_dialog.show_dialog(str(e))
+            validation_error: bool = self.download_data_store.get_download_info(
+                DownloadInfoKeys.VALIDATION_ERROR
+            )
+            if not validation_error:
+                self.logging_manager.write_log(LogLevels.CRITICAL, str(e))
+
+            self._handle_download_error(str(e))
 
         else:
             return videos_downloaded_successfully
@@ -268,21 +273,28 @@ class MainUIManager:
 
         self.error_dialog.show_dialog(error)
 
-        download_directory: str = self.user_preferences_manager.get_preference(
-            UserPreferencesKeys.DOWNLOAD_DIRECTORY
-        )
-        download_name: str = self.download_data_store.get_download_info(
-            DownloadInfoKeys.DOWNLOAD_NAME
+        validation_error: bool = self.download_data_store.get_download_info(
+            DownloadInfoKeys.VALIDATION_ERROR
         )
 
-        delete_file(download_directory, download_name)
+        if not validation_error:
+            download_directory: str = (
+                self.user_preferences_manager.get_preference(
+                    UserPreferencesKeys.DOWNLOAD_DIRECTORY
+                )
+            )
+            download_name: str = self.download_data_store.get_download_info(
+                DownloadInfoKeys.DOWNLOAD_NAME
+            )
+
+            delete_file(download_directory, download_name)
 
     def _finalize_download(
         self, videos_downloaded_successfully: Optional[list[str]]
     ):
         """Finalizes the download process by opening the directory and resetting UI elements."""
 
-        if videos_downloaded_successfully is not None:
+        if videos_downloaded_successfully:
             open_directory(
                 self.user_preferences_manager.get_preference(
                     UserPreferencesKeys.DOWNLOAD_DIRECTORY

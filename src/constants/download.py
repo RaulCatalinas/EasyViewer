@@ -7,6 +7,7 @@ from app_enums import DownloadInfoKeys
 DOWNLOAD_INFO: dict[DownloadInfoKeys, Any] = {
     DownloadInfoKeys.URL: "",
     DownloadInfoKeys.DOWNLOAD_NAME: "",
+    DownloadInfoKeys.VALIDATION_ERROR: False,
 }
 
 EXTENSION_FILE_AUDIO = "mp3"
