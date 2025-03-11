@@ -39,14 +39,6 @@ class ExcelTextLoader:
         return cls._instance
 
     @classmethod
-    def _notify_language_change_listeners(cls) -> None:
-        """
-        Notifies all registered listeners about the language change.
-        """
-        for listener in cls._language_change_listeners:
-            listener()
-
-    @classmethod
     def _load_texts(cls) -> None:
         """
         Loads all texts from the Excel file into memory.
