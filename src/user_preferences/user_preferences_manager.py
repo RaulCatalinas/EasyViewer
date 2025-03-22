@@ -2,7 +2,7 @@
 from json import dump, load
 from os.path import exists, abspath, dirname
 from atexit import register
-from typing import Any
+from typing import Any, Dict
 
 # App enums
 from app_enums import UserPreferencesKeys
@@ -35,12 +35,12 @@ class UserPreferencesManager:
     def _initialize(self) -> None:
         """Initializes the preferences manager, loading data from file or setting defaults."""
 
-        self.preferences: dict = self._load_preferences()
+        self.preferences = self._load_preferences()
 
         # Ensure preferences are saved when the app closes
         register(self._save_preferences)
 
-    def _load_preferences(self) -> dict:
+    def _load_preferences(self) -> Dict[UserPreferencesKeys, Any]:
         """
         Loads user preferences from the JSON file or creates a new one if it doesn't exist.
 
