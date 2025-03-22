@@ -1,12 +1,12 @@
 # Standard library
-from typing import Any
+from typing import Any, Dict
 
 # App enums
 from app_enums import UserPreferencesKeys
 
 USER_PREFERENCES_FILE = "user_preferences"
 
-DEFAULT_USER_PREFERENCES: dict[UserPreferencesKeys, Any] = {
+DEFAULT_USER_PREFERENCES: Dict[UserPreferencesKeys, Any] = {
     UserPreferencesKeys.THEME: "light",
     UserPreferencesKeys.AUTOMATIC_NOTIFICATIONS: True,
     UserPreferencesKeys.LANGUAGE: "English",
