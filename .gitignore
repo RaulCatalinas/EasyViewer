@@ -3,9 +3,9 @@ venv
 .venv
 .idea
 dist
-build
 /*.ico
 /*.spec
 .ruff_cache
 /src/user_preferences/user_preferences.json
 /logs
+/frontend/node_modules

@@ -1,0 +1,12 @@
+{
+  "name": "EasyViewer",
+  "outputfilename": "EasyViewer",
+  "frontend:install": "bun install",
+  "frontend:build": "bun run build",
+  "frontend:dev:watcher": "bun run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "Raul Catalinas",
+    "email": "105791463+RaulCatalinas@users.noreply.github.com"
+  }
+}
