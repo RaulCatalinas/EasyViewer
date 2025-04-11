@@ -9,3 +9,5 @@ dist
 /src/user_preferences/user_preferences.json
 /logs
 /frontend/node_modules
+build
+!build/appicon.png
