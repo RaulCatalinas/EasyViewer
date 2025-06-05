@@ -5,12 +5,12 @@ description = "App to download youtube videos"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "flet==0.26.0",
-    "openpyxl>=3.1.5",
-    "pandas>=2.2.3",
-    "python-dotenv>=1.0.1",
-    "pytubefix>=8.12.1",
-    "requests>=2.32.3",
+    "fastexcel==0.14.0",
+    "flet==0.28.3",
+    "polars==1.30.0",
+    "python-dotenv==1.0.1",
+    "pytubefix==8.12.1",
+    "requests==2.32.3",
 ]
 
 [tool.flet.app]
@@ -18,17 +18,17 @@ path = "src"
 
 [tool.uv]
 dev-dependencies = [
-    "flet[all]==0.26.0",
-    "ruff>=0.9.6",
-    "pillow>=11.1.0",
-    "pyinstaller>=6.12.0",
+    "flet[all]==0.28.3",
+    "ruff==0.9.6",
+    "pillow==11.1.0",
+    "pyinstaller==6.12.0",
 ]
 
 [tool.poetry]
 package-mode = false
 
 [tool.poetry.group.dev.dependencies]
-flet = { extras = ["all"], version = "0.26.0" }
+flet = { extras = ["all"], version = "0.28.3" }
 
 [tool.flet]
 product = "EasyViewer"

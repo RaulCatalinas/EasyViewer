@@ -4,7 +4,7 @@ from pathlib import Path
 from os.path import dirname, abspath
 
 # Third-Party libraries
-from pandas import read_excel, DataFrame
+from polars import read_excel, DataFrame
 
 # User preferences
 from user_preferences import UserPreferencesManager
@@ -45,18 +45,18 @@ class ExcelTextLoader:
         if not cls._is_loaded:
             languages_dataframe = cls._read_excel()
 
-            # Assume first column contains keys
-            keys_column = languages_dataframe.iloc[:, 0]
-
-            # For each row in the dataframe
-            for i, key in enumerate(keys_column):
+            # Get the key column name (first column)
+            key_column = languages_dataframe.columns[0]
+            
+            # Iterate through rows using iter_rows(named=True)
+            for row in languages_dataframe.iter_rows(named=True):
+                key = row[key_column]
                 cls._text_dictionary[key] = {}
 
-                # For each language column (skipping the first key column)
-                for lang in languages_dataframe.columns[1:]:
-                    cls._text_dictionary[key][lang] = languages_dataframe.iloc[
-                        i
-                    ][lang]
+                # Add all language columns (skip the key column)
+                for col_name, value in row.items():
+                    if col_name != key_column:
+                        cls._text_dictionary[key][col_name] = value
 
             cls._is_loaded = True
 
