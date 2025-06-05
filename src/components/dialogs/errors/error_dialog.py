@@ -1,7 +1,7 @@
 # Standard library
 
 # Third-Party libraries
-from flet import MainAxisAlignment, Page, icons
+from flet import MainAxisAlignment, Page, Icons
 
 # Create widgets
 from ...widgets.buttons import ElevatedButton
@@ -18,7 +18,7 @@ class ErrorDialog(BaseDialog):
 
         super().__init__(
             icon=True,
-            title=icons.ERROR,
+            title=Icons.ERROR,
             title_size=1.3,
             content="",
             content_size=23,
