@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'handlers/close_window.dart';
 import 'managers/window_manager.dart';
 
 void main() async {
@@ -60,6 +61,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    handleCloseWindow(context);
+  }
 
   void _incrementCounter() {
     setState(() {
