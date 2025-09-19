@@ -1,8 +1,6 @@
 {
   "recommendations": [
-    "charliermarsh.ruff",
-    "davidanson.vscode-markdownlint",
-    "tamasfe.even-better-toml",
-    "grapecity.gc-excelviewer"
+    "dart-code.dart-code",
+    "dart-code.flutter"
   ]
 }
