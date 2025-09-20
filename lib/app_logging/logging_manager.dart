@@ -7,15 +7,13 @@ import 'package:path/path.dart' show join;
 import '../enums/logging.dart' show LogLevels;
 
 class LoggingManager {
-  static final LoggingManager _instance = LoggingManager._internal();
+  static final _instance = LoggingManager._internal();
 
-  static final Directory _logDir = Directory('logs');
-  static final File _logFile = File(join(_logDir.path, 'app.log'));
-  static final DateFormat _timestampFormatter = DateFormat('dd/MM/yyyy HH:mm');
+  static final _logDir = Directory('logs');
+  static final _logFile = File(join(_logDir.path, 'app.log'));
+  static final _timestampFormatter = DateFormat('dd/MM/yyyy HH:mm');
 
   IOSink? _sink;
-
-  final Map<LogLevels, void Function(String)> logLevels = {};
 
   factory LoggingManager() {
     return _instance;
@@ -52,6 +50,7 @@ class LoggingManager {
 
   static void writeLog(LogLevels level, String message) {
     final timestamp = _timestampFormatter.format(DateTime.now());
+
     _instance._sink?.writeln('$timestamp - ${level.value}: $message');
   }
 
