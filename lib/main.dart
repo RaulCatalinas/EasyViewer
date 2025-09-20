@@ -1,13 +1,37 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
-import 'handlers/close_window.dart';
-import 'managers/window_manager.dart';
+import 'app_logging/logging_manager.dart' show LoggingManager;
+import 'constants/version.dart' show version;
+import 'enums/logging.dart' show LogLevels;
+import 'handlers/close_window.dart' show handleCloseWindow;
+import 'managers/window_manager.dart' show configureWindow;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await configureWindow();
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const MyApp());
+    LoggingManager.writeLog(
+      LogLevels.info,
+      'Starting EasyViewer ($version)...',
+    );
+    LoggingManager.writeLog(
+      LogLevels.info,
+      'Platform: ${Platform.operatingSystem}',
+    );
+
+    await configureWindow();
+
+    LoggingManager.writeLog(LogLevels.info, 'Initializing UI...');
+
+    runApp(const MyApp());
+  } catch (e, stackTrace) {
+    LoggingManager.writeLog(LogLevels.critical, 'Failed to start app: $e');
+    LoggingManager.writeLog(LogLevels.critical, 'Stack trace: $stackTrace');
+
+    rethrow;
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -16,6 +40,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    LoggingManager.writeLog(LogLevels.info, 'UI initialized successfully.');
+    LoggingManager.writeLog(LogLevels.info, 'App started successfully.');
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
