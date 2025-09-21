@@ -7,14 +7,20 @@ import 'package:flutter/material.dart'
         BuildContext,
         Size,
         kToolbarHeight,
-        PreferredSizeWidget;
+        PreferredSizeWidget,
+        GlobalKey;
 
 import '/components/widgets/app_bar.dart' show CreateAppBar;
 import '/components/widgets/checkbox.dart' show CreateCheckbox;
 import '/components/widgets/icon_button.dart' show CreateIconButton;
+import '/components/widgets/stateful_icon_button.dart'
+    show CreateStatefulIconButton, CreateStatefulIconButtonState;
 import '/components/widgets/text.dart' show CreateText;
 
 class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
+  static final GlobalKey<CreateStatefulIconButtonState> _checkUpdateButtonKey =
+      GlobalKey<CreateStatefulIconButtonState>();
+
   const SettingsUI({super.key});
 
   @override
@@ -26,7 +32,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
             const CreateText(text: "Check for updates automatically"),
             CreateCheckbox(
               onChanged: (value) {
-                print("Checkbox changed: $value");
+                _checkUpdateButtonKey.currentState?.setVisible(!value!);
               },
               semanticLabel: "Check for updates automatically",
             ),
@@ -56,7 +62,10 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
           tooltip: "Contact",
           iconSize: 28,
         ),
-        CreateIconButton(
+
+        CreateStatefulIconButton(
+          key: _checkUpdateButtonKey,
+          initiallyVisible: false,
           onPressed: () {
             print("Check updates button pressed");
           },

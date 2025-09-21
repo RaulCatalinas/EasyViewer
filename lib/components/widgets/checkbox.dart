@@ -8,7 +8,7 @@ class CreateCheckbox extends StatefulWidget {
 
   const CreateCheckbox({
     super.key,
-    this.initialValue,
+    this.initialValue = true,
     required this.onChanged,
     required this.semanticLabel,
   });
