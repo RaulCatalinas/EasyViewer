@@ -3,14 +3,15 @@ import 'package:flutter/material.dart'
 
 class CreateText extends StatelessWidget {
   final String text;
+  final double? fontSize;
 
-  const CreateText({super.key, required this.text});
+  const CreateText({super.key, required this.text, this.fontSize});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(fontFamily: "Arial"),
+      style: TextStyle(fontFamily: "Arial", fontSize: fontSize),
       textAlign: TextAlign.center,
     );
   }
