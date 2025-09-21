@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart'
-    show AlertDialog, BuildContext, ElevatedButton, Navigator, Text, showDialog;
+    show AlertDialog, BuildContext, Navigator, showDialog;
 import 'package:flutter_window_close/flutter_window_close.dart';
+
+import '/components/widgets/text.dart' show CreateText;
+import '/components/widgets/text_button.dart' show CreateTextButton;
 
 void handleCloseWindow(BuildContext context) {
   FlutterWindowClose.setWindowShouldCloseHandler(() async {
@@ -8,15 +11,16 @@ void handleCloseWindow(BuildContext context) {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Do you really want to quit?'),
+          title: const CreateText(text: 'Do you really want to quit?'),
           actions: [
-            ElevatedButton(
+            CreateTextButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Yes'),
+              text: 'Yes',
             ),
-            ElevatedButton(
+            CreateTextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('No'),
+              text: 'No',
+              isOutlinedButton: true,
             ),
           ],
         );
