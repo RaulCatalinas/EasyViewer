@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart'
-    show
-        AppBar,
-        BuildContext,
-        StatelessWidget,
-        Widget,
-        Size,
-        kToolbarHeight,
-        PreferredSizeWidget;
+    show AppBar, BuildContext, StatelessWidget, Widget;
 
-import '../../app_settings/app_settings.dart' show AppColors;
+import '/app_settings/app_settings.dart' show AppColors;
 
-class CreateAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CreateAppBar extends StatelessWidget {
   final List<Widget> actions;
 
   const CreateAppBar({super.key, required this.actions});
@@ -22,7 +15,4 @@ class CreateAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: AppColors.appBarBgColorThemeLight,
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

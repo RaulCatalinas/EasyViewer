@@ -2,9 +2,9 @@ import 'dart:ui' show Size;
 
 import 'package:window_manager/window_manager.dart';
 
-import '../app_logging/logging_manager.dart' show LoggingManager;
-import '../app_settings/app_settings.dart' show WindowSettings;
-import '../enums/logging.dart' show LogLevels;
+import '../../app_logging/logging_manager.dart' show LoggingManager;
+import '../../app_settings/app_settings.dart' show WindowSettings;
+import '../../enums/logging.dart' show LogLevels;
 
 Future<void> configureWindow() async {
   LoggingManager.writeLog(LogLevels.info, 'Configuring window...');
