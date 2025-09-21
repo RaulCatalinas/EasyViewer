@@ -1,23 +1,42 @@
 import 'package:flutter/material.dart'
-    show BuildContext, Checkbox, StatelessWidget, ValueChanged, Widget;
+    show BuildContext, Checkbox, StatefulWidget, ValueChanged, Widget, State;
 
-class CreateCheckbox extends StatelessWidget {
-  final bool value;
+class CreateCheckbox extends StatefulWidget {
+  final bool? initialValue;
   final ValueChanged<bool?> onChanged;
   final String semanticLabel;
+
   const CreateCheckbox({
     super.key,
-    this.value = false,
+    this.initialValue,
     required this.onChanged,
     required this.semanticLabel,
   });
 
   @override
+  State<CreateCheckbox> createState() => _CreateCheckboxState();
+}
+
+class _CreateCheckboxState extends State<CreateCheckbox> {
+  late bool? _value;
+
+  @override
+  void initState() {
+    super.initState();
+    _value = widget.initialValue;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Checkbox(
-      value: value,
-      onChanged: onChanged,
-      semanticLabel: semanticLabel,
+      value: _value,
+      onChanged: (bool? newValue) {
+        setState(() {
+          _value = newValue;
+        });
+        widget.onChanged(newValue);
+      },
+      semanticLabel: widget.semanticLabel,
     );
   }
 }
