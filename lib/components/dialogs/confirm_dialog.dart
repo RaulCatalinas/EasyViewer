@@ -14,6 +14,7 @@ class ConfirmDialog extends BaseDialog {
     BuildContext context, {
     required String title,
     required String content,
+    Function()? onPressed,
   }) {
     return BaseDialog.show<T>(
       context,
@@ -21,7 +22,11 @@ class ConfirmDialog extends BaseDialog {
       content: content,
       actions: [
         CreateTextButton(
-          onPressed: () => Navigator.of(context).pop(true),
+          onPressed: () {
+            if (onPressed != null) onPressed();
+
+            Navigator.of(context).pop(true);
+          },
           text: 'Yes',
         ),
         CreateTextButton(
