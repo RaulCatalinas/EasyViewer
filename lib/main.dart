@@ -1,6 +1,15 @@
-import 'dart:io';
+import 'dart:io' show Platform;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    show
+        BuildContext,
+        MaterialApp,
+        State,
+        StatefulWidget,
+        StatelessWidget,
+        Widget,
+        WidgetsFlutterBinding,
+        runApp;
 
 import 'app_logging/logging_manager.dart' show LoggingManager;
 import 'constants/version.dart' show version;
