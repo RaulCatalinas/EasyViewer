@@ -16,6 +16,9 @@ import '/components/widgets/icon_button.dart' show CreateIconButton;
 import '/components/widgets/stateful_icon_button.dart'
     show CreateStatefulIconButton, CreateStatefulIconButtonState;
 import '/components/widgets/text.dart' show CreateText;
+import '/enums/user_preferences.dart' show UserPreferencesKeys;
+import '../user_preferences_manager/user_preferences_manager.dart'
+    show UserPreferencesManager;
 
 class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
   static final GlobalKey<CreateStatefulIconButtonState> _checkUpdateButtonKey =
@@ -31,8 +34,15 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
           children: [
             const CreateText(text: "Check for updates automatically"),
             CreateCheckbox(
+              initialValue: UserPreferencesManager.getPreference(
+                UserPreferencesKeys.automaticNotifications,
+              ),
               onChanged: (value) {
                 _checkUpdateButtonKey.currentState?.setVisible(!value!);
+                UserPreferencesManager.setPreference(
+                  UserPreferencesKeys.automaticNotifications,
+                  value,
+                );
               },
               semanticLabel: "Check for updates automatically",
             ),
@@ -65,7 +75,9 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
 
         CreateStatefulIconButton(
           key: _checkUpdateButtonKey,
-          initiallyVisible: false,
+          initiallyVisible: !UserPreferencesManager.getPreference(
+            UserPreferencesKeys.automaticNotifications,
+          ),
           onPressed: () {
             print("Check updates button pressed");
           },
