@@ -16,6 +16,10 @@ import 'package:flutter/material.dart'
 import '/components/widgets/icon_button.dart' show CreateIconButton;
 import '/components/widgets/input.dart' show CreateInput;
 import '/components/widgets/progress_bar.dart' show CreateProgressBar;
+import '/enums/user_preferences.dart' show UserPreferencesKeys;
+import '/handlers/select_directory.dart' show selectDirectory;
+import '/managers/user_preferences_manager/user_preferences_manager.dart'
+    show UserPreferencesManager;
 import 'settings_ui.dart' show SettingsUI;
 
 class MainUI extends StatelessWidget {
@@ -53,8 +57,19 @@ class MainUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CreateIconButton(
-                    onPressed: () {
-                      print("Select directory button pressed");
+                    onPressed: () async {
+                      final directory = await selectDirectory();
+
+                      UserPreferencesManager.setPreference(
+                        UserPreferencesKeys.downloadDirectory,
+                        directory,
+                      );
+
+                      print(
+                        UserPreferencesManager.getPreference(
+                          UserPreferencesKeys.downloadDirectory,
+                        ),
+                      );
                     },
                     icon: Icons.folder,
                     tooltip: "Select Directory",
