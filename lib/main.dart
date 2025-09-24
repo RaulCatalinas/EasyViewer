@@ -56,8 +56,6 @@ class MyApp extends StatelessWidget {
     LoggingManager.writeLog(LogLevels.info, 'UI initialized successfully.');
     LoggingManager.writeLog(LogLevels.info, 'App started successfully.');
 
-    ThemeManager.toggleTheme(context);
-
     return ValueListenableBuilder(
       valueListenable: appValueNotifier.theme,
       builder: (_, value, _) {

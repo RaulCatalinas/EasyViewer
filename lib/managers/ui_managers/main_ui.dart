@@ -24,7 +24,7 @@ class MainUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const SettingsUI(),
+      appBar: SettingsUI(),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(25.0),
