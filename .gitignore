@@ -44,4 +44,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-/lib/managers/user_preferences_manager/user_preferences.json
+user_preferences.json
