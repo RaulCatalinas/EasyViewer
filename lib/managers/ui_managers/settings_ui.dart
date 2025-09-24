@@ -1,6 +1,10 @@
+import 'package:easyviewer/constants/social_media.dart';
+import 'package:easyviewer/handlers/social_media.dart';
 import 'package:flutter/material.dart'
     show
         BuildContext,
+        ButtonStyle,
+        DropdownMenuEntry,
         GlobalKey,
         Icons,
         PreferredSizeWidget,
@@ -13,10 +17,13 @@ import 'package:flutter/material.dart'
 
 import '/components/widgets/app_bar.dart' show CreateAppBar;
 import '/components/widgets/checkbox.dart' show CreateCheckbox;
+import '/components/widgets/dropdown.dart'
+    show CreateDropdown, CreateDropdownState;
 import '/components/widgets/icon_button.dart' show CreateIconButton;
 import '/components/widgets/stateful_icon_button.dart'
     show CreateStatefulIconButton, CreateStatefulIconButtonState;
 import '/components/widgets/text.dart' show CreateText;
+import '/enums/social_media.dart' show SocialMedia;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/managers/user_preferences_manager/theme_manager.dart'
     show ThemeManager;
@@ -26,6 +33,7 @@ import '../user_preferences_manager/user_preferences_manager.dart'
 class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
   static final _checkUpdateButtonKey =
       GlobalKey<CreateStatefulIconButtonState>();
+  static final _dropdownsKey = GlobalKey<CreateDropdownState>();
 
   final appValueNotifier = ThemeManager.instance;
 
@@ -75,13 +83,39 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
             ),
             CreateIconButton(
               onPressed: () {
-                print("Contact button pressed");
+                _dropdownsKey.currentState?.setVisible(
+                  !_dropdownsKey.currentState!.isVisible,
+                );
               },
               icon: Icons.contacts,
               tooltip: "Contact",
               iconSize: 28,
             ),
-
+            CreateDropdown(
+              key: _dropdownsKey,
+              initiallyVisible: false,
+              placeHolder: "Social media",
+              dropdownMenuEntries: [
+                DropdownMenuEntry(
+                  value: SocialMedia.instagram,
+                  label: "Instagram",
+                  style: ButtonStyle(enableFeedback: true),
+                ),
+                DropdownMenuEntry(
+                  value: SocialMedia.twitter,
+                  label: "Twitter/X",
+                  style: ButtonStyle(enableFeedback: true),
+                ),
+                DropdownMenuEntry(
+                  value: SocialMedia.github,
+                  label: "GitHub",
+                  style: ButtonStyle(enableFeedback: true),
+                ),
+              ],
+              onSelected: (value) async {
+                await openUrl(socialMedia[value].toString());
+              },
+            ),
             CreateStatefulIconButton(
               key: _checkUpdateButtonKey,
               initiallyVisible: !UserPreferencesManager.getPreference(
