@@ -17,6 +17,8 @@ import '/components/widgets/stateful_icon_button.dart'
     show CreateStatefulIconButton, CreateStatefulIconButtonState;
 import '/components/widgets/text.dart' show CreateText;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
+import '/managers/user_preferences_manager/theme_manager.dart'
+    show ThemeManager;
 import '../user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 
@@ -50,9 +52,9 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
         ),
         CreateIconButton(
           onPressed: () {
-            print("Change theme button pressed");
+            ThemeManager.toggleTheme(context);
           },
-          icon: Icons.sunny,
+          icon: ThemeManager.getInitialIconTheme(),
           tooltip: "Change Theme",
           iconSize: 28,
         ),
