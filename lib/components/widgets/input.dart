@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart'
     show
+        BorderRadius,
+        BorderSide,
         BuildContext,
         InputDecoration,
+        MouseCursor,
         OutlineInputBorder,
         StatelessWidget,
         TextAlign,
+        TextEditingController,
         TextField,
         TextInputType,
-        Widget,
-        BorderRadius,
-        BorderSide,
-        MouseCursor;
+        Widget;
+import 'package:flutter/rendering.dart';
 
 class CreateInput extends StatelessWidget {
   final bool enabled;
@@ -18,6 +20,7 @@ class CreateInput extends StatelessWidget {
   final String placeholder;
   final bool autofocus;
   final bool isMultiline;
+  final String? initialValue;
 
   const CreateInput({
     super.key,
@@ -25,6 +28,7 @@ class CreateInput extends StatelessWidget {
     this.readOnly = false,
     this.autofocus = false,
     this.isMultiline = false,
+    this.initialValue,
     required this.placeholder,
   });
 
@@ -45,6 +49,9 @@ class CreateInput extends StatelessWidget {
       keyboardType: isMultiline ? TextInputType.multiline : null,
       maxLines: isMultiline ? 2 : 1,
       mouseCursor: readOnly ? MouseCursor.defer : null,
+      textAlignVertical: TextAlignVertical.center,
+      enableSuggestions: false,
+      controller: TextEditingController(text: initialValue),
     );
   }
 }
