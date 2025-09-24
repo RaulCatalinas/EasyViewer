@@ -14,13 +14,7 @@ class UserPreferencesManager {
   late Map<UserPreferencesKeys, dynamic> _preferences;
 
   final _preferencesFile = File(
-    join(
-      Directory.current.path,
-      'lib',
-      'managers',
-      'user_preferences_manager',
-      'user_preferences.json',
-    ),
+    join(Directory.current.path, 'user_preferences.json'),
   );
 
   factory UserPreferencesManager() {
