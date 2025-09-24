@@ -40,12 +40,12 @@ class MainUI extends StatelessWidget {
                 spacing: 15,
                 children: [
                   const CreateInput(
-                    placeholder: "Enter YouTube URLs here",
+                    placeholder: 'Enter YouTube URLs here',
                     isMultiline: true,
                     autofocus: true,
                   ),
                   CreateInput(
-                    placeholder: "Directory where the download will be saved",
+                    placeholder: 'Directory where the download will be saved',
                     readOnly: true,
                     initialValue: UserPreferencesManager.getPreference(
                       UserPreferencesKeys.downloadDirectory,
@@ -75,7 +75,7 @@ class MainUI extends StatelessWidget {
                       );
                     },
                     icon: Icons.folder,
-                    tooltip: "Select Directory",
+                    tooltip: 'Select Directory',
                   ),
 
                   const SizedBox(height: 17),
@@ -85,18 +85,18 @@ class MainUI extends StatelessWidget {
                     children: [
                       CreateIconButton(
                         onPressed: () {
-                          print("Download video button pressed");
+                          print('Download video button pressed');
                         },
                         icon: Icons.video_file,
-                        tooltip: "Download Video",
+                        tooltip: 'Download Video',
                       ),
 
                       CreateIconButton(
                         onPressed: () {
-                          print("Download audio button pressed");
+                          print('Download audio button pressed');
                         },
                         icon: Icons.audio_file,
-                        tooltip: "Download Audio",
+                        tooltip: 'Download Audio',
                       ),
                     ],
                   ),

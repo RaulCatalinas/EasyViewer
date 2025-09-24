@@ -9,8 +9,8 @@ void handleCloseWindow(BuildContext context) {
   FlutterWindowClose.setWindowShouldCloseHandler(() async {
     return await ConfirmDialog.show(
       context,
-      title: "Exit app?",
-      content: "Do you really want to quit?",
+      title: 'Exit app?',
+      content: 'Do you really want to quit?',
       onPressed: () => UserPreferencesManager.savePreferences(),
     );
   });

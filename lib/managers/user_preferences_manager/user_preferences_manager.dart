@@ -36,7 +36,7 @@ class UserPreferencesManager {
 
     LoggingManager.writeLog(
       LogLevels.info,
-      "✅ UserPreferencesManager initialized successfully",
+      '✅ UserPreferencesManager initialized successfully',
     );
   }
 
@@ -44,7 +44,7 @@ class UserPreferencesManager {
     try {
       LoggingManager.writeLog(
         LogLevels.info,
-        "🔄 Creating new user preferences file...",
+        '🔄 Creating new user preferences file...',
       );
 
       _preferencesFile.createSync();
@@ -54,18 +54,18 @@ class UserPreferencesManager {
       );
 
       _preferencesFile.writeAsStringSync(
-        JsonEncoder.withIndent("  ").convert(defaultPrefsString),
+        JsonEncoder.withIndent('  ').convert(defaultPrefsString),
         flush: true,
       );
 
       LoggingManager.writeLog(
         LogLevels.info,
-        "✅ User preferences file created successfully at: ${_preferencesFile.path}",
+        '✅ User preferences file created successfully at: ${_preferencesFile.path}',
       );
     } catch (e) {
       LoggingManager.writeLog(
         LogLevels.error,
-        "❌ Error creating user preferences file: ${e.toString()}",
+        '❌ Error creating user preferences file: ${e.toString()}',
       );
     }
   }
@@ -74,7 +74,7 @@ class UserPreferencesManager {
     if (!_preferencesFile.existsSync()) {
       LoggingManager.writeLog(
         LogLevels.info,
-        "📝 User preferences file not found, creating with defaults",
+        '📝 User preferences file not found, creating with defaults',
       );
 
       _setupFilePath();
@@ -85,7 +85,7 @@ class UserPreferencesManager {
     try {
       LoggingManager.writeLog(
         LogLevels.info,
-        "📖 Loading user preferences from: ${_preferencesFile.path}",
+        '📖 Loading user preferences from: ${_preferencesFile.path}',
       );
 
       final userPrefs = _preferencesFile.readAsStringSync();
@@ -93,7 +93,7 @@ class UserPreferencesManager {
       if (userPrefs.trim().isEmpty) {
         LoggingManager.writeLog(
           LogLevels.warning,
-          "⚠️ Preferences file is empty, recreating with defaults",
+          '⚠️ Preferences file is empty, recreating with defaults',
         );
 
         final userPrefsString = _convertUserPreferencesKeysToString(
@@ -101,7 +101,7 @@ class UserPreferencesManager {
         );
 
         _preferencesFile.writeAsStringSync(
-          JsonEncoder.withIndent("  ").convert(userPrefsString),
+          JsonEncoder.withIndent('  ').convert(userPrefsString),
           flush: true,
         );
 
@@ -118,14 +118,14 @@ class UserPreferencesManager {
 
       LoggingManager.writeLog(
         LogLevels.info,
-        "✅ User preferences loaded successfully (${preferences.length} preferences)",
+        '✅ User preferences loaded successfully (${preferences.length} preferences)',
       );
 
       return preferences;
     } catch (e) {
       LoggingManager.writeLog(
         LogLevels.error,
-        "❌ Error loading preferences: ${e.toString()}, using defaults",
+        '❌ Error loading preferences: ${e.toString()}, using defaults',
       );
 
       return defaultUserPreferences;
@@ -172,12 +172,12 @@ class UserPreferencesManager {
 
       LoggingManager.writeLog(
         LogLevels.info,
-        "💾 User preferences saved successfully to: ${_instance._preferencesFile.path}",
+        '💾 User preferences saved successfully to: ${_instance._preferencesFile.path}',
       );
     } catch (e) {
       LoggingManager.writeLog(
         LogLevels.error,
-        "❌ Error saving preferences: ${e.toString()}",
+        '❌ Error saving preferences: ${e.toString()}',
       );
     }
   }

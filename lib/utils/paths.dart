@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart'
 Future<String> getUserDesktopPath() async {
   final documentsDir = await getApplicationDocumentsDirectory();
 
-  return join(documentsDir.parent.path, "Desktop");
+  return join(documentsDir.parent.path, 'Desktop');
 }
 
 bool existsDirectory(String directoryToCheck) {

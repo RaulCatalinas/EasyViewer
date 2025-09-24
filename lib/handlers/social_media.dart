@@ -7,11 +7,11 @@ Future<void> openUrl(String url) async {
   if (!await launchUrl(Uri.parse(url))) {
     LoggingManager.writeLog(
       LogLevels.error,
-      "The URL could not be opened: $url",
+      'The URL could not be opened: $url',
     );
 
     return;
   }
 
-  LoggingManager.writeLog(LogLevels.info, "URL $url opened correctly");
+  LoggingManager.writeLog(LogLevels.info, 'URL $url opened correctly');
 }

@@ -22,7 +22,7 @@ class InfoDialog extends BaseDialog {
       content: content,
       actions: [
         CreateTextButton(
-          text: "Ok",
+          text: 'Ok',
           onPressed: () => Navigator.of(context).pop(true),
         ),
       ],

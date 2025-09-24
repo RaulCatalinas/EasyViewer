@@ -20,28 +20,28 @@ class ThemeManager {
   }
 
   static ThemeData _getInitialTheme() {
-    return _getCurrentTheme() == "light" ? ThemeData.light() : ThemeData.dark();
+    return _getCurrentTheme() == 'light' ? ThemeData.light() : ThemeData.dark();
   }
 
   static IconData _getInitialIconTheme() {
-    return _getCurrentTheme() == "light" ? Icons.dark_mode : Icons.light_mode;
+    return _getCurrentTheme() == 'light' ? Icons.dark_mode : Icons.light_mode;
   }
 
   static void toggleTheme() {
     final currentTheme = _getCurrentTheme();
 
-    instance.theme.value = currentTheme == "light"
+    instance.theme.value = currentTheme == 'light'
         ? ThemeData.dark()
         : ThemeData.light();
 
     UserPreferencesManager.setPreference(
       UserPreferencesKeys.theme,
-      currentTheme == "light" ? "dark" : "light",
+      currentTheme == 'light' ? 'dark' : 'light',
     );
   }
 
   static void toggleIconTheme() {
-    instance.iconTheme.value = _getCurrentTheme() == "light"
+    instance.iconTheme.value = _getCurrentTheme() == 'light'
         ? Icons.dark_mode
         : Icons.light_mode;
   }

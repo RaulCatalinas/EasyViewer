@@ -48,7 +48,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
           actions: [
             Row(
               children: [
-                const CreateText(text: "Check for updates automatically"),
+                const CreateText(text: 'Check for updates automatically'),
                 CreateCheckbox(
                   initialValue: UserPreferencesManager.getPreference(
                     UserPreferencesKeys.automaticNotifications,
@@ -60,7 +60,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
                       value,
                     );
                   },
-                  semanticLabel: "Check for updates automatically",
+                  semanticLabel: 'Check for updates automatically',
                 ),
               ],
             ),
@@ -70,15 +70,15 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
                 ThemeManager.toggleIconTheme();
               },
               icon: value,
-              tooltip: "Change Theme",
+              tooltip: 'Change Theme',
               iconSize: 28,
             ),
             CreateIconButton(
               onPressed: () {
-                print("Change language button pressed");
+                print('Change language button pressed');
               },
               icon: Icons.language,
-              tooltip: "Change Language",
+              tooltip: 'Change Language',
               iconSize: 28,
             ),
             CreateIconButton(
@@ -88,27 +88,27 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
                 );
               },
               icon: Icons.contacts,
-              tooltip: "Contact",
+              tooltip: 'Contact',
               iconSize: 28,
             ),
             CreateDropdown(
               key: _dropdownsKey,
               initiallyVisible: false,
-              placeHolder: "Social media",
+              placeHolder: 'Social media',
               dropdownMenuEntries: [
                 DropdownMenuEntry(
                   value: SocialMedia.instagram,
-                  label: "Instagram",
+                  label: 'Instagram',
                   style: ButtonStyle(enableFeedback: true),
                 ),
                 DropdownMenuEntry(
                   value: SocialMedia.twitter,
-                  label: "Twitter/X",
+                  label: 'Twitter/X',
                   style: ButtonStyle(enableFeedback: true),
                 ),
                 DropdownMenuEntry(
                   value: SocialMedia.github,
-                  label: "GitHub",
+                  label: 'GitHub',
                   style: ButtonStyle(enableFeedback: true),
                 ),
               ],
@@ -122,10 +122,10 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
                 UserPreferencesKeys.automaticNotifications,
               ),
               onPressed: () {
-                print("Check updates button pressed");
+                print('Check updates button pressed');
               },
               icon: Icons.update,
-              tooltip: "Check for Updates",
+              tooltip: 'Check for Updates',
               iconSize: 28,
             ),
           ],

@@ -14,11 +14,11 @@ class ErrorDialog extends BaseDialog {
   static Future<T?> show<T>(BuildContext context, {required String content}) {
     return BaseDialog.show<T>(
       context,
-      title: "Error",
+      title: 'Error',
       content: content,
       actions: [
         CreateTextButton(
-          text: "Ok",
+          text: 'Ok',
           onPressed: () => Navigator.of(context).pop(true),
         ),
       ],
