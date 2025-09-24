@@ -38,8 +38,8 @@ class MainUI extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 15,
-                children: const [
-                  CreateInput(
+                children: [
+                  const CreateInput(
                     placeholder: "Enter YouTube URLs here",
                     isMultiline: true,
                     autofocus: true,
@@ -47,6 +47,9 @@ class MainUI extends StatelessWidget {
                   CreateInput(
                     placeholder: "Directory where the download will be saved",
                     readOnly: true,
+                    initialValue: UserPreferencesManager.getPreference(
+                      UserPreferencesKeys.downloadDirectory,
+                    ),
                   ),
                 ],
               ),
