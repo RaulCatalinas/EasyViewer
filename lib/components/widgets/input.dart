@@ -76,7 +76,7 @@ class CreateInputState extends State<CreateInput> {
       autofocus: widget.autofocus,
       textAlign: TextAlign.center,
       keyboardType: widget.isMultiline ? TextInputType.multiline : null,
-      maxLines: widget.isMultiline ? 2 : 1,
+      maxLines: widget.isMultiline ? 3 : 1,
       mouseCursor: widget.readOnly ? MouseCursor.defer : null,
       textAlignVertical: TextAlignVertical.center,
       enableSuggestions: false,

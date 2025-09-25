@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'
     show
         Center,
@@ -12,7 +11,8 @@ import 'package:flutter/material.dart'
         SizedBox,
         StatelessWidget,
         Widget,
-        BuildContext;
+        BuildContext,
+        GlobalKey;
 
 import '/components/widgets/icon_button.dart' show CreateIconButton;
 import '/components/widgets/input.dart' show CreateInput, CreateInputState;
@@ -86,16 +86,20 @@ class MainUI extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CreateIconButton(
-                        onPressed: () {
-                          print('Download video button pressed');
+                        onPressed: () async {
+                          final urlsToDownload = _inputUrlsKey.currentState
+                              ?.getText();
+                          print('URLs to download: $urlsToDownload');
                         },
                         icon: Icons.video_file,
                         tooltip: 'Download Video',
                       ),
 
                       CreateIconButton(
-                        onPressed: () {
-                          print('Download audio button pressed');
+                        onPressed: () async {
+                          final urlsToDownload = _inputUrlsKey.currentState
+                              ?.getText();
+                          print('URLs to download: $urlsToDownload');
                         },
                         icon: Icons.audio_file,
                         tooltip: 'Download Audio',
