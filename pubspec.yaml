@@ -38,6 +38,7 @@ dependencies:
   url_launcher: ^6.3.2
   file_picker: ^10.3.3
   path_provider: ^2.1.5
+  http: ^1.5.0
 
 dev_dependencies:
   flutter_test:
