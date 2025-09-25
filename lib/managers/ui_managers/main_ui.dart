@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'
     show
         Center,
@@ -14,7 +15,7 @@ import 'package:flutter/material.dart'
         BuildContext;
 
 import '/components/widgets/icon_button.dart' show CreateIconButton;
-import '/components/widgets/input.dart' show CreateInput;
+import '/components/widgets/input.dart' show CreateInput, CreateInputState;
 import '/components/widgets/progress_bar.dart' show CreateProgressBar;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/handlers/select_directory.dart' show selectDirectory;
@@ -23,7 +24,10 @@ import '/managers/user_preferences_manager/user_preferences_manager.dart'
 import 'settings_ui.dart' show SettingsUI;
 
 class MainUI extends StatelessWidget {
-  const MainUI({super.key});
+  final _inputDirectoryKey = GlobalKey<CreateInputState>();
+  final _inputUrlsKey = GlobalKey<CreateInputState>();
+
+  MainUI({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +43,14 @@ class MainUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 15,
                 children: [
-                  const CreateInput(
+                  CreateInput(
+                    key: _inputUrlsKey,
                     placeholder: 'Enter YouTube URLs here',
                     isMultiline: true,
                     autofocus: true,
                   ),
                   CreateInput(
+                    key: _inputDirectoryKey,
                     placeholder: 'Directory where the download will be saved',
                     readOnly: true,
                     initialValue: UserPreferencesManager.getPreference(
@@ -68,11 +74,7 @@ class MainUI extends StatelessWidget {
                         directory,
                       );
 
-                      print(
-                        UserPreferencesManager.getPreference(
-                          UserPreferencesKeys.downloadDirectory,
-                        ),
-                      );
+                      _inputDirectoryKey.currentState?.setText(directory);
                     },
                     icon: Icons.folder,
                     tooltip: 'Select Directory',

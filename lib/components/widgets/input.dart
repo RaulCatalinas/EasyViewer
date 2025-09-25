@@ -6,7 +6,8 @@ import 'package:flutter/material.dart'
         InputDecoration,
         MouseCursor,
         OutlineInputBorder,
-        StatelessWidget,
+        State,
+        StatefulWidget,
         TextAlign,
         TextEditingController,
         TextField,
@@ -14,7 +15,8 @@ import 'package:flutter/material.dart'
         Widget;
 import 'package:flutter/rendering.dart';
 
-class CreateInput extends StatelessWidget {
+// ignore: must_be_immutable
+class CreateInput extends StatefulWidget {
   final bool enabled;
   final bool readOnly;
   final String placeholder;
@@ -33,25 +35,52 @@ class CreateInput extends StatelessWidget {
   });
 
   @override
+  State<StatefulWidget> createState() => CreateInputState();
+}
+
+class CreateInputState extends State<CreateInput> {
+  final inputController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    inputController.text = widget.initialValue ?? '';
+  }
+
+  String getText() {
+    return inputController.text;
+  }
+
+  void setText(String newText) {
+    inputController.text = newText;
+  }
+
+  @override
+  void dispose() {
+    inputController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextField(
-      enabled: enabled,
-      readOnly: readOnly,
+      enabled: widget.enabled,
+      readOnly: widget.readOnly,
       decoration: InputDecoration(
-        hintText: placeholder,
+        hintText: widget.placeholder,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: const BorderSide(width: 1.0),
         ),
       ),
-      autofocus: autofocus,
+      autofocus: widget.autofocus,
       textAlign: TextAlign.center,
-      keyboardType: isMultiline ? TextInputType.multiline : null,
-      maxLines: isMultiline ? 2 : 1,
-      mouseCursor: readOnly ? MouseCursor.defer : null,
+      keyboardType: widget.isMultiline ? TextInputType.multiline : null,
+      maxLines: widget.isMultiline ? 2 : 1,
+      mouseCursor: widget.readOnly ? MouseCursor.defer : null,
       textAlignVertical: TextAlignVertical.center,
       enableSuggestions: false,
-      controller: TextEditingController(text: initialValue),
+      controller: inputController,
     );
   }
 }
