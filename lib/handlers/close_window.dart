@@ -1,3 +1,4 @@
+import 'package:easyviewer/app_logging/logging_manager.dart';
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:flutter_window_close/flutter_window_close.dart';
 
@@ -11,7 +12,10 @@ void handleCloseWindow(BuildContext context) {
       context,
       title: 'Exit app?',
       content: 'Do you really want to quit?',
-      onPressed: () => UserPreferencesManager.savePreferences(),
+      onPressed: () {
+        UserPreferencesManager.savePreferences();
+        LoggingManager.saveLogs();
+      },
     );
   });
 }

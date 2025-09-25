@@ -1,5 +1,5 @@
 import 'dart:convert' show utf8;
-import 'dart:io' show Directory, File, FileMode, IOSink, ProcessSignal, exit;
+import 'dart:io' show Directory, File, FileMode, IOSink;
 
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:path/path.dart' show join;
@@ -27,16 +27,6 @@ class LoggingManager {
     _ensureLogDirectory();
 
     _sink = _logFile.openWrite(mode: FileMode.append, encoding: utf8);
-
-    // Register flush on exit
-    ProcessSignal.sigint.watch().listen((_) {
-      _flushLogs();
-      exit(0);
-    });
-    ProcessSignal.sigterm.watch().listen((_) {
-      _flushLogs();
-      exit(0);
-    });
   }
 
   void _ensureLogDirectory() {
@@ -54,8 +44,8 @@ class LoggingManager {
     _instance._sink?.writeln('$timestamp - ${level.value}: $message');
   }
 
-  void _flushLogs() {
-    _sink?.flush();
-    _sink?.close();
+  static void saveLogs() {
+    _instance._sink?.flush();
+    _instance._sink?.close();
   }
 }
