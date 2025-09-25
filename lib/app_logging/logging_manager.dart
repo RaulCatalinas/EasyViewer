@@ -46,6 +46,5 @@ class LoggingManager {
 
   static void saveLogs() {
     _instance._sink?.flush();
-    _instance._sink?.close();
   }
 }
