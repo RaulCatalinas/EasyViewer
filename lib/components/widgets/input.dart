@@ -40,10 +40,12 @@ class CreateInput extends StatefulWidget {
 
 class CreateInputState extends State<CreateInput> {
   final inputController = TextEditingController();
+  late bool _enabled;
 
   @override
   void initState() {
     super.initState();
+    _enabled = widget.enabled;
     inputController.text = widget.initialValue ?? '';
   }
 
@@ -55,6 +57,12 @@ class CreateInputState extends State<CreateInput> {
     inputController.text = newText;
   }
 
+  void toggleEnabled() {
+    setState(() {
+      _enabled = !widget.enabled;
+    });
+  }
+
   @override
   void dispose() {
     inputController.dispose();
@@ -64,7 +72,7 @@ class CreateInputState extends State<CreateInput> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      enabled: widget.enabled,
+      enabled: _enabled,
       readOnly: widget.readOnly,
       decoration: InputDecoration(
         hintText: widget.placeholder,
@@ -77,7 +85,7 @@ class CreateInputState extends State<CreateInput> {
       textAlign: TextAlign.center,
       keyboardType: widget.isMultiline ? TextInputType.multiline : null,
       maxLines: widget.isMultiline ? 3 : 1,
-      mouseCursor: widget.readOnly ? MouseCursor.defer : null,
+      mouseCursor: widget.readOnly || !_enabled ? MouseCursor.defer : null,
       textAlignVertical: TextAlignVertical.center,
       enableSuggestions: false,
       controller: inputController,

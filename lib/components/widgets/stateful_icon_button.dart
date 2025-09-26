@@ -14,13 +14,15 @@ class CreateStatefulIconButton extends StatefulWidget {
   final IconData icon;
   final String? tooltip;
   final double iconSize;
-  final bool? initiallyVisible;
+  final bool initiallyVisible;
+  final bool enabled;
 
   const CreateStatefulIconButton({
     super.key,
     this.iconSize = 65,
     this.tooltip,
-    this.initiallyVisible,
+    this.initiallyVisible = true,
+    this.enabled = true,
     required this.onPressed,
     required this.icon,
   });
@@ -34,16 +36,24 @@ class CreateStatefulIconButton extends StatefulWidget {
 
 class CreateStatefulIconButtonState extends State<CreateStatefulIconButton> {
   late bool _isVisible;
+  late bool _enabled;
 
   @override
   void initState() {
     super.initState();
-    _isVisible = widget.initiallyVisible!;
+    _enabled = widget.enabled;
+    _isVisible = widget.initiallyVisible;
   }
 
   void setVisible(bool visible) {
     setState(() {
       _isVisible = visible;
+    });
+  }
+
+  void toggleEnabled() {
+    setState(() {
+      _enabled = !widget.enabled;
     });
   }
 
@@ -54,7 +64,7 @@ class CreateStatefulIconButtonState extends State<CreateStatefulIconButton> {
     }
 
     return IconButton(
-      onPressed: widget.onPressed,
+      onPressed: _enabled ? widget.onPressed : null,
       icon: Icon(widget.icon, size: widget.iconSize),
       tooltip: widget.tooltip,
       enableFeedback: true,
