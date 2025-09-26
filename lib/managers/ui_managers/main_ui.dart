@@ -14,9 +14,11 @@ import 'package:flutter/material.dart'
         BuildContext,
         GlobalKey;
 
-import '/components/widgets/icon_button.dart' show CreateIconButton;
 import '/components/widgets/input.dart' show CreateInput, CreateInputState;
-import '/components/widgets/progress_bar.dart' show CreateProgressBar;
+import '/components/widgets/progress_bar.dart'
+    show CreateProgressBar, CreateProgressBarState;
+import '/components/widgets/stateful_icon_button.dart'
+    show CreateStatefulIconButton, CreateStatefulIconButtonState;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/handlers/select_directory.dart' show selectDirectory;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
@@ -26,6 +28,10 @@ import 'settings_ui.dart' show SettingsUI;
 class MainUI extends StatelessWidget {
   final _inputDirectoryKey = GlobalKey<CreateInputState>();
   final _inputUrlsKey = GlobalKey<CreateInputState>();
+  final _buttonDirectoryKey = GlobalKey<CreateStatefulIconButtonState>();
+  final _buttonDownloadVideoKey = GlobalKey<CreateStatefulIconButtonState>();
+  final _buttonDownloadAudioKey = GlobalKey<CreateStatefulIconButtonState>();
+  final _progressBarKey = GlobalKey<CreateProgressBarState>();
 
   MainUI({super.key});
 
@@ -65,7 +71,8 @@ class MainUI extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CreateIconButton(
+                  CreateStatefulIconButton(
+                    key: _buttonDirectoryKey,
                     onPressed: () async {
                       final directory = await selectDirectory();
 
@@ -85,20 +92,24 @@ class MainUI extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CreateIconButton(
+                      CreateStatefulIconButton(
+                        key: _buttonDownloadVideoKey,
                         onPressed: () async {
                           final urlsToDownload = _inputUrlsKey.currentState
                               ?.getText();
+
                           print('URLs to download: $urlsToDownload');
                         },
                         icon: Icons.video_file,
                         tooltip: 'Download Video',
                       ),
 
-                      CreateIconButton(
+                      CreateStatefulIconButton(
+                        key: _buttonDownloadAudioKey,
                         onPressed: () async {
                           final urlsToDownload = _inputUrlsKey.currentState
                               ?.getText();
+
                           print('URLs to download: $urlsToDownload');
                         },
                         icon: Icons.audio_file,
@@ -107,7 +118,7 @@ class MainUI extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 13),
-                  const CreateProgressBar(),
+                  CreateProgressBar(key: _progressBarKey),
                 ],
               ),
             ],
@@ -115,5 +126,14 @@ class MainUI extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // TODO: Use this function to disable widgets and run the progress bar animation while the download is in progress.
+  void _toggleStateWidgets() {
+    _inputUrlsKey.currentState?.toggleEnabled();
+    _buttonDirectoryKey.currentState?.toggleEnabled();
+    _buttonDownloadVideoKey.currentState?.toggleEnabled();
+    _buttonDownloadAudioKey.currentState?.toggleEnabled();
+    _progressBarKey.currentState?.toggleState();
   }
 }
