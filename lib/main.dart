@@ -3,10 +3,10 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart'
     show
         BuildContext,
+        Locale,
         MaterialApp,
         State,
         StatefulWidget,
-        StatelessWidget,
         ValueListenableBuilder,
         Widget,
         WidgetsFlutterBinding,
@@ -18,6 +18,8 @@ import 'enums/logging.dart' show LogLevels;
 import 'handlers/close_window.dart' show handleCloseWindow;
 import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'managers/ui_managers/main_ui.dart' show MainUI;
+import 'managers/user_preferences_manager/language_manager.dart'
+    show LanguageManager;
 import 'managers/user_preferences_manager/theme_manager.dart' show ThemeManager;
 import 'managers/window_manager/window_manager.dart' show configureWindow;
 
@@ -47,10 +49,31 @@ void main() async {
   }
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+// CAMBIO PRINCIPAL: MyApp ahora es StatefulWidget en lugar de StatelessWidget
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
-  final appValueNotifier = ThemeManager.instance;
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final themeNotifier = ThemeManager.instance;
+  late Locale _locale;
+
+  @override
+  void initState() {
+    super.initState();
+    _locale = LanguageManager.getInitialLocale();
+
+    LanguageManager.setLanguageChangeCallback(_onLanguageChanged);
+  }
+
+  void _onLanguageChanged() {
+    setState(() {
+      _locale = LanguageManager.getCurrentLocale();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +81,7 @@ class MyApp extends StatelessWidget {
     LoggingManager.writeLog(LogLevels.info, 'App started successfully.');
 
     return ValueListenableBuilder(
-      valueListenable: appValueNotifier.theme,
+      valueListenable: themeNotifier.theme,
       builder: (_, value, _) {
         return MaterialApp(
           title: 'EasyViewer',
@@ -66,6 +89,7 @@ class MyApp extends StatelessWidget {
           theme: value,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
+          locale: _locale, // Usar el locale del estado local
         );
       },
     );

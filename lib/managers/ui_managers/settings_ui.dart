@@ -1,5 +1,3 @@
-import 'package:easyviewer/constants/social_media.dart';
-import 'package:easyviewer/handlers/social_media.dart';
 import 'package:flutter/material.dart'
     show
         BuildContext,
@@ -23,9 +21,13 @@ import '/components/widgets/icon_button.dart' show CreateIconButton;
 import '/components/widgets/stateful_icon_button.dart'
     show CreateStatefulIconButton, CreateStatefulIconButtonState;
 import '/components/widgets/text.dart' show CreateText;
+import '/constants/social_media.dart' show socialMedia;
 import '/enums/social_media.dart' show SocialMedia;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
+import '/handlers/social_media.dart' show openUrl;
 import '/l10n/app_localizations.dart' show AppLocalizations;
+import '/managers/user_preferences_manager/language_manager.dart'
+    show LanguageManager;
 import '/managers/user_preferences_manager/theme_manager.dart'
     show ThemeManager;
 import '../user_preferences_manager/user_preferences_manager.dart'
@@ -89,7 +91,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
               placeHolder: AppLocalizations.of(context)!.change_language,
               dropdownMenuEntries: [
                 DropdownMenuEntry(
-                  value: 'es',
+                  value: 'en',
                   label: AppLocalizations.of(context)!.english_language,
                   style: ButtonStyle(enableFeedback: true),
                 ),
@@ -100,7 +102,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ],
               onSelected: (value) {
-                print('Selected language code: $value');
+                LanguageManager.changeLanguage(value.toString());
               },
             ),
             CreateIconButton(
