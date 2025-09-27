@@ -25,6 +25,7 @@ import '/components/widgets/stateful_icon_button.dart'
 import '/components/widgets/text.dart' show CreateText;
 import '/enums/social_media.dart' show SocialMedia;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
+import '/l10n/app_localizations.dart' show AppLocalizations;
 import '/managers/user_preferences_manager/theme_manager.dart'
     show ThemeManager;
 import '../user_preferences_manager/user_preferences_manager.dart'
@@ -33,7 +34,8 @@ import '../user_preferences_manager/user_preferences_manager.dart'
 class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
   static final _checkUpdateButtonKey =
       GlobalKey<CreateStatefulIconButtonState>();
-  static final _dropdownsKey = GlobalKey<CreateDropdownState>();
+  static final _dropdownContactKey = GlobalKey<CreateDropdownState>();
+  static final _dropdownChangeLanguageKey = GlobalKey<CreateDropdownState>();
 
   final appValueNotifier = ThemeManager.instance;
 
@@ -48,7 +50,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
           actions: [
             Row(
               children: [
-                const CreateText(text: 'Check for updates automatically'),
+                CreateText(text: AppLocalizations.of(context)!.check_updates),
                 CreateCheckbox(
                   initialValue: UserPreferencesManager.getPreference(
                     UserPreferencesKeys.automaticNotifications,
@@ -60,7 +62,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
                       value,
                     );
                   },
-                  semanticLabel: 'Check for updates automatically',
+                  semanticLabel: AppLocalizations.of(context)!.check_updates,
                 ),
               ],
             ),
@@ -75,26 +77,44 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
             ),
             CreateIconButton(
               onPressed: () {
-                print('Change language button pressed');
+                _dropdownChangeLanguageKey.currentState?.toggleVisibility();
               },
               icon: Icons.language,
-              tooltip: 'Change Language',
-              iconSize: 28,
-            ),
-            CreateIconButton(
-              onPressed: () {
-                _dropdownsKey.currentState?.setVisible(
-                  !_dropdownsKey.currentState!.isVisible,
-                );
-              },
-              icon: Icons.contacts,
-              tooltip: 'Contact',
+              tooltip: AppLocalizations.of(context)!.change_language,
               iconSize: 28,
             ),
             CreateDropdown(
-              key: _dropdownsKey,
+              key: _dropdownChangeLanguageKey,
               initiallyVisible: false,
-              placeHolder: 'Social media',
+              placeHolder: AppLocalizations.of(context)!.change_language,
+              dropdownMenuEntries: [
+                DropdownMenuEntry(
+                  value: 'es',
+                  label: AppLocalizations.of(context)!.english_language,
+                  style: ButtonStyle(enableFeedback: true),
+                ),
+                DropdownMenuEntry(
+                  value: 'es',
+                  label: AppLocalizations.of(context)!.spanish_language,
+                  style: ButtonStyle(enableFeedback: true),
+                ),
+              ],
+              onSelected: (value) {
+                print('Selected language code: $value');
+              },
+            ),
+            CreateIconButton(
+              onPressed: () {
+                _dropdownContactKey.currentState?.toggleVisibility();
+              },
+              icon: Icons.contacts,
+              tooltip: AppLocalizations.of(context)!.contact,
+              iconSize: 28,
+            ),
+            CreateDropdown(
+              key: _dropdownContactKey,
+              initiallyVisible: false,
+              placeHolder: AppLocalizations.of(context)!.social_media,
               dropdownMenuEntries: [
                 DropdownMenuEntry(
                   value: SocialMedia.instagram,
@@ -125,7 +145,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
                 print('Check updates button pressed');
               },
               icon: Icons.update,
-              tooltip: 'Check for Updates',
+              tooltip: AppLocalizations.of(context)!.check_updates,
               iconSize: 28,
             ),
           ],

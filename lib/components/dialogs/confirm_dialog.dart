@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' show BuildContext, Navigator;
 
+import '/l10n/app_localizations.dart' show AppLocalizations;
 import '../widgets/text_button.dart' show CreateTextButton;
 import 'base_dialog.dart' show BaseDialog;
 
@@ -27,7 +28,7 @@ class ConfirmDialog extends BaseDialog {
 
             Navigator.of(context).pop(true);
           },
-          text: 'Yes',
+          text: AppLocalizations.of(context)!.yes_option,
         ),
         CreateTextButton(
           onPressed: () => Navigator.of(context).pop(false),

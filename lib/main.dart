@@ -16,6 +16,7 @@ import 'app_logging/logging_manager.dart' show LoggingManager;
 import 'constants/version.dart' show version;
 import 'enums/logging.dart' show LogLevels;
 import 'handlers/close_window.dart' show handleCloseWindow;
+import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'managers/ui_managers/main_ui.dart' show MainUI;
 import 'managers/user_preferences_manager/theme_manager.dart' show ThemeManager;
 import 'managers/window_manager/window_manager.dart' show configureWindow;
@@ -63,6 +64,8 @@ class MyApp extends StatelessWidget {
           title: 'EasyViewer',
           home: const MyHomePage(),
           theme: value,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
         );
       },
     );

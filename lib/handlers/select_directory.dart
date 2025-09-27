@@ -1,10 +1,12 @@
 import 'package:file_picker/file_picker.dart' show FilePicker;
+import 'package:flutter/material.dart' show BuildContext;
 
 import '/app_logging/logging_manager.dart' show LoggingManager;
 import '/enums/logging.dart' show LogLevels;
+import '/l10n/app_localizations.dart' show AppLocalizations;
 import '/utils/paths.dart' show getUserDesktopPath;
 
-Future<String> selectDirectory() async {
+Future<String> selectDirectory(BuildContext context) async {
   LoggingManager.writeLog(
     LogLevels.info,
     '📂 Opening directory selection dialog...',
@@ -12,7 +14,7 @@ Future<String> selectDirectory() async {
 
   try {
     final directory = await FilePicker.platform.getDirectoryPath(
-      dialogTitle: 'Select directory',
+      dialogTitle: AppLocalizations.of(context)!.select_directory,
     );
 
     if (directory == null) {

@@ -35,9 +35,9 @@ class CreateDropdownState extends State<CreateDropdown> {
     isVisible = widget.initiallyVisible!;
   }
 
-  void setVisible(bool visible) {
+  void toggleVisibility() {
     setState(() {
-      isVisible = visible;
+      isVisible = !isVisible;
     });
   }
 

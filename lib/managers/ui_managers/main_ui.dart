@@ -21,6 +21,7 @@ import '/components/widgets/stateful_icon_button.dart'
     show CreateStatefulIconButton, CreateStatefulIconButtonState;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/handlers/select_directory.dart' show selectDirectory;
+import '/l10n/app_localizations.dart' show AppLocalizations;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 import 'settings_ui.dart' show SettingsUI;
@@ -51,13 +52,15 @@ class MainUI extends StatelessWidget {
                 children: [
                   CreateInput(
                     key: _inputUrlsKey,
-                    placeholder: 'Enter YouTube URLs here',
+                    placeholder: AppLocalizations.of(context)!.placeholder_url,
                     isMultiline: true,
                     autofocus: true,
                   ),
                   CreateInput(
                     key: _inputDirectoryKey,
-                    placeholder: 'Directory where the download will be saved',
+                    placeholder: AppLocalizations.of(
+                      context,
+                    )!.placeholder_directory,
                     readOnly: true,
                     initialValue: UserPreferencesManager.getPreference(
                       UserPreferencesKeys.downloadDirectory,
@@ -74,7 +77,7 @@ class MainUI extends StatelessWidget {
                   CreateStatefulIconButton(
                     key: _buttonDirectoryKey,
                     onPressed: () async {
-                      final directory = await selectDirectory();
+                      final directory = await selectDirectory(context);
 
                       UserPreferencesManager.setPreference(
                         UserPreferencesKeys.downloadDirectory,
@@ -84,7 +87,9 @@ class MainUI extends StatelessWidget {
                       _inputDirectoryKey.currentState?.setText(directory);
                     },
                     icon: Icons.folder,
-                    tooltip: 'Select Directory',
+                    tooltip: AppLocalizations.of(
+                      context,
+                    )!.select_download_directory,
                   ),
 
                   const SizedBox(height: 17),
@@ -101,7 +106,7 @@ class MainUI extends StatelessWidget {
                           print('URLs to download: $urlsToDownload');
                         },
                         icon: Icons.video_file,
-                        tooltip: 'Download Video',
+                        tooltip: AppLocalizations.of(context)!.download_video,
                       ),
 
                       CreateStatefulIconButton(
@@ -113,7 +118,7 @@ class MainUI extends StatelessWidget {
                           print('URLs to download: $urlsToDownload');
                         },
                         icon: Icons.audio_file,
-                        tooltip: 'Download Audio',
+                        tooltip: AppLocalizations.of(context)!.download_audio,
                       ),
                     ],
                   ),
