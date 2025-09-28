@@ -10,6 +10,7 @@ import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 import '/utils/directories_utils.dart' show openDirectory;
+import '/utils/file_utils.dart' show deleteFile;
 import '/utils/youtube_utils.dart' show separateUrls;
 import 'download_validations.dart' show DownloadValidations;
 import 'interact_api.dart' show InteractApi;
@@ -19,6 +20,7 @@ class DownloadManager {
   List<String> _separatedUrls = [];
   String _urlToDownload = '';
   int _downloadsCompletedSuccessfully = 0;
+  String _videoTitle = '';
 
   factory DownloadManager() {
     return _instance;
@@ -57,6 +59,8 @@ class DownloadManager {
 
       for (final url in List.from(_instance._separatedUrls)) {
         try {
+          _instance._videoTitle = '';
+
           final isDefaultDirectorySet =
               await setDefaultDirectoryIfIsNecessary();
 
@@ -68,11 +72,15 @@ class DownloadManager {
 
           _instance._urlToDownload = url;
 
-          var title = await InteractApi.getTitle(_instance._urlToDownload);
+          _instance._videoTitle = await InteractApi.getTitle(
+            _instance._urlToDownload,
+          );
 
-          title += downloadAudio ? '.mp3' : '.mp4';
+          _instance._videoTitle += downloadAudio ? '.mp3' : '.mp4';
 
-          final downloadFile = File(join(downloadDirectory, title));
+          final downloadFile = File(
+            join(downloadDirectory, _instance._videoTitle),
+          );
 
           await downloadFile.create();
 
@@ -93,6 +101,11 @@ class DownloadManager {
           LoggingManager.writeLog(
             LogLevels.error,
             "Error downloading the video: ${e.toString().replaceAll('Exception: ', '')}",
+          );
+
+          await deleteFile(
+            directory: downloadDirectory,
+            fileName: _instance._videoTitle,
           );
         } finally {
           _instance._separatedUrls.remove(_instance._urlToDownload);
