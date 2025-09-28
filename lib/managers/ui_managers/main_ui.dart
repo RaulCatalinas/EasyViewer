@@ -14,16 +14,20 @@ import 'package:flutter/material.dart'
         BuildContext,
         GlobalKey;
 
+import '/app_logging/logging_manager.dart' show LoggingManager;
 import '/components/widgets/input.dart' show CreateInput, CreateInputState;
 import '/components/widgets/progress_bar.dart'
     show CreateProgressBar, CreateProgressBarState;
 import '/components/widgets/stateful_icon_button.dart'
     show CreateStatefulIconButton, CreateStatefulIconButtonState;
+import '/core/download_manager.dart' show DownloadManager;
+import '/enums/logging.dart' show LogLevels;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/handlers/select_directory.dart' show selectDirectory;
 import '/l10n/app_localizations.dart' show AppLocalizations;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
+import '/utils/paths.dart' show getUserDesktopPath, existsDirectory;
 import 'settings_ui.dart' show SettingsUI;
 
 class MainUI extends StatelessWidget {
@@ -100,10 +104,10 @@ class MainUI extends StatelessWidget {
                       CreateStatefulIconButton(
                         key: _buttonDownloadVideoKey,
                         onPressed: () async {
-                          final urlsToDownload = _inputUrlsKey.currentState
-                              ?.getText();
-
-                          print('URLs to download: $urlsToDownload');
+                          await _processDownload(
+                            downloadAudio: false,
+                            context: context,
+                          );
                         },
                         icon: Icons.video_file,
                         tooltip: AppLocalizations.of(context)!.download_video,
@@ -112,10 +116,10 @@ class MainUI extends StatelessWidget {
                       CreateStatefulIconButton(
                         key: _buttonDownloadAudioKey,
                         onPressed: () async {
-                          final urlsToDownload = _inputUrlsKey.currentState
-                              ?.getText();
-
-                          print('URLs to download: $urlsToDownload');
+                          await _processDownload(
+                            downloadAudio: true,
+                            context: context,
+                          );
                         },
                         icon: Icons.audio_file,
                         tooltip: AppLocalizations.of(context)!.download_audio,
@@ -133,12 +137,73 @@ class MainUI extends StatelessWidget {
     );
   }
 
-  // TODO: Use this function to disable widgets and run the progress bar animation while the download is in progress.
   void _toggleStateWidgets() {
     _inputUrlsKey.currentState?.toggleEnabled();
     _buttonDirectoryKey.currentState?.toggleEnabled();
     _buttonDownloadVideoKey.currentState?.toggleEnabled();
     _buttonDownloadAudioKey.currentState?.toggleEnabled();
     _progressBarKey.currentState?.toggleState();
+  }
+
+  Future<bool> _setDefaultDirectoryIfIsNecessary() async {
+    final selectedDirectory = UserPreferencesManager.getPreference(
+      UserPreferencesKeys.downloadDirectory,
+    );
+
+    final isDirectoryEmpty = selectedDirectory == '';
+
+    final existSelectedDirectory = existsDirectory(selectedDirectory);
+
+    if (isDirectoryEmpty || !existSelectedDirectory) {
+      final defaultDirectory = await getUserDesktopPath();
+
+      UserPreferencesManager.setPreference(
+        UserPreferencesKeys.downloadDirectory,
+        defaultDirectory,
+      );
+
+      _inputDirectoryKey.currentState?.setText(defaultDirectory);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<void> _processDownload({
+    required bool downloadAudio,
+    required BuildContext context,
+  }) async {
+    try {
+      _toggleStateWidgets();
+
+      await _setDefaultDirectoryIfIsNecessary();
+
+      final urlsToDownload = _inputUrlsKey.currentState?.getText();
+
+      if (!context.mounted) {
+        LoggingManager.writeLog(
+          LogLevels.warning,
+          'Context not mounted, skipping download',
+        );
+
+        return;
+      }
+
+      await DownloadManager.downloadVideo(
+        context: context,
+        rawUrlsToDownload: urlsToDownload,
+        downloadAudio: downloadAudio,
+        setText: _inputUrlsKey.currentState?.setText,
+        setDefaultDirectoryIfIsNecessary: _setDefaultDirectoryIfIsNecessary,
+      );
+    } catch (e) {
+      LoggingManager.writeLog(
+        LogLevels.error,
+        'Error while downloading the video: ${e.toString()}',
+      );
+    } finally {
+      _toggleStateWidgets();
+    }
   }
 }
