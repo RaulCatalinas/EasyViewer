@@ -45,15 +45,15 @@ class CreateStatefulIconButtonState extends State<CreateStatefulIconButton> {
     _isVisible = widget.initiallyVisible;
   }
 
-  void setVisible(bool visible) {
+  void toggleVisibility() {
     setState(() {
-      _isVisible = visible;
+      _isVisible = !_isVisible;
     });
   }
 
   void toggleEnabled() {
     setState(() {
-      _enabled = !widget.enabled;
+      _enabled = !_enabled;
     });
   }
 

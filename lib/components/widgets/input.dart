@@ -59,7 +59,7 @@ class CreateInputState extends State<CreateInput> {
 
   void toggleEnabled() {
     setState(() {
-      _enabled = !widget.enabled;
+      _enabled = !_enabled;
     });
   }
 

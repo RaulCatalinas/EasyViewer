@@ -58,7 +58,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
                     UserPreferencesKeys.automaticNotifications,
                   ),
                   onChanged: (value) {
-                    _checkUpdateButtonKey.currentState?.setVisible(!value!);
+                    _checkUpdateButtonKey.currentState?.toggleVisibility();
                     UserPreferencesManager.setPreference(
                       UserPreferencesKeys.automaticNotifications,
                       value,
