@@ -49,7 +49,6 @@ void main() async {
   }
 }
 
-// CAMBIO PRINCIPAL: MyApp ahora es StatefulWidget en lugar de StatelessWidget
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
