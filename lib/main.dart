@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> {
           theme: value,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          locale: _locale, // Usar el locale del estado local
+          locale: _locale,
         );
       },
     );
