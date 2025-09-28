@@ -76,13 +76,13 @@ class DownloadManager {
 
           await downloadFile.create();
 
+          final audioStream = await InteractApi.getAudioStream(
+            _instance._urlToDownload,
+          );
+
+          final downloadFileStream = downloadFile.openWrite();
+
           if (downloadAudio) {
-            final audioStream = await InteractApi.getAudioStream(
-              _instance._urlToDownload,
-            );
-
-            final downloadFileStream = downloadFile.openWrite();
-
             await audioStream.pipe(downloadFileStream);
 
             downloadFileStream.flush();
