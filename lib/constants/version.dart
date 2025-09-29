@@ -1,1 +1,1 @@
-final version = 'v3.0.0';
+final installedVersion = '3.0.0';

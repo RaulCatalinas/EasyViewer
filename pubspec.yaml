@@ -42,6 +42,7 @@ dependencies:
   youtube_explode_dart: ^2.5.2
   flutter_localizations:
     sdk: flutter
+  pub_semver: ^2.2.0
 
 dev_dependencies:
   flutter_test:

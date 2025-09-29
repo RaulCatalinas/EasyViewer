@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io' show Platform;
 
+import 'package:easyviewer/update/update_manager.dart';
 import 'package:flutter/material.dart'
     show
         BuildContext,
@@ -18,7 +21,7 @@ import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 import 'app_logging/logging_manager.dart' show LoggingManager;
 import 'components/dialogs/info_dialog.dart' show InfoDialog;
-import 'constants/version.dart' show version;
+import 'constants/version.dart' show installedVersion;
 import 'enums/logging.dart' show LogLevels;
 import 'handlers/close_window.dart' show handleCloseWindow;
 import 'l10n/app_localizations.dart' show AppLocalizations;
@@ -34,7 +37,7 @@ void main() async {
 
     LoggingManager.writeLog(
       LogLevels.info,
-      'Starting EasyViewer ($version)...',
+      'Starting EasyViewer ($installedVersion)...',
     );
     LoggingManager.writeLog(
       LogLevels.info,
@@ -116,7 +119,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await UpdateManager.checkForUpdatesIfNecessary(context);
+      await UpdateManager.reminderUpdateIfNecessary(context);
+
       _showDialogsIfIsNecessary(context);
     });
 

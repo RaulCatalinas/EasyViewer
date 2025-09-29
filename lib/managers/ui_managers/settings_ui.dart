@@ -30,6 +30,7 @@ import '/managers/user_preferences_manager/language_manager.dart'
     show LanguageManager;
 import '/managers/user_preferences_manager/theme_manager.dart'
     show ThemeManager;
+import '/update/update_manager.dart' show UpdateManager;
 import '../user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 
@@ -143,8 +144,8 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
               initiallyVisible: !UserPreferencesManager.getPreference(
                 UserPreferencesKeys.automaticNotifications,
               ),
-              onPressed: () {
-                print('Check updates button pressed');
+              onPressed: () async {
+                await UpdateManager.checkForUpdates(context: context);
               },
               icon: Icons.update,
               tooltip: AppLocalizations.of(context)!.check_updates,
