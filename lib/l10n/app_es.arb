@@ -31,6 +31,7 @@
   "error_unavailable_video": "Este video no está disponible.",
   "error_default": " Ocurrió un error al descargar el video. \nInténtalo nuevamente más tarde.\nSi el error persiste, ponte en contacto conmigo.",
   "whats_new_title": "¿Que hay de nuevo?",
+  "whats_new_body": "",
   "liability_notice_title": "Aviso de responsabilidad",
   "liability_notice_body": "Al utilizar esta aplicación para descargar videos de YouTube, usted acepta que no nos hacemos responsables por cualquier incumplimiento de los términos y condiciones de YouTube. \n\nEs importante que revise y cumpla con las políticas de YouTube antes usar comercialmente cualquier contenido descargado a través de la app.",
   "@select_download_directory": {},
@@ -64,6 +65,7 @@
   "@error_unavailable_video": {},
   "@error_default": {},
   "@whats_new_title": {},
+  "@whats_new_body": {},
   "@liability_notice_title": {},
   "@liability_notice_body": {}
 }

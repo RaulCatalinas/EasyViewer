@@ -109,6 +109,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get whats_new_title => 'What\'s new?';
 
   @override
+  String get whats_new_body => '';
+
+  @override
   String get liability_notice_title => 'Liability notice';
 
   @override

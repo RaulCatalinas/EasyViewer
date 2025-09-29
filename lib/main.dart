@@ -9,10 +9,15 @@ import 'package:flutter/material.dart'
         StatefulWidget,
         ValueListenableBuilder,
         Widget,
+        WidgetsBinding,
         WidgetsFlutterBinding,
         runApp;
 
+import '/enums/user_preferences.dart' show UserPreferencesKeys;
+import '/managers/user_preferences_manager/user_preferences_manager.dart'
+    show UserPreferencesManager;
 import 'app_logging/logging_manager.dart' show LoggingManager;
+import 'components/dialogs/info_dialog.dart' show InfoDialog;
 import 'constants/version.dart' show version;
 import 'enums/logging.dart' show LogLevels;
 import 'handlers/close_window.dart' show handleCloseWindow;
@@ -111,6 +116,46 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showDialogsIfIsNecessary(context);
+    });
+
     return MainUI();
+  }
+
+  void _showDialogsIfIsNecessary(BuildContext context) {
+    final disclaimerShown = UserPreferencesManager.getPreference(
+      UserPreferencesKeys.disclaimerShown,
+    );
+
+    final whatsNewShown = UserPreferencesManager.getPreference(
+      UserPreferencesKeys.whatsNewShown,
+    );
+
+    if (!whatsNewShown) {
+      InfoDialog.show(
+        context,
+        title: AppLocalizations.of(context)!.whats_new_title,
+        content: AppLocalizations.of(context)!.whats_new_body,
+        onPressed: () => UserPreferencesManager.setPreference(
+          UserPreferencesKeys.whatsNewShown,
+          true,
+        ),
+      );
+    }
+
+    if (!disclaimerShown) {
+      InfoDialog.show(
+        context,
+        title: AppLocalizations.of(context)!.liability_notice_title,
+        content: AppLocalizations.of(context)!.liability_notice_body,
+        onPressed: () {
+          UserPreferencesManager.setPreference(
+            UserPreferencesKeys.disclaimerShown,
+            true,
+          );
+        },
+      );
+    }
   }
 }

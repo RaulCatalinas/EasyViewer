@@ -31,6 +31,7 @@
   "error_unavailable_video": "This video is unavailable.",
   "error_default": " An error occurred while downloading the video. \nPlease try again later.\nIf the error persists, please contact me",
   "whats_new_title": "What's new?",
+  "whats_new_body": "",
   "liability_notice_title": "Liability notice",
   "liability_notice_body": "By using this app to download videos from YouTube, you agree that we're not responsible for any failure to comply with YouTube's terms and conditions. \n\nIt's important that you review and comply with YouTube's policies before commercially using any content downloaded through the app",
   "@select_download_directory": {},
@@ -64,6 +65,7 @@
   "@error_unavailable_video": {},
   "@error_default": {},
   "@whats_new_title": {},
+  "@whats_new_body": {},
   "@liability_notice_title": {},
   "@liability_notice_body": {}
 }

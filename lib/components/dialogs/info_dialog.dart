@@ -15,6 +15,7 @@ class InfoDialog extends BaseDialog {
     BuildContext context, {
     required String title,
     required String content,
+    Function()? onPressed,
   }) {
     return BaseDialog.show<T>(
       context,
@@ -23,7 +24,11 @@ class InfoDialog extends BaseDialog {
       actions: [
         CreateTextButton(
           text: 'Ok',
-          onPressed: () => Navigator.of(context).pop(true),
+          onPressed: () {
+            if (onPressed != null) onPressed();
+
+            Navigator.of(context).pop(true);
+          },
         ),
       ],
     );

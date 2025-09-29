@@ -284,6 +284,12 @@ abstract class AppLocalizations {
   /// **'What\'s new?'**
   String get whats_new_title;
 
+  /// No description provided for @whats_new_body.
+  ///
+  /// In en, this message translates to:
+  /// **''**
+  String get whats_new_body;
+
   /// No description provided for @liability_notice_title.
   ///
   /// In en, this message translates to:

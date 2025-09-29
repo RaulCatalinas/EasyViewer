@@ -111,6 +111,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get whats_new_title => '¿Que hay de nuevo?';
 
   @override
+  String get whats_new_body => '';
+
+  @override
   String get liability_notice_title => 'Aviso de responsabilidad';
 
   @override
