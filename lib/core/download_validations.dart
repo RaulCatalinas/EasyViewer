@@ -2,6 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' show ClientException, head;
+import 'package:youtube_explode_dart/youtube_explode_dart.dart'
+    show
+        VideoRequiresPurchaseException,
+        VideoUnplayableException,
+        YoutubeExplode,
+        VideoUnavailableException;
 
 import '/app_logging/logging_manager.dart' show LoggingManager;
 import '/constants/hosts.dart' show allowHosts, google;
@@ -74,8 +80,68 @@ class DownloadValidations {
     required BuildContext context,
     required String url,
   }) async {
-    // TODO: Add logic to verify that the video is available for subsequent download.
-    // TODO: For now, we return true (for example) so that the compilation doesn't fail.
-    return true;
+    final youtube = YoutubeExplode();
+
+    try {
+      final video = await youtube.videos.get(url);
+
+      if (video.isLive) {
+        LoggingManager.writeLog(
+          LogLevels.warning,
+          'Video is a live stream: $url',
+        );
+
+        if (!context.mounted) return false;
+
+        throw Exception(AppLocalizations.of(context)!.error_live_stream);
+      }
+
+      await youtube.videos.streamsClient.getManifest(video.id);
+
+      youtube.close();
+
+      return true;
+    } on VideoUnavailableException catch (e) {
+      youtube.close();
+
+      print(e.message);
+
+      if (!context.mounted) return false;
+
+      LoggingManager.writeLog(LogLevels.error, 'Video unavailable: $url');
+
+      throw Exception(AppLocalizations.of(context)!.error_unavailable_video);
+    } on VideoRequiresPurchaseException catch (e) {
+      youtube.close();
+
+      print(e.message);
+
+      if (!context.mounted) return false;
+
+      LoggingManager.writeLog(LogLevels.error, 'Video requires purchase: $url');
+
+      throw Exception(AppLocalizations.of(context)!.error_only_members);
+    } on VideoUnplayableException catch (e) {
+      youtube.close();
+
+      if (!context.mounted) return false;
+
+      LoggingManager.writeLog(
+        LogLevels.error,
+        'Video unplayable: ${e.message}',
+      );
+
+      throw Exception(AppLocalizations.of(context)!.error_unavailable_video);
+    } on Exception catch (e) {
+      youtube.close();
+      if (!context.mounted) return false;
+
+      LoggingManager.writeLog(
+        LogLevels.error,
+        'Error checking video availability: $e',
+      );
+
+      throw Exception(AppLocalizations.of(context)!.error_default);
+    }
   }
 }
