@@ -25,6 +25,15 @@ Future<void> deleteFile({
   try {
     final fileToDelete = File(filePath);
 
+    if (!await fileToDelete.exists()) {
+      LoggingManager.writeLog(
+        LogLevels.info,
+        "File $fileToDelete doesn't exist; skipping deletion.",
+      );
+
+      return;
+    }
+
     await fileToDelete.delete();
 
     LoggingManager.writeLog(
