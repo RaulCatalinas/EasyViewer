@@ -1,7 +1,5 @@
 import 'dart:io' show Platform, File;
 
-import 'package:path/path.dart' show join;
-
 import '/app_logging/logging_manager.dart' show LoggingManager;
 import '/constants/chars.dart' show invalidChars;
 import '/enums/logging.dart' show LogLevels;
@@ -16,15 +14,8 @@ String cleanInvalidChars(String fileName) {
   return sanitized;
 }
 
-Future<void> deleteFile({
-  required String directory,
-  required String fileName,
-}) async {
-  final filePath = join(directory, fileName);
-
+Future<void> deleteFile({required File fileToDelete}) async {
   try {
-    final fileToDelete = File(filePath);
-
     if (!await fileToDelete.exists()) {
       LoggingManager.writeLog(
         LogLevels.info,
@@ -38,12 +29,12 @@ Future<void> deleteFile({
 
     LoggingManager.writeLog(
       LogLevels.info,
-      'File $filePath successfully deleted',
+      'File ${fileToDelete.path} successfully deleted',
     );
   } catch (e) {
     LoggingManager.writeLog(
       LogLevels.error,
-      'Error deleting file $filePath: ${e.toString()}',
+      'Error deleting file ${fileToDelete.path}: ${e.toString()}',
     );
   }
 }

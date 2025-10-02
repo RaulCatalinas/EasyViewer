@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:easyviewer/app_logging/logging_manager.dart';
-import 'package:easyviewer/enums/logging.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart'
     show VideoId, YoutubeExplode;
 
+import '/app_logging/logging_manager.dart' show LoggingManager;
+import '/enums/logging.dart' show LogLevels;
 import '/utils/file_utils.dart' show cleanInvalidChars;
 
 class InteractApi {
@@ -53,6 +53,23 @@ class InteractApi {
 
       return _instance.youtube.videos.streams.get(
         manifest.audioOnly.withHighestBitrate(),
+      );
+    } catch (e) {
+      LoggingManager.writeLog(
+        LogLevels.error,
+        'Error obtaining the audio stream from the video: ${e.toString()}',
+      );
+
+      rethrow;
+    }
+  }
+
+  static Future<dynamic> getVideoStream(String url) async {
+    try {
+      final manifest = await _getStreamManifest(url);
+
+      return _instance.youtube.videos.streams.get(
+        manifest.videoOnly.withHighestBitrate(),
       );
     } catch (e) {
       LoggingManager.writeLog(

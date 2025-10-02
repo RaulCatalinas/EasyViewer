@@ -9,6 +9,7 @@ import '/enums/logging.dart' show LogLevels;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
+import '/services/ffmpeg_service.dart' show mergeAudioAndVideo;
 import '/utils/directories_utils.dart' show openDirectory;
 import '/utils/file_utils.dart' show deleteFile;
 import '/utils/youtube_utils.dart' show separateUrls;
@@ -21,6 +22,7 @@ class DownloadManager {
   String _urlToDownload = '';
   int _downloadsCompletedSuccessfully = 0;
   String _videoTitle = '';
+  File _downloadFile = File('');
 
   factory DownloadManager() {
     return _instance;
@@ -59,6 +61,13 @@ class DownloadManager {
 
       for (final url in List.from(_instance._separatedUrls)) {
         try {
+          if (!context.mounted) return;
+
+          await DownloadValidations.isYoutubeVideoAvailable(
+            context: context,
+            url: url,
+          );
+
           _instance._videoTitle = '';
 
           final isDefaultDirectorySet =
@@ -76,24 +85,50 @@ class DownloadManager {
             _instance._urlToDownload,
           );
 
-          _instance._videoTitle += downloadAudio ? '.mp3' : '.mp4';
-
-          final downloadFile = File(
-            join(downloadDirectory, _instance._videoTitle),
-          );
-
-          await downloadFile.create();
-
           final audioStream = await InteractApi.getAudioStream(
             _instance._urlToDownload,
           );
 
-          final downloadFileStream = downloadFile.openWrite();
+          _instance._downloadFile = File(
+            join(
+              downloadDirectory,
+              join(_instance._videoTitle, downloadAudio ? '.mp3' : '.mp3.temp'),
+            ),
+          );
 
-          if (downloadAudio) {
-            await audioStream.pipe(downloadFileStream);
+          final downloadFileStream = _instance._downloadFile.openWrite();
 
-            downloadFileStream.flush();
+          await audioStream.pipe(downloadFileStream);
+
+          await downloadFileStream.flush();
+          await downloadFileStream.close();
+
+          if (!downloadAudio) {
+            final videoSteam = await InteractApi.getVideoStream(
+              _instance._urlToDownload,
+            );
+
+            _instance._downloadFile = File(
+              join(downloadDirectory, '${_instance._videoTitle}.mp4'),
+            );
+
+            final videoFileStream = _instance._downloadFile.openWrite();
+
+            await videoSteam.pipe(videoFileStream);
+
+            await videoFileStream.flush();
+            await videoFileStream.close();
+
+            await mergeAudioAndVideo(
+              audioFile: File(
+                join(downloadDirectory, '${_instance._videoTitle}.mp3'),
+              ),
+              videoFile: _instance._downloadFile,
+              outputPath: join(
+                downloadDirectory,
+                '${_instance._videoTitle}.mp4',
+              ),
+            );
           }
 
           _instance._downloadsCompletedSuccessfully++;
@@ -103,10 +138,7 @@ class DownloadManager {
             "Error downloading the video: ${e.toString().replaceAll('Exception: ', '')}",
           );
 
-          await deleteFile(
-            directory: downloadDirectory,
-            fileName: _instance._videoTitle,
-          );
+          await deleteFile(fileToDelete: _instance._downloadFile);
         } finally {
           _instance._separatedUrls.remove(_instance._urlToDownload);
 
