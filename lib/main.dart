@@ -2,7 +2,6 @@
 
 import 'dart:io' show Platform;
 
-import 'package:easyviewer/update/update_manager.dart';
 import 'package:flutter/material.dart'
     show
         BuildContext,
@@ -19,6 +18,7 @@ import 'package:flutter/material.dart'
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
+import '/update/update_manager.dart' show UpdateManager;
 import 'app_logging/logging_manager.dart' show LoggingManager;
 import 'components/dialogs/info_dialog.dart' show InfoDialog;
 import 'constants/version.dart' show installedVersion;
@@ -45,6 +45,8 @@ void main() async {
     );
 
     await configureWindow();
+
+    await UserPreferencesManager.initialize();
 
     LoggingManager.writeLog(LogLevels.info, 'Initializing UI...');
 

@@ -1,7 +1,5 @@
-import 'dart:convert' show JsonDecoder, JsonEncoder;
-import 'dart:io' show Directory, File;
-
-import 'package:path/path.dart' show join;
+import 'package:shared_preferences/shared_preferences.dart'
+    show SharedPreferencesAsync;
 
 import '/app_logging/logging_manager.dart' show LoggingManager;
 import '/constants/user_preferences.dart' show defaultUserPreferences;
@@ -12,107 +10,71 @@ class UserPreferencesManager {
   static final _instance = UserPreferencesManager._internal();
 
   late Map<UserPreferencesKeys, dynamic> _preferences;
-
-  final _preferencesFile = File(
-    join(Directory.current.path, 'user_preferences.json'),
-  );
+  SharedPreferencesAsync? _prefs;
+  bool _isInitialized = false;
 
   factory UserPreferencesManager() {
     return _instance;
   }
 
-  UserPreferencesManager._internal() {
-    _initialize();
-  }
+  UserPreferencesManager._internal();
 
-  void _initialize() {
-    _preferences = _loadPreferences();
+  static Future<void> initialize() async {
+    if (_instance._isInitialized) {
+      LoggingManager.writeLog(
+        LogLevels.warning,
+        '⚠️ UserPreferencesManager already initialized',
+      );
+      return;
+    }
 
-    LoggingManager.writeLog(
-      LogLevels.info,
-      '✅ UserPreferencesManager initialized successfully',
-    );
-  }
-
-  void _setupFilePath() {
     try {
-      LoggingManager.writeLog(
-        LogLevels.info,
-        '🔄 Creating new user preferences file...',
-      );
-
-      _preferencesFile.createSync();
-
-      final defaultPrefsString = _convertUserPreferencesKeysToString(
-        defaultUserPreferences,
-      );
-
-      _preferencesFile.writeAsStringSync(
-        JsonEncoder.withIndent('  ').convert(defaultPrefsString),
-        flush: true,
-      );
+      _instance._prefs = SharedPreferencesAsync();
+      _instance._preferences = await _instance._loadPreferences();
+      _instance._isInitialized = true;
 
       LoggingManager.writeLog(
         LogLevels.info,
-        '✅ User preferences file created successfully at: ${_preferencesFile.path}',
+        '✅ UserPreferencesManager initialized successfully (${_instance._preferences.length} preferences)',
       );
     } catch (e) {
       LoggingManager.writeLog(
         LogLevels.error,
-        '❌ Error creating user preferences file: ${e.toString()}',
+        '❌ Error initializing UserPreferencesManager: ${e.toString()}',
       );
+
+      _instance._preferences = Map.from(defaultUserPreferences);
     }
   }
 
-  Map<UserPreferencesKeys, dynamic> _loadPreferences() {
-    if (!_preferencesFile.existsSync()) {
-      LoggingManager.writeLog(
-        LogLevels.info,
-        '📝 User preferences file not found, creating with defaults',
-      );
-
-      _setupFilePath();
-
-      return defaultUserPreferences;
-    }
+  Future<Map<UserPreferencesKeys, dynamic>> _loadPreferences() async {
+    final Map<UserPreferencesKeys, dynamic> preferences = {};
 
     try {
       LoggingManager.writeLog(
         LogLevels.info,
-        '📖 Loading user preferences from: ${_preferencesFile.path}',
+        '📖 Loading user preferences from SharedPreferencesAsync',
       );
 
-      final userPrefs = _preferencesFile.readAsStringSync();
+      for (final entry in defaultUserPreferences.entries) {
+        final enumKey = entry.key;
+        final defaultValue = entry.value;
+        final stringKey = enumKey.value;
 
-      if (userPrefs.trim().isEmpty) {
-        LoggingManager.writeLog(
-          LogLevels.warning,
-          '⚠️ Preferences file is empty, recreating with defaults',
-        );
+        dynamic value;
 
-        final userPrefsString = _convertUserPreferencesKeysToString(
-          defaultUserPreferences,
-        );
+        if (defaultValue is bool) {
+          value = await _prefs?.getBool(stringKey) ?? defaultValue;
+        } else if (defaultValue is String) {
+          value = await _prefs?.getString(stringKey) ?? defaultValue;
+        }
 
-        _preferencesFile.writeAsStringSync(
-          JsonEncoder.withIndent('  ').convert(userPrefsString),
-          flush: true,
-        );
-
-        return defaultUserPreferences;
+        preferences[enumKey] = value;
       }
-
-      final Map<String, dynamic> jsonData = JsonDecoder().convert(userPrefs);
-      final Map<UserPreferencesKeys, dynamic> preferences = {};
-
-      defaultUserPreferences.forEach((enumKey, defaultValue) {
-        final stringKey = enumKey.toString().split('.').last;
-        preferences[enumKey] = jsonData[stringKey] ?? defaultValue;
-      });
 
       LoggingManager.writeLog(
         LogLevels.info,
-        '✅ User preferences loaded successfully (${preferences.length} preferences)',
+        '✅ User preferences loaded successfully',
       );
 
       return preferences;
@@ -122,56 +84,132 @@ class UserPreferencesManager {
         '❌ Error loading preferences: ${e.toString()}, using defaults',
       );
 
-      return defaultUserPreferences;
+      return Map.from(defaultUserPreferences);
     }
   }
 
-  Map<String, dynamic> _convertUserPreferencesKeysToString(
-    Map<UserPreferencesKeys, dynamic> preferencesToConvert,
-  ) {
-    final defaultStringPrefs = <String, dynamic>{};
-
-    preferencesToConvert.forEach((key, value) {
-      defaultStringPrefs[key.toString().split('.').last] = value;
-    });
-
-    return defaultStringPrefs;
-  }
-
   static dynamic getPreference(UserPreferencesKeys key) {
+    if (!_instance._isInitialized) {
+      LoggingManager.writeLog(
+        LogLevels.error,
+        '❌ Trying to get preference before initialization! Returning default.',
+      );
+
+      return defaultUserPreferences[key];
+    }
+
     return _instance._preferences[key];
   }
 
   static void setPreference(UserPreferencesKeys key, dynamic value) {
+    if (!_instance._isInitialized) {
+      LoggingManager.writeLog(
+        LogLevels.error,
+        '❌ Trying to set preference before initialization!',
+      );
+      return;
+    }
+
     final oldValue = _instance._preferences[key];
+
+    if (oldValue == value) {
+      LoggingManager.writeLog(
+        LogLevels.info,
+        '⚠️ Preference ${key.value} already set to $value, no change made',
+      );
+      return;
+    }
 
     _instance._preferences[key] = value;
 
     LoggingManager.writeLog(
       LogLevels.info,
-      "🔧 Preference updated: ${key.toString().split('.').last} = $value (was: $oldValue)",
+      '🔧 Preference updated: ${key.value} = $value (was: $oldValue)',
     );
   }
 
-  static void savePreferences() {
+  static Future<void> savePreferences() async {
+    if (!_instance._isInitialized) {
+      LoggingManager.writeLog(
+        LogLevels.error,
+        '❌ Cannot save preferences before initialization',
+      );
+      return;
+    }
+
     try {
-      final userPrefsString = _instance._convertUserPreferencesKeysToString(
-        _instance._preferences,
+      LoggingManager.writeLog(
+        LogLevels.info,
+        '💾 Saving ${_instance._preferences.length} preferences to disk...',
       );
 
-      _instance._preferencesFile.writeAsStringSync(
-        JsonEncoder.withIndent('  ').convert(userPrefsString),
-        flush: true,
-      );
+      int savedCount = 0;
+
+      final startTime = DateTime.now();
+
+      for (final entry in _instance._preferences.entries) {
+        final key = entry.key;
+        final value = entry.value;
+        final stringKey = key.value;
+
+        bool saved = false;
+
+        if (value is bool) {
+          await _instance._prefs?.setBool(stringKey, value);
+
+          saved = true;
+        } else if (value is String) {
+          await _instance._prefs?.setString(stringKey, value);
+
+          saved = true;
+        }
+
+        if (saved) savedCount++;
+      }
+
+      final duration = DateTime.now().difference(startTime);
 
       LoggingManager.writeLog(
         LogLevels.info,
-        '💾 User preferences saved successfully to: ${_instance._preferencesFile.path}',
+        '✅ Saved $savedCount preferences to disk in ${duration.inMilliseconds}ms',
       );
     } catch (e) {
       LoggingManager.writeLog(
         LogLevels.error,
         '❌ Error saving preferences: ${e.toString()}',
+      );
+    }
+  }
+
+  static Future<void> resetToDefaults() async {
+    if (!_instance._isInitialized) {
+      LoggingManager.writeLog(
+        LogLevels.error,
+        '❌ Cannot reset preferences before initialization',
+      );
+      return;
+    }
+
+    try {
+      LoggingManager.writeLog(
+        LogLevels.info,
+        '🔄 Resetting all preferences to defaults...',
+      );
+
+      for (final entry in defaultUserPreferences.entries) {
+        setPreference(entry.key, entry.value);
+      }
+
+      await savePreferences();
+
+      LoggingManager.writeLog(
+        LogLevels.info,
+        '✅ All preferences reset to defaults',
+      );
+    } catch (e) {
+      LoggingManager.writeLog(
+        LogLevels.error,
+        '❌ Error resetting preferences: ${e.toString()}',
       );
     }
   }

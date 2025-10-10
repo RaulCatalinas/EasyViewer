@@ -13,8 +13,8 @@ void handleCloseWindow(BuildContext context) {
       context,
       title: AppLocalizations.of(context)!.exit_confirmation_title,
       content: AppLocalizations.of(context)!.exit_confirmation_body,
-      onPressed: () {
-        UserPreferencesManager.savePreferences();
+      onPressed: () async {
+        await UserPreferencesManager.savePreferences();
         LoggingManager.saveLogs();
       },
     );

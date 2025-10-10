@@ -44,6 +44,7 @@ dependencies:
     sdk: flutter
   pub_semver: ^2.2.0
   ffmpeg_kit_flutter_minimal: ^6.0.8
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
