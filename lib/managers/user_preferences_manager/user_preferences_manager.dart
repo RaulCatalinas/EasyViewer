@@ -25,6 +25,7 @@ class UserPreferencesManager {
         LogLevels.warning,
         '⚠️ UserPreferencesManager already initialized',
       );
+
       return;
     }
 
@@ -107,6 +108,7 @@ class UserPreferencesManager {
         LogLevels.error,
         '❌ Trying to set preference before initialization!',
       );
+
       return;
     }
 
@@ -117,6 +119,7 @@ class UserPreferencesManager {
         LogLevels.info,
         '⚠️ Preference ${key.value} already set to $value, no change made',
       );
+
       return;
     }
 
@@ -177,39 +180,6 @@ class UserPreferencesManager {
       LoggingManager.writeLog(
         LogLevels.error,
         '❌ Error saving preferences: ${e.toString()}',
-      );
-    }
-  }
-
-  static Future<void> resetToDefaults() async {
-    if (!_instance._isInitialized) {
-      LoggingManager.writeLog(
-        LogLevels.error,
-        '❌ Cannot reset preferences before initialization',
-      );
-      return;
-    }
-
-    try {
-      LoggingManager.writeLog(
-        LogLevels.info,
-        '🔄 Resetting all preferences to defaults...',
-      );
-
-      for (final entry in defaultUserPreferences.entries) {
-        setPreference(entry.key, entry.value);
-      }
-
-      await savePreferences();
-
-      LoggingManager.writeLog(
-        LogLevels.info,
-        '✅ All preferences reset to defaults',
-      );
-    } catch (e) {
-      LoggingManager.writeLog(
-        LogLevels.error,
-        '❌ Error resetting preferences: ${e.toString()}',
       );
     }
   }
