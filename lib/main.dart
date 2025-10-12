@@ -12,6 +12,7 @@ import 'package:flutter/material.dart'
         ValueListenableBuilder,
         Widget,
         WidgetsBinding,
+        WidgetsBindingObserver,
         WidgetsFlutterBinding,
         runApp;
 
@@ -37,7 +38,7 @@ void main() async {
 
     LoggingManager.writeLog(
       LogLevels.info,
-      'Starting EasyViewer ($installedVersion)...',
+      '🚀 Starting EasyViewer ($installedVersion)...',
     );
     LoggingManager.writeLog(
       LogLevels.info,
@@ -48,11 +49,11 @@ void main() async {
 
     await UserPreferencesManager.initialize();
 
-    LoggingManager.writeLog(LogLevels.info, 'Initializing UI...');
+    LoggingManager.writeLog(LogLevels.info, '📱 Launching UI...');
 
-    runApp(MyApp());
+    runApp(const MyApp());
   } catch (e, stackTrace) {
-    LoggingManager.writeLog(LogLevels.critical, 'Failed to start app: $e');
+    LoggingManager.writeLog(LogLevels.critical, '❌ Failed to start app: $e');
     LoggingManager.writeLog(LogLevels.critical, 'Stack trace: $stackTrace');
 
     rethrow;
@@ -66,16 +67,21 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final themeNotifier = ThemeManager.instance;
   late Locale _locale;
 
   @override
   void initState() {
     super.initState();
-    _locale = LanguageManager.getInitialLocale();
 
+    _locale = LanguageManager.getInitialLocale();
     LanguageManager.setLanguageChangeCallback(_onLanguageChanged);
+
+    LoggingManager.writeLog(
+      LogLevels.info,
+      '✅ UI ready - EasyViewer visible to user',
+    );
   }
 
   void _onLanguageChanged() {
@@ -86,9 +92,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    LoggingManager.writeLog(LogLevels.info, 'UI initialized successfully.');
-    LoggingManager.writeLog(LogLevels.info, 'App started successfully.');
-
     return ValueListenableBuilder(
       valueListenable: themeNotifier.theme,
       builder: (_, value, _) {
@@ -113,21 +116,70 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool _hasInitialized = false;
+
   @override
   void initState() {
     super.initState();
+
     handleCloseWindow(context);
   }
 
   @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_hasInitialized) {
+      _hasInitialized = true;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await _initializeApp();
+      });
+    }
+  }
+
+  Future<void> _initializeApp() async {
+    try {
+      LoggingManager.writeLog(
+        LogLevels.info,
+        '⚙️ Initializing background tasks...',
+      );
+
+      LoggingManager.writeLog(LogLevels.info, 'Checking for updates...');
+
       await UpdateManager.checkForUpdatesIfNecessary(context);
       await UpdateManager.reminderUpdateIfNecessary(context);
 
-      _showDialogsIfIsNecessary(context);
-    });
+      LoggingManager.writeLog(LogLevels.info, '✅ Update check completed');
 
+      LoggingManager.writeLog(
+        LogLevels.info,
+        'Showing initial dialogs (if necessary)...',
+      );
+
+      _showDialogsIfIsNecessary(context);
+
+      LoggingManager.writeLog(
+        LogLevels.info,
+        '✅ Background tasks completed successfully',
+      );
+
+      LoggingManager.writeLog(LogLevels.info, '✅ App fully operational');
+    } catch (e) {
+      LoggingManager.writeLog(
+        LogLevels.error,
+        '❌ Background initialization failed: ${e.toString()}',
+      );
+
+      LoggingManager.writeLog(
+        LogLevels.warning,
+        '⚠️ App running with limited functionality',
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MainUI();
   }
 
@@ -145,10 +197,12 @@ class _MyHomePageState extends State<MyHomePage> {
         context,
         title: AppLocalizations.of(context)!.whats_new_title,
         content: AppLocalizations.of(context)!.whats_new_body,
-        onPressed: () => UserPreferencesManager.setPreference(
-          UserPreferencesKeys.whatsNewShown,
-          true,
-        ),
+        onPressed: () {
+          UserPreferencesManager.setPreference(
+            UserPreferencesKeys.whatsNewShown,
+            true,
+          );
+        },
       );
     }
 
