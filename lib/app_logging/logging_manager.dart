@@ -4,14 +4,20 @@ import 'dart:io' show Directory, File, FileMode, IOSink;
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:path/path.dart' show join;
 
-import '../enums/logging.dart' show LogLevels;
+import '/enums/logging.dart' show LogLevels;
 
 class LoggingManager {
   static final _instance = LoggingManager._internal();
 
+  static final _writeLogsTimestampFormatter = DateFormat.Hms();
+  static final _filenameTimestampFormatter = DateFormat('yyyy-MM-dd_HH-mm-ss');
+
+  static final _filenameTimestamp = _filenameTimestampFormatter.format(
+    DateTime.now(),
+  );
+
   static final _logDir = Directory('logs');
-  static final _logFile = File(join(_logDir.path, 'app.log'));
-  static final _timestampFormatter = DateFormat('dd/MM/yyyy HH:mm');
+  static final _logFile = File(join(_logDir.path, '$_filenameTimestamp.log'));
 
   IOSink? _sink;
 
@@ -24,27 +30,19 @@ class LoggingManager {
   }
 
   void _initializeLogger() {
-    _ensureLogDirectory();
+    _logFile.createSync(recursive: true);
 
     _sink = _logFile.openWrite(mode: FileMode.append, encoding: utf8);
   }
 
-  void _ensureLogDirectory() {
-    if (!_logDir.existsSync()) {
-      _logDir.createSync(recursive: true);
-    }
-    if (!_logFile.existsSync()) {
-      _logFile.createSync();
-    }
-  }
-
   static void writeLog(LogLevels level, String message) {
-    final timestamp = _timestampFormatter.format(DateTime.now());
-
-    _instance._sink?.writeln('$timestamp - ${level.value}: $message');
+    _instance._sink?.writeln(
+      '[${_writeLogsTimestampFormatter.format(DateTime.now())}] ${level.value}: $message',
+    );
   }
 
-  static void saveLogs() {
-    _instance._sink?.flush();
+  static Future<void> saveLogs() async {
+    await _instance._sink?.flush();
+    await _instance._sink?.close();
   }
 }
