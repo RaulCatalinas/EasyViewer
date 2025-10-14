@@ -9,6 +9,7 @@ import 'package:flutter/material.dart'
         MaterialApp,
         State,
         StatefulWidget,
+        ThemeData,
         ValueListenableBuilder,
         Widget,
         WidgetsBinding,
@@ -98,7 +99,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         return MaterialApp(
           title: 'EasyViewer',
           home: const MyHomePage(),
-          theme: value,
+          theme: ThemeData(brightness: value.brightness, fontFamily: 'Inter'),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: _locale,

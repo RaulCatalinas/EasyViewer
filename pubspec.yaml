@@ -1,5 +1,5 @@
 name: easyviewer
-description: "A new Flutter project."
+description: "App to download YouTube videos"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 3.0.0
 
 environment:
   sdk: ^3.9.2
@@ -69,6 +69,13 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   generate: true
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter-latin-400-normal.ttf
+          weight: 400
+          style: normal
 
   # To add assets to your application, add an assets section, like this:
   # assets:

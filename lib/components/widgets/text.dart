@@ -11,7 +11,7 @@ class CreateText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(fontFamily: 'Arial', fontSize: fontSize),
+      style: TextStyle(fontSize: fontSize),
       textAlign: TextAlign.center,
     );
   }
