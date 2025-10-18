@@ -16,15 +16,14 @@ import 'package:flutter/material.dart'
         WidgetsBindingObserver,
         WidgetsFlutterBinding,
         runApp;
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 import '/update/update_manager.dart' show UpdateManager;
-import 'app_logging/logging_manager.dart' show LoggingManager;
 import 'components/dialogs/info_dialog.dart' show InfoDialog;
 import 'constants/version.dart' show installedVersion;
-import 'enums/logging.dart' show LogLevels;
 import 'handlers/close_window.dart' show handleCloseWindow;
 import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'managers/ui_managers/main_ui.dart' show MainUI;
@@ -37,25 +36,19 @@ void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
 
-    LoggingManager.writeLog(
-      LogLevels.info,
-      '🚀 Starting EasyViewer ($installedVersion)...',
-    );
-    LoggingManager.writeLog(
-      LogLevels.info,
-      'Platform: ${Platform.operatingSystem}',
-    );
+    LogKeeper.info('🚀 Starting EasyViewer ($installedVersion)...');
+    LogKeeper.info('Platform: ${Platform.operatingSystem}');
 
     await configureWindow();
 
     await UserPreferencesManager.initialize();
 
-    LoggingManager.writeLog(LogLevels.info, '📱 Launching UI...');
+    LogKeeper.info('📱 Launching UI...');
 
     runApp(const MyApp());
   } catch (e, stackTrace) {
-    LoggingManager.writeLog(LogLevels.critical, '❌ Failed to start app: $e');
-    LoggingManager.writeLog(LogLevels.critical, 'Stack trace: $stackTrace');
+    LogKeeper.critical('❌ Failed to start app: $e');
+    LogKeeper.critical('Stack trace: $stackTrace');
 
     rethrow;
   }
@@ -79,10 +72,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     _locale = LanguageManager.getInitialLocale();
     LanguageManager.setLanguageChangeCallback(_onLanguageChanged);
 
-    LoggingManager.writeLog(
-      LogLevels.info,
-      '✅ UI ready - EasyViewer visible to user',
-    );
+    LogKeeper.info('✅ UI ready - EasyViewer visible to user');
   }
 
   void _onLanguageChanged() {
@@ -141,41 +131,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _initializeApp() async {
     try {
-      LoggingManager.writeLog(
-        LogLevels.info,
-        '⚙️ Initializing background tasks...',
-      );
-
-      LoggingManager.writeLog(LogLevels.info, 'Checking for updates...');
+      LogKeeper.info('⚙️ Initializing background tasks...');
+      LogKeeper.info('🔄 Checking for updates...');
 
       await UpdateManager.checkForUpdatesIfNecessary(context);
       await UpdateManager.reminderUpdateIfNecessary(context);
 
-      LoggingManager.writeLog(LogLevels.info, '✅ Update check completed');
-
-      LoggingManager.writeLog(
-        LogLevels.info,
-        'Showing initial dialogs (if necessary)...',
-      );
+      LogKeeper.info('✅ Update check completed');
+      LogKeeper.info('Showing initial dialogs (if necessary)...');
 
       _showDialogsIfIsNecessary(context);
 
-      LoggingManager.writeLog(
-        LogLevels.info,
-        '✅ Background tasks completed successfully',
-      );
-
-      LoggingManager.writeLog(LogLevels.info, '✅ App fully operational');
+      LogKeeper.info('✅ Background tasks completed successfully');
+      LogKeeper.info('⚡ EasyViewer is fully operational');
     } catch (e) {
-      LoggingManager.writeLog(
-        LogLevels.error,
-        '❌ Background initialization failed: ${e.toString()}',
-      );
-
-      LoggingManager.writeLog(
-        LogLevels.warning,
-        '⚠️ App running with limited functionality',
-      );
+      LogKeeper.error('❌ Background initialization failed: $e');
+      LogKeeper.info('⚠️ Application running with limited functionality');
     }
   }
 

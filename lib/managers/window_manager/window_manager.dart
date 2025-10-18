@@ -1,13 +1,12 @@
 import 'dart:ui' show Size;
 
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 import 'package:window_manager/window_manager.dart';
 
-import '/app_logging/logging_manager.dart' show LoggingManager;
 import '/app_settings/app_settings.dart' show WindowSettings;
-import '/enums/logging.dart' show LogLevels;
 
 Future<void> configureWindow() async {
-  LoggingManager.writeLog(LogLevels.info, 'Configuring window...');
+  LogKeeper.info('Configuring window...');
 
   await windowManager.ensureInitialized();
 
@@ -23,5 +22,5 @@ Future<void> configureWindow() async {
     await windowManager.show();
   });
 
-  LoggingManager.writeLog(LogLevels.info, 'Window configured successfully.');
+  LogKeeper.info('Window configured successfully.');
 }

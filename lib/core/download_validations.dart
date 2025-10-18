@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' show ClientException, head;
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 import 'package:youtube_explode_dart/youtube_explode_dart.dart'
     show
         VideoRequiresPurchaseException,
@@ -9,9 +10,7 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart'
         YoutubeExplode,
         VideoUnavailableException;
 
-import '/app_logging/logging_manager.dart' show LoggingManager;
 import '/constants/hosts.dart' show allowHosts, google;
-import '/enums/logging.dart' show LogLevels;
 import '/l10n/app_localizations.dart' show AppLocalizations;
 
 class DownloadValidations {
@@ -28,7 +27,7 @@ class DownloadValidations {
     required String? url,
   }) {
     if (url == null || url.isEmpty) {
-      LoggingManager.writeLog(LogLevels.warning, 'No URL entered');
+      LogKeeper.warning('No URL entered');
 
       throw Exception(AppLocalizations.of(context)!.error_empty_url);
     }
@@ -43,10 +42,7 @@ class DownloadValidations {
     final host = Uri.parse(url).host;
 
     if (!allowHosts.contains(host)) {
-      LoggingManager.writeLog(
-        LogLevels.warning,
-        'The $url URL is not from YouTube.',
-      );
+      LogKeeper.warning('The $url URL is not from YouTube.');
 
       return false;
     }
@@ -64,13 +60,13 @@ class DownloadValidations {
     } on TimeoutException catch (e) {
       if (!context.mounted) return false;
 
-      LoggingManager.writeLog(LogLevels.error, 'Internet connection issue: $e');
+      LogKeeper.error('Internet connection timeout: $e');
 
       throw Exception(AppLocalizations.of(context)!.error_connection);
     } on ClientException catch (e) {
       if (!context.mounted) return false;
 
-      LoggingManager.writeLog(LogLevels.error, 'Internet connection issue: $e');
+      LogKeeper.error('Internet connection issue: $e');
 
       throw Exception(AppLocalizations.of(context)!.error_connection);
     }
@@ -86,10 +82,7 @@ class DownloadValidations {
       final video = await youtube.videos.get(url);
 
       if (video.isLive) {
-        LoggingManager.writeLog(
-          LogLevels.warning,
-          'Video is a live stream: $url',
-        );
+        LogKeeper.warning('Video is a live stream: $url');
 
         if (!context.mounted) return false;
 
@@ -108,7 +101,7 @@ class DownloadValidations {
 
       if (!context.mounted) return false;
 
-      LoggingManager.writeLog(LogLevels.error, 'Video unavailable: $url');
+      LogKeeper.error('Video unavailable: $url');
 
       throw Exception(AppLocalizations.of(context)!.error_unavailable_video);
     } on VideoRequiresPurchaseException catch (e) {
@@ -118,7 +111,7 @@ class DownloadValidations {
 
       if (!context.mounted) return false;
 
-      LoggingManager.writeLog(LogLevels.error, 'Video requires purchase: $url');
+      LogKeeper.error('Video requires purchase: $url');
 
       throw Exception(AppLocalizations.of(context)!.error_only_members);
     } on VideoUnplayableException catch (e) {
@@ -126,20 +119,15 @@ class DownloadValidations {
 
       if (!context.mounted) return false;
 
-      LoggingManager.writeLog(
-        LogLevels.error,
-        'Video unplayable: ${e.message}',
-      );
+      LogKeeper.error('Video unplayable: ${e.message}');
 
       throw Exception(AppLocalizations.of(context)!.error_unavailable_video);
     } on Exception catch (e) {
       youtube.close();
+
       if (!context.mounted) return false;
 
-      LoggingManager.writeLog(
-        LogLevels.error,
-        'Error checking video availability: $e',
-      );
+      LogKeeper.error('Error checking video availability: $e');
 
       throw Exception(AppLocalizations.of(context)!.error_default);
     }

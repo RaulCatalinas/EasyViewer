@@ -1,9 +1,8 @@
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 import 'package:shared_preferences/shared_preferences.dart'
     show SharedPreferencesAsync;
 
-import '/app_logging/logging_manager.dart' show LoggingManager;
 import '/constants/user_preferences.dart' show defaultUserPreferences;
-import '/enums/logging.dart' show LogLevels;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 
 class UserPreferencesManager {
@@ -21,10 +20,7 @@ class UserPreferencesManager {
 
   static Future<void> initialize() async {
     if (_instance._isInitialized) {
-      LoggingManager.writeLog(
-        LogLevels.warning,
-        '⚠️ UserPreferencesManager already initialized',
-      );
+      LogKeeper.warning('⚠️ UserPreferencesManager already initialized');
 
       return;
     }
@@ -34,13 +30,11 @@ class UserPreferencesManager {
       _instance._preferences = await _instance._loadPreferences();
       _instance._isInitialized = true;
 
-      LoggingManager.writeLog(
-        LogLevels.info,
+      LogKeeper.info(
         '✅ UserPreferencesManager initialized successfully (${_instance._preferences.length} preferences)',
       );
     } catch (e) {
-      LoggingManager.writeLog(
-        LogLevels.error,
+      LogKeeper.error(
         '❌ Error initializing UserPreferencesManager: ${e.toString()}',
       );
 
@@ -52,10 +46,7 @@ class UserPreferencesManager {
     final Map<UserPreferencesKeys, dynamic> preferences = {};
 
     try {
-      LoggingManager.writeLog(
-        LogLevels.info,
-        '📖 Loading user preferences from SharedPreferencesAsync',
-      );
+      LogKeeper.info('📖 Loading user preferences from SharedPreferencesAsync');
 
       for (final entry in defaultUserPreferences.entries) {
         final enumKey = entry.key;
@@ -73,16 +64,12 @@ class UserPreferencesManager {
         preferences[enumKey] = value;
       }
 
-      LoggingManager.writeLog(
-        LogLevels.info,
-        '✅ User preferences loaded successfully',
-      );
+      LogKeeper.info('✅ User preferences loaded successfully');
 
       return preferences;
     } catch (e) {
-      LoggingManager.writeLog(
-        LogLevels.error,
-        '❌ Error loading preferences: ${e.toString()}, using defaults',
+      LogKeeper.error(
+        '❌ Error loading user preferences: ${e.toString()}, using defaults',
       );
 
       return Map.from(defaultUserPreferences);
@@ -91,8 +78,7 @@ class UserPreferencesManager {
 
   static dynamic getPreference(UserPreferencesKeys key) {
     if (!_instance._isInitialized) {
-      LoggingManager.writeLog(
-        LogLevels.error,
+      LogKeeper.error(
         '❌ Trying to get preference before initialization! Returning default.',
       );
 
@@ -104,10 +90,7 @@ class UserPreferencesManager {
 
   static void setPreference(UserPreferencesKeys key, dynamic value) {
     if (!_instance._isInitialized) {
-      LoggingManager.writeLog(
-        LogLevels.error,
-        '❌ Trying to set preference before initialization!',
-      );
+      LogKeeper.error('❌ Trying to set preference before initialization!');
 
       return;
     }
@@ -115,8 +98,7 @@ class UserPreferencesManager {
     final oldValue = _instance._preferences[key];
 
     if (oldValue == value) {
-      LoggingManager.writeLog(
-        LogLevels.info,
+      LogKeeper.info(
         '⚠️ Preference ${key.value} already set to $value, no change made',
       );
 
@@ -125,24 +107,20 @@ class UserPreferencesManager {
 
     _instance._preferences[key] = value;
 
-    LoggingManager.writeLog(
-      LogLevels.info,
+    LogKeeper.info(
       '🔧 Preference updated: ${key.value} = $value (was: $oldValue)',
     );
   }
 
   static Future<void> savePreferences() async {
     if (!_instance._isInitialized) {
-      LoggingManager.writeLog(
-        LogLevels.error,
-        '❌ Cannot save preferences before initialization',
-      );
+      LogKeeper.error('❌ Cannot save preferences before initialization');
+
       return;
     }
 
     try {
-      LoggingManager.writeLog(
-        LogLevels.info,
+      LogKeeper.info(
         '💾 Saving ${_instance._preferences.length} preferences to disk...',
       );
 
@@ -172,15 +150,11 @@ class UserPreferencesManager {
 
       final duration = DateTime.now().difference(startTime);
 
-      LoggingManager.writeLog(
-        LogLevels.info,
+      LogKeeper.info(
         '✅ Saved $savedCount preferences to disk in ${duration.inMilliseconds}ms',
       );
     } catch (e) {
-      LoggingManager.writeLog(
-        LogLevels.error,
-        '❌ Error saving preferences: ${e.toString()}',
-      );
+      LogKeeper.error('❌ Error saving preferences: ${e.toString()}');
     }
   }
 }

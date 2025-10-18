@@ -1,16 +1,12 @@
 import 'package:file_picker/file_picker.dart' show FilePicker;
 import 'package:flutter/material.dart' show BuildContext;
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 
-import '/app_logging/logging_manager.dart' show LoggingManager;
-import '/enums/logging.dart' show LogLevels;
 import '/l10n/app_localizations.dart' show AppLocalizations;
 import '/utils/paths.dart' show getUserDesktopPath;
 
 Future<String> selectDirectory(BuildContext context) async {
-  LoggingManager.writeLog(
-    LogLevels.info,
-    '📂 Opening directory selection dialog...',
-  );
+  LogKeeper.info('📂 Opening directory selection dialog...');
 
   try {
     final directory = await FilePicker.platform.getDirectoryPath(
@@ -18,50 +14,34 @@ Future<String> selectDirectory(BuildContext context) async {
     );
 
     if (directory == null) {
-      LoggingManager.writeLog(
-        LogLevels.warning,
+      LogKeeper.warning(
         '❌ User cancelled directory selection, falling back to desktop path',
       );
 
       final desktopPath = await getUserDesktopPath();
 
-      LoggingManager.writeLog(
-        LogLevels.info,
-        '🏠 Using desktop path as fallback: $desktopPath',
-      );
+      LogKeeper.info('🏠 Using desktop path as fallback: $desktopPath');
 
       return desktopPath;
     }
 
-    LoggingManager.writeLog(
-      LogLevels.info,
-      '✅ Directory selected successfully: $directory',
-    );
+    LogKeeper.info('✅ Directory selected successfully: $directory');
 
     return directory;
   } catch (e) {
-    LoggingManager.writeLog(
-      LogLevels.error,
-      '❌ Error selecting directory: ${e.toString()}',
-    );
-
-    LoggingManager.writeLog(
-      LogLevels.info,
-      '🔄 Attempting to use desktop path as fallback...',
-    );
+    LogKeeper.error('❌ Error selecting directory: ${e.toString()}');
+    LogKeeper.info('🔄 Attempting to use desktop path as fallback...');
 
     try {
       final desktopPath = await getUserDesktopPath();
 
-      LoggingManager.writeLog(
-        LogLevels.info,
+      LogKeeper.info(
         '✅ Desktop path retrieved successfully as fallback: $desktopPath',
       );
 
       return desktopPath;
     } catch (fallbackError) {
-      LoggingManager.writeLog(
-        LogLevels.critical,
+      LogKeeper.critical(
         '🚨 Failed to get desktop path fallback: ${fallbackError.toString()}',
       );
 

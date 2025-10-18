@@ -1,8 +1,8 @@
 import 'dart:io' show Platform, File;
 
-import '/app_logging/logging_manager.dart' show LoggingManager;
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
+
 import '/constants/chars.dart' show invalidChars;
-import '/enums/logging.dart' show LogLevels;
 
 String cleanInvalidChars(String fileName) {
   String sanitized = fileName;
@@ -17,24 +17,15 @@ String cleanInvalidChars(String fileName) {
 Future<void> deleteFile({required File fileToDelete}) async {
   try {
     if (!await fileToDelete.exists()) {
-      LoggingManager.writeLog(
-        LogLevels.info,
-        "File $fileToDelete doesn't exist; skipping deletion.",
-      );
+      LogKeeper.info("File $fileToDelete doesn't exist; skipping deletion.");
 
       return;
     }
 
     await fileToDelete.delete();
 
-    LoggingManager.writeLog(
-      LogLevels.info,
-      'File ${fileToDelete.path} successfully deleted',
-    );
+    LogKeeper.info('File ${fileToDelete.path} successfully deleted');
   } catch (e) {
-    LoggingManager.writeLog(
-      LogLevels.error,
-      'Error deleting file ${fileToDelete.path}: ${e.toString()}',
-    );
+    LogKeeper.error('Error deleting file ${fileToDelete.path}: $e');
   }
 }

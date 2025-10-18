@@ -1,11 +1,10 @@
 import 'dart:io' show File;
 
 import 'package:flutter/material.dart' show BuildContext;
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 import 'package:path/path.dart';
 
-import '/app_logging/logging_manager.dart' show LoggingManager;
 import '/components/dialogs/error_dialog.dart' show ErrorDialog;
-import '/enums/logging.dart' show LogLevels;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
@@ -133,8 +132,7 @@ class DownloadManager {
 
           _instance._downloadsCompletedSuccessfully++;
         } catch (e) {
-          LoggingManager.writeLog(
-            LogLevels.error,
+          LogKeeper.error(
             "Error downloading the video: ${e.toString().replaceAll('Exception: ', '')}",
           );
 
@@ -151,10 +149,7 @@ class DownloadManager {
       }
     } catch (e) {
       if (!context.mounted) {
-        LoggingManager.writeLog(
-          LogLevels.warning,
-          'Context not mounted, skipping showing the error',
-        );
+        LogKeeper.warning('Context not mounted, skipping showing the error');
 
         return;
       }

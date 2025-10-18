@@ -1,10 +1,9 @@
 import 'dart:async';
 
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 import 'package:youtube_explode_dart/youtube_explode_dart.dart'
     show VideoId, YoutubeExplode;
 
-import '/app_logging/logging_manager.dart' show LoggingManager;
-import '/enums/logging.dart' show LogLevels;
 import '/utils/file_utils.dart' show cleanInvalidChars;
 
 class InteractApi {
@@ -23,10 +22,7 @@ class InteractApi {
 
       return cleanInvalidChars(video.title);
     } catch (e) {
-      LoggingManager.writeLog(
-        LogLevels.error,
-        'Error obtaining video title: ${e.toString()}',
-      );
+      LogKeeper.error('Error obtaining video title: ${e.toString()}');
 
       rethrow;
     }
@@ -38,10 +34,7 @@ class InteractApi {
 
       return await _instance.youtube.videos.streams.getManifest(videoId);
     } catch (e) {
-      LoggingManager.writeLog(
-        LogLevels.error,
-        'Error obtaining the stream manifest: ${e.toString()}',
-      );
+      LogKeeper.error('Error obtaining stream manifest: ${e.toString()}');
 
       rethrow;
     }
@@ -55,10 +48,7 @@ class InteractApi {
         manifest.audioOnly.withHighestBitrate(),
       );
     } catch (e) {
-      LoggingManager.writeLog(
-        LogLevels.error,
-        'Error obtaining the audio stream from the video: ${e.toString()}',
-      );
+      LogKeeper.error('Error obtaining audio stream: ${e.toString()}');
 
       rethrow;
     }
@@ -72,8 +62,7 @@ class InteractApi {
         manifest.videoOnly.withHighestBitrate(),
       );
     } catch (e) {
-      LoggingManager.writeLog(
-        LogLevels.error,
+      LogKeeper.error(
         'Error obtaining the audio stream from the video: ${e.toString()}',
       );
 

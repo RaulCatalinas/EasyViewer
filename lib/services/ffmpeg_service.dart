@@ -1,9 +1,8 @@
 import 'dart:io' show File;
 
 import 'package:ffmpeg_kit_flutter_minimal/ffmpeg_kit.dart' show FFmpegKit;
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 
-import '/app_logging/logging_manager.dart' show LoggingManager;
-import '/enums/logging.dart' show LogLevels;
 import '/utils/file_utils.dart' show deleteFile;
 
 Future<void> mergeAudioAndVideo({
@@ -18,15 +17,13 @@ Future<void> mergeAudioAndVideo({
         final returnCode = await session.getReturnCode();
 
         if (returnCode!.isValueSuccess()) {
-          LoggingManager.writeLog(
-            LogLevels.info,
+          LogKeeper.info(
             'FFmpeg process completed successfully and the video has been downloaded',
           );
 
           await deleteFile(fileToDelete: audioFile);
         } else {
-          LoggingManager.writeLog(
-            LogLevels.error,
+          LogKeeper.error(
             'Error! FFmpeg process failed with code: ${returnCode.getValue()}',
           );
 
@@ -35,17 +32,14 @@ Future<void> mergeAudioAndVideo({
         }
       },
       (log) {
-        LoggingManager.writeLog(
-          LogLevels.info,
-          'FFmpeg log: ${log.getMessage()}',
-        );
+        LogKeeper.info('FFmpeg log: ${log.getMessage()}');
       },
     );
   } catch (e) {
-    LoggingManager.writeLog(
-      LogLevels.error,
-      'Error merging audio and video streams: ${e.toString()}',
-    );
+    LogKeeper.error('Error merging audio and video streams: ${e.toString()}');
+
+    await deleteFile(fileToDelete: audioFile);
+    await deleteFile(fileToDelete: videoFile);
 
     rethrow;
   }

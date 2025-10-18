@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart' show BuildContext;
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 import 'package:pub_semver/pub_semver.dart' show Version;
 
-import '/app_logging/logging_manager.dart' show LoggingManager;
 import '/components/dialogs/confirm_dialog.dart' show ConfirmDialog;
 import '/components/dialogs/info_dialog.dart' show InfoDialog;
 import '/constants/version.dart' show installedVersion;
-import '/enums/logging.dart' show LogLevels;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/l10n/app_localizations.dart' show AppLocalizations;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
@@ -33,7 +32,7 @@ class UpdateManager {
 
       return installed < latest;
     } catch (e) {
-      LoggingManager.writeLog(LogLevels.error, 'Error parsing version: $e');
+      LogKeeper.error('Error parsing version: $e');
 
       return false;
     }
@@ -73,20 +72,14 @@ class UpdateManager {
       if (!anUpdateIsAvailable && automaticCheckUpdates) return;
 
       if (!context.mounted) {
-        LoggingManager.writeLog(
-          LogLevels.warning,
-          'Context not mounted, skipping notification',
-        );
+        LogKeeper.info('Context not mounted, skipping notification');
 
         return;
       }
 
       _notifyUpdate(context: context, anUpdateIsAvailable: anUpdateIsAvailable);
     } catch (e) {
-      LoggingManager.writeLog(
-        LogLevels.error,
-        'Error checking for updates: $e',
-      );
+      LogKeeper.error('Error checking for updates: $e');
     }
   }
 

@@ -13,15 +13,14 @@ import 'package:flutter/material.dart'
         Widget,
         BuildContext,
         GlobalKey;
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 
-import '/app_logging/logging_manager.dart' show LoggingManager;
 import '/components/widgets/input.dart' show CreateInput, CreateInputState;
 import '/components/widgets/progress_bar.dart'
     show CreateProgressBar, CreateProgressBarState;
 import '/components/widgets/stateful_icon_button.dart'
     show CreateStatefulIconButton, CreateStatefulIconButtonState;
 import '/core/download_manager.dart' show DownloadManager;
-import '/enums/logging.dart' show LogLevels;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/handlers/select_directory.dart' show selectDirectory;
 import '/l10n/app_localizations.dart' show AppLocalizations;
@@ -182,10 +181,7 @@ class MainUI extends StatelessWidget {
       final urlsToDownload = _inputUrlsKey.currentState?.getText();
 
       if (!context.mounted) {
-        LoggingManager.writeLog(
-          LogLevels.warning,
-          'Context not mounted, skipping download',
-        );
+        LogKeeper.warning('Context not mounted, skipping download');
 
         return;
       }
@@ -198,10 +194,7 @@ class MainUI extends StatelessWidget {
         setDefaultDirectoryIfIsNecessary: _setDefaultDirectoryIfIsNecessary,
       );
     } catch (e) {
-      LoggingManager.writeLog(
-        LogLevels.error,
-        'Error while downloading the video: ${e.toString()}',
-      );
+      LogKeeper.error('Error while downloading the video: ${e.toString()}');
     } finally {
       _toggleStateWidgets();
     }

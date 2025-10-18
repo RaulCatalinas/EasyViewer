@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:flutter_window_close/flutter_window_close.dart';
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 
-import '/app_logging/logging_manager.dart' show LoggingManager;
 import '/components/dialogs/confirm_dialog.dart' show ConfirmDialog;
 import '/l10n/app_localizations.dart' show AppLocalizations;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
@@ -15,7 +15,7 @@ void handleCloseWindow(BuildContext context) {
       content: AppLocalizations.of(context)!.exit_confirmation_body,
       onPressed: () async {
         await UserPreferencesManager.savePreferences();
-        await LoggingManager.saveLogs();
+        await LogKeeper.saveLogs();
       },
     );
   });
