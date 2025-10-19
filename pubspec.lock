@@ -305,10 +305,10 @@ packages:
     dependency: "direct main"
     description:
       name: logkeeper
-      sha256: fd4f4ca5657f51682b0a757ce49b396bff6be64a5b322a7cba8ae4709f42ec0d
+      sha256: "651c63146c6a0803b43e93cfe00e315298476182113a4ba81261c1efd8b73ff5"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.0+1"
   matcher:
     dependency: transitive
     description:
