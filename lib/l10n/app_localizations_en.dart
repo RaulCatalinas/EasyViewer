@@ -117,4 +117,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get liability_notice_body =>
       'By using this app to download videos from YouTube, you agree that we\'re not responsible for any failure to comply with YouTube\'s terms and conditions. \n\nIt\'s important that you review and comply with YouTube\'s policies before commercially using any content downloaded through the app';
+
+  @override
+  String get settings_menu_title => 'Settings Menu';
 }

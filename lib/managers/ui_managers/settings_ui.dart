@@ -1,13 +1,13 @@
 import 'package:fluikit/widgets.dart'
     show
-        FluiAppBar,
         FluiCheckbox,
         FluiDropdown,
         FluiDropdownState,
         FluiIconButton,
         FluiStatefulIconButton,
         FluiStatefulIconButtonState,
-        FluiText;
+        FluiText,
+        FluiDrawer;
 import 'package:flutter/material.dart'
     show
         BuildContext,
@@ -15,13 +15,11 @@ import 'package:flutter/material.dart'
         DropdownMenuEntry,
         GlobalKey,
         Icons,
-        PreferredSizeWidget,
-        Row,
-        Size,
         StatelessWidget,
         ValueListenableBuilder,
         Widget,
-        kToolbarHeight;
+        SizedBox;
+import 'package:flutter/widgets.dart';
 
 import '/constants/social_media.dart' show socialMedia;
 import '/enums/social_media.dart' show SocialMedia;
@@ -36,7 +34,7 @@ import '/update/update_manager.dart' show UpdateManager;
 import '../user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 
-class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
+class SettingsUI extends StatelessWidget {
   static final _checkUpdateButtonKey = GlobalKey<FluiStatefulIconButtonState>();
   static final _dropdownContactKey = GlobalKey<FluiDropdownState>();
   static final _dropdownChangeLanguageKey = GlobalKey<FluiDropdownState>();
@@ -50,9 +48,19 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
     return ValueListenableBuilder(
       valueListenable: appValueNotifier.iconTheme,
       builder: (_, value, _) {
-        return FluiAppBar(
-          actions: [
-            Row(
+        return FluiDrawer(
+          height: 320,
+          width: LanguageManager.getCurrentLocale() == const Locale('en')
+              ? 250
+              : 280,
+          children: [
+            const SizedBox(height: 5),
+            FluiText(
+              text: AppLocalizations.of(context)!.settings_menu_title,
+              fontSize: 22,
+            ),
+            const SizedBox(height: 20),
+            Column(
               children: [
                 FluiText(text: AppLocalizations.of(context)!.check_updates),
                 FluiCheckbox(
@@ -70,6 +78,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 5),
             FluiIconButton(
               onPressed: () {
                 ThemeManager.toggleTheme();
@@ -79,67 +88,82 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
               tooltip: 'Change Theme',
               iconSize: 28,
             ),
-            FluiIconButton(
-              onPressed: () {
-                _dropdownChangeLanguageKey.currentState?.toggleVisibility();
-              },
-              icon: Icons.language,
-              tooltip: AppLocalizations.of(context)!.change_language,
-              iconSize: 28,
-            ),
-            FluiDropdown(
-              key: _dropdownChangeLanguageKey,
-              initiallyVisible: false,
-              placeHolder: AppLocalizations.of(context)!.change_language,
-              dropdownMenuEntries: [
-                DropdownMenuEntry(
-                  value: 'en',
-                  label: AppLocalizations.of(context)!.english_language,
-                  style: ButtonStyle(enableFeedback: true),
+            const SizedBox(height: 5),
+            Column(
+              children: [
+                FluiIconButton(
+                  onPressed: () {
+                    _dropdownContactKey.currentState?.closeIfOpen();
+                    _dropdownChangeLanguageKey.currentState?.toggleVisibility();
+                  },
+                  icon: Icons.language,
+                  tooltip: AppLocalizations.of(context)!.change_language,
+                  iconSize: 28,
                 ),
-                DropdownMenuEntry(
-                  value: 'es',
-                  label: AppLocalizations.of(context)!.spanish_language,
-                  style: ButtonStyle(enableFeedback: true),
-                ),
-              ],
-              onSelected: (value) {
-                LanguageManager.changeLanguage(value.toString());
-              },
-            ),
-            FluiIconButton(
-              onPressed: () {
-                _dropdownContactKey.currentState?.toggleVisibility();
-              },
-              icon: Icons.contacts,
-              tooltip: AppLocalizations.of(context)!.contact,
-              iconSize: 28,
-            ),
-            FluiDropdown(
-              key: _dropdownContactKey,
-              initiallyVisible: false,
-              placeHolder: AppLocalizations.of(context)!.social_media,
-              dropdownMenuEntries: [
-                DropdownMenuEntry(
-                  value: SocialMedia.instagram,
-                  label: 'Instagram',
-                  style: ButtonStyle(enableFeedback: true),
-                ),
-                DropdownMenuEntry(
-                  value: SocialMedia.twitter,
-                  label: 'Twitter/X',
-                  style: ButtonStyle(enableFeedback: true),
-                ),
-                DropdownMenuEntry(
-                  value: SocialMedia.github,
-                  label: 'GitHub',
-                  style: ButtonStyle(enableFeedback: true),
+                FluiDropdown(
+                  key: _dropdownChangeLanguageKey,
+                  initiallyVisible: false,
+                  placeHolder: AppLocalizations.of(context)!.change_language,
+                  dropdownMenuEntries: [
+                    DropdownMenuEntry(
+                      value: 'en',
+                      label: AppLocalizations.of(context)!.english_language,
+                      style: ButtonStyle(enableFeedback: true),
+                    ),
+                    DropdownMenuEntry(
+                      value: 'es',
+                      label: AppLocalizations.of(context)!.spanish_language,
+                      style: ButtonStyle(enableFeedback: true),
+                    ),
+                  ],
+                  onSelected: (value) {
+                    LanguageManager.changeLanguage(value.toString());
+                    _dropdownChangeLanguageKey.currentState?.closeIfOpen();
+                  },
                 ),
               ],
-              onSelected: (value) async {
-                await openUrl(socialMedia[value].toString());
-              },
             ),
+            const SizedBox(height: 5),
+            Column(
+              children: [
+                FluiIconButton(
+                  onPressed: () {
+                    _dropdownChangeLanguageKey.currentState?.closeIfOpen();
+                    _dropdownContactKey.currentState?.toggleVisibility();
+                  },
+                  icon: Icons.contacts,
+                  tooltip: AppLocalizations.of(context)!.contact,
+                  iconSize: 28,
+                ),
+                FluiDropdown(
+                  key: _dropdownContactKey,
+                  initiallyVisible: false,
+                  placeHolder: AppLocalizations.of(context)!.social_media,
+                  dropdownMenuEntries: [
+                    DropdownMenuEntry(
+                      value: SocialMedia.instagram,
+                      label: 'Instagram',
+                      style: ButtonStyle(enableFeedback: true),
+                    ),
+                    DropdownMenuEntry(
+                      value: SocialMedia.twitter,
+                      label: 'Twitter/X',
+                      style: ButtonStyle(enableFeedback: true),
+                    ),
+                    DropdownMenuEntry(
+                      value: SocialMedia.github,
+                      label: 'GitHub',
+                      style: ButtonStyle(enableFeedback: true),
+                    ),
+                  ],
+                  onSelected: (value) async {
+                    await openUrl(socialMedia[value].toString());
+                    _dropdownContactKey.currentState?.closeIfOpen();
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 5),
             FluiStatefulIconButton(
               key: _checkUpdateButtonKey,
               initiallyVisible: !UserPreferencesManager.getPreference(
@@ -157,7 +181,4 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
       },
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

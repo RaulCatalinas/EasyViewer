@@ -1,5 +1,6 @@
 import 'package:fluikit/widgets.dart'
     show
+        FluiAppBar,
         FluiInput,
         FluiInputState,
         FluiStatefulIconButton,
@@ -45,7 +46,8 @@ class MainUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SettingsUI(),
+      appBar: const FluiAppBar(actions: []),
+      drawer: SettingsUI(),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(25.0),

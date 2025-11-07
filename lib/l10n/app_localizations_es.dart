@@ -119,4 +119,7 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get liability_notice_body =>
       'Al utilizar esta aplicación para descargar videos de YouTube, usted acepta que no nos hacemos responsables por cualquier incumplimiento de los términos y condiciones de YouTube. \n\nEs importante que revise y cumpla con las políticas de YouTube antes usar comercialmente cualquier contenido descargado a través de la app.';
+
+  @override
+  String get settings_menu_title => 'Menú de configuración';
 }

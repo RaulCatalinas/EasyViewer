@@ -34,6 +34,7 @@
   "whats_new_body": "",
   "liability_notice_title": "Aviso de responsabilidad",
   "liability_notice_body": "Al utilizar esta aplicación para descargar videos de YouTube, usted acepta que no nos hacemos responsables por cualquier incumplimiento de los términos y condiciones de YouTube. \n\nEs importante que revise y cumpla con las políticas de YouTube antes usar comercialmente cualquier contenido descargado a través de la app.",
+  "settings_menu_title": "Menú de configuración",
   "@select_download_directory": {},
   "@download_video": {},
   "@download_audio": {},
@@ -67,5 +68,6 @@
   "@whats_new_title": {},
   "@whats_new_body": {},
   "@liability_notice_title": {},
-  "@liability_notice_body": {}
+  "@liability_notice_body": {},
+  "@settings_menu_title": {}
 }
