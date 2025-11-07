@@ -1,9 +1,8 @@
+import 'package:fluikit/dialogs.dart' show FluiConfirmDialog, FluiInfoDialog;
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 import 'package:pub_semver/pub_semver.dart' show Version;
 
-import '/components/dialogs/confirm_dialog.dart' show ConfirmDialog;
-import '/components/dialogs/info_dialog.dart' show InfoDialog;
 import '/constants/version.dart' show installedVersion;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/l10n/app_localizations.dart' show AppLocalizations;
@@ -92,7 +91,7 @@ class UpdateManager {
     required bool anUpdateIsAvailable,
   }) {
     if (anUpdateIsAvailable) {
-      ConfirmDialog.show(
+      FluiConfirmDialog.show(
         context,
         title: AppLocalizations.of(context)!.update_available_title,
         content: AppLocalizations.of(context)!.update_available_body,
@@ -102,7 +101,7 @@ class UpdateManager {
       return;
     }
 
-    InfoDialog.show(
+    FluiInfoDialog.show(
       context,
       title: AppLocalizations.of(context)!.updated_version_title,
       content: AppLocalizations.of(context)!.updated_version_body,

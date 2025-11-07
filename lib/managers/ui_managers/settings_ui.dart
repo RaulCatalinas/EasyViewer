@@ -1,3 +1,13 @@
+import 'package:fluikit/widgets.dart'
+    show
+        FluiAppBar,
+        FluiCheckbox,
+        FluiDropdown,
+        FluiDropdownState,
+        FluiIconButton,
+        FluiStatefulIconButton,
+        FluiStatefulIconButtonState,
+        FluiText;
 import 'package:flutter/material.dart'
     show
         BuildContext,
@@ -13,14 +23,6 @@ import 'package:flutter/material.dart'
         Widget,
         kToolbarHeight;
 
-import '/components/widgets/app_bar.dart' show CreateAppBar;
-import '/components/widgets/checkbox.dart' show CreateCheckbox;
-import '/components/widgets/dropdown.dart'
-    show CreateDropdown, CreateDropdownState;
-import '/components/widgets/icon_button.dart' show CreateIconButton;
-import '/components/widgets/stateful_icon_button.dart'
-    show CreateStatefulIconButton, CreateStatefulIconButtonState;
-import '/components/widgets/text.dart' show CreateText;
 import '/constants/social_media.dart' show socialMedia;
 import '/enums/social_media.dart' show SocialMedia;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
@@ -35,10 +37,9 @@ import '../user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 
 class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
-  static final _checkUpdateButtonKey =
-      GlobalKey<CreateStatefulIconButtonState>();
-  static final _dropdownContactKey = GlobalKey<CreateDropdownState>();
-  static final _dropdownChangeLanguageKey = GlobalKey<CreateDropdownState>();
+  static final _checkUpdateButtonKey = GlobalKey<FluiStatefulIconButtonState>();
+  static final _dropdownContactKey = GlobalKey<FluiDropdownState>();
+  static final _dropdownChangeLanguageKey = GlobalKey<FluiDropdownState>();
 
   final appValueNotifier = ThemeManager.instance;
 
@@ -49,12 +50,12 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
     return ValueListenableBuilder(
       valueListenable: appValueNotifier.iconTheme,
       builder: (_, value, _) {
-        return CreateAppBar(
+        return FluiAppBar(
           actions: [
             Row(
               children: [
-                CreateText(text: AppLocalizations.of(context)!.check_updates),
-                CreateCheckbox(
+                FluiText(text: AppLocalizations.of(context)!.check_updates),
+                FluiCheckbox(
                   initialValue: UserPreferencesManager.getPreference(
                     UserPreferencesKeys.automaticNotifications,
                   ),
@@ -69,7 +70,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ],
             ),
-            CreateIconButton(
+            FluiIconButton(
               onPressed: () {
                 ThemeManager.toggleTheme();
                 ThemeManager.toggleIconTheme();
@@ -78,7 +79,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
               tooltip: 'Change Theme',
               iconSize: 28,
             ),
-            CreateIconButton(
+            FluiIconButton(
               onPressed: () {
                 _dropdownChangeLanguageKey.currentState?.toggleVisibility();
               },
@@ -86,7 +87,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
               tooltip: AppLocalizations.of(context)!.change_language,
               iconSize: 28,
             ),
-            CreateDropdown(
+            FluiDropdown(
               key: _dropdownChangeLanguageKey,
               initiallyVisible: false,
               placeHolder: AppLocalizations.of(context)!.change_language,
@@ -106,7 +107,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
                 LanguageManager.changeLanguage(value.toString());
               },
             ),
-            CreateIconButton(
+            FluiIconButton(
               onPressed: () {
                 _dropdownContactKey.currentState?.toggleVisibility();
               },
@@ -114,7 +115,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
               tooltip: AppLocalizations.of(context)!.contact,
               iconSize: 28,
             ),
-            CreateDropdown(
+            FluiDropdown(
               key: _dropdownContactKey,
               initiallyVisible: false,
               placeHolder: AppLocalizations.of(context)!.social_media,
@@ -139,7 +140,7 @@ class SettingsUI extends StatelessWidget implements PreferredSizeWidget {
                 await openUrl(socialMedia[value].toString());
               },
             ),
-            CreateStatefulIconButton(
+            FluiStatefulIconButton(
               key: _checkUpdateButtonKey,
               initiallyVisible: !UserPreferencesManager.getPreference(
                 UserPreferencesKeys.automaticNotifications,

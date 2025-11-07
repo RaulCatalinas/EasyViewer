@@ -46,6 +46,10 @@ dependencies:
   ffmpeg_kit_flutter_minimal: ^6.0.8
   shared_preferences: ^2.5.3
   logkeeper: ^1.1.0+2
+  fluikit:
+    git:
+      url: https://github.com/RaulCatalinas/Fluikit.git
+      ref: main
 
 dev_dependencies:
   flutter_test:

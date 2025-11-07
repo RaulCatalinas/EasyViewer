@@ -2,6 +2,7 @@
 
 import 'dart:io' show Platform;
 
+import 'package:fluikit/dialogs.dart' show FluiInfoDialog;
 import 'package:flutter/material.dart'
     show
         BuildContext,
@@ -22,7 +23,6 @@ import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 import '/update/update_manager.dart' show UpdateManager;
-import 'components/dialogs/info_dialog.dart' show InfoDialog;
 import 'constants/version.dart' show installedVersion;
 import 'handlers/close_window.dart' show handleCloseWindow;
 import 'l10n/app_localizations.dart' show AppLocalizations;
@@ -165,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     if (!whatsNewShown) {
-      InfoDialog.show(
+      FluiInfoDialog.show(
         context,
         title: AppLocalizations.of(context)!.whats_new_title,
         content: AppLocalizations.of(context)!.whats_new_body,
@@ -179,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     if (!disclaimerShown) {
-      InfoDialog.show(
+      FluiInfoDialog.show(
         context,
         title: AppLocalizations.of(context)!.liability_notice_title,
         content: AppLocalizations.of(context)!.liability_notice_body,

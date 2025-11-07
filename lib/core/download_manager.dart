@@ -1,10 +1,10 @@
 import 'dart:io' show File;
 
+import 'package:fluikit/dialogs.dart' show FluiErrorDialog;
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
-import 'package:path/path.dart';
+import 'package:path/path.dart' show join;
 
-import '/components/dialogs/error_dialog.dart' show ErrorDialog;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
@@ -154,7 +154,7 @@ class DownloadManager {
         return;
       }
 
-      ErrorDialog.show(
+      FluiErrorDialog.show(
         context,
         content: e.toString().replaceAll('Exception: ', ''),
       );

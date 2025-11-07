@@ -1,3 +1,9 @@
+import 'package:fluikit/widgets.dart'
+    show
+        FluiInput,
+        FluiInputState,
+        FluiStatefulIconButton,
+        FluiStatefulIconButtonState;
 import 'package:flutter/material.dart'
     show
         Center,
@@ -15,11 +21,8 @@ import 'package:flutter/material.dart'
         GlobalKey;
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 
-import '/components/widgets/input.dart' show CreateInput, CreateInputState;
-import '/components/widgets/progress_bar.dart'
+import '/components/progress_bar.dart'
     show CreateProgressBar, CreateProgressBarState;
-import '/components/widgets/stateful_icon_button.dart'
-    show CreateStatefulIconButton, CreateStatefulIconButtonState;
 import '/core/download_manager.dart' show DownloadManager;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/handlers/select_directory.dart' show selectDirectory;
@@ -30,11 +33,11 @@ import '/utils/paths.dart' show getUserDesktopPath, existsDirectory;
 import 'settings_ui.dart' show SettingsUI;
 
 class MainUI extends StatelessWidget {
-  final _inputDirectoryKey = GlobalKey<CreateInputState>();
-  final _inputUrlsKey = GlobalKey<CreateInputState>();
-  final _buttonDirectoryKey = GlobalKey<CreateStatefulIconButtonState>();
-  final _buttonDownloadVideoKey = GlobalKey<CreateStatefulIconButtonState>();
-  final _buttonDownloadAudioKey = GlobalKey<CreateStatefulIconButtonState>();
+  final _inputDirectoryKey = GlobalKey<FluiInputState>();
+  final _inputUrlsKey = GlobalKey<FluiInputState>();
+  final _buttonDirectoryKey = GlobalKey<FluiStatefulIconButtonState>();
+  final _buttonDownloadVideoKey = GlobalKey<FluiStatefulIconButtonState>();
+  final _buttonDownloadAudioKey = GlobalKey<FluiStatefulIconButtonState>();
   final _progressBarKey = GlobalKey<CreateProgressBarState>();
 
   MainUI({super.key});
@@ -53,13 +56,13 @@ class MainUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 15,
                 children: [
-                  CreateInput(
+                  FluiInput(
                     key: _inputUrlsKey,
                     placeholder: AppLocalizations.of(context)!.placeholder_url,
                     isMultiline: true,
                     autofocus: true,
                   ),
-                  CreateInput(
+                  FluiInput(
                     key: _inputDirectoryKey,
                     placeholder: AppLocalizations.of(
                       context,
@@ -77,7 +80,7 @@ class MainUI extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CreateStatefulIconButton(
+                  FluiStatefulIconButton(
                     key: _buttonDirectoryKey,
                     onPressed: () async {
                       final directory = await selectDirectory(context);
@@ -100,7 +103,7 @@ class MainUI extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CreateStatefulIconButton(
+                      FluiStatefulIconButton(
                         key: _buttonDownloadVideoKey,
                         onPressed: () async {
                           await _processDownload(
@@ -112,7 +115,7 @@ class MainUI extends StatelessWidget {
                         tooltip: AppLocalizations.of(context)!.download_video,
                       ),
 
-                      CreateStatefulIconButton(
+                      FluiStatefulIconButton(
                         key: _buttonDownloadAudioKey,
                         onPressed: () async {
                           await _processDownload(
