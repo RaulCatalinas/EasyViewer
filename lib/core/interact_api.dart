@@ -29,8 +29,10 @@ class InteractApi {
       LogKeeper.info('✓ InteractApi initialized successfully');
     } catch (e, stackTrace) {
       LogKeeper.critical(
-        '💀 FATAL: Failed to initialize InteractApi: ${e.toString()}, stackTrace: $stackTrace',
+        '💀 FATAL: Failed to initialize InteractApi: ${e.toString()}',
       );
+      LogKeeper.critical('Error StackTrace: $stackTrace');
+
       rethrow;
     }
   }
