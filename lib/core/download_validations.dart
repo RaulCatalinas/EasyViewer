@@ -7,11 +7,11 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart'
     show
         VideoRequiresPurchaseException,
         VideoUnplayableException,
-        YoutubeExplode,
         VideoUnavailableException;
 
 import '/constants/hosts.dart' show allowHosts, google;
 import '/l10n/app_localizations.dart' show AppLocalizations;
+import 'core_utils.dart' show getYoutubeExplodeInstance;
 
 class DownloadValidations {
   static final _instance = DownloadValidations._internal();
@@ -76,7 +76,7 @@ class DownloadValidations {
     required BuildContext context,
     required String url,
   }) async {
-    final youtube = YoutubeExplode();
+    final youtube = await getYoutubeExplodeInstance();
 
     try {
       final video = await youtube.videos.get(url);
@@ -91,12 +91,8 @@ class DownloadValidations {
 
       await youtube.videos.streamsClient.getManifest(video.id);
 
-      youtube.close();
-
       return true;
     } on VideoUnavailableException catch (e) {
-      youtube.close();
-
       print(e.message);
 
       if (!context.mounted) return false;
@@ -105,8 +101,6 @@ class DownloadValidations {
 
       throw Exception(AppLocalizations.of(context)!.error_unavailable_video);
     } on VideoRequiresPurchaseException catch (e) {
-      youtube.close();
-
       print(e.message);
 
       if (!context.mounted) return false;
@@ -115,16 +109,12 @@ class DownloadValidations {
 
       throw Exception(AppLocalizations.of(context)!.error_only_members);
     } on VideoUnplayableException catch (e) {
-      youtube.close();
-
       if (!context.mounted) return false;
 
       LogKeeper.error('Video unplayable: ${e.message}');
 
       throw Exception(AppLocalizations.of(context)!.error_unavailable_video);
     } on Exception catch (e) {
-      youtube.close();
-
       if (!context.mounted) return false;
 
       LogKeeper.error('Error checking video availability: $e');

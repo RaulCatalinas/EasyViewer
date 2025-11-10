@@ -1,11 +1,11 @@
 import 'dart:async' show Future;
 
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
-import 'package:youtube_explode_dart/solvers.dart' show DenoEJSSolver;
 import 'package:youtube_explode_dart/youtube_explode_dart.dart'
     show VideoId, YoutubeExplode;
 
 import '/utils/file_utils.dart' show cleanInvalidChars;
+import 'core_utils.dart' show getYoutubeExplodeInstance;
 
 class InteractApi {
   static InteractApi? _instance;
@@ -22,9 +22,7 @@ class InteractApi {
     try {
       LogKeeper.info('Initializing InteractApi...');
 
-      final solver = await DenoEJSSolver.init();
-
-      instance.youtube = YoutubeExplode(jsSolver: solver);
+      instance.youtube = await getYoutubeExplodeInstance();
 
       LogKeeper.info('✓ InteractApi initialized successfully');
     } catch (e, stackTrace) {
