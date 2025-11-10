@@ -19,21 +19,24 @@ import 'package:flutter/material.dart'
         runApp;
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 
-import '/enums/user_preferences.dart' show UserPreferencesKeys;
-import '/managers/user_preferences_manager/user_preferences_manager.dart'
-    show UserPreferencesManager;
-import '/update/update_manager.dart' show UpdateManager;
 import 'constants/version.dart' show installedVersion;
+import 'core/interact_api.dart' show InteractApi;
+import 'enums/user_preferences.dart' show UserPreferencesKeys;
 import 'handlers/close_window.dart' show handleCloseWindow;
 import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'managers/ui_managers/main_ui.dart' show MainUI;
 import 'managers/user_preferences_manager/language_manager.dart'
     show LanguageManager;
 import 'managers/user_preferences_manager/theme_manager.dart' show ThemeManager;
+import 'managers/user_preferences_manager/user_preferences_manager.dart'
+    show UserPreferencesManager;
 import 'managers/window_manager/window_manager.dart' show configureWindow;
+import 'update/update_manager.dart' show UpdateManager;
 
 void main() async {
   try {
+    await InteractApi.initialize();
+
     WidgetsFlutterBinding.ensureInitialized();
 
     LogKeeper.info('🚀 Starting EasyViewer ($installedVersion)...');

@@ -1,26 +1,45 @@
-import 'dart:async';
+import 'dart:async' show Future;
 
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
+import 'package:youtube_explode_dart/solvers.dart' show DenoEJSSolver;
 import 'package:youtube_explode_dart/youtube_explode_dart.dart'
     show VideoId, YoutubeExplode;
 
 import '/utils/file_utils.dart' show cleanInvalidChars;
 
 class InteractApi {
-  static final _instance = InteractApi._internal();
-  final youtube = YoutubeExplode();
-
-  factory InteractApi() {
-    return _instance;
-  }
+  static InteractApi? _instance;
+  late final YoutubeExplode youtube;
 
   InteractApi._internal();
 
+  static InteractApi get instance {
+    _instance ??= InteractApi._internal();
+    return _instance!;
+  }
+
+  static Future<void> initialize() async {
+    try {
+      LogKeeper.info('Initializing InteractApi...');
+
+      final solver = await DenoEJSSolver.init();
+
+      instance.youtube = YoutubeExplode(jsSolver: solver);
+
+      LogKeeper.info('✓ InteractApi initialized successfully');
+    } catch (e, stackTrace) {
+      LogKeeper.critical(
+        '💀 FATAL: Failed to initialize InteractApi: ${e.toString()}, stackTrace: $stackTrace',
+      );
+      rethrow;
+    }
+  }
+
   static Future<dynamic> getTitle(String url) async {
     try {
-      final video = await _instance.youtube.videos.get(url);
+      final video = await _instance?.youtube.videos.get(url);
 
-      return cleanInvalidChars(video.title);
+      return cleanInvalidChars(video?.title ?? '');
     } catch (e) {
       LogKeeper.error('Error obtaining video title: ${e.toString()}');
 
@@ -32,7 +51,7 @@ class InteractApi {
     try {
       final videoId = VideoId(url);
 
-      return await _instance.youtube.videos.streams.getManifest(videoId);
+      return await _instance?.youtube.videos.streams.getManifest(videoId);
     } catch (e) {
       LogKeeper.error('Error obtaining stream manifest: ${e.toString()}');
 
@@ -44,7 +63,7 @@ class InteractApi {
     try {
       final manifest = await _getStreamManifest(url);
 
-      return _instance.youtube.videos.streams.get(
+      return _instance?.youtube.videos.streams.get(
         manifest.audioOnly.withHighestBitrate(),
       );
     } catch (e) {
@@ -58,7 +77,7 @@ class InteractApi {
     try {
       final manifest = await _getStreamManifest(url);
 
-      return _instance.youtube.videos.streams.get(
+      return _instance?.youtube.videos.streams.get(
         manifest.videoOnly.withHighestBitrate(),
       );
     } catch (e) {
