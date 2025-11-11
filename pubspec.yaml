@@ -17,7 +17,7 @@ dependencies:
   file_picker: ^10.3.3
   path_provider: ^2.1.5
   http: ^1.5.0
-  youtube_explode_dart: ^3.0.3
+  youtube_explode_dart: ^3.0.4
   flutter_localizations:
     sdk: flutter
   pub_semver: ^2.2.0
