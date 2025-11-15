@@ -307,6 +307,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings Menu'**
   String get settings_menu_title;
+
+  /// No description provided for @settings_menu_icon_tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings_menu_icon_tooltip;
 }
 
 class _AppLocalizationsDelegate

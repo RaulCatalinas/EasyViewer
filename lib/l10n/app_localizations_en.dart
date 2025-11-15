@@ -120,4 +120,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_menu_title => 'Settings Menu';
+
+  @override
+  String get settings_menu_icon_tooltip => 'Settings';
 }
