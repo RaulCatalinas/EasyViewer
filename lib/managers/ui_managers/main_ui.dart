@@ -4,7 +4,9 @@ import 'package:fluikit/widgets.dart'
         FluiInput,
         FluiInputState,
         FluiStatefulIconButton,
-        FluiStatefulIconButtonState;
+        FluiStatefulIconButtonState,
+        FluiProgressBar,
+        FluiProgressBarState;
 import 'package:flutter/material.dart'
     show
         Center,
@@ -22,8 +24,6 @@ import 'package:flutter/material.dart'
         GlobalKey;
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 
-import '/components/progress_bar.dart'
-    show CreateProgressBar, CreateProgressBarState;
 import '/core/download_manager.dart' show DownloadManager;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/handlers/select_directory.dart' show selectDirectory;
@@ -39,7 +39,7 @@ class MainUI extends StatelessWidget {
   final _buttonDirectoryKey = GlobalKey<FluiStatefulIconButtonState>();
   final _buttonDownloadVideoKey = GlobalKey<FluiStatefulIconButtonState>();
   final _buttonDownloadAudioKey = GlobalKey<FluiStatefulIconButtonState>();
-  final _progressBarKey = GlobalKey<CreateProgressBarState>();
+  final _progressBarKey = GlobalKey<FluiProgressBarState>();
 
   MainUI({super.key});
 
@@ -131,7 +131,7 @@ class MainUI extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 13),
-                  CreateProgressBar(key: _progressBarKey),
+                  FluiProgressBar(key: _progressBarKey),
                 ],
               ),
             ],
