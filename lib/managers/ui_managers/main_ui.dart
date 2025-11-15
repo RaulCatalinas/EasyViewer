@@ -46,7 +46,11 @@ class MainUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const FluiAppBar(actions: []),
+      appBar: const FluiAppBar(
+        actions: [],
+        drawerIcon: Icons.settings,
+        drawerIconTooltip: 'Settings',
+      ),
       drawer: SettingsUI(),
       body: Center(
         child: Padding(
