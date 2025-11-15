@@ -28,26 +28,24 @@ import '/handlers/social_media.dart' show openUrl;
 import '/l10n/app_localizations.dart' show AppLocalizations;
 import '/managers/user_preferences_manager/language_manager.dart'
     show LanguageManager;
-import '/managers/user_preferences_manager/theme_manager.dart'
-    show ThemeManager;
 import '/update/update_manager.dart' show UpdateManager;
 import '../user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
+
+import 'package:flutter_themed/flutter_themed.dart' show Themed;
 
 class SettingsUI extends StatelessWidget {
   static final _checkUpdateButtonKey = GlobalKey<FluiStatefulIconButtonState>();
   static final _dropdownContactKey = GlobalKey<FluiDropdownState>();
   static final _dropdownChangeLanguageKey = GlobalKey<FluiDropdownState>();
 
-  final appValueNotifier = ThemeManager.instance;
-
-  SettingsUI({super.key});
+  const SettingsUI({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: appValueNotifier.iconTheme,
-      builder: (_, value, _) {
+      valueListenable: Themed.instance.themeNotifier,
+      builder: (_, _, _) {
         return FluiDrawer(
           height: 320,
           width: LanguageManager.getCurrentLocale() == const Locale('en')
@@ -81,10 +79,11 @@ class SettingsUI extends StatelessWidget {
             const SizedBox(height: 5),
             FluiIconButton(
               onPressed: () {
-                ThemeManager.toggleTheme();
-                ThemeManager.toggleIconTheme();
+                Themed.toggleTheme();
               },
-              icon: value,
+              icon: Themed.currentThemeName == 'dark'
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
               tooltip: 'Change Theme',
               iconSize: 28,
             ),

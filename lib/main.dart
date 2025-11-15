@@ -7,10 +7,8 @@ import 'package:flutter/material.dart'
     show
         BuildContext,
         Locale,
-        MaterialApp,
         State,
         StatefulWidget,
-        ThemeData,
         ValueListenableBuilder,
         Widget,
         WidgetsBinding,
@@ -18,6 +16,9 @@ import 'package:flutter/material.dart'
         WidgetsFlutterBinding,
         runApp;
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
+import 'package:flutter_themed/flutter_themed.dart'
+    show Themed, ThemeStorageAdapter;
+import 'package:flutter_themed/themed_app.dart' show ThemedApp;
 
 import 'constants/version.dart' show installedVersion;
 import 'core/interact_api.dart' show InteractApi;
@@ -27,11 +28,22 @@ import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'managers/ui_managers/main_ui.dart' show MainUI;
 import 'managers/user_preferences_manager/language_manager.dart'
     show LanguageManager;
-import 'managers/user_preferences_manager/theme_manager.dart' show ThemeManager;
 import 'managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 import 'managers/window_manager/window_manager.dart' show configureWindow;
 import 'update/update_manager.dart' show UpdateManager;
+
+class ThemeStorage implements ThemeStorageAdapter {
+  @override
+  Future<String?> loadTheme() async {
+    return UserPreferencesManager.getPreference(UserPreferencesKeys.theme);
+  }
+
+  @override
+  Future<void> saveTheme(String themeName) async {
+    UserPreferencesManager.setPreference(UserPreferencesKeys.theme, themeName);
+  }
+}
 
 void main() async {
   try {
@@ -39,12 +51,14 @@ void main() async {
 
     WidgetsFlutterBinding.ensureInitialized();
 
+    await UserPreferencesManager.initialize();
+
+    await Themed.initialize(storageAdapter: ThemeStorage());
+
     LogKeeper.info('🚀 Starting EasyViewer ($installedVersion)...');
     LogKeeper.info('Platform: ${Platform.operatingSystem}');
 
     await configureWindow();
-
-    await UserPreferencesManager.initialize();
 
     LogKeeper.info('📱 Launching UI...');
 
@@ -65,7 +79,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  final themeNotifier = ThemeManager.instance;
   late Locale _locale;
 
   @override
@@ -87,12 +100,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: themeNotifier.theme,
-      builder: (_, value, _) {
-        return MaterialApp(
+      valueListenable: Themed.instance.themeNotifier,
+      builder: (_, _, _) {
+        return ThemedApp(
           title: 'EasyViewer',
           home: const MyHomePage(),
-          theme: ThemeData(brightness: value.brightness, fontFamily: 'Inter'),
+          fontFamily: 'Inter',
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: _locale,
