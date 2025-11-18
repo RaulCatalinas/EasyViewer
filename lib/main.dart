@@ -9,7 +9,6 @@ import 'package:flutter/material.dart'
         Locale,
         State,
         StatefulWidget,
-        ValueListenableBuilder,
         Widget,
         WidgetsBinding,
         WidgetsBindingObserver,
@@ -99,18 +98,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: Themed.instance.themeNotifier,
-      builder: (_, _, _) {
-        return ThemedApp(
-          title: 'EasyViewer',
-          home: const MyHomePage(),
-          fontFamily: 'Inter',
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: _locale,
-        );
-      },
+    return ThemedApp(
+      title: 'EasyViewer',
+      home: const MyHomePage(),
+      fontFamily: 'Inter',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: _locale,
     );
   }
 }
