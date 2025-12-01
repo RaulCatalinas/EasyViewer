@@ -21,7 +21,7 @@ import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 import 'package:window_manager/window_manager.dart';
 
 import 'constants/version.dart' show installedVersion;
-// import 'core/interact_api.dart' show InteractApi;
+import 'core/interact_api.dart' show InteractApi;
 import 'enums/user_preferences.dart' show UserPreferencesKeys;
 import 'handlers/close_window.dart' show handleCloseWindow;
 import 'l10n/app_localizations.dart' show AppLocalizations;
@@ -50,9 +50,9 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
 
     await Future.wait([
+      InteractApi.initialize(),
       windowManager.ensureInitialized(),
       UserPreferencesManager.initialize(),
-      // InteractApi.initialize(),
     ]);
 
     await Themed.initialize(storageAdapter: ThemeStorage());
