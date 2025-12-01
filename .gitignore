@@ -47,3 +47,7 @@ app.*.map.json
 user_preferences.json
 
 pubspec.lock
+
+assets/deno-*
+
+deno.zip

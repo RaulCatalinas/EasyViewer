@@ -1,6 +1,6 @@
 name: easyviewer
 description: "App to download YouTube videos"
-publish_to: 'none'
+publish_to: "none"
 version: 3.0.0
 
 environment:
@@ -39,6 +39,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+  assets:
+    - assets/
 
   fonts:
     - family: Inter
