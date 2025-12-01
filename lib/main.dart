@@ -18,9 +18,10 @@ import 'package:flutter_themed/flutter_themed.dart'
     show Themed, ThemeStorageAdapter;
 import 'package:flutter_themed/themed_app.dart' show ThemedApp;
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
+import 'package:window_manager/window_manager.dart';
 
 import 'constants/version.dart' show installedVersion;
-import 'core/interact_api.dart' show InteractApi;
+// import 'core/interact_api.dart' show InteractApi;
 import 'enums/user_preferences.dart' show UserPreferencesKeys;
 import 'handlers/close_window.dart' show handleCloseWindow;
 import 'l10n/app_localizations.dart' show AppLocalizations;
@@ -46,11 +47,13 @@ class ThemeStorage implements ThemeStorageAdapter {
 
 void main() async {
   try {
-    await InteractApi.initialize();
-
     WidgetsFlutterBinding.ensureInitialized();
 
-    await UserPreferencesManager.initialize();
+    await Future.wait([
+      windowManager.ensureInitialized(),
+      UserPreferencesManager.initialize(),
+      // InteractApi.initialize(),
+    ]);
 
     await Themed.initialize(storageAdapter: ThemeStorage());
 
