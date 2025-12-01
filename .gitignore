@@ -49,6 +49,7 @@ user_preferences.json
 pubspec.lock
 
 assets/deno-*
+assets/deno.exe
 
 deno.zip
 
