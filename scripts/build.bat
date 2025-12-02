@@ -14,11 +14,17 @@ if %errorlevel% equ 0 (
     if not exist "%~dp0..\dist\linux" mkdir "%~dp0..\dist\linux"
 
     docker create --name temp-container flutter-builder-easyviewer
-    docker cp temp-container:/app/build/linux/x64/release/bundle/. "%~dp0..\dist\linux\"
+    docker cp temp-container:/app/build/linux/x64/release/bundle/. "%~dp0..\dist\linux"
     docker rm temp-container
 
-    echo App compiled! Check dist/linux/ folder
+    echo ====================================
+    echo BUILD COMPLETE!
+    echo ====================================
+    echo App compiled! Check dist\linux\ folder
 ) else (
+    echo ====================================
+    echo BUILD FAILED!
+    echo ====================================
     echo Error building image
     exit /b 1
 )
