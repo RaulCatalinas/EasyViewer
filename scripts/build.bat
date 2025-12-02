@@ -17,11 +17,17 @@ if %errorlevel% equ 0 (
     docker cp temp-container:/app/build/linux/x64/release/bundle/. "%~dp0..\dist\linux"
     docker rm temp-container
 
+    echo Cleaning up unused Deno executables...
+    del /Q "%~dp0..\dist\linux\data\flutter_assets\assets\deno-windows-x64.exe" 2>nul
+    del /Q "%~dp0..\dist\linux\data\flutter_assets\assets\deno-macos-*" 2>nul
+
+    echo.
     echo ====================================
     echo BUILD COMPLETE!
     echo ====================================
     echo App compiled! Check dist\linux\ folder
 ) else (
+    echo.
     echo ====================================
     echo BUILD FAILED!
     echo ====================================

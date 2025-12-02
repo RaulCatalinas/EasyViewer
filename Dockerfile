@@ -1,10 +1,10 @@
-# Usamos Ubuntu como base
+# Use Ubuntu as base image
 FROM ubuntu:22.04
 
-# Evitar preguntas interactivas durante la instalación
+# Avoid interactive prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instalar dependencias necesarias para Flutter y compilar apps de escritorio
+# Install dependencies for Flutter and desktop app compilation
 RUN apt-get update && apt-get install -y \
     curl \
     git \
@@ -20,32 +20,38 @@ RUN apt-get update && apt-get install -y \
     liblzma-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Instalar Flutter
+# Install Flutter
 RUN git clone https://github.com/flutter/flutter.git -b stable /flutter
 ENV PATH="/flutter/bin:$PATH"
 
-# Pre-descargar dependencias de Flutter
+# Pre-download Flutter dependencies
 RUN flutter precache --linux
 RUN flutter config --enable-linux-desktop
 
-# Configurar directorio de trabajo
+# Set working directory
 WORKDIR /app
 
-# Copiar archivos del proyecto
+# Copy project files
 COPY pubspec.yaml pubspec.lock ./
 RUN flutter pub get
 
-# Copiar el resto del código
+# Copy the rest of the code
 COPY . .
 
-# Descargar Deno para Linux
+# Download Deno for Linux
 RUN mkdir -p assets && \
     curl -fsSL https://deno.land/install.sh | sh && \
     cp /root/.deno/bin/deno assets/deno-linux-x64 && \
     chmod +x assets/deno-linux-x64
 
-# Compilar la app
+# Build the app
 RUN flutter build linux --release
 
-# Copiar el resultado al volumen de salida
+# Remove Deno executables from other platforms
+RUN rm -f build/linux/x64/release/bundle/data/flutter_assets/assets/deno-windows-x64.exe && \
+    rm -f build/linux/x64/release/bundle/data/flutter_assets/assets/deno.exe && \
+    rm -f build/linux/x64/release/bundle/data/flutter_assets/assets/deno-macos-* && \
+    echo "✅ Removed non-Linux Deno executables"
+
+# Copy the result to output volume
 CMD ["cp", "-r", "build/linux/x64/release/bundle", "/output/"]

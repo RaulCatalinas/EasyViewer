@@ -1,7 +1,76 @@
+# Version control systems
 .git/
+.gitignore
+.gitattributes
+
+# IDEs and text editors
 .idea/
 .vscode/
-build/
-.dart_tool/
+*.swp
+*.swo
+*~
+.DS_Store
 *.iml
+
+# Flutter/Dart build outputs (but keep some generated files)
+build/
+dist/
+
+# Pub cache (can be excluded, will be regenerated)
+.pub-cache/
+.pub/
+
+# Testing files (not needed in production)
+coverage/
+test/
+*_test.dart
+
+# Documentation files
+README.md
+LICENSE
+CHANGELOG.md
+docs/
+
+# CI/CD configuration files
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Build scripts (not needed inside container)
+scripts/
+*.sh
+*.bat
+
+# Docker files themselves (no need to copy into container)
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Log files
+*.log
 logs/
+
+# Operating system specific files
+Thumbs.db
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+
+# Windows installer configuration
+installer.iss
+Output/
+
+# Node modules (if using any JS tooling)
+node_modules/
+
+# Environment configuration files
+.env
+.env.local
+.env.*
+
+# Temporary Deno executables (downloaded during build)
+assets/deno-*
+deno.zip
