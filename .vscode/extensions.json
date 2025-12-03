@@ -2,6 +2,7 @@
   "recommendations": [
     "dart-code.flutter",
     "dart-code.dart-code",
-    "google.arb-editor"
+    "google.arb-editor",
+    "ms-azuretools.vscode-docker"
   ]
 }
