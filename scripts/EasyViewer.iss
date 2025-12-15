@@ -31,9 +31,9 @@ ChangesAssociations=yes
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
-OutputDir=../dist
+OutputDir=../dist/windows
 OutputBaseFilename=EasyViewerSetup
-SetupIconFile=..\windows\runner\resources\app_icon.ico
+SetupIconFile=C:\Users\raulc\OneDrive\Desktop\Dev\EasyViewer\windows\runner\resources\app_icon.ico
 SolidCompression=yes
 WizardStyle=modern
 VersionInfoVersion={#MyAppVersion}

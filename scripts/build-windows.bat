@@ -41,6 +41,7 @@ if not exist "build\windows\x64\runner\Release\easyviewer.exe" (
     pause
     exit /b 1
 )
+
 echo App compiled successfully!
 
 echo.
@@ -63,7 +64,8 @@ if exist "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" (
     REM Create output directory for installer
     if not exist "dist\windows" mkdir "dist\windows"
 
-    call "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" EasyViewer.iss
+    call "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "C:\Users\raulc\OneDrive\Desktop\Dev\EasyViewer\scripts\EasyViewer.iss"
+
     if exist "dist\windows\EasyViewerSetup.exe" (
         echo Installer created successfully!
         echo.
