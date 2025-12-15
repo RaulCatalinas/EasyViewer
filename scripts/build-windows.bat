@@ -34,7 +34,13 @@ if exist "assets\deno-windows-x64.exe" (
 
 echo.
 echo [2/5] Building Flutter app...
-call flutter build windows --release
+call flutter build windows --
+
+if %errorlevel% neq 0 (
+    echo ERROR: App compilation failed
+    pause
+    exit /b 1
+)
 
 if not exist "build\windows\x64\runner\Release\easyviewer.exe" (
     echo ERROR: App compilation failed
