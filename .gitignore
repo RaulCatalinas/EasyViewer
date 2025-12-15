@@ -54,3 +54,5 @@ assets/deno.exe
 deno.zip
 
 dist/
+
+log.txt
