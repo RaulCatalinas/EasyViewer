@@ -1,6 +1,6 @@
 import '../enums/user_preferences.dart' show UserPreferencesKeys;
 
-final Map<UserPreferencesKeys, dynamic> defaultUserPreferences = Map.from({
+final Map<UserPreferencesKeys, dynamic> defaultUserPreferences = const {
   UserPreferencesKeys.theme: 'light',
   UserPreferencesKeys.automaticNotifications: true,
   UserPreferencesKeys.language: 'en',
@@ -10,4 +10,4 @@ final Map<UserPreferencesKeys, dynamic> defaultUserPreferences = Map.from({
   UserPreferencesKeys.downloadDirectory: '',
   UserPreferencesKeys.upgradeAvailable: false,
   UserPreferencesKeys.whatsNewShown: false,
-});
+};
