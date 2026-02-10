@@ -1,0 +1,18 @@
+name: Blank Issue
+description: Create a blank issue for anything else
+title: ""
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for opening an issue! Please provide as much detail as possible.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe your issue, question, or discussion topic.
+      placeholder: Tell us what's on your mind...
+    validations:
+      required: true
