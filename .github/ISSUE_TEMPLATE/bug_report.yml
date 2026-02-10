@@ -83,6 +83,19 @@ body:
       description: What device are you using? (if applicable)
       placeholder: e.g., iPhone 14, Samsung Galaxy S23
 
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How severe is this bug?
+      options:
+        - Low
+        - Medium
+        - High
+        - Critical
+    validations:
+      required: true
+
   - type: textarea
     id: additional-context
     attributes:

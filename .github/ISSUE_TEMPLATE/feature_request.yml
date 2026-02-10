@@ -33,19 +33,6 @@ body:
       description: A clear and concise description of any alternative solutions or features you've considered.
       placeholder: Alternative approaches could be...
 
-  - type: dropdown
-    id: priority
-    attributes:
-      label: Priority
-      description: How important is this feature to you?
-      options:
-        - Low
-        - Medium
-        - High
-        - Critical
-    validations:
-      required: true
-
   - type: textarea
     id: additional-context
     attributes:
