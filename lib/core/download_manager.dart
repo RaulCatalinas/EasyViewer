@@ -137,6 +137,19 @@ class DownloadManager {
           );
 
           await deleteFile(fileToDelete: _instance._downloadFile);
+
+          if (!context.mounted) {
+            LogKeeper.warning(
+              'Context not mounted, skipping showing the error',
+            );
+
+            return;
+          }
+
+          FluiErrorDialog.show(
+            context,
+            content: e.toString().replaceAll('Exception: ', ''),
+          );
         } finally {
           _instance._separatedUrls.remove(_instance._urlToDownload);
 
