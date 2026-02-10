@@ -29,6 +29,7 @@ dependencies:
       url: https://github.com/RaulCatalinas/Fluikit.git
       ref: main
   flutter_themed: ^1.0.0+2
+  system_info3: ^4.0.2
 
 dev_dependencies:
   flutter_test:
