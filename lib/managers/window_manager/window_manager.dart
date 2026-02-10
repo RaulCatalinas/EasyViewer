@@ -8,7 +8,7 @@ import '/app_settings/app_settings.dart' show WindowSettings;
 Future<void> configureWindow() async {
   LogKeeper.info('Configuring window...');
 
-  var windowOptions = const WindowOptions(
+  const windowOptions = WindowOptions(
     size: Size(WindowSettings.width, WindowSettings.height),
     center: WindowSettings.centered,
     title: WindowSettings.title,
