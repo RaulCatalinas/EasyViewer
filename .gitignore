@@ -50,6 +50,7 @@ pubspec.lock
 
 assets/deno-*
 assets/deno.exe
+assets/executables
 
 deno.zip
 

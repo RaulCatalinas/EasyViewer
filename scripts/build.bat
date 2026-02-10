@@ -24,8 +24,8 @@ if %errorlevel% equ 0 (
 
     echo.
     echo [3/3] Cleaning up unused Deno executables...
-    del /Q "%~dp0..\dist\linux\data\flutter_assets\assets\deno-windows-x64.exe" 2>nul
-    del /Q "%~dp0..\dist\linux\data\flutter_assets\assets\deno-macos-*" 2>nul
+    del /Q "%~dp0..\dist\linux\data\flutter_assets\assets\executables\deno-windows-x64.exe" 2>nul
+    del /Q "%~dp0..\dist\linux\data\flutter_assets\assets\executables\deno-macos-*" 2>nul
     echo Unused executables removed!
 
     echo.

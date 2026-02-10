@@ -4,13 +4,13 @@ echo ====================================
 echo Building Flutter App for Windows
 echo ====================================
 
-if not exist "%~dp0..\assets" mkdir "%~dp0..\assets"
+if not exist "%~dp0..\assets\executables" mkdir "%~dp0..\assets\executables"
 
 cd /d "%~dp0.."
 
 echo.
 echo [1/5] Downloading Deno for Windows...
-if exist "assets\deno-windows-x64.exe" (
+if exist "assets\executables\deno-windows-x64.exe" (
     echo Deno executable already exists, skipping download
 ) else (
     curl -Lo deno.zip https://github.com/denoland/deno/releases/latest/download/deno-x86_64-pc-windows-msvc.zip
@@ -20,14 +20,14 @@ if exist "assets\deno-windows-x64.exe" (
         exit /b 1
     )
 
-    tar -xf deno.zip -C assets
+    tar -xf deno.zip -C assets\executables
     if %errorlevel% neq 0 (
         echo ERROR: Failed to extract Deno
         pause
         exit /b 1
     )
 
-    rename assets\deno.exe deno-windows-x64.exe
+    rename assets\executables\deno.exe deno-windows-x64.exe
     del deno.zip
     echo Deno executable downloaded successfully!
 )
@@ -52,14 +52,14 @@ echo App compiled successfully!
 
 echo.
 echo [3/5] Copying Deno to build output...
-if not exist "build\windows\x64\runner\Release\data\flutter_assets\assets" mkdir "build\windows\x64\runner\Release\data\flutter_assets\assets"
-xcopy /Y assets\deno-windows-x64.exe build\windows\x64\runner\Release\data\flutter_assets\assets\ >nul
+if not exist "build\windows\x64\runner\Release\data\flutter_assets\assets\executables" mkdir "build\windows\x64\runner\Release\data\flutter_assets\assets\executables"
+xcopy /Y assets\executables\deno-windows-x64.exe build\windows\x64\runner\Release\data\flutter_assets\assets\executables\ >nul
 echo Deno executable copied to build output!
 
 echo.
 echo [4/5] Cleaning up unused Deno executables...
-del /Q "build\windows\x64\runner\Release\data\flutter_assets\assets\deno-linux-x64" 2>nul
-del /Q "build\windows\x64\runner\Release\data\flutter_assets\assets\deno-macos-*" 2>nul
+del /Q "build\windows\x64\runner\Release\data\flutter_assets\assets\executables\deno-linux-x64" 2>nul
+del /Q "build\windows\x64\runner\Release\data\flutter_assets\assets\executables\deno-macos-*" 2>nul
 echo Unused executables removed!
 
 echo.

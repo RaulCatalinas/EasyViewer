@@ -24,10 +24,10 @@ else
 fi
 
 # Check if Deno already exists
-if [ -f "assets/$DENO_NAME" ]; then
+if [ -f "assets/executables/$DENO_NAME" ]; then
     echo "Deno executable already exists, skipping download"
 else
-    mkdir -p assets
+    mkdir -p assets/executables
 
     echo "Detected $ARCH_NAME"
     curl -Lo deno.zip "$DENO_URL"
@@ -37,14 +37,14 @@ else
         exit 1
     fi
 
-    unzip -o deno.zip -d assets > /dev/null
+    unzip -o deno.zip -d assets/executables > /dev/null
     if [ $? -ne 0 ]; then
         echo "ERROR: Failed to extract Deno"
         exit 1
     fi
 
-    mv assets/deno "assets/$DENO_NAME"
-    chmod +x "assets/$DENO_NAME"
+    mv assets/executables/deno "assets/executables/$DENO_NAME"
+    chmod +x "assets/executables/$DENO_NAME"
     rm deno.zip
     echo "Deno executable downloaded successfully!"
 fi
@@ -61,9 +61,9 @@ echo "App compiled successfully!"
 
 echo ""
 echo "[3/6] Copying Deno to build output..."
-ASSETS_PATH="build/macos/Build/Products/Release/easyviewer.app/Contents/Frameworks/App.framework/Resources/flutter_assets/assets"
+ASSETS_PATH="build/macos/Build/Products/Release/easyviewer.app/Contents/Frameworks/App.framework/Resources/flutter_assets/assets/executables"
 mkdir -p "$ASSETS_PATH"
-cp "assets/$DENO_NAME" "$ASSETS_PATH/" > /dev/null
+cp "assets/executables/$DENO_NAME" "$ASSETS_PATH/" > /dev/null
 echo "Deno executable copied to build output!"
 
 echo ""

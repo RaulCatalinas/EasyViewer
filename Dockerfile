@@ -39,18 +39,18 @@ RUN flutter pub get
 COPY . .
 
 # Download Deno for Linux
-RUN mkdir -p assets && \
+RUN mkdir -p assets/executables && \
     curl -fsSL https://deno.land/install.sh | sh && \
-    cp /root/.deno/bin/deno assets/deno-linux-x64 && \
-    chmod +x assets/deno-linux-x64
+    cp /root/.deno/bin/deno assets/executables/deno-linux-x64 && \
+    chmod +x assets/executables/deno-linux-x64
 
 # Build the app
 RUN flutter build linux --release
 
 # Remove Deno executables from other platforms
-RUN rm -f build/linux/x64/release/bundle/data/flutter_assets/assets/deno-windows-x64.exe && \
-    rm -f build/linux/x64/release/bundle/data/flutter_assets/assets/deno.exe && \
-    rm -f build/linux/x64/release/bundle/data/flutter_assets/assets/deno-macos-* && \
+RUN rm -f build/linux/x64/release/bundle/data/flutter_assets/assets/executables/deno-windows-x64.exe && \
+    rm -f build/linux/x64/release/bundle/data/flutter_assets/assets/executables/deno.exe && \
+    rm -f build/linux/x64/release/bundle/data/flutter_assets/assets/executables/deno-macos-* && \
     echo "✅ Removed non-Linux Deno executables"
 
 # Copy the result to output volume
