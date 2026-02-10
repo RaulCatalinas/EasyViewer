@@ -18,15 +18,16 @@ const Map<String, String> denoExecutables = {
 Future<YoutubeExplode> getYoutubeExplodeInstance() async {
   if (_youtubeExplodeInstance != null) return _youtubeExplodeInstance!;
 
-  final userOS = Platform.operatingSystem;
-
-  if (!denoExecutables.containsKey(userOS)) throw Exception('Unsupported OS');
-
-  final denoPath = switch ((Platform.isMacOS, SysInfo.kernelArchitecture)) {
-    (true, ProcessorArchitecture.arm64) => denoExecutables['macos-arm64']!,
-    (true, ProcessorArchitecture.x86_64) => denoExecutables['macos-x86_64']!,
-    (true, _) => throw Exception('Unsupported architecture'),
-    (false, _) => denoExecutables[Platform.operatingSystem]!,
+  final denoPath = switch ((
+    Platform.operatingSystem,
+    SysInfo.kernelArchitecture,
+  )) {
+    ('macos', ProcessorArchitecture.arm64) => denoExecutables['macos-arm64'],
+    ('macos', ProcessorArchitecture.x86_64) => denoExecutables['macos-x86_64'],
+    ('macos', _) => throw Exception('Unsupported architecture'),
+    ('windows', _) => denoExecutables['windows'],
+    ('linux', _) => denoExecutables['linux'],
+    (var os, _) => throw Exception('Unsupported OS: $os'),
   };
 
   final solver = await DenoEJSSolver.init(denoExe: denoPath);
