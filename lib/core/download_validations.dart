@@ -92,17 +92,13 @@ class DownloadValidations {
       await youtube.videos.streamsClient.getManifest(video.id);
 
       return true;
-    } on VideoUnavailableException catch (e) {
-      print(e.message);
-
+    } on VideoUnavailableException {
       if (!context.mounted) return false;
 
       LogKeeper.error('Video unavailable: $url');
 
       throw Exception(AppLocalizations.of(context)!.error_unavailable_video);
-    } on VideoRequiresPurchaseException catch (e) {
-      print(e.message);
-
+    } on VideoRequiresPurchaseException {
       if (!context.mounted) return false;
 
       LogKeeper.error('Video requires purchase: $url');
