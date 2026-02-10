@@ -1,1 +1,1 @@
-final installedVersion = '3.0.0';
+const installedVersion = '3.0.0';

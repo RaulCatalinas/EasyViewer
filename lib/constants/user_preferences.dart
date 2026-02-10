@@ -1,6 +1,6 @@
 import '../enums/user_preferences.dart' show UserPreferencesKeys;
 
-final Map<UserPreferencesKeys, dynamic> defaultUserPreferences = const {
+const Map<UserPreferencesKeys, dynamic> defaultUserPreferences = {
   UserPreferencesKeys.theme: 'light',
   UserPreferencesKeys.automaticNotifications: true,
   UserPreferencesKeys.language: 'en',

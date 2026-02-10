@@ -1,4 +1,4 @@
-final Map<String, List<String>> invalidChars = {
+const Map<String, List<String>> invalidChars = {
   'windows': ['<', '>', ':', '"', '/', '\\', '|', '?', '*'],
   'macos': [':', '/'],
   'linux': ['/'],
