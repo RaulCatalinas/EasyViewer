@@ -15,6 +15,7 @@ Future<void> configureWindow() async {
   );
 
   await windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.setPreventClose(true);
     await windowManager.setResizable(WindowSettings.resizable);
     await windowManager.setMaximizable(WindowSettings.maximizable);
     await windowManager.show();

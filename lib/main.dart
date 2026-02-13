@@ -2,7 +2,7 @@
 
 import 'dart:io' show Platform;
 
-import 'package:fluikit/dialogs.dart' show FluiInfoDialog;
+import 'package:fluikit/dialogs.dart' show FluiConfirmDialog, FluiInfoDialog;
 import 'package:flutter/material.dart'
     show
         BuildContext,
@@ -23,7 +23,6 @@ import 'package:window_manager/window_manager.dart';
 import 'constants/version.dart' show installedVersion;
 import 'core/interact_api.dart' show InteractApi;
 import 'enums/user_preferences.dart' show UserPreferencesKeys;
-import 'handlers/close_window.dart' show handleCloseWindow;
 import 'l10n/app_localizations.dart' show AppLocalizations;
 import 'managers/ui_managers/main_ui.dart' show MainUI;
 import 'managers/user_preferences_manager/language_manager.dart'
@@ -119,14 +118,35 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WindowListener {
   bool _hasInitialized = false;
 
   @override
   void initState() {
     super.initState();
+    windowManager.addListener(this);
+  }
 
-    handleCloseWindow(context);
+  @override
+  void dispose() {
+    windowManager.removeListener(this);
+    super.dispose();
+  }
+
+  @override
+  void onWindowClose() async {
+    await FluiConfirmDialog.show<bool>(
+      context,
+      title: AppLocalizations.of(context)!.exit_confirmation_title,
+      content: AppLocalizations.of(context)!.exit_confirmation_body,
+      onConfirmed: () async {
+        await Future.wait([
+          UserPreferencesManager.savePreferences(),
+          LogKeeper.saveLogs(),
+          windowManager.destroy(),
+        ]);
+      },
+    );
   }
 
   @override
