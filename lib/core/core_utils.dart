@@ -1,38 +1,53 @@
-import 'dart:io' show Platform;
+import 'dart:io';
 
-import 'package:system_info3/system_info3.dart'
-    show SysInfo, ProcessorArchitecture;
-import 'package:youtube_explode_dart/solvers.dart' show DenoEJSSolver;
-import 'package:youtube_explode_dart/youtube_explode_dart.dart'
-    show YoutubeExplode;
+import 'package:flutter/services.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'package:system_info3/system_info3.dart';
+import 'package:youtube_explode_dart/solvers.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+
+import '/constants/paths.dart' show denoExecutables;
 
 YoutubeExplode? _youtubeExplodeInstance;
 
-const Map<String, String> denoExecutables = {
-  'windows': 'assets/executables/deno-windows-x64.exe',
-  'macos-arm64': 'assets/executables/deno-macos-aarch64',
-  'macos-x86_64': 'assets/executables/deno-macos-x64',
-  'linux': 'assets/executables/deno-linux-x64',
-};
+Future<String> _prepareDeno(String assetPath) async {
+  final filename = assetPath.split('/').last;
+  final dir = await getApplicationSupportDirectory();
+  final destPath = p.join(dir.path, filename);
+
+  final file = File(destPath);
+
+  if (!await file.exists()) {
+    final data = await rootBundle.load(assetPath);
+    await file.writeAsBytes(data.buffer.asUint8List(), flush: true);
+
+    await Process.run('chmod', ['u+x', destPath]);
+  }
+
+  return destPath;
+}
 
 Future<YoutubeExplode> getYoutubeExplodeInstance() async {
   if (_youtubeExplodeInstance != null) return _youtubeExplodeInstance!;
 
-  final denoPath = switch ((
+  final denoAssetPath = switch ((
     Platform.operatingSystem,
     SysInfo.kernelArchitecture,
   )) {
-    ('macos', ProcessorArchitecture.arm64) => denoExecutables['macos-arm64'],
-    ('macos', ProcessorArchitecture.x86_64) => denoExecutables['macos-x86_64'],
-    ('macos', _) => throw Exception('Unsupported architecture'),
-    ('windows', _) => denoExecutables['windows'],
-    ('linux', _) => denoExecutables['linux'],
+    ('macos', ProcessorArchitecture.arm64) => denoExecutables['macos-arm64']!,
+    ('macos', ProcessorArchitecture.x86_64) => denoExecutables['macos-x86_64']!,
+    ('windows', _) => denoExecutables['windows']!,
+    ('linux', _) => denoExecutables['linux']!,
     (var os, _) => throw Exception('Unsupported OS: $os'),
   };
+
+  final denoPath = Platform.isWindows
+      ? denoAssetPath
+      : await _prepareDeno(denoAssetPath);
 
   final solver = await DenoEJSSolver.init(denoExe: denoPath);
 
   _youtubeExplodeInstance = YoutubeExplode(jsSolver: solver);
-
   return _youtubeExplodeInstance!;
 }
