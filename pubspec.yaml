@@ -42,8 +42,8 @@ flutter:
   generate: true
 
   assets:
-    - assets/executables
-    - assets/fonts
+    - assets/executables/
+    - assets/fonts/
     - assets/icon.png
 
   fonts:
