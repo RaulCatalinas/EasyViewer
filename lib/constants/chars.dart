@@ -1,5 +1,5 @@
-const Map<String, List<String>> invalidChars = {
-  'windows': ['<', '>', ':', '"', '/', '\\', '|', '?', '*'],
-  'macos': [':', '/'],
-  'linux': ['/'],
+final Map<String, RegExp> invalidChars = {
+  'windows': RegExp(r'[<>:"/\\|?*]'),
+  'macos': RegExp(r'[:/]'),
+  'linux': RegExp(r'[/]'),
 };

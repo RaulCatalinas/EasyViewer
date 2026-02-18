@@ -3,15 +3,16 @@ import 'dart:io' show Platform, File;
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 
 import '/constants/chars.dart' show invalidChars;
+import '/constants/regex.dart' show trailingDotsAndSpaces;
 
 String cleanInvalidChars(String fileName) {
-  String sanitized = fileName;
+  final os = Platform.operatingSystem;
+  final regex =
+      invalidChars[os]; // sigue diferenciando caracteres inválidos por OS
 
-  for (final char in invalidChars[Platform.operatingSystem]!) {
-    sanitized = sanitized.replaceAll(char, '');
-  }
+  final sanitized = regex != null ? fileName.replaceAll(regex, '') : fileName;
 
-  return sanitized;
+  return sanitized.replaceAll(trailingDotsAndSpaces, '');
 }
 
 Future<void> deleteFile({required File fileToDelete}) async {
