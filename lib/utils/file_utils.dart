@@ -10,7 +10,9 @@ String cleanInvalidChars(String fileName) {
   final regex =
       invalidChars[os]; // sigue diferenciando caracteres inválidos por OS
 
-  final sanitized = regex != null ? fileName.replaceAll(regex, '') : fileName;
+  final sanitized = regex != null
+      ? fileName.replaceAll(regex, '').trim()
+      : fileName.trim();
 
   return sanitized.replaceAll(trailingDotsAndSpaces, '');
 }
