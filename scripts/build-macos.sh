@@ -85,7 +85,7 @@ echo "[5/6] Creating DMG installer..."
 mkdir -p dist/macos
 
 # Variables
-APP_NAME="easyviewer"
+APP_NAME="EasyViewer"
 APP_PATH="build/macos/Build/Products/Release/${APP_NAME}.app"
 VERSION="3.0.0"
 DMG_NAME="EasyViewer-${VERSION}"
