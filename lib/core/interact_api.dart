@@ -2,10 +2,12 @@ import 'dart:async' show Future;
 
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 import 'package:youtube_explode_dart/youtube_explode_dart.dart'
-    show VideoId, YoutubeExplode, StreamManifest;
+    show StreamInfoIterableExt, StreamManifest, VideoId, YoutubeExplode;
 
 import '/utils/file_utils.dart' show cleanInvalidChars;
 import 'core_utils.dart' show getYoutubeExplodeInstance;
+
+typedef YouTubeStream = Stream<List<int>>;
 
 class InteractApi {
   static InteractApi? _instance;
@@ -35,11 +37,15 @@ class InteractApi {
     }
   }
 
-  static Future<dynamic> getTitle(String url) async {
+  static Future<String> getTitle(String url) async {
     try {
       final video = await _instance?.youtube.videos.get(url);
 
-      return cleanInvalidChars(video?.title ?? '');
+      if (video == null) {
+        throw Exception('Video not found');
+      }
+
+      return cleanInvalidChars(video.title);
     } catch (e) {
       LogKeeper.error('Error obtaining video title: ${e.toString()}');
 
@@ -59,7 +65,7 @@ class InteractApi {
     }
   }
 
-  static Future<dynamic> getAudioStream(String url) async {
+  static Future<YouTubeStream> getAudioStream(String url) async {
     try {
       final manifest = await _getStreamManifest(url);
 
@@ -69,18 +75,22 @@ class InteractApi {
         throw Exception('No audio streams available');
       }
 
-      final audioStream = audioStreams.reduce(
-        (a, b) => a.bitrate.bitsPerSecond > b.bitrate.bitsPerSecond ? a : b,
-      );
+      final audioInfo = audioStreams.withHighestBitrate();
 
-      return _instance?.youtube.videos.streams.get(audioStream);
+      final stream = instance.youtube.videos.streams.get(audioInfo);
+
+      if (await stream.length == 0) {
+        throw Exception('Audio stream not found');
+      }
+
+      return stream;
     } catch (e) {
       LogKeeper.error('Error obtaining audio stream: ${e.toString()}');
       rethrow;
     }
   }
 
-  static Future<dynamic> getVideoStream(String url) async {
+  static Future<YouTubeStream> getVideoStream(String url) async {
     try {
       final manifest = await _getStreamManifest(url);
 
@@ -90,11 +100,15 @@ class InteractApi {
         throw Exception('No video streams available');
       }
 
-      final videoStream = videoStreams.reduce(
-        (a, b) => a.bitrate.bitsPerSecond > b.bitrate.bitsPerSecond ? a : b,
-      );
+      final videoInfo = videoStreams.withHighestBitrate();
 
-      return _instance?.youtube.videos.streams.get(videoStream);
+      final stream = instance.youtube.videos.streams.get(videoInfo);
+
+      if (await stream.length == 0) {
+        throw Exception('Video stream not found');
+      }
+
+      return stream;
     } catch (e) {
       LogKeeper.error('Error obtaining the video stream: ${e.toString()}');
       rethrow;
