@@ -95,7 +95,7 @@ class UpdateManager {
         context,
         title: AppLocalizations.of(context)!.update_available_title,
         content: AppLocalizations.of(context)!.update_available_body,
-        onConfirmed: _update,
+        onConfirmed: () async => _update(),
         cancelText: AppLocalizations.of(context)!.later_option,
       );
 
