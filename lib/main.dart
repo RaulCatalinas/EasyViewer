@@ -140,11 +140,10 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
       title: AppLocalizations.of(context)!.exit_confirmation_title,
       content: AppLocalizations.of(context)!.exit_confirmation_body,
       onConfirmed: () async {
-        await Future.wait([
-          UserPreferencesManager.savePreferences(),
-          LogKeeper.saveLogs(),
-          windowManager.destroy(),
-        ]);
+        await UserPreferencesManager.savePreferences();
+        await LogKeeper.saveLogs();
+        await windowManager.setPreventClose(false);
+        await windowManager.close();
       },
     );
   }
