@@ -1,3 +1,5 @@
+import 'package:easyviewer/enums/user_preferences.dart';
+import 'package:easyviewer/managers/user_preferences_manager/user_preferences_manager.dart';
 import 'package:file_picker/file_picker.dart' show FilePicker;
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
@@ -8,9 +10,14 @@ import '/utils/paths.dart' show getUserDesktopPath;
 Future<String> selectDirectory(BuildContext context) async {
   LogKeeper.info('📂 Opening directory selection dialog...');
 
+  final initialDir = UserPreferencesManager.getPreference(
+    UserPreferencesKeys.downloadDirectory,
+  );
+
   try {
     final directory = await FilePicker.platform.getDirectoryPath(
       dialogTitle: AppLocalizations.of(context)!.select_directory,
+      initialDirectory: initialDir != '' ? initialDir : null,
     );
 
     if (directory == null) {
