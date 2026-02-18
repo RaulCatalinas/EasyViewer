@@ -91,7 +91,7 @@ class DownloadManager {
           _instance._downloadFile = File(
             join(
               downloadDirectory,
-              join(_instance._videoTitle, downloadAudio ? '.mp3' : '.mp3.temp'),
+              '${_instance._videoTitle}${downloadAudio ? '.mp3' : '.mp3.temp'}',
             ),
           );
 

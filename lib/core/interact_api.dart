@@ -2,7 +2,7 @@ import 'dart:async' show Future;
 
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 import 'package:youtube_explode_dart/youtube_explode_dart.dart'
-    show VideoId, YoutubeExplode;
+    show VideoId, YoutubeExplode, StreamManifest;
 
 import '/utils/file_utils.dart' show cleanInvalidChars;
 import 'core_utils.dart' show getYoutubeExplodeInstance;
@@ -47,11 +47,11 @@ class InteractApi {
     }
   }
 
-  static Future<dynamic> _getStreamManifest(String url) async {
+  static Future<StreamManifest> _getStreamManifest(String url) async {
     try {
       final videoId = VideoId(url);
 
-      return await _instance?.youtube.videos.streams.getManifest(videoId);
+      return instance.youtube.videos.streams.getManifest(videoId);
     } catch (e) {
       LogKeeper.error('Error obtaining stream manifest: ${e.toString()}');
 
@@ -63,12 +63,19 @@ class InteractApi {
     try {
       final manifest = await _getStreamManifest(url);
 
-      return _instance?.youtube.videos.streams.get(
-        manifest.audioOnly.withHighestBitrate(),
+      final audioStreams = manifest.audioOnly;
+
+      if (audioStreams.isEmpty) {
+        throw Exception('No audio streams available');
+      }
+
+      final audioStream = audioStreams.reduce(
+        (a, b) => a.bitrate.bitsPerSecond > b.bitrate.bitsPerSecond ? a : b,
       );
+
+      return _instance?.youtube.videos.streams.get(audioStream);
     } catch (e) {
       LogKeeper.error('Error obtaining audio stream: ${e.toString()}');
-
       rethrow;
     }
   }
@@ -77,14 +84,19 @@ class InteractApi {
     try {
       final manifest = await _getStreamManifest(url);
 
-      return _instance?.youtube.videos.streams.get(
-        manifest.videoOnly.withHighestBitrate(),
-      );
-    } catch (e) {
-      LogKeeper.error(
-        'Error obtaining the audio stream from the video: ${e.toString()}',
+      final videoStreams = manifest.videoOnly;
+
+      if (videoStreams.isEmpty) {
+        throw Exception('No video streams available');
+      }
+
+      final videoStream = videoStreams.reduce(
+        (a, b) => a.bitrate.bitsPerSecond > b.bitrate.bitsPerSecond ? a : b,
       );
 
+      return _instance?.youtube.videos.streams.get(videoStream);
+    } catch (e) {
+      LogKeeper.error('Error obtaining the video stream: ${e.toString()}');
       rethrow;
     }
   }
