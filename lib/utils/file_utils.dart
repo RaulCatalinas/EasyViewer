@@ -37,9 +37,8 @@ Future<void> createFileIfNotExist(File file) async {
   try {
     if (!await file.exists()) {
       await file.create(recursive: true);
+      LogKeeper.info('File ${file.path} successfully created');
     }
-
-    LogKeeper.info('File $file successfully created');
   } catch (e) {
     LogKeeper.error("Error creating the file '$file': $e");
   }
