@@ -2,7 +2,7 @@
 
 import 'dart:io' show Platform;
 
-import 'package:fluikit/dialogs.dart' show FluiConfirmDialog, FluiInfoDialog;
+import 'package:fluikit/dialogs.dart' show FluiInfoDialog;
 import 'package:flutter/material.dart'
     show
         BuildContext,
@@ -18,6 +18,8 @@ import 'package:flutter_themed/flutter_themed.dart'
     show Themed, ThemeStorageAdapter;
 import 'package:flutter_themed/themed_app.dart' show ThemedApp;
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
+import 'package:window_close_guard/window_close_guard.dart'
+    show WindowCloseGuard, CloseDialogConfig;
 import 'package:window_manager/window_manager.dart';
 
 import 'constants/version.dart' show installedVersion;
@@ -118,35 +120,8 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with WindowListener {
+class _MyHomePageState extends State<MyHomePage> {
   bool _hasInitialized = false;
-
-  @override
-  void initState() {
-    super.initState();
-    windowManager.addListener(this);
-  }
-
-  @override
-  void dispose() {
-    windowManager.removeListener(this);
-    super.dispose();
-  }
-
-  @override
-  void onWindowClose() async {
-    await FluiConfirmDialog.show<bool>(
-      context,
-      title: AppLocalizations.of(context)!.exit_confirmation_title,
-      content: AppLocalizations.of(context)!.exit_confirmation_body,
-      onConfirmed: () async {
-        await UserPreferencesManager.savePreferences();
-        await LogKeeper.saveLogs();
-        await windowManager.setPreventClose(false);
-        await windowManager.close();
-      },
-    );
-  }
 
   @override
   void didChangeDependencies() {
@@ -154,6 +129,19 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
 
     if (!_hasInitialized) {
       _hasInitialized = true;
+
+      WindowCloseGuard.initialize(
+        context: context,
+        onClose: () async {
+          await UserPreferencesManager.savePreferences();
+          await LogKeeper.saveLogs();
+        },
+        dialogConfigBuilder: () => CloseDialogConfig(
+          title: AppLocalizations.of(context)!.exit_confirmation_title,
+          content: AppLocalizations.of(context)!.exit_confirmation_body,
+          confirmText: AppLocalizations.of(context)!.yes_option,
+        ),
+      );
 
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await _initializeApp();
