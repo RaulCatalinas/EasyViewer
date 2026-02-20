@@ -10,7 +10,7 @@ import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 import '/services/ffmpeg_service.dart' show mergeAudioAndVideo;
 import '/utils/directories_utils.dart' show openDirectory;
-import '/utils/file_utils.dart' show deleteFile;
+import '/utils/file_utils.dart' show createFileIfNotExist, deleteFile;
 import '/utils/youtube_utils.dart' show separateUrls;
 import 'download_validations.dart' show DownloadValidations;
 import 'interact_api.dart' show InteractApi;
@@ -95,10 +95,11 @@ class DownloadManager {
             ),
           );
 
+          await createFileIfNotExist(_instance._downloadFile);
+
           final downloadFileStream = _instance._downloadFile.openWrite();
 
           await audioStream.pipe(downloadFileStream);
-
           await downloadFileStream.flush();
           await downloadFileStream.close();
 
@@ -111,10 +112,11 @@ class DownloadManager {
               join(downloadDirectory, '${_instance._videoTitle}.mp4'),
             );
 
+            await createFileIfNotExist(_instance._downloadFile);
+
             final videoFileStream = _instance._downloadFile.openWrite();
 
             await videoSteam.pipe(videoFileStream);
-
             await videoFileStream.flush();
             await videoFileStream.close();
 

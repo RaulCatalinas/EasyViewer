@@ -32,3 +32,15 @@ Future<void> deleteFile({required File fileToDelete}) async {
     LogKeeper.error('Error deleting file ${fileToDelete.path}: $e');
   }
 }
+
+Future<void> createFileIfNotExist(File file) async {
+  try {
+    if (!await file.exists()) {
+      await file.create(recursive: true);
+    }
+
+    LogKeeper.info('File $file successfully created');
+  } catch (e) {
+    LogKeeper.error("Error creating the file '$file': $e");
+  }
+}
