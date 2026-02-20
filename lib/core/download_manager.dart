@@ -49,7 +49,7 @@ class DownloadManager {
         UserPreferencesKeys.downloadDirectory,
       );
 
-      for (final url in urls) {
+      for (final url in List.from(urls)) {
         if (!context.mounted) return;
 
         downloadDirectory = await _resolveDownloadDirectory(
@@ -160,14 +160,18 @@ class DownloadManager {
     required String videoTitle,
     required String downloadDirectory,
   }) async {
-    final audioStream = await InteractApi.getAudioStream(url);
     final file = File(join(downloadDirectory, '$videoTitle.mp3'));
 
     await createFileIfNotExist(file);
 
+    final audioStream = await InteractApi.getAudioStream(url);
     final fileStream = file.openWrite();
 
-    await audioStream.pipe(fileStream);
+    await for (final chunk in audioStream) {
+      print('Chunk recibed: $chunk bytes');
+      fileStream.add(chunk);
+    }
+
     await fileStream.flush();
     await fileStream.close();
 
@@ -205,14 +209,18 @@ class DownloadManager {
     required String videoTitle,
     required String downloadDirectory,
   }) async {
-    final audioStream = await InteractApi.getAudioStream(url);
     final file = File(join(downloadDirectory, '$videoTitle.mp3.temp'));
-
     await createFileIfNotExist(file);
+
+    final audioStream = await InteractApi.getAudioStream(url);
 
     final fileStream = file.openWrite();
 
-    await audioStream.pipe(fileStream);
+    await for (final chunk in audioStream) {
+      print('Chunk recibed: $chunk bytes');
+      fileStream.add(chunk);
+    }
+
     await fileStream.flush();
     await fileStream.close();
 

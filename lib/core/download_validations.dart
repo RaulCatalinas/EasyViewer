@@ -6,12 +6,13 @@ import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 import 'package:youtube_explode_dart/youtube_explode_dart.dart'
     show
         VideoRequiresPurchaseException,
+        VideoUnavailableException,
         VideoUnplayableException,
-        VideoUnavailableException;
+        YoutubeExplode;
 
 import '/constants/hosts.dart' show allowHosts, google;
 import '/l10n/app_localizations.dart' show AppLocalizations;
-import 'core_utils.dart' show getYoutubeExplodeInstance;
+import 'core_utils.dart' show getDenoSolver;
 
 class DownloadValidations {
   static final _instance = DownloadValidations._internal();
@@ -76,10 +77,11 @@ class DownloadValidations {
     required BuildContext context,
     required String url,
   }) async {
-    final youtube = await getYoutubeExplodeInstance();
+    final denoSolver = await getDenoSolver();
+    final yt = YoutubeExplode(jsSolver: denoSolver);
 
     try {
-      final video = await youtube.videos.get(url);
+      final video = await yt.videos.get(url);
 
       if (video.isLive) {
         LogKeeper.warning('Video is a live stream: $url');
@@ -89,7 +91,7 @@ class DownloadValidations {
         throw Exception(AppLocalizations.of(context)!.error_live_stream);
       }
 
-      await youtube.videos.streamsClient.getManifest(video.id);
+      await yt.videos.streamsClient.getManifest(video.id);
 
       return true;
     } on VideoUnavailableException {
@@ -116,6 +118,8 @@ class DownloadValidations {
       LogKeeper.error('Error checking video availability: $e');
 
       throw Exception(AppLocalizations.of(context)!.error_default);
+    } finally {
+      yt.close();
     }
   }
 }

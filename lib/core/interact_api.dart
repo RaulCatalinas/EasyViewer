@@ -1,17 +1,18 @@
 import 'dart:async' show Future;
 
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
+import 'package:youtube_explode_dart/js_challenge.dart' show BaseEJSSolver;
 import 'package:youtube_explode_dart/youtube_explode_dart.dart'
-    show StreamInfoIterableExt, StreamManifest, VideoId, YoutubeExplode;
+    show StreamInfoIterableExt, StreamManifest, YoutubeExplode;
 
 import '/utils/file_utils.dart' show cleanInvalidChars;
-import 'core_utils.dart' show getYoutubeExplodeInstance;
+import 'core_utils.dart' show getDenoSolver;
 
 typedef YouTubeStream = Stream<List<int>>;
 
 class InteractApi {
   static InteractApi? _instance;
-  late final YoutubeExplode youtube;
+  late final BaseEJSSolver _donoSolver;
 
   InteractApi._internal();
 
@@ -24,7 +25,7 @@ class InteractApi {
     try {
       LogKeeper.info('Initializing InteractApi...');
 
-      instance.youtube = await getYoutubeExplodeInstance();
+      instance._donoSolver = await getDenoSolver();
 
       LogKeeper.info('✓ InteractApi initialized successfully');
     } catch (e, stackTrace) {
@@ -38,37 +39,42 @@ class InteractApi {
   }
 
   static Future<String> getTitle(String url) async {
-    try {
-      final video = await _instance?.youtube.videos.get(url);
+    final yt = YoutubeExplode(jsSolver: instance._donoSolver);
 
-      if (video == null) {
-        throw Exception('Video not found');
-      }
+    try {
+      final video = await yt.videos.get(url);
 
       return cleanInvalidChars(video.title);
     } catch (e) {
       LogKeeper.error('Error obtaining video title: ${e.toString()}');
 
       rethrow;
+    } finally {
+      yt.close();
     }
   }
 
   static Future<StreamManifest> _getStreamManifest(String url) async {
-    try {
-      final videoId = VideoId(url);
+    final yt = YoutubeExplode(jsSolver: instance._donoSolver);
 
-      return await instance.youtube.videos.streams.getManifest(videoId);
+    try {
+      print('Getting stream manifest...');
+
+      return await yt.videos.streams.getManifest(url);
     } catch (e) {
       LogKeeper.error('Error obtaining stream manifest: ${e.toString()}');
 
       rethrow;
+    } finally {
+      yt.close();
     }
   }
 
   static Future<YouTubeStream> getAudioStream(String url) async {
+    final yt = YoutubeExplode(jsSolver: instance._donoSolver);
+
     try {
       final manifest = await _getStreamManifest(url);
-
       final audioStreams = manifest.audioOnly;
 
       if (audioStreams.isEmpty) {
@@ -77,20 +83,18 @@ class InteractApi {
 
       final audioInfo = audioStreams.withHighestBitrate();
 
-      final stream = instance.youtube.videos.streams.get(audioInfo);
-
-      if (await stream.length == 0) {
-        throw Exception('Audio stream not found');
-      }
-
-      return stream;
+      return yt.videos.streams.get(audioInfo);
     } catch (e) {
       LogKeeper.error('Error obtaining audio stream: ${e.toString()}');
       rethrow;
+    } finally {
+      yt.close();
     }
   }
 
   static Future<YouTubeStream> getVideoStream(String url) async {
+    final yt = YoutubeExplode(jsSolver: instance._donoSolver);
+
     try {
       final manifest = await _getStreamManifest(url);
 
@@ -102,7 +106,7 @@ class InteractApi {
 
       final videoInfo = videoStreams.withHighestBitrate();
 
-      final stream = instance.youtube.videos.streams.get(videoInfo);
+      final stream = yt.videos.streams.get(videoInfo);
 
       if (await stream.length == 0) {
         throw Exception('Video stream not found');
@@ -112,6 +116,8 @@ class InteractApi {
     } catch (e) {
       LogKeeper.error('Error obtaining the video stream: ${e.toString()}');
       rethrow;
+    } finally {
+      yt.close();
     }
   }
 }
