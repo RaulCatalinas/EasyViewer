@@ -57,7 +57,7 @@ class InteractApi {
     try {
       final videoId = VideoId(url);
 
-      return instance.youtube.videos.streams.getManifest(videoId);
+      return await instance.youtube.videos.streams.getManifest(videoId);
     } catch (e) {
       LogKeeper.error('Error obtaining stream manifest: ${e.toString()}');
 
