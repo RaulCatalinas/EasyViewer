@@ -17,17 +17,14 @@ import 'interact_api.dart' show InteractApi;
 
 class DownloadManager {
   static final _instance = DownloadManager._internal();
-  List<String> _separatedUrls = [];
-  String _urlToDownload = '';
-  int _downloadsCompletedSuccessfully = 0;
-  String _videoTitle = '';
-  File _downloadFile = File('');
 
   factory DownloadManager() {
     return _instance;
   }
 
   DownloadManager._internal();
+
+  int _downloadsCompletedSuccessfully = 0;
 
   static Future<void> downloadVideo({
     required BuildContext context,
@@ -40,139 +37,216 @@ class DownloadManager {
       _instance._downloadsCompletedSuccessfully = 0;
 
       DownloadValidations.nonEmptyURL(url: rawUrlsToDownload, context: context);
-
       await DownloadValidations.checkInternetConnection(context: context);
 
-      _instance._separatedUrls = separateUrls(rawUrlsToDownload!);
-
-      setText!(_instance._separatedUrls.join('\n'));
-
-      _instance._separatedUrls.removeWhere(
-        (url) =>
-            !DownloadValidations.checkIfYoutubeUrl(url: url, context: context),
+      final urls = await _prepareUrls(
+        context: context,
+        rawUrls: rawUrlsToDownload!,
+        setText: setText!,
       );
-
-      setText(_instance._separatedUrls.join('\n'));
 
       String downloadDirectory = UserPreferencesManager.getPreference(
         UserPreferencesKeys.downloadDirectory,
       );
 
-      for (final url in List.from(_instance._separatedUrls)) {
-        try {
-          if (!context.mounted) return;
+      for (final url in urls) {
+        if (!context.mounted) return;
 
-          await DownloadValidations.isYoutubeVideoAvailable(
-            context: context,
-            url: url,
-          );
+        downloadDirectory = await _resolveDownloadDirectory(
+          currentDirectory: downloadDirectory,
+          setDefaultDirectoryIfIsNecessary: setDefaultDirectoryIfIsNecessary,
+        );
 
-          _instance._videoTitle = '';
-
-          final isDefaultDirectorySet =
-              await setDefaultDirectoryIfIsNecessary();
-
-          if (isDefaultDirectorySet) {
-            downloadDirectory = UserPreferencesManager.getPreference(
-              UserPreferencesKeys.downloadDirectory,
-            );
-          }
-
-          _instance._urlToDownload = url;
-
-          _instance._videoTitle = await InteractApi.getTitle(
-            _instance._urlToDownload,
-          );
-
-          final audioStream = await InteractApi.getAudioStream(
-            _instance._urlToDownload,
-          );
-
-          _instance._downloadFile = File(
-            join(
-              downloadDirectory,
-              '${_instance._videoTitle}${downloadAudio ? '.mp3' : '.mp3.temp'}',
-            ),
-          );
-
-          await createFileIfNotExist(_instance._downloadFile);
-
-          final downloadFileStream = _instance._downloadFile.openWrite();
-
-          await audioStream.pipe(downloadFileStream);
-          await downloadFileStream.flush();
-          await downloadFileStream.close();
-
-          if (!downloadAudio) {
-            final videoSteam = await InteractApi.getVideoStream(
-              _instance._urlToDownload,
-            );
-
-            _instance._downloadFile = File(
-              join(downloadDirectory, '${_instance._videoTitle}.mp4'),
-            );
-
-            await createFileIfNotExist(_instance._downloadFile);
-
-            final videoFileStream = _instance._downloadFile.openWrite();
-
-            await videoSteam.pipe(videoFileStream);
-            await videoFileStream.flush();
-            await videoFileStream.close();
-
-            await mergeAudioAndVideo(
-              audioFile: File(
-                join(downloadDirectory, '${_instance._videoTitle}.mp3'),
-              ),
-              videoFile: _instance._downloadFile,
-              outputPath: join(
-                downloadDirectory,
-                '${_instance._videoTitle}.mp4',
-              ),
-            );
-          }
-
-          _instance._downloadsCompletedSuccessfully++;
-        } catch (e) {
-          LogKeeper.error(
-            "Error downloading the video: ${e.toString().replaceAll('Exception: ', '')}",
-          );
-
-          await deleteFile(fileToDelete: _instance._downloadFile);
-
-          if (!context.mounted) {
-            LogKeeper.warning(
-              'Context not mounted, skipping showing the error',
-            );
-
-            return;
-          }
-
-          FluiErrorDialog.show(
-            context,
-            content: e.toString().replaceAll('Exception: ', ''),
-          );
-        } finally {
-          _instance._separatedUrls.remove(_instance._urlToDownload);
-
-          setText(_instance._separatedUrls.join('\n'));
-        }
+        await _processSingleUrl(
+          context: context,
+          url: url,
+          downloadAudio: downloadAudio,
+          downloadDirectory: downloadDirectory,
+          setText: setText,
+          remainingUrls: urls,
+        );
       }
 
       if (_instance._downloadsCompletedSuccessfully > 0) {
         openDirectory(downloadDirectory);
       }
     } catch (e) {
-      if (!context.mounted) {
-        LogKeeper.warning('Context not mounted, skipping showing the error');
+      _showErrorIfMounted(context, e);
+    }
+  }
 
-        return;
-      }
+  static Future<List<String>> _prepareUrls({
+    required BuildContext context,
+    required String rawUrls,
+    required Function(String) setText,
+  }) async {
+    final separated = separateUrls(rawUrls);
+    setText(separated.join('\n'));
 
-      FluiErrorDialog.show(
-        context,
-        content: e.toString().replaceAll('Exception: ', ''),
+    final validUrls = separated
+        .where(
+          (url) =>
+              DownloadValidations.checkIfYoutubeUrl(url: url, context: context),
+        )
+        .toList();
+
+    setText(validUrls.join('\n'));
+
+    return validUrls;
+  }
+
+  static Future<String> _resolveDownloadDirectory({
+    required String currentDirectory,
+    required Future<bool> Function() setDefaultDirectoryIfIsNecessary,
+  }) async {
+    final isDefaultDirectorySet = await setDefaultDirectoryIfIsNecessary();
+
+    if (isDefaultDirectorySet) {
+      return UserPreferencesManager.getPreference(
+        UserPreferencesKeys.downloadDirectory,
       );
     }
+
+    return currentDirectory;
+  }
+
+  static Future<void> _processSingleUrl({
+    required BuildContext context,
+    required String url,
+    required bool downloadAudio,
+    required String downloadDirectory,
+    required Function(String) setText,
+    required List<String> remainingUrls,
+  }) async {
+    File downloadFile = File('');
+
+    try {
+      await DownloadValidations.isYoutubeVideoAvailable(
+        context: context,
+        url: url,
+      );
+
+      final videoTitle = await InteractApi.getTitle(url);
+
+      downloadFile = downloadAudio
+          ? await _downloadAudioOnly(
+              url: url,
+              videoTitle: videoTitle,
+              downloadDirectory: downloadDirectory,
+            )
+          : await _downloadVideoWithAudio(
+              url: url,
+              videoTitle: videoTitle,
+              downloadDirectory: downloadDirectory,
+            );
+
+      _instance._downloadsCompletedSuccessfully++;
+    } catch (e) {
+      LogKeeper.error(
+        "Error downloading the video: ${e.toString().replaceAll('Exception: ', '')}",
+      );
+
+      await deleteFile(fileToDelete: downloadFile);
+
+      _showErrorIfMounted(context, e);
+    } finally {
+      remainingUrls.remove(url);
+      setText(remainingUrls.join('\n'));
+    }
+  }
+
+  static Future<File> _downloadAudioOnly({
+    required String url,
+    required String videoTitle,
+    required String downloadDirectory,
+  }) async {
+    final audioStream = await InteractApi.getAudioStream(url);
+    final file = File(join(downloadDirectory, '$videoTitle.mp3'));
+
+    await createFileIfNotExist(file);
+
+    final fileStream = file.openWrite();
+
+    await audioStream.pipe(fileStream);
+    await fileStream.flush();
+    await fileStream.close();
+
+    return file;
+  }
+
+  static Future<File> _downloadVideoWithAudio({
+    required String url,
+    required String videoTitle,
+    required String downloadDirectory,
+  }) async {
+    final audioFile = await _downloadAudioTemp(
+      url: url,
+      videoTitle: videoTitle,
+      downloadDirectory: downloadDirectory,
+    );
+
+    final videoFile = await _downloadVideoStream(
+      url: url,
+      videoTitle: videoTitle,
+      downloadDirectory: downloadDirectory,
+    );
+
+    await mergeAudioAndVideo(
+      audioFile: audioFile,
+      videoFile: videoFile,
+      outputPath: join(downloadDirectory, '$videoTitle.mp4'),
+    );
+
+    return videoFile;
+  }
+
+  static Future<File> _downloadAudioTemp({
+    required String url,
+    required String videoTitle,
+    required String downloadDirectory,
+  }) async {
+    final audioStream = await InteractApi.getAudioStream(url);
+    final file = File(join(downloadDirectory, '$videoTitle.mp3.temp'));
+
+    await createFileIfNotExist(file);
+
+    final fileStream = file.openWrite();
+
+    await audioStream.pipe(fileStream);
+    await fileStream.flush();
+    await fileStream.close();
+
+    return file;
+  }
+
+  static Future<File> _downloadVideoStream({
+    required String url,
+    required String videoTitle,
+    required String downloadDirectory,
+  }) async {
+    final videoStream = await InteractApi.getVideoStream(url);
+    final file = File(join(downloadDirectory, '$videoTitle.mp4'));
+
+    await createFileIfNotExist(file);
+
+    final fileStream = file.openWrite();
+
+    await videoStream.pipe(fileStream);
+    await fileStream.flush();
+    await fileStream.close();
+
+    return file;
+  }
+
+  static void _showErrorIfMounted(BuildContext context, Object e) {
+    if (!context.mounted) {
+      LogKeeper.warning('Context not mounted, skipping showing the error');
+      return;
+    }
+
+    FluiErrorDialog.show(
+      context,
+      content: e.toString().replaceAll('Exception: ', ''),
+    );
   }
 }
