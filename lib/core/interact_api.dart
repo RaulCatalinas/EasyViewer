@@ -1,18 +1,19 @@
-import 'dart:async' show Future;
+import 'dart:async' show Future, Stream, StreamTransformer;
 
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 import 'package:youtube_explode_dart/js_challenge.dart' show BaseEJSSolver;
 import 'package:youtube_explode_dart/youtube_explode_dart.dart'
-    show StreamInfoIterableExt, StreamManifest, YoutubeExplode;
+    show StreamInfoIterableExt, YoutubeExplode;
 
 import '/utils/file_utils.dart' show cleanInvalidChars;
 import 'core_utils.dart' show getDenoSolver;
 
 typedef YouTubeStream = Stream<List<int>>;
 
+/// Clase central para toda la lógica de YouTube
 class InteractApi {
   static InteractApi? _instance;
-  late final BaseEJSSolver _donoSolver;
+  late final BaseEJSSolver _solver;
 
   InteractApi._internal();
 
@@ -21,60 +22,38 @@ class InteractApi {
     return _instance!;
   }
 
+  /// Inicializa el solver Deno
   static Future<void> initialize() async {
     try {
       LogKeeper.info('Initializing InteractApi...');
-
-      instance._donoSolver = await getDenoSolver();
-
+      instance._solver = await getDenoSolver();
       LogKeeper.info('✓ InteractApi initialized successfully');
     } catch (e, stackTrace) {
       LogKeeper.critical(
         '💀 FATAL: Failed to initialize InteractApi: ${e.toString()}',
       );
       LogKeeper.critical('Error StackTrace: $stackTrace');
-
       rethrow;
     }
   }
 
+  /// Obtiene el título limpio de un video
   static Future<String> getTitle(String url) async {
-    final yt = YoutubeExplode(jsSolver: instance._donoSolver);
-
+    final yt = YoutubeExplode(jsSolver: instance._solver);
     try {
       final video = await yt.videos.get(url);
-
       return cleanInvalidChars(video.title);
-    } catch (e) {
-      LogKeeper.error('Error obtaining video title: ${e.toString()}');
-
-      rethrow;
     } finally {
       yt.close();
     }
   }
 
-  static Future<StreamManifest> _getStreamManifest(String url) async {
-    final yt = YoutubeExplode(jsSolver: instance._donoSolver);
-
-    try {
-      print('Getting stream manifest...');
-
-      return await yt.videos.streams.getManifest(url);
-    } catch (e) {
-      LogKeeper.error('Error obtaining stream manifest: ${e.toString()}');
-
-      rethrow;
-    } finally {
-      yt.close();
-    }
-  }
-
+  /// Devuelve un stream de audio (no cierra YoutubeExplode hasta que se consuma)
   static Future<YouTubeStream> getAudioStream(String url) async {
-    final yt = YoutubeExplode(jsSolver: instance._donoSolver);
+    final yt = YoutubeExplode(jsSolver: instance._solver);
 
     try {
-      final manifest = await _getStreamManifest(url);
+      final manifest = await yt.videos.streams.getManifest(url);
       final audioStreams = manifest.audioOnly;
 
       if (audioStreams.isEmpty) {
@@ -83,21 +62,29 @@ class InteractApi {
 
       final audioInfo = audioStreams.withHighestBitrate();
 
-      return yt.videos.streams.get(audioInfo);
+      // Retornamos un stream que el consumidor debe cerrar manualmente
+      return yt.videos.streams
+          .get(audioInfo)
+          .transform(
+            StreamTransformer.fromHandlers(
+              handleDone: (_) {
+                yt.close(); // Se cierra cuando se termina de consumir
+              },
+            ),
+          );
     } catch (e) {
+      yt.close();
       LogKeeper.error('Error obtaining audio stream: ${e.toString()}');
       rethrow;
-    } finally {
-      yt.close();
     }
   }
 
+  /// Devuelve un stream de video (solo video, sin mezclar audio)
   static Future<YouTubeStream> getVideoStream(String url) async {
-    final yt = YoutubeExplode(jsSolver: instance._donoSolver);
+    final yt = YoutubeExplode(jsSolver: instance._solver);
 
     try {
-      final manifest = await _getStreamManifest(url);
-
+      final manifest = await yt.videos.streams.getManifest(url);
       final videoStreams = manifest.videoOnly;
 
       if (videoStreams.isEmpty) {
@@ -106,18 +93,19 @@ class InteractApi {
 
       final videoInfo = videoStreams.withHighestBitrate();
 
-      final stream = yt.videos.streams.get(videoInfo);
-
-      if (await stream.length == 0) {
-        throw Exception('Video stream not found');
-      }
-
-      return stream;
+      return yt.videos.streams
+          .get(videoInfo)
+          .transform(
+            StreamTransformer.fromHandlers(
+              handleDone: (_) {
+                yt.close(); // Se cierra cuando se termina de consumir
+              },
+            ),
+          );
     } catch (e) {
-      LogKeeper.error('Error obtaining the video stream: ${e.toString()}');
-      rethrow;
-    } finally {
       yt.close();
+      LogKeeper.error('Error obtaining video stream: ${e.toString()}');
+      rethrow;
     }
   }
 }
