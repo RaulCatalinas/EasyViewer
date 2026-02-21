@@ -10,7 +10,6 @@ import 'core_utils.dart' show getDenoSolver;
 
 typedef YouTubeStream = Stream<List<int>>;
 
-/// Clase central para toda la lógica de YouTube
 class InteractApi {
   static InteractApi? _instance;
   late final BaseEJSSolver _solver;
@@ -22,7 +21,6 @@ class InteractApi {
     return _instance!;
   }
 
-  /// Inicializa el solver Deno
   static Future<void> initialize() async {
     try {
       LogKeeper.info('Initializing InteractApi...');
@@ -37,7 +35,6 @@ class InteractApi {
     }
   }
 
-  /// Obtiene el título limpio de un video
   static Future<String> getTitle(String url) async {
     final yt = YoutubeExplode(jsSolver: instance._solver);
     try {
@@ -48,7 +45,6 @@ class InteractApi {
     }
   }
 
-  /// Devuelve un stream de audio (no cierra YoutubeExplode hasta que se consuma)
   static Future<YouTubeStream> getAudioStream(String url) async {
     final yt = YoutubeExplode(jsSolver: instance._solver);
 
@@ -62,13 +58,12 @@ class InteractApi {
 
       final audioInfo = audioStreams.withHighestBitrate();
 
-      // Retornamos un stream que el consumidor debe cerrar manualmente
       return yt.videos.streams
           .get(audioInfo)
           .transform(
             StreamTransformer.fromHandlers(
               handleDone: (_) {
-                yt.close(); // Se cierra cuando se termina de consumir
+                yt.close();
               },
             ),
           );
@@ -79,7 +74,6 @@ class InteractApi {
     }
   }
 
-  /// Devuelve un stream de video (solo video, sin mezclar audio)
   static Future<YouTubeStream> getVideoStream(String url) async {
     final yt = YoutubeExplode(jsSolver: instance._solver);
 
@@ -98,7 +92,7 @@ class InteractApi {
           .transform(
             StreamTransformer.fromHandlers(
               handleDone: (_) {
-                yt.close(); // Se cierra cuando se termina de consumir
+                yt.close();
               },
             ),
           );
