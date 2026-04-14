@@ -15,7 +15,7 @@ Future<String> selectDirectory(BuildContext context) async {
   );
 
   try {
-    final directory = await FilePicker.platform.getDirectoryPath(
+    final directory = await FilePicker.getDirectoryPath(
       dialogTitle: AppLocalizations.of(context)!.select_directory,
       initialDirectory: initialDir != '' ? initialDir : null,
     );
