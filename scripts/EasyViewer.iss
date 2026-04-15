@@ -15,7 +15,7 @@
 AppId={{998AF5B3-B088-41DF-B6A0-C3EA9662B544}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
-AppCopyright=Copyright (C) 2025 {#MyAppPublisher}
+AppCopyright=Copyright (C) 2026 {#MyAppPublisher}
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 DefaultDirName={autopf}\{#MyAppName}
