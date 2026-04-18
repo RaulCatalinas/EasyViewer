@@ -113,8 +113,7 @@ class MainUI extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              SelectDownloadFormat(key: _downloadFormatKey, notifier: _format),
-
+              //SelectDownloadFormat(key: _downloadFormatKey, notifier: _format),
               const SizedBox(height: 16),
 
               FluiStatefulTextButton(

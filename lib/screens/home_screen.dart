@@ -1,3 +1,5 @@
+import 'package:easyviewer/components/select_download_format.dart';
+import 'package:easyviewer/enums/download_type.dart';
 import 'package:fluikit/widgets.dart' show FluiInput, FluiInputState, FluiText;
 import 'package:flutter/material.dart'
     show
@@ -18,6 +20,7 @@ import 'package:flutter/material.dart'
         SizedBox,
         StatelessWidget,
         SystemMouseCursors,
+        ValueNotifier,
         Widget;
 
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
@@ -29,6 +32,7 @@ import '/managers/user_preferences_manager/user_preferences_manager.dart'
 class HomeScreen extends StatelessWidget {
   final _inputUrlsKey = GlobalKey<FluiInputState>();
   final _inputDirectoryKey = GlobalKey<FluiInputState>();
+  final _format = ValueNotifier<DownloadType>(.video);
 
   HomeScreen({super.key});
 
@@ -52,6 +56,10 @@ class HomeScreen extends StatelessWidget {
                 labelFontSize: 16,
                 borderRadius: .circular(15.0),
               ),
+
+              const SizedBox(height: 30),
+
+              SelectDownloadFormat(notifier: _format),
 
               const SizedBox(height: 30),
 

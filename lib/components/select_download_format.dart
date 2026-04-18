@@ -1,25 +1,21 @@
+import 'package:easyviewer/components/clickable_card.dart' show ClickableCard;
 import 'package:easyviewer/enums/download_type.dart' show DownloadType;
-import 'package:fluikit/widgets.dart' show FluiText;
+import 'package:fluikit/widgets.dart';
 import 'package:flutter/material.dart'
     show
         BuildContext,
         Column,
-        Radio,
-        RadioGroup,
+        Icon,
+        Icons,
         Row,
         SizedBox,
         State,
         StatefulWidget,
         ValueNotifier,
-        Widget,
-        WidgetState,
-        WidgetStateMouseCursor,
-        SystemMouseCursors;
-
-import '/l10n/app_localizations.dart' show AppLocalizations;
+        Widget;
 
 class SelectDownloadFormat extends StatefulWidget {
-  final ValueNotifier<DownloadType?> notifier;
+  final ValueNotifier<DownloadType> notifier;
 
   const SelectDownloadFormat({super.key, required this.notifier});
 
@@ -28,65 +24,57 @@ class SelectDownloadFormat extends StatefulWidget {
 }
 
 class SelectDownloadFormatState extends State<SelectDownloadFormat> {
-  DownloadType? _downloadType = .video;
   bool _enabled = true;
-
-  final _commonMouseCursor = WidgetStateMouseCursor.resolveWith((states) {
-    if (states.contains(WidgetState.disabled)) {
-      return SystemMouseCursors.forbidden;
-    }
-
-    if (states.contains(WidgetState.hovered)) {
-      return SystemMouseCursors.click;
-    }
-
-    return SystemMouseCursors.basic;
-  });
+  int clickableCardSelected = 1;
 
   void toggleEnabled() => setState(() => _enabled = !_enabled);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+      mainAxisAlignment: .center,
       children: [
-        FluiText(
-          text: AppLocalizations.of(context)!.download_format,
-          fontSize: 20,
+        ClickableCard(
+          onTap: () {
+            setState(() {
+              clickableCardSelected = 1;
+              widget.notifier.value = .video;
+            });
+          },
+          isSelected: clickableCardSelected == 1,
+          child: SizedBox(
+            width: 238,
+            height: 100,
+            child: Column(
+              mainAxisAlignment: .center,
+              children: [
+                Icon(Icons.play_circle_outline, size: 38),
+                SizedBox(height: 8),
+                FluiText(text: 'Video (MP4)'),
+              ],
+            ),
+          ),
         ),
-        const SizedBox(height: 16),
-        RadioGroup(
-          groupValue: _downloadType,
-          onChanged: (value) => setState(() {
-            _downloadType = value;
-            widget.notifier.value = value;
-          }),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: .center,
-                children: [
-                  Radio<DownloadType>(
-                    value: .video,
-                    enabled: _enabled,
-                    mouseCursor: _commonMouseCursor,
-                  ),
-                  SizedBox(width: 16),
-                  FluiText(text: 'Video', fontSize: 20),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: .center,
-                children: [
-                  Radio<DownloadType>(
-                    value: .audio,
-                    enabled: _enabled,
-                    mouseCursor: _commonMouseCursor,
-                  ),
-                  SizedBox(width: 16),
-                  FluiText(text: 'Audio', fontSize: 20),
-                ],
-              ),
-            ],
+        const SizedBox(width: 16),
+        ClickableCard(
+          onTap: () {
+            setState(() {
+              clickableCardSelected = 2;
+              widget.notifier.value = .audio;
+            });
+          },
+          isSelected: clickableCardSelected == 2,
+          child: SizedBox(
+            width: 238,
+            height: 100,
+            child: Column(
+              mainAxisAlignment: .center,
+              children: [
+                Icon(Icons.music_note, size: 38),
+                SizedBox(height: 8),
+                FluiText(text: 'Audio (MP3)'),
+              ],
+            ),
           ),
         ),
       ],
