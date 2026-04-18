@@ -1,27 +1,30 @@
 import 'package:easyviewer/components/select_download_format.dart';
+import 'package:easyviewer/core/download_manager.dart';
 import 'package:easyviewer/enums/download_type.dart';
-import 'package:fluikit/widgets.dart' show FluiInput, FluiInputState, FluiText;
+import 'package:easyviewer/utils/paths.dart';
+import 'package:fluikit/widgets.dart'
+    show
+        FluiInput,
+        FluiInputState,
+        FluiStatefulTextButton,
+        FluiStatefulTextButtonState;
 import 'package:flutter/material.dart'
     show
-        BoxDecoration,
         BuildContext,
         Center,
         Color,
         Column,
-        Container,
         Expanded,
         GlobalKey,
-        Icon,
         Icons,
-        InkWell,
         Padding,
         Row,
         Scaffold,
         SizedBox,
         StatelessWidget,
-        SystemMouseCursors,
         ValueNotifier,
         Widget;
+import 'package:logkeeper/logkeeper.dart';
 
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/handlers/select_directory.dart' show selectDirectory;
@@ -30,8 +33,11 @@ import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 
 class HomeScreen extends StatelessWidget {
-  final _inputUrlsKey = GlobalKey<FluiInputState>();
   final _inputDirectoryKey = GlobalKey<FluiInputState>();
+  final _inputUrlsKey = GlobalKey<FluiInputState>();
+  final _buttonDirectoryKey = GlobalKey<FluiStatefulTextButtonState>();
+  final _buttonDownloadKey = GlobalKey<FluiStatefulTextButtonState>();
+  final _downloadFormatKey = GlobalKey<SelectDownloadFormatState>();
   final _format = ValueNotifier<DownloadType>(.video);
 
   HomeScreen({super.key});
@@ -59,7 +65,7 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 30),
 
-              SelectDownloadFormat(notifier: _format),
+              SelectDownloadFormat(key: _downloadFormatKey, notifier: _format),
 
               const SizedBox(height: 30),
 
@@ -84,8 +90,15 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  InkWell(
-                    onTap: () async {
+
+                  FluiStatefulTextButton(
+                    key: _buttonDirectoryKey,
+                    text: AppLocalizations.of(context)!.select_directory,
+                    borderRadius: .circular(15.0),
+                    backgroundColor: const Color.fromRGBO(27, 27, 35, 0.7),
+                    icon: Icons.folder_outlined,
+                    iconSize: 22,
+                    onPressed: () async {
                       final directory = await selectDirectory(context);
 
                       UserPreferencesManager.setPreference(
@@ -95,34 +108,98 @@ class HomeScreen extends StatelessWidget {
 
                       _inputDirectoryKey.currentState?.setText(directory);
                     },
-                    enableFeedback: true,
-                    mouseCursor: SystemMouseCursors.click,
-                    borderRadius: .circular(15.0),
-                    child: Container(
-                      padding: const .symmetric(horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(
-                        color: const Color.fromRGBO(27, 27, 35, 0.7),
-                        borderRadius: .circular(15.0),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.folder_outlined, size: 24),
-                          const SizedBox(width: 8),
-                          FluiText(
-                            text: AppLocalizations.of(
-                              context,
-                            )!.select_directory,
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
                 ],
+              ),
+
+              const SizedBox(height: 30),
+
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: FluiStatefulTextButton(
+                  key: _buttonDownloadKey,
+                  backgroundColor: const Color.fromRGBO(232, 69, 60, 1.0),
+                  fontSize: 20,
+                  text: 'Download',
+                  borderRadius: .circular(15.0),
+                  icon: Icons.download,
+                  onPressed: () async {
+                    await _processDownload(
+                      context: context,
+                      downloadAudio: _format.value == .audio,
+                    );
+                  },
+                ),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _toggleStateWidgets() {
+    _inputUrlsKey.currentState?.toggleEnabled();
+    _buttonDirectoryKey.currentState?.toggleEnabled();
+    _buttonDownloadKey.currentState?.toggleEnabled();
+    //_progressBarKey.currentState?.toggleState();
+    _downloadFormatKey.currentState?.toggleEnabled();
+  }
+
+  Future<bool> _setDefaultDirectoryIfIsNecessary() async {
+    final selectedDirectory = UserPreferencesManager.getPreference(
+      UserPreferencesKeys.downloadDirectory,
+    );
+
+    final isDirectoryEmpty = selectedDirectory == '';
+
+    final existSelectedDirectory = existsDirectory(selectedDirectory);
+
+    if (isDirectoryEmpty || !existSelectedDirectory) {
+      final defaultDirectory = await getUserDesktopPath();
+
+      UserPreferencesManager.setPreference(
+        UserPreferencesKeys.downloadDirectory,
+        defaultDirectory,
+      );
+
+      _inputDirectoryKey.currentState?.setText(defaultDirectory);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<void> _processDownload({
+    required bool downloadAudio,
+    required BuildContext context,
+  }) async {
+    try {
+      _toggleStateWidgets();
+
+      await _setDefaultDirectoryIfIsNecessary();
+
+      final urlsToDownload = _inputUrlsKey.currentState?.getText();
+
+      if (!context.mounted) {
+        LogKeeper.warning('Context not mounted, skipping download');
+
+        return;
+      }
+
+      await DownloadManager.downloadVideo(
+        context: context,
+        rawUrlsToDownload: urlsToDownload,
+        downloadAudio: downloadAudio,
+        setText: _inputUrlsKey.currentState?.setText,
+        setDefaultDirectoryIfIsNecessary: _setDefaultDirectoryIfIsNecessary,
+      );
+    } catch (e) {
+      LogKeeper.error('Error while downloading the video: ${e.toString()}');
+    } finally {
+      _toggleStateWidgets();
+    }
   }
 }

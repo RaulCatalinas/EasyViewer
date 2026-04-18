@@ -35,13 +35,8 @@ class SelectDownloadFormatState extends State<SelectDownloadFormat> {
       mainAxisAlignment: .center,
       children: [
         ClickableCard(
-          onTap: () {
-            setState(() {
-              clickableCardSelected = 1;
-              widget.notifier.value = .video;
-            });
-          },
           isSelected: clickableCardSelected == 1,
+          enabled: _enabled,
           child: SizedBox(
             width: 238,
             height: 100,
@@ -54,16 +49,17 @@ class SelectDownloadFormatState extends State<SelectDownloadFormat> {
               ],
             ),
           ),
+          onTap: () {
+            setState(() {
+              clickableCardSelected = 1;
+              widget.notifier.value = .video;
+            });
+          },
         ),
         const SizedBox(width: 16),
         ClickableCard(
-          onTap: () {
-            setState(() {
-              clickableCardSelected = 2;
-              widget.notifier.value = .audio;
-            });
-          },
           isSelected: clickableCardSelected == 2,
+          enabled: _enabled,
           child: SizedBox(
             width: 238,
             height: 100,
@@ -76,6 +72,12 @@ class SelectDownloadFormatState extends State<SelectDownloadFormat> {
               ],
             ),
           ),
+          onTap: () {
+            setState(() {
+              clickableCardSelected = 2;
+              widget.notifier.value = .audio;
+            });
+          },
         ),
       ],
     );

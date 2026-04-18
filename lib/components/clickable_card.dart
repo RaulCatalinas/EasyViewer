@@ -16,9 +16,11 @@ class ClickableCard extends StatelessWidget {
   final bool isSelected;
   final void Function() onTap;
   final Widget child;
+  final bool enabled;
 
   const ClickableCard({
     super.key,
+    this.enabled = true,
     required this.onTap,
     required this.child,
     required this.isSelected,
@@ -39,7 +41,7 @@ class ClickableCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: enabled ? onTap : null,
       mouseCursor: _mouseCursor,
       child: Container(
         padding: const .symmetric(horizontal: 16, vertical: 12),
