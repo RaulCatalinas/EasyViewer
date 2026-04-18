@@ -121,7 +121,7 @@ class HomeScreen extends StatelessWidget {
                   key: _buttonDownloadKey,
                   backgroundColor: const Color.fromRGBO(232, 69, 60, 1.0),
                   fontSize: 20,
-                  text: 'Download',
+                  text: AppLocalizations.of(context)!.download,
                   borderRadius: .circular(15.0),
                   icon: Icons.download,
                   onPressed: () async {
