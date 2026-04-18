@@ -1,27 +1,28 @@
+import 'package:easyviewer/components/select_download_format.dart';
+import 'package:easyviewer/enums/download_type.dart' show DownloadType;
 import 'package:fluikit/widgets.dart'
     show
         FluiAppBar,
         FluiInput,
         FluiInputState,
-        FluiStatefulIconButton,
-        FluiStatefulIconButtonState,
         FluiProgressBar,
-        FluiProgressBarState;
+        FluiProgressBarState,
+        FluiStatefulTextButton,
+        FluiStatefulTextButtonState;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart'
     show
+        BuildContext,
         Center,
         Column,
-        EdgeInsets,
+        GlobalKey,
         Icons,
-        MainAxisAlignment,
         Padding,
         Row,
         Scaffold,
         SizedBox,
         StatelessWidget,
-        Widget,
-        BuildContext,
-        GlobalKey;
+        Widget;
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 
 import '/core/download_manager.dart' show DownloadManager;
@@ -36,10 +37,11 @@ import 'settings_ui.dart' show SettingsUI;
 class MainUI extends StatelessWidget {
   final _inputDirectoryKey = GlobalKey<FluiInputState>();
   final _inputUrlsKey = GlobalKey<FluiInputState>();
-  final _buttonDirectoryKey = GlobalKey<FluiStatefulIconButtonState>();
-  final _buttonDownloadVideoKey = GlobalKey<FluiStatefulIconButtonState>();
-  final _buttonDownloadAudioKey = GlobalKey<FluiStatefulIconButtonState>();
+  final _buttonDirectoryKey = GlobalKey<FluiStatefulTextButtonState>();
+  final _buttonDownloadKey = GlobalKey<FluiStatefulTextButtonState>();
   final _progressBarKey = GlobalKey<FluiProgressBarState>();
+  final _downloadFormatKey = GlobalKey<SelectDownloadFormatState>();
+  final _format = ValueNotifier<DownloadType?>(.video);
 
   MainUI({super.key});
 
@@ -56,12 +58,12 @@ class MainUI extends StatelessWidget {
       drawer: SettingsUI(),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(25.0),
+          padding: const .all(25.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: .center,
             children: <Widget>[
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: .center,
                 spacing: 15,
                 children: [
                   FluiInput(
@@ -70,76 +72,65 @@ class MainUI extends StatelessWidget {
                     isMultiline: true,
                     autofocus: true,
                   ),
-                  FluiInput(
-                    key: _inputDirectoryKey,
-                    placeholder: AppLocalizations.of(
-                      context,
-                    )!.placeholder_directory,
-                    readOnly: true,
-                    initialValue: UserPreferencesManager.getPreference(
-                      UserPreferencesKeys.downloadDirectory,
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FluiStatefulIconButton(
-                    key: _buttonDirectoryKey,
-                    onPressed: () async {
-                      final directory = await selectDirectory(context);
-
-                      UserPreferencesManager.setPreference(
-                        UserPreferencesKeys.downloadDirectory,
-                        directory,
-                      );
-
-                      _inputDirectoryKey.currentState?.setText(directory);
-                    },
-                    icon: Icons.folder,
-                    tooltip: AppLocalizations.of(
-                      context,
-                    )!.select_download_directory,
-                  ),
-
-                  const SizedBox(height: 17),
-
+                  const SizedBox(height: 8),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: .center,
                     children: [
-                      FluiStatefulIconButton(
-                        key: _buttonDownloadVideoKey,
-                        onPressed: () async {
-                          await _processDownload(
-                            downloadAudio: false,
-                            context: context,
-                          );
-                        },
-                        icon: Icons.video_file,
-                        tooltip: AppLocalizations.of(context)!.download_video,
+                      SizedBox(
+                        width: 250,
+                        child: FluiInput(
+                          key: _inputDirectoryKey,
+                          placeholder: AppLocalizations.of(
+                            context,
+                          )!.placeholder_directory,
+                          readOnly: true,
+                          initialValue: UserPreferencesManager.getPreference(
+                            UserPreferencesKeys.downloadDirectory,
+                          ),
+                        ),
                       ),
-
-                      FluiStatefulIconButton(
-                        key: _buttonDownloadAudioKey,
+                      const SizedBox(width: 16),
+                      FluiStatefulTextButton(
+                        key: _buttonDirectoryKey,
+                        text: AppLocalizations.of(
+                          context,
+                        )!.select_download_directory,
                         onPressed: () async {
-                          await _processDownload(
-                            downloadAudio: true,
-                            context: context,
+                          final directory = await selectDirectory(context);
+
+                          UserPreferencesManager.setPreference(
+                            UserPreferencesKeys.downloadDirectory,
+                            directory,
                           );
+
+                          _inputDirectoryKey.currentState?.setText(directory);
                         },
-                        icon: Icons.audio_file,
-                        tooltip: AppLocalizations.of(context)!.download_audio,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 13),
-                  FluiProgressBar(key: _progressBarKey),
                 ],
               ),
+
+              const SizedBox(height: 16),
+
+              SelectDownloadFormat(key: _downloadFormatKey, notifier: _format),
+
+              const SizedBox(height: 16),
+
+              FluiStatefulTextButton(
+                key: _buttonDownloadKey,
+                text: AppLocalizations.of(context)!.download,
+                fontSize: 25,
+                onPressed: () async {
+                  await _processDownload(
+                    downloadAudio: _format.value == .audio,
+                    context: context,
+                  );
+                },
+              ),
+
+              const SizedBox(height: 16),
+              FluiProgressBar(key: _progressBarKey),
             ],
           ),
         ),
@@ -150,9 +141,9 @@ class MainUI extends StatelessWidget {
   void _toggleStateWidgets() {
     _inputUrlsKey.currentState?.toggleEnabled();
     _buttonDirectoryKey.currentState?.toggleEnabled();
-    _buttonDownloadVideoKey.currentState?.toggleEnabled();
-    _buttonDownloadAudioKey.currentState?.toggleEnabled();
+    _buttonDownloadKey.currentState?.toggleEnabled();
     _progressBarKey.currentState?.toggleState();
+    _downloadFormatKey.currentState?.toggleEnabled();
   }
 
   Future<bool> _setDefaultDirectoryIfIsNecessary() async {
