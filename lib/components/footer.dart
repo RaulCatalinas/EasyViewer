@@ -24,19 +24,19 @@ import '/utils/urls.dart' show openUrl, openEmail;
 class Footer extends StatelessWidget {
   const Footer({super.key});
 
+  static final _commonStyles = ButtonStyle(
+    enableFeedback: true,
+    mouseCursor: WidgetStateProperty.resolveWith((state) {
+      if (state.contains(WidgetState.hovered)) {
+        return SystemMouseCursors.click;
+      }
+
+      return SystemMouseCursors.basic;
+    }),
+  );
+
   @override
   Widget build(BuildContext context) {
-    final commonStyles = ButtonStyle(
-      enableFeedback: true,
-      mouseCursor: WidgetStateProperty.resolveWith((state) {
-        if (state.contains(WidgetState.hovered)) {
-          return SystemMouseCursors.click;
-        }
-
-        return SystemMouseCursors.basic;
-      }),
-    );
-
     return Row(
       mainAxisAlignment: .center,
       children: [
@@ -46,7 +46,7 @@ class Footer extends StatelessWidget {
 
         IconButton(
           icon: const FaIcon(FontAwesomeIcons.xTwitter, size: 18),
-          style: commonStyles,
+          style: _commonStyles,
           onPressed: () async {
             await openUrl(socialMedia[SocialMedia.twitter]!);
           },
@@ -56,7 +56,7 @@ class Footer extends StatelessWidget {
 
         IconButton(
           icon: const FaIcon(FontAwesomeIcons.instagram, size: 18),
-          style: commonStyles,
+          style: _commonStyles,
           onPressed: () async {
             await openUrl(socialMedia[SocialMedia.instagram]!);
           },
@@ -66,7 +66,7 @@ class Footer extends StatelessWidget {
 
         IconButton(
           icon: const Icon(Icons.email_outlined, size: 18),
-          style: commonStyles,
+          style: _commonStyles,
           onPressed: () async {
             await openEmail(socialMedia[SocialMedia.email]!);
           },
