@@ -32,9 +32,14 @@ class DownloadManager {
     required bool downloadAudio,
     required Function(String newText)? setText,
     required Future<bool> Function() setDefaultDirectoryIfIsNecessary,
+    required Function(String? title) onTitleObtained,
+    required Function(String? thumbnailUrl) onThumbnailUrlObtained,
   }) async {
     try {
       _instance._downloadsCompletedSuccessfully = 0;
+
+      onTitleObtained(null);
+      onThumbnailUrlObtained(null);
 
       DownloadValidations.nonEmptyURL(url: rawUrlsToDownload, context: context);
       await DownloadValidations.checkInternetConnection(context: context);
@@ -64,6 +69,8 @@ class DownloadManager {
           downloadDirectory: downloadDirectory,
           setText: setText,
           remainingUrls: urls,
+          onTitleObtained: onTitleObtained,
+          onThumbnailUrlObtained: onThumbnailUrlObtained,
         );
       }
 
@@ -117,6 +124,8 @@ class DownloadManager {
     required String downloadDirectory,
     required Function(String) setText,
     required List<String> remainingUrls,
+    required Function(String? title) onTitleObtained,
+    required Function(String? thumbnailUrl) onThumbnailUrlObtained,
   }) async {
     File downloadFile = File('');
 
@@ -127,6 +136,10 @@ class DownloadManager {
       );
 
       final videoTitle = await InteractApi.getTitle(url);
+      final thumbnailUrl = await InteractApi.getThumbnailUrl(url);
+
+      onTitleObtained(videoTitle);
+      onThumbnailUrlObtained(thumbnailUrl);
 
       downloadFile = downloadAudio
           ? await _downloadAudioOnly(

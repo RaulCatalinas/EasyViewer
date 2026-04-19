@@ -172,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return HomeScreen();
+    return const HomeScreen();
   }
 
   void _showDialogsIfIsNecessary(BuildContext context) {

@@ -1,7 +1,3 @@
-import 'package:easyviewer/components/select_download_format.dart';
-import 'package:easyviewer/core/download_manager.dart';
-import 'package:easyviewer/enums/download_type.dart';
-import 'package:easyviewer/utils/paths.dart';
 import 'package:fluikit/widgets.dart'
     show
         FluiInput,
@@ -21,26 +17,43 @@ import 'package:flutter/material.dart'
         Row,
         Scaffold,
         SizedBox,
-        StatelessWidget,
+        StatefulWidget,
+        State,
         ValueNotifier,
         Widget;
 import 'package:logkeeper/logkeeper.dart';
 
+import '/components/select_download_format.dart'
+    show SelectDownloadFormat, SelectDownloadFormatState;
+import '/components/video_info_card.dart'
+    show VideoInfoCard, VideoInfoCardState;
+import '/core/download_manager.dart' show DownloadManager;
+import '/enums/download_type.dart' show DownloadType;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/handlers/select_directory.dart' show selectDirectory;
 import '/l10n/app_localizations.dart' show AppLocalizations;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
+import '/utils/paths.dart' show existsDirectory, getUserDesktopPath;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final _inputDirectoryKey = GlobalKey<FluiInputState>();
   final _inputUrlsKey = GlobalKey<FluiInputState>();
   final _buttonDirectoryKey = GlobalKey<FluiStatefulTextButtonState>();
   final _buttonDownloadKey = GlobalKey<FluiStatefulTextButtonState>();
   final _downloadFormatKey = GlobalKey<SelectDownloadFormatState>();
   final _format = ValueNotifier<DownloadType>(.video);
+  final _videoInfoCardKey = GlobalKey<VideoInfoCardState>();
 
-  HomeScreen({super.key});
+  String? _title;
+  String? _thumbnailUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +145,14 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
               ),
+
+              const SizedBox(height: 30),
+
+              VideoInfoCard(
+                key: _videoInfoCardKey,
+                title: _title,
+                thumbnailUrl: _thumbnailUrl,
+              ),
             ],
           ),
         ),
@@ -143,7 +164,7 @@ class HomeScreen extends StatelessWidget {
     _inputUrlsKey.currentState?.toggleEnabled();
     _buttonDirectoryKey.currentState?.toggleEnabled();
     _buttonDownloadKey.currentState?.toggleEnabled();
-    //_progressBarKey.currentState?.toggleState();
+    _videoInfoCardKey.currentState?.toggleDownloadState();
     _downloadFormatKey.currentState?.toggleEnabled();
   }
 
@@ -195,11 +216,21 @@ class HomeScreen extends StatelessWidget {
         downloadAudio: downloadAudio,
         setText: _inputUrlsKey.currentState?.setText,
         setDefaultDirectoryIfIsNecessary: _setDefaultDirectoryIfIsNecessary,
+        onTitleObtained: _setTitle,
+        onThumbnailUrlObtained: _setThumbnailUrl,
       );
     } catch (e) {
       LogKeeper.error('Error while downloading the video: ${e.toString()}');
     } finally {
       _toggleStateWidgets();
     }
+  }
+
+  void _setTitle(String? title) {
+    setState(() => _title = title);
+  }
+
+  void _setThumbnailUrl(String? thumbnailUrl) {
+    setState(() => _thumbnailUrl = thumbnailUrl);
   }
 }
