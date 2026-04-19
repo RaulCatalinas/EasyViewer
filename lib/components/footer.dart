@@ -65,7 +65,7 @@ class Footer extends StatelessWidget {
         const SizedBox(width: 8),
 
         IconButton(
-          icon: const Icon(Icons.email_outlined, size: 18),
+          icon: const Icon(Icons.email_outlined, size: 21),
           style: _commonStyles,
           onPressed: () async {
             await openEmail(socialMedia[SocialMedia.email]!);
