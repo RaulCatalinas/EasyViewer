@@ -17,12 +17,13 @@ import 'package:flutter/material.dart'
         Row,
         Scaffold,
         SizedBox,
-        StatefulWidget,
         State,
+        StatefulWidget,
         ValueNotifier,
         Widget;
 import 'package:logkeeper/logkeeper.dart';
 
+import '/components/footer.dart' show Footer;
 import '/components/select_download_format.dart'
     show SelectDownloadFormat, SelectDownloadFormatState;
 import '/components/video_info_card.dart'
@@ -153,6 +154,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: _title,
                 thumbnailUrl: _thumbnailUrl,
               ),
+
+              const SizedBox(height: 30),
+
+              const Footer(),
             ],
           ),
         ),

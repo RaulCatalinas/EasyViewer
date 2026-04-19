@@ -10,3 +10,15 @@ Future<void> openUrl(String url) async {
 
   LogKeeper.info('URL $url opened correctly');
 }
+
+Future<void> openEmail(String email) async {
+  final opened = await launchUrl(Uri(scheme: 'mailto', path: email));
+
+  if (!opened) {
+    LogKeeper.error('Error opening email $email');
+
+    return;
+  }
+
+  LogKeeper.info('Email $email opened correctly');
+}

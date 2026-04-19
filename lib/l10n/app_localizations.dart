@@ -325,6 +325,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings_menu_icon_tooltip;
+
+  /// No description provided for @made_by.
+  ///
+  /// In en, this message translates to:
+  /// **'Made by Raúl Catalinas'**
+  String get made_by;
 }
 
 class _AppLocalizationsDelegate

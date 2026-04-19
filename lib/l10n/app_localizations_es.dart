@@ -130,4 +130,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settings_menu_icon_tooltip => 'Configuración';
+
+  @override
+  String get made_by => 'Hecho por Raúl Catalinas';
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' show Color;
 
 class WindowSettings {
   static const double width = 830;
-  static const double height = 630;
+  static const double height = 690;
   static const title = 'EasyViewer';
   static const resizable = false;
   static const maximizable = false;
