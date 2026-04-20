@@ -331,6 +331,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Made by Raúl Catalinas'**
   String get made_by;
+
+  /// No description provided for @notify_download_complete.
+  ///
+  /// In en, this message translates to:
+  /// **'Notfy when download completes'**
+  String get notify_download_complete;
+
+  /// No description provided for @use_dark_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark mode'**
+  String get use_dark_mode;
 }
 
 class _AppLocalizationsDelegate
