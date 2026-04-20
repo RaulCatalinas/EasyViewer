@@ -337,6 +337,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark mode'**
   String get use_dark_mode;
+
+  /// No description provided for @appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearance;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About the app'**
+  String get about;
 }
 
 class _AppLocalizationsDelegate

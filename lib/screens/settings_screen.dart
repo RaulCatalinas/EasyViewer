@@ -15,6 +15,8 @@ import '/components/section.dart' show Section;
 import '/constants/version.dart' show installedVersion;
 import '/enums/user_preferences.dart' show UserPreferencesKeys;
 import '/l10n/app_localizations.dart' show AppLocalizations;
+import '/managers/user_preferences_manager/language_manager.dart'
+    show LanguageManager;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 
@@ -61,6 +63,7 @@ class SettingsScreen extends StatelessWidget {
                           ),
                         ],
                         onSelected: (value) {
+                          LanguageManager.changeLanguage(value as String);
                           UserPreferencesManager.setPreference(
                             UserPreferencesKeys.language,
                             value,
@@ -86,6 +89,9 @@ class SettingsScreen extends StatelessWidget {
                     Padding(
                       padding: const .only(bottom: 16),
                       child: FluiSwitch(
+                        defaultValue: UserPreferencesManager.getPreference(
+                          UserPreferencesKeys.automaticNotifications,
+                        ),
                         activatedColor: const .fromRGBO(232, 69, 60, 1.0),
                         onChanged: (activated) {
                           UserPreferencesManager.setPreference(
@@ -103,7 +109,7 @@ class SettingsScreen extends StatelessWidget {
         ),
 
         Section(
-          title: 'Appearance',
+          title: AppLocalizations.of(context)!.appearance,
           content: Column(
             mainAxisAlignment: .center,
             children: [
@@ -140,7 +146,7 @@ class SettingsScreen extends StatelessWidget {
         ),
 
         Section(
-          title: 'About',
+          title: AppLocalizations.of(context)!.about,
           content: Column(
             mainAxisAlignment: .center,
             children: [
