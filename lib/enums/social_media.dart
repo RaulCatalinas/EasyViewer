@@ -1,7 +1,7 @@
 enum SocialMedia {
   instagram('instagram'),
   twitter('twitter/x'),
-  github('github');
+  email('email');
 
   const SocialMedia(this.value);
   final String value;

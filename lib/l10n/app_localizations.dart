@@ -104,17 +104,11 @@ abstract class AppLocalizations {
   /// **'Select directory'**
   String get select_download_directory;
 
-  /// No description provided for @download_video.
+  /// No description provided for @download.
   ///
   /// In en, this message translates to:
-  /// **'Download video'**
-  String get download_video;
-
-  /// No description provided for @download_audio.
-  ///
-  /// In en, this message translates to:
-  /// **'Download audio'**
-  String get download_audio;
+  /// **'Download'**
+  String get download;
 
   /// No description provided for @exit_confirmation_body.
   ///
@@ -137,8 +131,14 @@ abstract class AppLocalizations {
   /// No description provided for @change_language.
   ///
   /// In en, this message translates to:
-  /// **'Change language'**
+  /// **'App language'**
   String get change_language;
+
+  /// No description provided for @download_format.
+  ///
+  /// In en, this message translates to:
+  /// **'Download format'**
+  String get download_format;
 
   /// No description provided for @spanish_language.
   ///
@@ -179,19 +179,31 @@ abstract class AppLocalizations {
   /// No description provided for @select_directory.
   ///
   /// In en, this message translates to:
-  /// **'Select directory'**
+  /// **'Choose folder'**
   String get select_directory;
 
   /// No description provided for @placeholder_url.
   ///
   /// In en, this message translates to:
-  /// **'Video URL'**
+  /// **'Paste your YouTube links here...'**
   String get placeholder_url;
+
+  /// No description provided for @input_urls_label.
+  ///
+  /// In en, this message translates to:
+  /// **'YouTube links'**
+  String get input_urls_label;
+
+  /// No description provided for @input_directory_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to'**
+  String get input_directory_label;
 
   /// No description provided for @placeholder_directory.
   ///
   /// In en, this message translates to:
-  /// **'Directory for video or audio in video'**
+  /// **'No folder selected'**
   String get placeholder_directory;
 
   /// No description provided for @social_media.
@@ -313,6 +325,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings_menu_icon_tooltip;
+
+  /// No description provided for @made_by.
+  ///
+  /// In en, this message translates to:
+  /// **'Made by Raúl Catalinas'**
+  String get made_by;
 }
 
 class _AppLocalizationsDelegate

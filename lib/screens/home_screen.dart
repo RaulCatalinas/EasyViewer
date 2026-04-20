@@ -1,0 +1,270 @@
+import 'package:fluikit/widgets.dart'
+    show
+        FluiAppBar,
+        FluiInput,
+        FluiInputState,
+        FluiStatefulTextButton,
+        FluiStatefulTextButtonState;
+import 'package:flutter/material.dart'
+    show
+        BuildContext,
+        ButtonStyle,
+        Center,
+        Color,
+        Column,
+        Expanded,
+        GlobalKey,
+        Icon,
+        IconButton,
+        Icons,
+        Padding,
+        Row,
+        Scaffold,
+        SizedBox,
+        State,
+        StatefulWidget,
+        SystemMouseCursors,
+        ValueNotifier,
+        Widget,
+        WidgetState,
+        WidgetStateProperty;
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
+
+import '/components/footer.dart' show Footer;
+import '/components/select_download_format.dart'
+    show SelectDownloadFormat, SelectDownloadFormatState;
+import '/components/video_info_card.dart'
+    show VideoInfoCard, VideoInfoCardState;
+import '/core/download_manager.dart' show DownloadManager;
+import '/enums/download_type.dart' show DownloadType;
+import '/enums/user_preferences.dart' show UserPreferencesKeys;
+import '/handlers/select_directory.dart' show selectDirectory;
+import '/l10n/app_localizations.dart' show AppLocalizations;
+import '/managers/user_preferences_manager/user_preferences_manager.dart'
+    show UserPreferencesManager;
+import '/utils/modals.dart' show showSettingsModal;
+import '/utils/paths.dart' show existsDirectory, getUserDesktopPath;
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  static final _inputDirectoryKey = GlobalKey<FluiInputState>();
+  static final _inputUrlsKey = GlobalKey<FluiInputState>();
+  static final _buttonDirectoryKey = GlobalKey<FluiStatefulTextButtonState>();
+  static final _buttonDownloadKey = GlobalKey<FluiStatefulTextButtonState>();
+  static final _downloadFormatKey = GlobalKey<SelectDownloadFormatState>();
+  static final _format = ValueNotifier<DownloadType>(.video);
+  static final _videoInfoCardKey = GlobalKey<VideoInfoCardState>();
+
+  static final _settingsButtonStyles = ButtonStyle(
+    enableFeedback: true,
+    mouseCursor: WidgetStateProperty.resolveWith((state) {
+      if (state.contains(WidgetState.hovered)) {
+        return SystemMouseCursors.click;
+      }
+
+      return SystemMouseCursors.basic;
+    }),
+  );
+
+  String? _title;
+  String? _thumbnailUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: FluiAppBar(
+        appBarHeight: 40.0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_outlined, size: 24),
+            style: _settingsButtonStyles,
+            onPressed: () => showSettingsModal(context: context),
+          ),
+        ],
+      ),
+      body: Center(
+        child: Padding(
+          padding: .all(25.0),
+          child: Column(
+            mainAxisAlignment: .center,
+            children: [
+              FluiInput(
+                key: _inputUrlsKey,
+                placeholder: AppLocalizations.of(context)!.placeholder_url,
+                isMultiline: true,
+                autofocus: true,
+                maxLines: 2,
+                borderColor: Color.fromRGBO(232, 69, 60, 0.7),
+                label: AppLocalizations.of(context)!.input_urls_label,
+                labelFontSize: 16,
+                borderRadius: .circular(15.0),
+              ),
+
+              const SizedBox(height: 30),
+
+              SelectDownloadFormat(key: _downloadFormatKey, notifier: _format),
+
+              const SizedBox(height: 30),
+
+              Row(
+                mainAxisAlignment: .center,
+                children: [
+                  Expanded(
+                    child: FluiInput(
+                      label: AppLocalizations.of(
+                        context,
+                      )!.input_directory_label,
+                      labelFontSize: 16,
+                      key: _inputDirectoryKey,
+                      placeholder: AppLocalizations.of(
+                        context,
+                      )!.placeholder_directory,
+                      readOnly: true,
+                      initialValue: UserPreferencesManager.getPreference(
+                        UserPreferencesKeys.downloadDirectory,
+                      ),
+                      borderRadius: .circular(15.0),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+
+                  FluiStatefulTextButton(
+                    key: _buttonDirectoryKey,
+                    text: AppLocalizations.of(context)!.select_directory,
+                    borderRadius: .circular(15.0),
+                    backgroundColor: const Color.fromRGBO(27, 27, 35, 0.7),
+                    icon: Icons.folder_outlined,
+                    iconSize: 22,
+                    onPressed: () async {
+                      final directory = await selectDirectory(context);
+
+                      UserPreferencesManager.setPreference(
+                        UserPreferencesKeys.downloadDirectory,
+                        directory,
+                      );
+
+                      _inputDirectoryKey.currentState?.setText(directory);
+                    },
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 30),
+
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: FluiStatefulTextButton(
+                  key: _buttonDownloadKey,
+                  backgroundColor: const Color.fromRGBO(232, 69, 60, 1.0),
+                  fontSize: 20,
+                  text: AppLocalizations.of(context)!.download,
+                  borderRadius: .circular(15.0),
+                  icon: Icons.download,
+                  onPressed: () async {
+                    await _processDownload(
+                      context: context,
+                      downloadAudio: _format.value == .audio,
+                    );
+                  },
+                ),
+              ),
+
+              const SizedBox(height: 30),
+
+              VideoInfoCard(
+                key: _videoInfoCardKey,
+                title: _title,
+                thumbnailUrl: _thumbnailUrl,
+              ),
+
+              const SizedBox(height: 30),
+
+              const Footer(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _toggleStateWidgets() {
+    _inputUrlsKey.currentState?.toggleEnabled();
+    _buttonDirectoryKey.currentState?.toggleEnabled();
+    _buttonDownloadKey.currentState?.toggleEnabled();
+    _videoInfoCardKey.currentState?.toggleDownloadState();
+    _downloadFormatKey.currentState?.toggleEnabled();
+  }
+
+  Future<bool> _setDefaultDirectoryIfIsNecessary() async {
+    final selectedDirectory = UserPreferencesManager.getPreference(
+      UserPreferencesKeys.downloadDirectory,
+    );
+
+    final isDirectoryEmpty = selectedDirectory == '';
+
+    final existSelectedDirectory = existsDirectory(selectedDirectory);
+
+    if (isDirectoryEmpty || !existSelectedDirectory) {
+      final defaultDirectory = await getUserDesktopPath();
+
+      UserPreferencesManager.setPreference(
+        UserPreferencesKeys.downloadDirectory,
+        defaultDirectory,
+      );
+
+      _inputDirectoryKey.currentState?.setText(defaultDirectory);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<void> _processDownload({
+    required bool downloadAudio,
+    required BuildContext context,
+  }) async {
+    try {
+      _toggleStateWidgets();
+
+      await _setDefaultDirectoryIfIsNecessary();
+
+      final urlsToDownload = _inputUrlsKey.currentState?.getText();
+
+      if (!context.mounted) {
+        LogKeeper.warning('Context not mounted, skipping download');
+
+        return;
+      }
+
+      await DownloadManager.downloadVideo(
+        context: context,
+        rawUrlsToDownload: urlsToDownload,
+        downloadAudio: downloadAudio,
+        setText: _inputUrlsKey.currentState?.setText,
+        setDefaultDirectoryIfIsNecessary: _setDefaultDirectoryIfIsNecessary,
+        onTitleObtained: _setTitle,
+        onThumbnailUrlObtained: _setThumbnailUrl,
+      );
+    } catch (e) {
+      LogKeeper.error('Error while downloading the video: ${e.toString()}');
+    } finally {
+      _toggleStateWidgets();
+    }
+  }
+
+  void _setTitle(String? title) {
+    setState(() => _title = title);
+  }
+
+  void _setThumbnailUrl(String? thumbnailUrl) {
+    setState(() => _thumbnailUrl = thumbnailUrl);
+  }
+}

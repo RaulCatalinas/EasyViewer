@@ -37,9 +37,23 @@ class InteractApi {
 
   static Future<String> getTitle(String url) async {
     final yt = YoutubeExplode(jsSolver: instance._solver);
+
     try {
       final video = await yt.videos.get(url);
+
       return cleanInvalidChars(video.title);
+    } finally {
+      yt.close();
+    }
+  }
+
+  static Future<String> getThumbnailUrl(String url) async {
+    final yt = YoutubeExplode(jsSolver: instance._solver);
+
+    try {
+      final video = await yt.videos.get(url);
+
+      return video.thumbnails.highResUrl;
     } finally {
       yt.close();
     }

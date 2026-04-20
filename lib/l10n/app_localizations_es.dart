@@ -12,10 +12,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get select_download_directory => 'Seleccionar directorio';
 
   @override
-  String get download_video => 'Descargar video';
-
-  @override
-  String get download_audio => 'Descargar audio';
+  String get download => 'Descargar';
 
   @override
   String get exit_confirmation_body =>
@@ -28,7 +25,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get contact => 'Contacto';
 
   @override
-  String get change_language => 'Cambiar idioma';
+  String get change_language => 'Idioma de la aplicación';
+
+  @override
+  String get download_format => 'Formato de descarga';
 
   @override
   String get spanish_language => 'Español';
@@ -50,14 +50,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exit_confirmation_title => 'Cerrar aplicación';
 
   @override
-  String get select_directory => 'Selecciona directorio';
+  String get select_directory => 'Elegir carpeta';
 
   @override
-  String get placeholder_url => 'URL del video';
+  String get placeholder_url => 'Pega tus enlaces de YouTube aquí...';
 
   @override
-  String get placeholder_directory =>
-      'Directorio para el video o el audio del video';
+  String get input_urls_label => 'Enlaces de YouTube';
+
+  @override
+  String get input_directory_label => 'Guardar en';
+
+  @override
+  String get placeholder_directory => 'Ninguna carpeta seleccionada';
 
   @override
   String get social_media => 'Redes sociales';
@@ -125,4 +130,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settings_menu_icon_tooltip => 'Configuración';
+
+  @override
+  String get made_by => 'Hecho por Raúl Catalinas';
 }

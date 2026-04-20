@@ -26,12 +26,12 @@ import 'constants/version.dart' show installedVersion;
 import 'core/interact_api.dart' show InteractApi;
 import 'enums/user_preferences.dart' show UserPreferencesKeys;
 import 'l10n/app_localizations.dart' show AppLocalizations;
-import 'managers/ui_managers/main_ui.dart' show MainUI;
 import 'managers/user_preferences_manager/language_manager.dart'
     show LanguageManager;
 import 'managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 import 'managers/window_manager/window_manager.dart' show configureWindow;
+import 'screens/home_screen.dart' show HomeScreen;
 import 'update/update_manager.dart' show UpdateManager;
 
 class ThemeStorage implements ThemeStorageAdapter {
@@ -172,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MainUI();
+    return const HomeScreen();
   }
 
   void _showDialogsIfIsNecessary(BuildContext context) {

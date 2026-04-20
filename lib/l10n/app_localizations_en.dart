@@ -12,10 +12,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get select_download_directory => 'Select directory';
 
   @override
-  String get download_video => 'Download video';
-
-  @override
-  String get download_audio => 'Download audio';
+  String get download => 'Download';
 
   @override
   String get exit_confirmation_body =>
@@ -28,7 +25,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contact => 'Contact';
 
   @override
-  String get change_language => 'Change language';
+  String get change_language => 'App language';
+
+  @override
+  String get download_format => 'Download format';
 
   @override
   String get spanish_language => 'Spanish';
@@ -50,13 +50,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exit_confirmation_title => 'Close Application';
 
   @override
-  String get select_directory => 'Select directory';
+  String get select_directory => 'Choose folder';
 
   @override
-  String get placeholder_url => 'Video URL';
+  String get placeholder_url => 'Paste your YouTube links here...';
 
   @override
-  String get placeholder_directory => 'Directory for video or audio in video';
+  String get input_urls_label => 'YouTube links';
+
+  @override
+  String get input_directory_label => 'Save to';
+
+  @override
+  String get placeholder_directory => 'No folder selected';
 
   @override
   String get social_media => 'Social Media';
@@ -123,4 +129,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_menu_icon_tooltip => 'Settings';
+
+  @override
+  String get made_by => 'Made by Raúl Catalinas';
 }
