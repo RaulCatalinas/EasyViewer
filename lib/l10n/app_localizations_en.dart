@@ -135,4 +135,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get use_dark_mode => 'Dark mode';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get about => 'About the app';
 }
