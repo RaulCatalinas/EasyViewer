@@ -133,4 +133,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get made_by => 'Hecho por Raúl Catalinas';
+
+  @override
+  String get notify_download_complete =>
+      'Notificar cuando finalice la descarga';
+
+  @override
+  String get use_dark_mode => 'Modo oscuro';
 }

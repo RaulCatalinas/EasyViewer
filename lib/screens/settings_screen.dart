@@ -111,7 +111,9 @@ class SettingsScreen extends StatelessWidget {
                   mainAxisAlignment: .spaceBetween,
                   children: [
                     FluiText(
-                      text: 'Notfy when download completes',
+                      text: AppLocalizations.of(
+                        context,
+                      )!.notify_download_complete,
                       fontSize: 16,
                     ),
                     FluiSwitch(
@@ -137,7 +139,10 @@ class SettingsScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: .spaceBetween,
                   children: [
-                    FluiText(text: 'Dark mode', fontSize: 16),
+                    FluiText(
+                      text: AppLocalizations.of(context)!.use_dark_mode,
+                      fontSize: 16,
+                    ),
                     FluiSwitch(
                       defaultValue:
                           UserPreferencesManager.getPreference(
