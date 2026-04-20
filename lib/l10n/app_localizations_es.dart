@@ -25,7 +25,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get contact => 'Contacto';
 
   @override
-  String get change_language => 'Cambiar idioma';
+  String get change_language => 'Idioma de la aplicación';
 
   @override
   String get download_format => 'Formato de descarga';

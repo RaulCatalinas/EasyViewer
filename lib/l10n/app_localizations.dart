@@ -131,7 +131,7 @@ abstract class AppLocalizations {
   /// No description provided for @change_language.
   ///
   /// In en, this message translates to:
-  /// **'Change language'**
+  /// **'App language'**
   String get change_language;
 
   /// No description provided for @download_format.

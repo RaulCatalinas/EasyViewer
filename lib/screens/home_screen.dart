@@ -1,5 +1,6 @@
 import 'package:fluikit/widgets.dart'
     show
+        FluiAppBar,
         FluiInput,
         FluiInputState,
         FluiStatefulTextButton,
@@ -7,11 +8,14 @@ import 'package:fluikit/widgets.dart'
 import 'package:flutter/material.dart'
     show
         BuildContext,
+        ButtonStyle,
         Center,
         Color,
         Column,
         Expanded,
         GlobalKey,
+        Icon,
+        IconButton,
         Icons,
         Padding,
         Row,
@@ -19,9 +23,12 @@ import 'package:flutter/material.dart'
         SizedBox,
         State,
         StatefulWidget,
+        SystemMouseCursors,
         ValueNotifier,
-        Widget;
-import 'package:logkeeper/logkeeper.dart';
+        Widget,
+        WidgetState,
+        WidgetStateProperty;
+import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 
 import '/components/footer.dart' show Footer;
 import '/components/select_download_format.dart'
@@ -35,6 +42,7 @@ import '/handlers/select_directory.dart' show selectDirectory;
 import '/l10n/app_localizations.dart' show AppLocalizations;
 import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
+import '/utils/modals.dart' show showSettingsModal;
 import '/utils/paths.dart' show existsDirectory, getUserDesktopPath;
 
 class HomeScreen extends StatefulWidget {
@@ -45,13 +53,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _inputDirectoryKey = GlobalKey<FluiInputState>();
-  final _inputUrlsKey = GlobalKey<FluiInputState>();
-  final _buttonDirectoryKey = GlobalKey<FluiStatefulTextButtonState>();
-  final _buttonDownloadKey = GlobalKey<FluiStatefulTextButtonState>();
-  final _downloadFormatKey = GlobalKey<SelectDownloadFormatState>();
-  final _format = ValueNotifier<DownloadType>(.video);
-  final _videoInfoCardKey = GlobalKey<VideoInfoCardState>();
+  static final _inputDirectoryKey = GlobalKey<FluiInputState>();
+  static final _inputUrlsKey = GlobalKey<FluiInputState>();
+  static final _buttonDirectoryKey = GlobalKey<FluiStatefulTextButtonState>();
+  static final _buttonDownloadKey = GlobalKey<FluiStatefulTextButtonState>();
+  static final _downloadFormatKey = GlobalKey<SelectDownloadFormatState>();
+  static final _format = ValueNotifier<DownloadType>(.video);
+  static final _videoInfoCardKey = GlobalKey<VideoInfoCardState>();
+
+  static final _settingsButtonStyles = ButtonStyle(
+    enableFeedback: true,
+    mouseCursor: WidgetStateProperty.resolveWith((state) {
+      if (state.contains(WidgetState.hovered)) {
+        return SystemMouseCursors.click;
+      }
+
+      return SystemMouseCursors.basic;
+    }),
+  );
 
   String? _title;
   String? _thumbnailUrl;
@@ -59,6 +78,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: FluiAppBar(
+        appBarHeight: 40.0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_outlined, size: 24),
+            style: _settingsButtonStyles,
+            onPressed: () => showSettingsModal(context: context),
+          ),
+        ],
+      ),
       body: Center(
         child: Padding(
           padding: .all(25.0),

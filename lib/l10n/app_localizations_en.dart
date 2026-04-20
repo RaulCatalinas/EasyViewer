@@ -25,7 +25,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contact => 'Contact';
 
   @override
-  String get change_language => 'Change language';
+  String get change_language => 'App language';
 
   @override
   String get download_format => 'Download format';
