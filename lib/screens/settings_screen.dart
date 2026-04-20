@@ -2,7 +2,6 @@ import 'package:fluikit/widgets.dart' show FluiDropdown, FluiText, FluiSwitch;
 import 'package:flutter/material.dart'
     show
         BuildContext,
-        Color,
         Column,
         DropdownMenuEntry,
         Padding,
@@ -87,40 +86,14 @@ class SettingsScreen extends StatelessWidget {
                     Padding(
                       padding: const .only(bottom: 16),
                       child: FluiSwitch(
-                        activatedColor: const Color.fromRGBO(232, 69, 60, 1.0),
+                        activatedColor: const .fromRGBO(232, 69, 60, 1.0),
                         onChanged: (activated) {
-                          print('Check for updates automatically: $activated');
+                          UserPreferencesManager.setPreference(
+                            UserPreferencesKeys.automaticNotifications,
+                            activated,
+                          );
                         },
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        Section(
-          title: 'Downloads',
-          content: Column(
-            mainAxisAlignment: .center,
-            children: [
-              Padding(
-                padding: const .symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: .spaceBetween,
-                  children: [
-                    FluiText(
-                      text: AppLocalizations.of(
-                        context,
-                      )!.notify_download_complete,
-                      fontSize: 16,
-                    ),
-                    FluiSwitch(
-                      activatedColor: const Color.fromRGBO(232, 69, 60, 1.0),
-                      onChanged: (notify) {
-                        print('Notfy when download completes: $notify');
-                      },
                     ),
                   ],
                 ),
@@ -157,7 +130,7 @@ class SettingsScreen extends StatelessWidget {
                           darkMode ? 'dark' : 'light',
                         );
                       },
-                      activatedColor: const Color.fromRGBO(232, 69, 60, 1.0),
+                      activatedColor: const .fromRGBO(232, 69, 60, 1.0),
                     ),
                   ],
                 ),

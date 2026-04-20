@@ -7,7 +7,7 @@ void showSettingsModal({required BuildContext context}) {
   showDialog(
     context: context,
     builder: (_) => const Dialog(
-      child: SizedBox(width: 700, height: 510, child: SettingsScreen()),
+      child: SizedBox(width: 700, height: 400, child: SettingsScreen()),
     ),
   );
 }
