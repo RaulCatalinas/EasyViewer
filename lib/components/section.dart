@@ -8,6 +8,7 @@ import 'package:flutter/material.dart'
         StatelessWidget,
         Text,
         TextStyle,
+        Theme,
         Widget;
 
 class Section extends StatelessWidget {
@@ -25,7 +26,10 @@ class Section extends StatelessWidget {
         children: [
           Text(title, style: const TextStyle(fontSize: 18, fontWeight: .w600)),
           const SizedBox(height: 16),
-          Card(child: content),
+          Card(
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
+            child: content,
+          ),
         ],
       ),
     );

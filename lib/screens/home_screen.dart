@@ -10,7 +10,7 @@ import 'package:flutter/material.dart'
         BuildContext,
         ButtonStyle,
         Center,
-        Color,
+        Colors,
         Column,
         Expanded,
         GlobalKey,
@@ -28,6 +28,7 @@ import 'package:flutter/material.dart'
         Widget,
         WidgetState,
         WidgetStateProperty;
+import 'package:flutter_themed/flutter_themed.dart' show Themed;
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 
 import '/components/footer.dart' show Footer;
@@ -100,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 isMultiline: true,
                 autofocus: true,
                 maxLines: 2,
-                borderColor: Color.fromRGBO(232, 69, 60, 0.7),
+                borderColor: .fromRGBO(232, 69, 60, 0.7),
                 label: AppLocalizations.of(context)!.input_urls_label,
                 labelFontSize: 16,
                 borderRadius: .circular(15.0),
@@ -138,7 +139,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     key: _buttonDirectoryKey,
                     text: AppLocalizations.of(context)!.select_directory,
                     borderRadius: .circular(15.0),
-                    backgroundColor: const Color.fromRGBO(27, 27, 35, 0.7),
+                    backgroundColor: Themed.isDarkMode
+                        ? const .fromRGBO(27, 27, 35, 0.7)
+                        : const .fromRGBO(220, 220, 225, 1.0),
                     icon: Icons.folder_outlined,
                     iconSize: 22,
                     onPressed: () async {
@@ -162,7 +165,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 50,
                 child: FluiStatefulTextButton(
                   key: _buttonDownloadKey,
-                  backgroundColor: const Color.fromRGBO(232, 69, 60, 1.0),
+                  backgroundColor: const .fromRGBO(232, 69, 60, 1.0),
+                  foregroundColor: Colors.white,
                   fontSize: 20,
                   text: AppLocalizations.of(context)!.download,
                   borderRadius: .circular(15.0),
