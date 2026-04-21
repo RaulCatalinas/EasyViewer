@@ -48,13 +48,15 @@ class ClickableCard extends StatelessWidget {
         padding: const .symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color.fromRGBO(232, 69, 60, 0.15)
+              ? Color.fromRGBO(232, 69, 60, enabled ? 0.15 : 0.07)
               : Colors.transparent,
           borderRadius: .circular(15.0),
           border: .all(
             color: isSelected
-                ? const Color.fromRGBO(232, 69, 60, 1.0)
-                : Theme.of(context).colorScheme.outline.withValues(alpha: 0.5),
+                ? Color.fromRGBO(232, 69, 60, enabled ? 1.0 : 0.4)
+                : Theme.of(
+                    context,
+                  ).colorScheme.outline.withValues(alpha: enabled ? 0.5 : 0.2),
             width: 1.5,
           ),
         ),

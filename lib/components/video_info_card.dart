@@ -69,7 +69,12 @@ class VideoInfoCardState extends State<VideoInfoCard> {
             Expanded(
               child: Column(
                 children: [
-                  FluiText(text: widget.title ?? 'Unknown', fontSize: 23),
+                  FluiText(
+                    text: widget.title ?? 'Unknown',
+                    fontSize: 23,
+                    overflow: .ellipsis,
+                    maxLines: 2,
+                  ),
                   const SizedBox(height: 16),
                   FluiProgressBar(
                     key: _progressBarKey,
