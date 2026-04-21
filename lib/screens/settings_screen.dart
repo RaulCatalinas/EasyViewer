@@ -1,4 +1,5 @@
-import 'package:fluikit/widgets.dart' show FluiDropdown, FluiText, FluiSwitch;
+import 'package:fluikit/widgets.dart'
+    show FluiDropdown, FluiSwitch, FluiText, FluiTextButton;
 import 'package:flutter/material.dart'
     show
         BuildContext,
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart'
         Row,
         SizedBox,
         StatelessWidget,
+        ValueListenableBuilder,
         Widget;
 import 'package:flutter_themed/flutter_themed.dart' show Themed;
 
@@ -33,7 +35,7 @@ class SettingsScreen extends StatelessWidget {
             mainAxisAlignment: .center,
             children: [
               Padding(
-                padding: const .symmetric(horizontal: 16),
+                padding: const .symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   mainAxisAlignment: .spaceBetween,
                   children: [
@@ -41,35 +43,61 @@ class SettingsScreen extends StatelessWidget {
                       text: AppLocalizations.of(context)!.change_language,
                       fontSize: 16,
                     ),
-                    Padding(
-                      padding: const .only(top: 16),
-                      child: FluiDropdown(
-                        initialValue: UserPreferencesManager.getPreference(
-                          UserPreferencesKeys.language,
-                        ),
-                        hintText: AppLocalizations.of(context)!.change_language,
-                        dropdownMenuEntries: [
-                          DropdownMenuEntry(
-                            value: 'en',
-                            label: AppLocalizations.of(
-                              context,
-                            )!.english_language,
-                          ),
-                          DropdownMenuEntry(
-                            value: 'es',
-                            label: AppLocalizations.of(
-                              context,
-                            )!.spanish_language,
-                          ),
-                        ],
-                        onSelected: (value) {
-                          LanguageManager.changeLanguage(value as String);
-                          UserPreferencesManager.setPreference(
-                            UserPreferencesKeys.language,
-                            value,
-                          );
-                        },
+                    FluiDropdown(
+                      initialValue: UserPreferencesManager.getPreference(
+                        UserPreferencesKeys.language,
                       ),
+                      hintText: AppLocalizations.of(context)!.change_language,
+                      dropdownMenuEntries: [
+                        DropdownMenuEntry(
+                          value: 'en',
+                          label: AppLocalizations.of(context)!.english_language,
+                        ),
+                        DropdownMenuEntry(
+                          value: 'es',
+                          label: AppLocalizations.of(context)!.spanish_language,
+                        ),
+                      ],
+                      onSelected: (value) {
+                        LanguageManager.changeLanguage(value as String);
+                        UserPreferencesManager.setPreference(
+                          UserPreferencesKeys.language,
+                          value,
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        Section(
+          title: AppLocalizations.of(context)!.app_updates,
+          content: Column(
+            mainAxisAlignment: .center,
+            children: [
+              Padding(
+                padding: const .symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: .spaceBetween,
+                  children: [
+                    FluiText(
+                      text: AppLocalizations.of(context)!.check_updates,
+                      fontSize: 16,
+                    ),
+                    FluiSwitch(
+                      defaultValue: UserPreferencesManager.getPreference(
+                        UserPreferencesKeys.automaticNotifications,
+                      ),
+                      activatedColor: const .fromRGBO(232, 69, 60, 1.0),
+                      onChanged: (activated) {
+                        UserPreferencesManager.setPreference(
+                          UserPreferencesKeys.automaticNotifications,
+                          activated,
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -78,28 +106,29 @@ class SettingsScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               Padding(
-                padding: const .symmetric(horizontal: 16),
+                padding: const .symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   mainAxisAlignment: .spaceBetween,
                   children: [
                     FluiText(
-                      text: AppLocalizations.of(context)!.check_updates,
+                      text: AppLocalizations.of(
+                        context,
+                      )!.check_updates_manually,
                       fontSize: 16,
                     ),
-                    Padding(
-                      padding: const .only(bottom: 16),
-                      child: FluiSwitch(
-                        defaultValue: UserPreferencesManager.getPreference(
-                          UserPreferencesKeys.automaticNotifications,
-                        ),
-                        activatedColor: const .fromRGBO(232, 69, 60, 1.0),
-                        onChanged: (activated) {
-                          UserPreferencesManager.setPreference(
-                            UserPreferencesKeys.automaticNotifications,
-                            activated,
-                          );
-                        },
-                      ),
+                    ValueListenableBuilder(
+                      valueListenable: Themed.instance.themeNotifier,
+                      builder: (context, _, _) {
+                        return FluiTextButton(
+                          text: AppLocalizations.of(context)!.check_now,
+                          backgroundColor: Themed.isDarkMode
+                              ? const .fromRGBO(27, 27, 35, 0.7)
+                              : const .fromRGBO(210, 210, 218, 1.0),
+                          onPressed: () async {
+                            print('Checking for available updates...');
+                          },
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -114,7 +143,7 @@ class SettingsScreen extends StatelessWidget {
             mainAxisAlignment: .center,
             children: [
               Padding(
-                padding: const .symmetric(horizontal: 16),
+                padding: const .symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   mainAxisAlignment: .spaceBetween,
                   children: [
@@ -151,7 +180,7 @@ class SettingsScreen extends StatelessWidget {
             mainAxisAlignment: .center,
             children: [
               const Padding(
-                padding: .symmetric(horizontal: 16),
+                padding: .symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   mainAxisAlignment: .spaceBetween,
                   children: [

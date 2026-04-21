@@ -141,4 +141,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get about => 'About the app';
+
+  @override
+  String get check_updates_manually => 'Check for updates now';
+
+  @override
+  String get app_updates => 'App updates';
+
+  @override
+  String get check_now => 'Check now';
 }

@@ -142,4 +142,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get about => 'Sobre la app';
+
+  @override
+  String get check_updates_manually => 'Buscar actualizaciones ahora';
+
+  @override
+  String get app_updates => 'Actualizaciones de la aplicación';
+
+  @override
+  String get check_now => 'Comprobar ahora';
 }

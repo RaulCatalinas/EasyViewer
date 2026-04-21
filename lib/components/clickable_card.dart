@@ -8,6 +8,7 @@ import 'package:flutter/material.dart'
         InkWell,
         StatelessWidget,
         SystemMouseCursors,
+        Theme,
         Widget,
         WidgetState,
         WidgetStateMouseCursor;
@@ -53,7 +54,7 @@ class ClickableCard extends StatelessWidget {
           border: .all(
             color: isSelected
                 ? const Color.fromRGBO(232, 69, 60, 1.0)
-                : const Color.fromRGBO(255, 255, 255, 0.15),
+                : Theme.of(context).colorScheme.outline.withValues(alpha: 0.5),
             width: 1.5,
           ),
         ),

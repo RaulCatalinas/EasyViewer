@@ -349,6 +349,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About the app'**
   String get about;
+
+  /// No description provided for @check_updates_manually.
+  ///
+  /// In en, this message translates to:
+  /// **'Check for updates now'**
+  String get check_updates_manually;
+
+  /// No description provided for @app_updates.
+  ///
+  /// In en, this message translates to:
+  /// **'App updates'**
+  String get app_updates;
+
+  /// No description provided for @check_now.
+  ///
+  /// In en, this message translates to:
+  /// **'Check now'**
+  String get check_now;
 }
 
 class _AppLocalizationsDelegate
