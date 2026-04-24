@@ -1,5 +1,6 @@
-import 'dart:async' show Future, Stream, StreamTransformer;
+import 'dart:async' show Future;
 
+import 'package:easyviewer/types/youtube.dart' show YouTubeStreamResult;
 import 'package:logkeeper/logkeeper.dart' show LogKeeper;
 import 'package:youtube_explode_dart/js_challenge.dart' show BaseEJSSolver;
 import 'package:youtube_explode_dart/youtube_explode_dart.dart'
@@ -7,8 +8,6 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart'
 
 import '/utils/file_utils.dart' show cleanInvalidChars;
 import 'core_utils.dart' show getDenoSolver;
-
-typedef YouTubeStream = Stream<List<int>>;
 
 class InteractApi {
   static InteractApi? _instance;
@@ -59,61 +58,33 @@ class InteractApi {
     }
   }
 
-  static Future<YouTubeStream> getAudioStream(String url) async {
+  static Future<YouTubeStreamResult> getAudioStream(String url) async {
     final yt = YoutubeExplode(jsSolver: instance._solver);
 
-    try {
-      final manifest = await yt.videos.streams.getManifest(url);
-      final audioStreams = manifest.audioOnly;
+    final manifest = await yt.videos.streams.getManifest(url);
+    final audioStreams = manifest.audioOnly;
 
-      if (audioStreams.isEmpty) {
-        throw Exception('No audio streams available');
-      }
-
-      final audioInfo = audioStreams.withHighestBitrate();
-
-      return yt.videos.streams
-          .get(audioInfo)
-          .transform(
-            StreamTransformer.fromHandlers(
-              handleDone: (_) {
-                yt.close();
-              },
-            ),
-          );
-    } catch (e) {
-      yt.close();
-      LogKeeper.error('Error obtaining audio stream: ${e.toString()}');
-      rethrow;
+    if (audioStreams.isEmpty) {
+      throw Exception('No audio streams available');
     }
+
+    final audioInfo = audioStreams.withHighestBitrate();
+
+    return (stream: yt.videos.streams.get(audioInfo), yt: yt);
   }
 
-  static Future<YouTubeStream> getVideoStream(String url) async {
+  static Future<YouTubeStreamResult> getVideoStream(String url) async {
     final yt = YoutubeExplode(jsSolver: instance._solver);
 
-    try {
-      final manifest = await yt.videos.streams.getManifest(url);
-      final videoStreams = manifest.videoOnly;
+    final manifest = await yt.videos.streams.getManifest(url);
+    final videoStreams = manifest.videoOnly;
 
-      if (videoStreams.isEmpty) {
-        throw Exception('No video streams available');
-      }
-
-      final videoInfo = videoStreams.withHighestBitrate();
-
-      return yt.videos.streams
-          .get(videoInfo)
-          .transform(
-            StreamTransformer.fromHandlers(
-              handleDone: (_) {
-                yt.close();
-              },
-            ),
-          );
-    } catch (e) {
-      yt.close();
-      LogKeeper.error('Error obtaining video stream: ${e.toString()}');
-      rethrow;
+    if (videoStreams.isEmpty) {
+      throw Exception('No video streams available');
     }
+
+    final videoInfo = videoStreams.withHighestBitrate();
+
+    return (stream: yt.videos.streams.get(videoInfo), yt: yt);
   }
 }
