@@ -10,7 +10,7 @@ import '/managers/user_preferences_manager/user_preferences_manager.dart'
     show UserPreferencesManager;
 import '/services/ffmpeg_service.dart' show mergeAudioAndVideo;
 import '/utils/directories_utils.dart' show openDirectory;
-import '/utils/file_utils.dart' show createFileIfNotExist, deleteFile;
+import '/utils/file_utils.dart' show deleteFile, writeStreamToFile;
 import '/utils/youtube_utils.dart' show separateUrls;
 import 'download_validations.dart' show DownloadValidations;
 import 'interact_api.dart' show InteractApi;
@@ -43,6 +43,8 @@ class DownloadManager {
 
       DownloadValidations.nonEmptyURL(url: rawUrlsToDownload, context: context);
       await DownloadValidations.checkInternetConnection(context: context);
+
+      if (!context.mounted) return;
 
       final urls = await _prepareUrls(
         context: context,
@@ -127,7 +129,7 @@ class DownloadManager {
     required Function(String? title) onTitleObtained,
     required Function(String? thumbnailUrl) onThumbnailUrlObtained,
   }) async {
-    File downloadFile = File('');
+    var downloadFile = File('');
 
     try {
       await DownloadValidations.isYoutubeVideoAvailable(
@@ -153,11 +155,16 @@ class DownloadManager {
               downloadDirectory: downloadDirectory,
             );
 
+      print('File size: ${await downloadFile.length()} bytes');
+
       _instance._downloadsCompletedSuccessfully++;
     } catch (e) {
       LogKeeper.error(
         "Error downloading the video: ${e.toString().replaceAll('Exception: ', '')}",
       );
+
+      onTitleObtained(null);
+      onThumbnailUrlObtained(null);
 
       await deleteFile(fileToDelete: downloadFile);
 
@@ -173,22 +180,17 @@ class DownloadManager {
     required String videoTitle,
     required String downloadDirectory,
   }) async {
-    final file = File(join(downloadDirectory, '$videoTitle.mp3'));
+    final result = await InteractApi.getAudioStream(url);
 
-    await createFileIfNotExist(file);
+    try {
+      final file = File(join(downloadDirectory, '$videoTitle.mp3'));
 
-    final audioStream = await InteractApi.getAudioStream(url);
-    final fileStream = file.openWrite();
+      await writeStreamToFile(file: file, stream: result.stream);
 
-    await for (final chunk in audioStream) {
-      print('Chunk recibed: $chunk bytes');
-      fileStream.add(chunk);
+      return file;
+    } finally {
+      result.yt.close();
     }
-
-    await fileStream.flush();
-    await fileStream.close();
-
-    return file;
   }
 
   static Future<File> _downloadVideoWithAudio({
@@ -196,7 +198,7 @@ class DownloadManager {
     required String videoTitle,
     required String downloadDirectory,
   }) async {
-    final audioFile = await _downloadAudioTemp(
+    final audioFile = await _downloadAudioOnly(
       url: url,
       videoTitle: videoTitle,
       downloadDirectory: downloadDirectory,
@@ -217,46 +219,22 @@ class DownloadManager {
     return videoFile;
   }
 
-  static Future<File> _downloadAudioTemp({
-    required String url,
-    required String videoTitle,
-    required String downloadDirectory,
-  }) async {
-    final file = File(join(downloadDirectory, '$videoTitle.mp3.temp'));
-    await createFileIfNotExist(file);
-
-    final audioStream = await InteractApi.getAudioStream(url);
-
-    final fileStream = file.openWrite();
-
-    await for (final chunk in audioStream) {
-      print('Chunk recibed: $chunk bytes');
-      fileStream.add(chunk);
-    }
-
-    await fileStream.flush();
-    await fileStream.close();
-
-    return file;
-  }
-
   static Future<File> _downloadVideoStream({
     required String url,
     required String videoTitle,
     required String downloadDirectory,
   }) async {
-    final videoStream = await InteractApi.getVideoStream(url);
-    final file = File(join(downloadDirectory, '$videoTitle.mp4'));
+    final result = await InteractApi.getVideoStream(url);
 
-    await createFileIfNotExist(file);
+    try {
+      final file = File(join(downloadDirectory, '$videoTitle.mp4'));
 
-    final fileStream = file.openWrite();
+      await writeStreamToFile(file: file, stream: result.stream);
 
-    await videoStream.pipe(fileStream);
-    await fileStream.flush();
-    await fileStream.close();
-
-    return file;
+      return file;
+    } finally {
+      result.yt.close();
+    }
   }
 
   static void _showErrorIfMounted(BuildContext context, Object e) {
