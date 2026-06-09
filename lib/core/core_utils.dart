@@ -1,7 +1,7 @@
-import 'dart:io';
+import 'dart:io' show File, Process, Platform;
 
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart'
     show getApplicationSupportDirectory;
 import 'package:system_info3/system_info3.dart'
@@ -14,7 +14,7 @@ import '/constants/paths.dart' show denoExecutables;
 Future<String> _prepareDeno(String assetPath) async {
   final filename = assetPath.split('/').last;
   final dir = await getApplicationSupportDirectory();
-  final destPath = p.join(dir.path, filename);
+  final destPath = join(dir.path, filename);
 
   final file = File(destPath);
 
